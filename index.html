@@ -1,0 +1,2069 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Live Healthy Chicago</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&family=Open+Sans:wght@400;600&family=Poppins:wght@600&display=swap" rel="stylesheet" />
+  <style>
+    html { scroll-behavior: smooth; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    /* Scroll-triggered animations */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+    }
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .fade-left {
+      opacity: 0;
+      transform: translateX(-40px);
+      transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+    }
+    .fade-left.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .fade-right {
+      opacity: 0;
+      transform: translateX(40px);
+      transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+    }
+    .fade-right.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .scale-in {
+      opacity: 0;
+      transform: scale(0.9);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+    .scale-in.visible {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    /* Stagger children */
+    .stagger-children .fade-up:nth-child(1) { transition-delay: 0s; }
+    .stagger-children .fade-up:nth-child(2) { transition-delay: 0.12s; }
+    .stagger-children .fade-up:nth-child(3) { transition-delay: 0.24s; }
+    .stagger-children .fade-up:nth-child(4) { transition-delay: 0.36s; }
+
+    /* Hero text reveal */
+    .hero-reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      animation: heroReveal 0.8s ease-out forwards;
+    }
+    .hero-reveal:nth-child(2) { animation-delay: 0.15s; }
+    .hero-reveal:nth-child(3) { animation-delay: 0.3s; }
+    .hero-reveal:nth-child(4) { animation-delay: 0.45s; }
+    .hero-reveal:nth-child(5) { animation-delay: 0.6s; }
+    @keyframes heroReveal {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Floating particles */
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      33% { transform: translateY(-15px) rotate(3deg); }
+      66% { transform: translateY(8px) rotate(-2deg); }
+    }
+    .float-slow { animation: float 8s ease-in-out infinite; }
+    .float-medium { animation: float 6s ease-in-out infinite; animation-delay: -2s; }
+
+    /* Pulse ring for heartbeat icon */
+    @keyframes pulseRing {
+      0% { transform: scale(1); opacity: 0.6; }
+      50% { transform: scale(1.15); opacity: 0.3; }
+      100% { transform: scale(1); opacity: 0.6; }
+    }
+    .pulse-ring { animation: pulseRing 2s ease-in-out infinite; }
+
+    /* Bar chart fill animation */
+    .bar-fill {
+      width: 0 !important;
+      transition: width 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .bar-fill.visible {
+      width: var(--target-width) !important;
+    }
+
+    /* Gradient underline on hover */
+    .nav-link {
+      position: relative;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #46B7E5, #48C9B0);
+      transition: width 0.3s ease;
+    }
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    /* Mobile menu slide */
+    .mobile-menu {
+      transform: translateX(100%);
+      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .mobile-menu.open {
+      transform: translateX(0);
+    }
+
+    /* Card shimmer on hover */
+    .card-hover {
+      position: relative;
+      overflow: hidden;
+    }
+    .card-hover::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+      transition: left 0.5s ease;
+    }
+    .card-hover:hover::before {
+      left: 100%;
+    }
+
+    /* Counter animation placeholder */
+    .counter-value {
+      display: inline-block;
+    }
+
+    /* Neighborhood pill hover */
+    .hood-pill {
+      transition: all 0.25s ease;
+    }
+    .hood-pill:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    /* Line clamp for article excerpts */
+    .line-clamp-3 {
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    /* Modal animations */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes modalSlideUp {
+      from { opacity: 0; transform: translateY(24px) scale(0.97); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* Partner logo cards */
+    .partner-logo-wrap img {
+      filter: grayscale(100%);
+      opacity: 0.7;
+      transition: filter 0.35s ease, opacity 0.35s ease;
+    }
+    .partner-logo-wrap:hover img {
+      filter: grayscale(0%);
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    // ── Intersection Observer Hook ──
+    function useInView(options = {}) {
+      const ref = React.useRef(null);
+      const [isVisible, setIsVisible] = React.useState(false);
+      React.useEffect(() => {
+        const el = ref.current;
+        if (!el) return;
+        const observer = new IntersectionObserver(([entry]) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+            observer.unobserve(el);
+          }
+        }, { threshold: 0.15, ...options });
+        observer.observe(el);
+        return () => observer.disconnect();
+      }, []);
+      return [ref, isVisible];
+    }
+
+    // ── Animated Counter Hook ──
+    function useCounter(end, duration = 1500, active = false) {
+      const [count, setCount] = React.useState(0);
+      React.useEffect(() => {
+        if (!active) return;
+        let start = 0;
+        const startTime = performance.now();
+        const step = (now) => {
+          const progress = Math.min((now - startTime) / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          setCount(Math.round(eased * end));
+          if (progress < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+      }, [active, end, duration]);
+      return count;
+    }
+
+    // ── SVG Icon Components ──
+    const HeartIcon = ({ className, style, fill }) => (
+      <svg className={className} style={style} viewBox="0 0 24 24" fill={fill ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2">
+        <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+      </svg>
+    );
+    const MapPinIcon = ({ className, style }) => (
+      <svg className={className} style={style} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>
+      </svg>
+    );
+    const UsersIcon = ({ className, style }) => (
+      <svg className={className} style={style} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+      </svg>
+    );
+    const CalendarIcon = ({ className, style }) => (
+      <svg className={className} style={style} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/>
+      </svg>
+    );
+    const ChevronDownIcon = ({ className, style }) => (
+      <svg className={className} style={style} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <path d="m6 9 6 6 6-6"/>
+      </svg>
+    );
+    const ChevronLeftIcon = ({ className, style }) => (
+      <svg className={className} style={style} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+        <path d="m15 18-6-6 6-6"/>
+      </svg>
+    );
+    const ChevronRightIcon = ({ className, style }) => (
+      <svg className={className} style={style} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+        <path d="m9 18 6-6-6-6"/>
+      </svg>
+    );
+    const CheckIcon = ({ className, style }) => (
+      <svg className={className} style={style} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <path d="M20 6 9 17l-5-5"/>
+      </svg>
+    );
+    const ArrowRightIcon = ({ className, style }) => (
+      <svg className={className} style={style} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+      </svg>
+    );
+    const ActivityIcon = ({ className, style, strokeWidth = 2 }) => (
+      <svg className={className} style={style} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth}>
+        <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+      </svg>
+    );
+    const MenuIcon = ({ className, style }) => (
+      <svg className={className} style={style} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    );
+    const XIcon = ({ className, style }) => (
+      <svg className={className} style={style} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    );
+
+    // ── Podcast Player Component ──
+    const PodcastIcon = ({ className, style }) => (
+      <svg className={className} style={style} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/>
+      </svg>
+    );
+
+    function PodcastPlayer({ podcast, colors }) {
+      const audioRef = React.useRef(null);
+      const progressRef = React.useRef(null);
+      const [playing, setPlaying] = React.useState(false);
+      const [currentTime, setCurrent] = React.useState(0);
+      const [duration, setDuration] = React.useState(0);
+      const [loaded, setLoaded] = React.useState(false);
+      const [speed, setSpeed] = React.useState(1);
+
+      const speeds = [1, 1.25, 1.5, 2];
+
+      const fmt = (s) => {
+        const m = Math.floor(s / 60);
+        const sec = Math.floor(s % 60);
+        return `${m}:${sec < 10 ? '0' : ''}${sec}`;
+      };
+
+      const toggle = () => {
+        if (!audioRef.current) return;
+        if (playing) audioRef.current.pause();
+        else audioRef.current.play();
+        setPlaying(!playing);
+      };
+
+      const cycleSpeed = () => {
+        const next = speeds[(speeds.indexOf(speed) + 1) % speeds.length];
+        setSpeed(next);
+        if (audioRef.current) audioRef.current.playbackRate = next;
+      };
+
+      const seek = (e) => {
+        if (!progressRef.current || !audioRef.current) return;
+        const rect = progressRef.current.getBoundingClientRect();
+        const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+        audioRef.current.currentTime = pct * duration;
+      };
+
+      const skip = (sec) => {
+        if (!audioRef.current) return;
+        audioRef.current.currentTime = Math.max(0, Math.min(duration, audioRef.current.currentTime + sec));
+      };
+
+      return (
+        <div className="rounded-2xl overflow-hidden" style={{ background: `linear-gradient(135deg, ${colors.trustNavy}, #2a4a7f)` }}>
+          <audio
+            ref={audioRef}
+            src={podcast.src}
+            preload="metadata"
+            onLoadedMetadata={(e) => { setDuration(e.target.duration); setLoaded(true); }}
+            onTimeUpdate={(e) => setCurrent(e.target.currentTime)}
+            onEnded={() => setPlaying(false)}
+          />
+          <div className="p-5 sm:p-6">
+            {/* Header */}
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ backgroundColor: 'rgba(70, 183, 229, 0.25)' }}>
+                <PodcastIcon className="w-4 h-4" style={{ color: colors.skyBlue }} />
+              </div>
+              <span className="text-xs font-semibold tracking-wider uppercase" style={{ color: colors.skyBlue, fontFamily: "'Poppins', sans-serif" }}>
+                Podcast Episode
+              </span>
+            </div>
+
+            {/* Title */}
+            <h4 className="text-lg font-bold text-white mb-1" style={{ fontFamily: "'Montserrat', sans-serif" }}>
+              {podcast.title}
+            </h4>
+            <p className="text-sm mb-5" style={{ color: 'rgba(255,255,255,0.6)' }}>
+              {podcast.subtitle}
+            </p>
+
+            {/* Progress bar */}
+            <div ref={progressRef}
+                 className="relative h-2 rounded-full cursor-pointer group mb-3"
+                 style={{ backgroundColor: 'rgba(255,255,255,0.15)' }}
+                 onClick={seek}>
+              <div className="absolute top-0 left-0 h-full rounded-full transition-all"
+                   style={{ width: duration ? `${(currentTime / duration) * 100}%` : '0%', backgroundColor: colors.skyBlue }} />
+              <div className="absolute top-1/2 -translate-y-1/2 w-4 h-4 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
+                   style={{ left: duration ? `calc(${(currentTime / duration) * 100}% - 8px)` : '0', backgroundColor: '#fff' }} />
+            </div>
+
+            {/* Time */}
+            <div className="flex justify-between text-xs mb-5" style={{ color: 'rgba(255,255,255,0.5)', fontVariantNumeric: 'tabular-nums' }}>
+              <span>{fmt(currentTime)}</span>
+              <span>{loaded ? fmt(duration) : '--:--'}</span>
+            </div>
+
+            {/* Controls */}
+            <div className="flex items-center justify-center gap-5">
+              {/* Speed */}
+              <button onClick={cycleSpeed}
+                      className="w-10 h-10 rounded-full flex items-center justify-center text-xs font-bold transition-all hover:scale-110"
+                      style={{ backgroundColor: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.7)' }}
+                      title="Playback speed">
+                {speed}x
+              </button>
+
+              {/* Rewind 15s */}
+              <button onClick={() => skip(-15)}
+                      className="w-10 h-10 rounded-full flex items-center justify-center transition-all hover:scale-110"
+                      style={{ backgroundColor: 'rgba(255,255,255,0.1)' }}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.8)" strokeWidth="2">
+                  <path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/>
+                  <text x="12" y="16" textAnchor="middle" fill="rgba(255,255,255,0.8)" stroke="none" fontSize="8" fontWeight="bold">15</text>
+                </svg>
+              </button>
+
+              {/* Play / Pause */}
+              <button onClick={toggle}
+                      className="w-14 h-14 rounded-full flex items-center justify-center transition-all hover:scale-110 shadow-lg"
+                      style={{ backgroundColor: colors.skyBlue }}>
+                {playing ? (
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="white">
+                    <rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/>
+                  </svg>
+                ) : (
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="white">
+                    <polygon points="6,3 20,12 6,21"/>
+                  </svg>
+                )}
+              </button>
+
+              {/* Forward 30s */}
+              <button onClick={() => skip(30)}
+                      className="w-10 h-10 rounded-full flex items-center justify-center transition-all hover:scale-110"
+                      style={{ backgroundColor: 'rgba(255,255,255,0.1)' }}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.8)" strokeWidth="2">
+                  <path d="M23 4v6h-6"/><path d="M20.49 15a9 9 0 1 1-2.13-9.36L23 10"/>
+                  <text x="12" y="16" textAnchor="middle" fill="rgba(255,255,255,0.8)" stroke="none" fontSize="8" fontWeight="bold">30</text>
+                </svg>
+              </button>
+
+              {/* Waveform visual (decorative) */}
+              <div className="hidden sm:flex items-end gap-0.5 h-10 px-2">
+                {[3,5,8,12,9,14,10,7,11,6,13,8,5,10,7,12,9,6].map((h, i) => (
+                  <div key={i} className="w-1 rounded-full transition-all"
+                       style={{
+                         height: playing ? `${h * 2.5}px` : `${h * 1.2}px`,
+                         backgroundColor: playing ? colors.skyBlue : 'rgba(255,255,255,0.2)',
+                         opacity: playing ? (0.4 + Math.random() * 0.6) : 0.3,
+                         transition: `height ${0.3 + Math.random() * 0.3}s ease, background-color 0.3s, opacity 0.3s`,
+                       }} />
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // ── Life Expectancy Chart Component ──
+    function LifeExpectancyChart({ isVisible, colors }) {
+      const canvasRef = React.useRef(null);
+      const chartInstanceRef = React.useRef(null);
+      const hasAnimated = React.useRef(false);
+
+      React.useEffect(() => {
+        if (!isVisible || hasAnimated.current || !canvasRef.current) return;
+        hasAnimated.current = true;
+
+        const ctx = canvasRef.current.getContext('2d');
+
+        const whiteCurtainPlugin = {
+          id: 'whiteCurtain',
+          afterDatasetsDraw(chart) {
+            if (chart.initialAnimationFinished) return;
+            const { ctx: c, chartArea } = chart;
+            c.save();
+            const progress = chart.currentProgress || 0;
+            const hiddenRatio = 1 - progress;
+            const curtainWidth = chartArea.width * hiddenRatio;
+            const startX = chartArea.right - curtainWidth;
+            c.fillStyle = 'white';
+            c.fillRect(startX, chartArea.top, curtainWidth, chartArea.height);
+            c.restore();
+          }
+        };
+
+        const labels = ['2010','2011','2012','2013','2014','2015','2016','2017','2018','2019','2020','2021','2022','2023'];
+
+        chartInstanceRef.current = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels,
+            datasets: [
+              {
+                label: 'Asian/PI',
+                data: [86.7,86.2,86.5,86.0,86.4,86.3,86.5,87.2,87.1,87.1,83.1,84.5,86.0,86.8],
+                borderColor: colors.neighborhoodTeal,
+                backgroundColor: colors.neighborhoodTeal,
+                tension: 0.4, borderWidth: 3, pointRadius: 4, pointHoverRadius: 7
+              },
+              {
+                label: 'Latino',
+                data: [84.7,84.6,84.5,84.8,85.2,85.0,84.8,84.7,84.5,84.5,78.2,80.5,81.2,82.7],
+                borderColor: colors.skyBlue,
+                backgroundColor: colors.skyBlue,
+                tension: 0.4, borderWidth: 3, pointRadius: 4, pointHoverRadius: 7
+              },
+              {
+                label: 'White',
+                data: [79.4,79.6,79.7,79.9,79.8,79.8,80.0,80.1,80.5,80.8,78.9,79.5,79.8,81.3],
+                borderColor: colors.coolGray,
+                backgroundColor: colors.coolGray,
+                tension: 0.4, borderWidth: 3, pointRadius: 4, pointHoverRadius: 7
+              },
+              {
+                label: 'Black',
+                data: [72.7,72.7,72.8,72.9,72.6,71.8,70.8,71.2,71.0,72.3,67.7,68.5,70.5,71.8],
+                borderColor: colors.starRed,
+                backgroundColor: colors.starRed,
+                tension: 0.4, borderWidth: 3, pointRadius: 4, pointHoverRadius: 7
+              }
+            ]
+          },
+          plugins: [whiteCurtainPlugin],
+          options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            animations: {
+              y: { duration: 0 }, x: { duration: 0 },
+              tension: { duration: 0 }, colors: { duration: 0 }
+            },
+            hover: { animation: { duration: 0 } },
+            animation: {
+              duration: 6000,
+              easing: 'linear',
+              onProgress(animation) {
+                animation.chart.currentProgress = animation.currentStep / animation.numSteps;
+              },
+              onComplete(animation) {
+                animation.chart.initialAnimationFinished = true;
+              }
+            },
+            interaction: { intersect: false, mode: 'index' },
+            plugins: {
+              legend: {
+                position: 'bottom',
+                labels: {
+                  usePointStyle: true,
+                  padding: 16,
+                  font: { family: "'Open Sans', sans-serif", size: 12 },
+                  color: colors.charcoal
+                }
+              },
+              tooltip: {
+                backgroundColor: 'rgba(255,255,255,0.95)',
+                titleColor: colors.trustNavy,
+                bodyColor: colors.charcoal,
+                borderColor: '#E2E8F0',
+                borderWidth: 1,
+                titleFont: { family: "'Montserrat', sans-serif", weight: 'bold' },
+                bodyFont: { family: "'Open Sans', sans-serif" },
+                padding: 12,
+                cornerRadius: 8,
+                boxPadding: 4
+              }
+            },
+            scales: {
+              y: {
+                min: 65, max: 90,
+                grid: { color: 'rgba(0,0,0,0.04)' },
+                ticks: {
+                  font: { family: "'Open Sans', sans-serif", size: 11 },
+                  color: colors.coolGray,
+                  callback: (v) => v + ' yrs'
+                }
+              },
+              x: {
+                grid: { display: false },
+                ticks: {
+                  font: { family: "'Open Sans', sans-serif", size: 11 },
+                  color: colors.coolGray
+                }
+              }
+            }
+          }
+        });
+
+        return () => {
+          if (chartInstanceRef.current) chartInstanceRef.current.destroy();
+        };
+      }, [isVisible]);
+
+      return (
+        <div className="bg-white rounded-3xl p-6 md:p-8 shadow-lg">
+          <h4 className="font-bold mb-1 text-center text-lg"
+              style={{ fontFamily: "'Montserrat', sans-serif", color: colors.trustNavy }}>
+            Life Expectancy in Chicago
+          </h4>
+          <p className="text-xs text-center mb-4" style={{ color: colors.coolGray }}>
+            By race/ethnicity, 2010–2023
+          </p>
+          <div style={{ position: 'relative', width: '100%' }}>
+            <canvas ref={canvasRef} />
+          </div>
+          <p className="text-xs text-center mt-4 italic" style={{ color: colors.coolGray }}>
+            Source: CDPH Data Brief, Sept. 2025
+          </p>
+        </div>
+      );
+    }
+
+    // ── Main App ──
+    function LiveHealthyChicago() {
+      const [scrolled, setScrolled] = React.useState(false);
+      const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
+
+      React.useEffect(() => {
+        const handleScroll = () => setScrolled(window.scrollY > 50);
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+      }, []);
+
+      // Lock body scroll when mobile menu open
+      React.useEffect(() => {
+        document.body.style.overflow = mobileMenuOpen ? 'hidden' : '';
+        return () => { document.body.style.overflow = ''; };
+      }, [mobileMenuOpen]);
+
+      const colors = {
+        starRed: '#E5202F',
+        skyBlue: '#46B7E5',
+        trustNavy: '#1B365D',
+        vitalityYellow: '#FFB81C',
+        neighborhoodTeal: '#48C9B0',
+        charcoal: '#2D2D2D',
+        coolGray: '#A0AEC0',
+        softCloud: '#F7FAFC'
+      };
+
+      const CHICAGO_HTN_AVG = 31.9;
+      const neighborhoods = [
+        { name: 'Auburn Gresham',      rate: 45.9, moe: 10.6, img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771357440/Auburn-Gresham-il-b_v9uolm.jpg' },
+        { name: 'Austin',              rate: 36.9, moe: 5.9,  img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771356625/austin-il_oi6t2o.webp' },
+        { name: 'Avalon Park',         rate: 39.5, moe: 11.0, img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771357591/avalon-park-il-b_e5e1dh.jpg' },
+        { name: 'Burnside',            rate: 39.1, moe: 12.2, img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771356625/burnside-il_tsolts.jpg' },
+        { name: 'Calumet Heights',     rate: 51.4, moe: 11.3, img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771383150/calumet-heights-il-reframe_klvgz8.jpg' },
+        { name: 'Chatham',             rate: 45.4, moe: 11.2, img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771383788/chatham-il-reframe_oobz0f.jpg' },
+        { name: 'Douglas',             rate: 29.7, moe: 10.5, img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771384176/douglas-chicago-illinois-reframe_bej8mt.jpg' },
+        { name: 'East Garfield Park',  rate: 28.3, moe: 8.9,  img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771384523/east-garfield-park-reframed_nokcyb.jpg' },
+        { name: 'Englewood',           rate: 37.1, moe: 10.0, img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771385231/englewood-chicago-reframe_prxott.jpg' },
+        { name: 'Fuller Park',         rate: 41.9, moe: 10.7, img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771535139/fuller-park-chicago-il-gemini_piyett.jpg' },
+        { name: 'Garfield Ridge',      rate: 33.1, moe: 7.9,  img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771535139/garfield-ridge-people-added-gemini_eztsbg.jpg' },
+        { name: 'Grand Boulevard',     rate: 49.8, moe: 9.7,  img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771535139/grand-boulevard-chicago-il_olnodg.avif' },
+        { name: 'Greater Grand Crossing', rate: 37.5, moe: 10.0, img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771535139/greater-grand-crossing-chicago-il-real-ai-enhanced-reframe_mz1zyz.jpg' },
+        { name: 'Montclare',           rate: 39.3, moe: 12.2, img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771535139/montclare-chi_cago-il-real-ai-enhanced_xptfh2.jpg' },
+        { name: 'Morgan Park',         rate: 46.0, moe: 12.9, img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771535142/morgan-park-chicago-il-real-ai-enhanced_xqgmup.jpg' },
+        { name: 'North Lawndale',      rate: 39.5, moe: 9.5,  img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771535139/North-Lawndale-chicago-real-ai-enhance-add-people_oelmlm.jpg' },
+        { name: 'Oakland',             rate: 44.8, moe: 10.6, img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771535140/oakland-chicago-ai_pdrgbq.jpg' },
+        { name: 'Riverdale',           rate: 27.8, moe: 9.9,  img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771535140/riverdale-chicago-il-ai_wmaun4.jpg' },
+        { name: 'Roseland',            rate: 45.6, moe: 10.3, img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771535140/roseland-chicago-real-ai-enhanced_ogxq2l.jpg' },
+        { name: 'South Chicago',       rate: 33.7, moe: 9.3,  img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771535140/south-chicago-il-real-ai-enhanced_oyibla.jpg' },
+        { name: 'South Lawndale',      rate: 19.8, moe: 4.4,  img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771535140/south-lawndale-real-ai-enhanced-b_lb1pxv.jpg' },
+        { name: 'South Shore',         rate: 39.2, moe: 10.5, img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771535141/south-shore-chicago-real-ai-enhanced-add-people-b_xpbq4a.jpg' },
+        { name: 'Washington Heights',  rate: 38.4, moe: 9.8,  img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771535140/washington-heights-chicago-il-real-ai-enhanced-add-people-b_nde8vb.jpg' },
+        { name: 'West Englewood',      rate: 44.1, moe: 10.2, img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771535141/west-englewood-il-real-ai-enhanced-ar_coqhbl.jpg' },
+        { name: 'West Garfield Park',  rate: 44.6, moe: 9.5,  img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771535141/west-garfield-park-chicago-il-real-ai-enhanced-b_zyfmxz.jpg' },
+        { name: 'West Pullman',        rate: 41.5, moe: 11.4, img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771535141/west-pullman-chicago-il-real-ai-zoom-in-b_masjam.jpg' },
+        { name: 'Woodlawn',            rate: 38.1, moe: 10.1, img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771535141/woodlawn-chicago-real-ai-enhanced-scaled-b_kcxhf8.jpg' },
+      ];
+
+      const [carouselIdx, setCarouselIdx] = React.useState(0);
+      const carouselPaused = React.useRef(false);
+      React.useEffect(() => {
+        const id = setInterval(() => {
+          if (!carouselPaused.current) {
+            setCarouselIdx(i => (i + 1) % neighborhoods.length);
+          }
+        }, 5000);
+        return () => clearInterval(id);
+      }, []);
+
+      const [partnerTabIdx, setPartnerTabIdx] = React.useState(0);
+      const partnerPaused = React.useRef(false);
+      React.useEffect(() => {
+        const id = setInterval(() => {
+          if (!partnerPaused.current) {
+            setPartnerTabIdx(i => (i + 1) % 6);
+          }
+        }, 4000);
+        return () => clearInterval(id);
+      }, []);
+
+      const healthAccelerator = [
+        { name: 'AllianceChicago', src: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1770748053/Gemini_Generated_Image_84dw6184dw6184dw_zzljlj.png' },
+        { name: 'Chicago Department of Public Health' },
+        { name: 'Community Advisory Board' },
+        { name: 'Northwestern University' },
+        { name: 'Rush University Medical Center' },
+        { name: 'South Side Healthy Community Organization' },
+        { name: 'University of Chicago Medicine' },
+        { name: 'Wellness West' },
+        { name: 'West Side United', src: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1770749929/logo-west-side-united-30apr2024_jqyqkd.webp' },
+      ];
+
+      const partnerGroups = [
+        {
+          title: 'Community Health Centers',
+          logos: [
+            { src: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1770748055/lawndale-christian-health-center_xqsxfs.png', alt: 'Lawndale Christian Health Center' },
+            { src: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1770748053/aunt-marthas_l1zlww.png', alt: "Aunt Martha's" },
+            { src: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1770748053/chicago-family-health-center_oarexp.png', alt: 'Chicago Family Health Center' },
+            { src: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1770748052/community-wellness-center_bvcnwq.png', alt: 'Community Wellness Center' },
+            { src: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1770748054/erie-family-heath-center_cg7me8.png', alt: 'Erie Family Health Center' },
+            { src: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1770748049/friend-health_nacgbv.png', alt: 'Friend Health' },
+            { src: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1770748049/humboldt-park-health-wellness-center_mcegzf.png', alt: 'Humboldt Park Health & Wellness Center' },
+            { src: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1770748057/iws-family-health_prdhky.png', alt: 'IWS Family Health' },
+            { src: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1770748055/near-north-health_yb5bfn.png', alt: 'Near North Health' },
+            { src: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1770748050/primecarehealth-community-health-centers_tqyprd.png', alt: 'PrimeCare Health Community Health Centers' },
+          ],
+          textOnly: ['ACCESS Community Health Network']
+        },
+        {
+          title: 'Hospitals',
+          logos: [
+            { src: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1770748053/cook-county-health_o4hlzw.png', alt: 'Cook County Health' },
+            { src: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1770748050/sinai-chicago_ynwdhm.png', alt: 'Sinai Chicago' },
+            { src: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1770748058/saint-anthony-hospital_dwqhef.png', alt: 'Saint Anthony Hospital' },
+            { src: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1770748055/ui-health_jzw9wn.png', alt: 'University of Illinois at Chicago' },
+          ],
+          textOnly: ['Rush University Medical Center', 'University of Chicago Medicine']
+        },
+        {
+          title: 'Healthcare Networks',
+          logos: [
+            { src: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1770748053/Gemini_Generated_Image_84dw6184dw6184dw_zzljlj.png', alt: 'AllianceChicago' },
+            { src: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1770748054/illinois-primary-health-care-association_f1tbhq.png', alt: 'Illinois Primary Health Care Association' },
+            { src: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1770748053/medical-home-network_i41rm9.png', alt: 'Medical Home Network' },
+          ],
+          textOnly: []
+        },
+        {
+          title: 'Public Health Institutions',
+          logos: [
+            { src: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1770748049/american-heart-association_oqjyl8.png', alt: 'American Heart Association' },
+            { src: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1770748049/american-medical-association_dmkzge.png', alt: 'American Medical Association' },
+            { src: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1770748050/illlinois-department-of-public-health_amnhpb.png', alt: 'Illinois Department of Public Health' },
+          ],
+          textOnly: ['Chicago Department of Public Health', 'Northwestern Medicine']
+        },
+        {
+          title: 'Other Organizations',
+          logos: [
+            { src: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1770748054/health-management-associates_gskfao.png', alt: 'Health Management Associates' },
+            { src: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1770748056/rush-bmo-institute-for-health-equity_y9unhk.png', alt: 'Rush BMO Institute for Health Equity' },
+          ],
+          textOnly: ['South Side Healthy Community Organization', 'Wellness West', 'West Side United']
+        }
+      ];
+
+      const navLinks = [
+        { href: '#about', label: 'About' },
+        { href: '#why', label: 'Why It Matters' },
+        { href: '#blood-pressure', label: 'Blood Pressure' },
+        { href: '#model', label: 'Our Model' },
+        { href: '#neighborhoods', label: 'Our Communities' },
+        { href: '#partners', label: 'Partners' },
+        { href: '#news', label: 'News' },
+        { href: '#events', label: 'Events' },
+        { href: '#action', label: 'Take Action' },
+      ];
+
+      // Intersection observer refs for sections
+      const [aboutRef, aboutVisible] = useInView();
+      const [whyRef, whyVisible] = useInView();
+      const [bpRef, bpVisible] = useInView();
+      const [modelRef, modelVisible] = useInView();
+      const [hoodRef, hoodVisible] = useInView();
+      const [partnerRef, partnerVisible] = useInView();
+      const [actionRef, actionVisible] = useInView();
+      const [eventsRef, eventsVisible] = useInView();
+      const [newsRef, newsVisible] = useInView();
+      const [statsRef, statsVisible] = useInView();
+      const [chartRef, chartVisible] = useInView();
+
+      const [selectedEvent, setSelectedEvent] = React.useState(null);
+      const [selectedArticle, setSelectedArticle] = React.useState(null);
+
+      const newsItems = [
+        {
+          date: 'Feb 20, 2026',
+          category: 'Interview',
+          title: 'Closing Chicago\u2019s \u201CDeath Gap\u201D by Tackling High Blood Pressure',
+          excerpt: 'An interview with Dr. David Ansell on why hypertension matters, what people can do today, and how Live Healthy Chicago aims to shrink the city\u2019s life-expectancy divide.',
+          image: 'https://static1.squarespace.com/static/693b0ed5c16a7f59be7a9c68/693b0eddc16a7f59be7a9db2/693b0f03c16a7f59be7aa38f/1769546557560/Dr-David-Ansell-interview-27jan2026-hero.jpg?format=1500w',
+          author: 'Gary Ricke',
+          url: 'https://livehealthychicago.squarespace.com/blog/enhanced-blog-post-kjl2r-p6b9n-zakzh-erawj-5sacz-z3y7l-gf8pl',
+          podcast: {
+            src: 'https://res.cloudinary.com/dsbllwpbh/video/upload/v1770751855/Closing_Chicago_s_Death_Gap_with_Blood_Pressure_deibto.mp4',
+            title: 'Closing Chicago\u2019s Death Gap with Blood Pressure',
+            subtitle: 'A conversation with Dr. David Ansell',
+          },
+          body: [
+            'Dr. David Ansell has spent decades fighting health inequity on Chicago\u2019s South and West Sides. As the author of "The Death Gap" and Senior Vice President for Community Health Equity at Rush University Medical Center, he\u2019s seen firsthand how preventable diseases like hypertension devastate communities.',
+            'In this wide-ranging conversation, Dr. Ansell explains why high blood pressure is the single most important modifiable risk factor for heart disease and stroke\u2014and why African American Chicagoans are disproportionately affected.',
+            '\u201CIf you could do just one thing for your health, get your blood pressure checked,\u201D Dr. Ansell says. \u201CIt takes two minutes. It costs nothing. And it could save your life.\u201D',
+            'He outlines how Live Healthy Chicago\u2019s three-pillar model\u2014clinical practice transformation, a public health campaign, and mobile care teams\u2014is designed to reach the neighborhoods where cardiovascular risk is highest.',
+            '\u201CWe\u2019re not waiting for people to come to us. We\u2019re going to where they are\u2014in barbershops, churches, community centers, and on the block.\u201D',
+            'Dr. Ansell also addresses the systemic roots of the life-expectancy gap, from decades of disinvestment to food deserts, and makes the case that coordinated, community-driven action can bend the curve.'
+          ],
+          featured: true,
+        },
+        {
+          date: 'Feb 14, 2026',
+          category: 'Announcement',
+          title: 'Live Healthy Chicago Officially Launches with 15 Partner Organizations',
+          excerpt: 'The coalition announces its formal launch, bringing together hospitals, community health centers, and public health institutions to address cardiovascular health disparities across 27 neighborhoods.',
+          image: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&q=80',
+          author: 'Live Healthy Chicago',
+          body: [
+            'Live Healthy Chicago has officially launched its coalition of 15 founding partner organizations, united by a single goal: reducing cardiovascular disease risk in 27 priority neighborhoods across Chicago\u2019s South and West Sides.',
+            'The initiative, backed by major healthcare systems, community health centers, and public health agencies, will deploy community health workers, mobile screening units, and clinical pharmacists in the neighborhoods with the highest rates of uncontrolled hypertension.',
+            '\u201CThis is not a top-down program,\u201D said a coalition spokesperson. \u201CEvery element of Live Healthy Chicago has been co-designed with community members who understand these challenges from lived experience.\u201D',
+            'The coalition will target a 1% reduction in ASCVD (atherosclerotic cardiovascular disease) risk across the geography over the next three years\u2014a goal that epidemiologists say could prevent hundreds of heart attacks and strokes.',
+            'Founding partners include Rush University Medical Center, Cook County Health, Sinai Chicago, the American Heart Association, and AllianceChicago, among others.'
+          ],
+          featured: false,
+        },
+        {
+          date: 'Feb 7, 2026',
+          category: 'Community',
+          title: 'Community Health Workers: The Heart of the Mission',
+          excerpt: 'Meet the community health workers embedding themselves in South and West Side neighborhoods to connect residents with life-saving blood pressure screenings and follow-up care.',
+          image: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=800&q=80',
+          author: 'Live Healthy Chicago',
+          body: [
+            'Before the first mobile screening van hits the street, community health workers (CHWs) are already building trust block by block. These trained professionals\u2014many of whom live in the neighborhoods they serve\u2014are the connective tissue of Live Healthy Chicago.',
+            'CHWs help residents navigate the healthcare system, schedule follow-up appointments, and understand what their blood pressure numbers actually mean. They work in barbershops, laundromats, faith communities, and public housing.',
+            '\u201CI grew up in Englewood. I know what it\u2019s like when nobody comes to help,\u201D says Maria Torres, one of the program\u2019s first CHWs. \u201CNow I get to be the person who shows up.\u201D',
+            'Research shows that CHW-led interventions can improve blood pressure control rates by 12\u201315% in underserved populations. Live Healthy Chicago plans to embed hundreds of CHWs across its 27 priority neighborhoods over the next two years.',
+            'The program provides CHWs with ongoing training, clinical support, and technology tools including mobile blood pressure monitors and a real-time patient referral platform.'
+          ],
+          featured: false,
+        },
+        {
+          date: 'Jan 30, 2026',
+          category: 'Research',
+          title: 'CAPriCORN Expands to Community Clinics for Population-Level Insights',
+          excerpt: 'The federated health record network, previously limited to hospitals, will now include community health centers\u2014unlocking new data to track cardiovascular outcomes at scale.',
+          image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80',
+          author: 'Live Healthy Chicago',
+          body: [
+            'CAPriCORN (Chicago Area Patient-Centered Outcomes Research Network) is expanding beyond its hospital roots to include community health centers for the first time\u2014a move that will give Live Healthy Chicago unprecedented insight into blood pressure trends at the population level.',
+            'The federated electronic health record network allows researchers to analyze de-identified patient data across multiple institutions without centralizing sensitive records. Until now, it has primarily covered academic medical centers and large hospital systems.',
+            '\u201CAdding community clinics changes everything,\u201D says the project\u2019s data lead. \u201CThese are the front lines of care. Now we can see what\u2019s actually happening in the neighborhoods that need the most support.\u201D',
+            'The expansion will enable the coalition to measure blood pressure control rates, medication adherence, and screening coverage in near real-time across all 27 priority neighborhoods.',
+            'Early analyses are expected by mid-2026, with quarterly dashboards planned for community stakeholders and partner organizations.'
+          ],
+          featured: false,
+        },
+        {
+          date: 'Jan 22, 2026',
+          category: 'Policy',
+          title: 'City Council Endorses Hypertension Screening Initiative',
+          excerpt: 'Chicago aldermen voice unanimous support for the Pressure Drop campaign, pledging ward-level resources to increase blood pressure awareness in underserved communities.',
+          image: 'https://images.unsplash.com/photo-1577495508048-b635879837f1?w=800&q=80',
+          author: 'Live Healthy Chicago',
+          body: [
+            'In a rare show of bipartisan support, the Chicago City Council has unanimously endorsed the Pressure Drop public awareness campaign, a cornerstone of Live Healthy Chicago\u2019s efforts to get more residents screened for high blood pressure.',
+            'The resolution encourages aldermen in the 27 priority wards to dedicate community engagement resources to promoting free screening events and connecting residents with primary care.',
+            '\u201CHigh blood pressure doesn\u2019t care about your zip code, but the resources to fight it do,\u201D said one South Side alderman during the council session. \u201CThis resolution says we\u2019re going to change that.\u201D',
+            'The endorsement comes alongside a $2 million commitment from the Chicago Department of Public Health to fund mobile screening units and community health worker training through 2028.',
+            'Live Healthy Chicago leaders called the vote a \u201Cturning point\u201D in the city\u2019s approach to cardiovascular health equity, noting that political will has historically been a missing ingredient in closing the life-expectancy gap.'
+          ],
+          featured: false,
+        },
+      ];
+
+      // Close modals on Escape
+      React.useEffect(() => {
+        const handleKey = (e) => {
+          if (e.key === 'Escape') { setSelectedEvent(null); setSelectedArticle(null); }
+        };
+        window.addEventListener('keydown', handleKey);
+        return () => window.removeEventListener('keydown', handleKey);
+      }, []);
+
+      // Lock scroll when any modal open
+      React.useEffect(() => {
+        if (selectedEvent || selectedArticle) document.body.style.overflow = 'hidden';
+        else if (!mobileMenuOpen) document.body.style.overflow = '';
+        return () => { if (!mobileMenuOpen) document.body.style.overflow = ''; };
+      }, [selectedEvent, selectedArticle]);
+
+      const events = [
+        {
+          date: 'Mar 8, 2026',
+          day: 'Saturday',
+          time: '9:00 AM – 1:00 PM',
+          title: 'Know Your Numbers Day — Englewood',
+          location: 'Englewood Community Health Center',
+          address: '641 W 63rd St, Chicago, IL 60621',
+          description: 'Free blood pressure screenings, heart-healthy cooking demos, and one-on-one time with community health workers. Walk-ins welcome — no insurance or ID needed.',
+          tags: ['Free Screening', 'Family Friendly'],
+          color: colors.starRed,
+        },
+        {
+          date: 'Mar 15, 2026',
+          day: 'Saturday',
+          time: '10:00 AM – 2:00 PM',
+          title: 'Pressure Drop Block Party — Austin',
+          location: 'Austin Town Hall Park',
+          address: '5610 W Lake St, Chicago, IL 60644',
+          description: 'Live music, food trucks, and free health screenings including blood pressure, BMI, and blood glucose. Get your numbers checked while enjoying a neighborhood block party.',
+          tags: ['Free Screening', 'Live Music', 'Food'],
+          color: colors.skyBlue,
+        },
+        {
+          date: 'Mar 22, 2026',
+          day: 'Saturday',
+          time: '8:30 AM – 12:00 PM',
+          title: 'Heart Health Sunday — Roseland',
+          location: 'Roseland Community Hospital',
+          address: '45 W 111th St, Chicago, IL 60628',
+          description: 'Partner with your church community and get screened after morning service. Blood pressure checks, stroke risk education, and pharmacist consultations available on-site.',
+          tags: ['Free Screening', 'Faith-Based'],
+          color: colors.neighborhoodTeal,
+        },
+        {
+          date: 'Apr 5, 2026',
+          day: 'Saturday',
+          time: '10:00 AM – 3:00 PM',
+          title: 'Community Wellness Fair — North Lawndale',
+          location: 'Lawndale Christian Health Center',
+          address: '3860 W Ogden Ave, Chicago, IL 60623',
+          description: 'A full-day wellness fair with free blood pressure screenings, health education workshops, kids\' activities, and connections to primary care. Interpreters available.',
+          tags: ['Free Screening', 'Family Friendly', 'Bilingual'],
+          color: colors.vitalityYellow,
+        },
+        {
+          date: 'Apr 12, 2026',
+          day: 'Saturday',
+          time: '11:00 AM – 2:00 PM',
+          title: 'South Shore Pop-Up Clinic',
+          location: 'South Shore Cultural Center',
+          address: '7059 S South Shore Dr, Chicago, IL 60649',
+          description: 'Drop in for a free blood pressure check in a relaxed, welcoming environment. Community health workers will be on hand to help you understand your numbers and connect you to follow-up care.',
+          tags: ['Free Screening', 'Walk-In'],
+          color: '#6B8DD6',
+        },
+        {
+          date: 'Apr 19, 2026',
+          day: 'Saturday',
+          time: '9:00 AM – 1:00 PM',
+          title: 'Heart Smart Morning — West Garfield Park',
+          location: 'Garfield Park Fieldhouse',
+          address: '100 N Central Park Ave, Chicago, IL 60624',
+          description: 'Start your weekend with a free blood pressure check, guided walking group, and healthy breakfast samples. Learn simple daily steps to keep your numbers in a healthy range.',
+          tags: ['Free Screening', 'Fitness', 'Food'],
+          color: colors.neighborhoodTeal,
+        },
+      ];
+
+      // Animated counters for hero stats
+      const stat1 = useCounter(27, 1200, statsVisible);
+      const stat2 = useCounter(75, 1400, statsVisible);
+
+      return (
+        <div className="min-h-screen" style={{ fontFamily: "'Open Sans', sans-serif", backgroundColor: colors.softCloud }}>
+
+          {/* ── Navigation ── */}
+          <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? 'shadow-lg' : ''}`}
+               style={{ backgroundColor: scrolled ? 'rgba(255,255,255,0.97)' : 'transparent', backdropFilter: scrolled ? 'blur(12px)' : 'none' }}>
+            <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <img
+                  src="https://assets.codepen.io/3457845/logo-Live-Healthy-Chicago.png"
+                  alt="Live Healthy Chicago"
+                  className="h-12 w-auto transition-all duration-300"
+                  style={{ filter: scrolled ? 'none' : 'brightness(0) invert(1)' }}
+                />
+              </div>
+
+              {/* Desktop nav */}
+              <div className="hidden md:flex gap-8 text-sm font-semibold transition-colors duration-300"
+                   style={{ fontFamily: "'Poppins', sans-serif", color: scrolled ? colors.charcoal : 'rgba(255,255,255,0.9)' }}>
+                {navLinks.map(link => (
+                  <a key={link.href} href={link.href} className="nav-link hover:opacity-80 transition-opacity">{link.label}</a>
+                ))}
+              </div>
+
+              {/* Mobile hamburger */}
+              <button className="md:hidden p-2" onClick={() => setMobileMenuOpen(true)}
+                      style={{ color: scrolled ? colors.charcoal : '#fff' }}>
+                <MenuIcon className="w-6 h-6" />
+              </button>
+            </div>
+          </nav>
+
+          {/* ── Mobile Menu Overlay ── */}
+          {mobileMenuOpen && (
+            <div className="fixed inset-0 z-50 md:hidden" onClick={() => setMobileMenuOpen(false)}>
+              <div className="absolute inset-0 bg-black/40" />
+            </div>
+          )}
+          <div className={`fixed top-0 right-0 bottom-0 w-72 z-50 md:hidden mobile-menu ${mobileMenuOpen ? 'open' : ''}`}
+               style={{ backgroundColor: colors.trustNavy }}>
+            <div className="flex justify-end p-6">
+              <button onClick={() => setMobileMenuOpen(false)} className="text-white p-2">
+                <XIcon className="w-6 h-6" />
+              </button>
+            </div>
+            <div className="flex flex-col gap-6 px-8">
+              {navLinks.map(link => (
+                <a key={link.href} href={link.href}
+                   className="text-white text-lg font-semibold hover:opacity-70 transition-opacity"
+                   style={{ fontFamily: "'Poppins', sans-serif" }}
+                   onClick={() => setMobileMenuOpen(false)}>
+                  {link.label}
+                </a>
+              ))}
+            </div>
+          </div>
+
+          {/* ── Hero Section ── */}
+          <section className="relative min-h-screen flex items-center overflow-hidden" style={{ backgroundColor: colors.trustNavy }}>
+            <video
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="absolute inset-0 w-full h-full"
+              style={{ objectFit: 'cover', zIndex: 0 }}
+            >
+              <source src="https://player.vimeo.com/progressive_redirect/playback/1165766522/rendition/1440p/file.mp4%20%281440p%29.mp4?loc=external&log_user=0&signature=306dfa1cbdc4fd120d1098f4b023bbe6638c224d5421c2300f1857ab604c3827" type="video/mp4" />
+            </video>
+            <div className="absolute inset-0" style={{ backgroundColor: 'rgba(10, 31, 57, 0.65)', zIndex: 1 }} />
+
+            <div className="relative z-10 max-w-7xl mx-auto px-6 py-32">
+              <div className="max-w-4xl">
+                <div className="hero-reveal inline-flex items-center gap-2 backdrop-blur-sm rounded-full px-4 py-2 mb-8"
+                     style={{ backgroundColor: 'rgba(70, 183, 229, 0.2)' }}>
+                  <span className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: colors.neighborhoodTeal }} />
+                  <span className="text-sm font-medium tracking-wide" style={{ color: colors.skyBlue, fontFamily: "'Poppins', sans-serif" }}>
+                    Launching February 2026
+                  </span>
+                </div>
+
+                <h1 className="hero-reveal text-5xl md:text-7xl font-bold text-white leading-tight mb-6"
+                    style={{ fontFamily: "'Montserrat', sans-serif" }}>
+                  Know Your Numbers.
+                  <br />
+                  <span style={{ color: colors.skyBlue }}>Save Your Life.</span>
+                </h1>
+
+                <p className="hero-reveal text-xl md:text-2xl leading-relaxed mb-8 max-w-2xl" style={{ color: 'rgba(255,255,255,0.8)' }}>
+                  African American Chicagoans live, on average, <span className="text-white font-semibold">nearly 11 years less</span> than other residents.
+                  Heart disease and stroke are the leading causes. Together, we can change this.
+                </p>
+
+                <div className="hero-reveal flex flex-col sm:flex-row gap-4 mb-16">
+                  <a href="#action"
+                     className="group inline-flex items-center justify-center gap-2 text-white px-8 py-4 rounded-full font-semibold text-lg transition-all hover:scale-105 hover:shadow-2xl"
+                     style={{ backgroundColor: colors.starRed, fontFamily: "'Poppins', sans-serif" }}>
+                    Get Your Blood Pressure Checked
+                    <ArrowRightIcon className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  </a>
+                  <a href="#about"
+                     className="inline-flex items-center justify-center gap-2 text-white px-8 py-4 rounded-full font-semibold text-lg transition-all backdrop-blur-sm border-2 hover:bg-white/10"
+                     style={{ borderColor: 'rgba(255,255,255,0.3)', fontFamily: "'Poppins', sans-serif" }}>
+                    Learn More
+                  </a>
+                </div>
+
+                <div ref={statsRef} className="hero-reveal grid grid-cols-3 gap-8 pt-8 border-t" style={{ borderColor: 'rgba(255,255,255,0.15)' }}>
+                  <div>
+                    <div className="text-4xl md:text-5xl font-bold text-white mb-2 counter-value" style={{ fontFamily: "'Montserrat', sans-serif" }}>
+                      {statsVisible ? stat1 : 0}
+                    </div>
+                    <div className="text-sm" style={{ color: colors.coolGray }}>Priority Neighborhoods</div>
+                  </div>
+                  <div>
+                    <div className="text-4xl md:text-5xl font-bold text-white mb-2 counter-value" style={{ fontFamily: "'Montserrat', sans-serif" }}>
+                      {statsVisible ? `${stat2}+` : '0+'}
+                    </div>
+                    <div className="text-sm" style={{ color: colors.coolGray }}>Health Centers</div>
+                  </div>
+                  <div>
+                    <div className="text-4xl md:text-5xl font-bold text-white mb-2" style={{ fontFamily: "'Montserrat', sans-serif" }}>1%</div>
+                    <div className="text-sm" style={{ color: colors.coolGray }}>Risk Reduction Goal</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+              <ChevronDownIcon className="w-8 h-8" style={{ color: 'rgba(255,255,255,0.5)' }} />
+            </div>
+          </section>
+
+          {/* ── The One Thing Section ── */}
+          <section className="py-24 bg-white" id="about">
+            <div className="max-w-7xl mx-auto px-6">
+              <div ref={aboutRef} className="grid md:grid-cols-2 gap-16 items-center">
+                <div className={`fade-left ${aboutVisible ? 'visible' : ''}`}>
+                  <span className="font-semibold tracking-wide text-sm uppercase mb-4 block"
+                        style={{ color: colors.skyBlue, fontFamily: "'Poppins', sans-serif" }}>
+                    The One Thing
+                  </span>
+                  <h2 className="text-4xl md:text-5xl font-bold mb-6 leading-tight"
+                      style={{ fontFamily: "'Montserrat', sans-serif", color: colors.trustNavy }}>
+                    If you could do just one thing for your health, get your blood pressure checked.
+                  </h2>
+                  <p className="text-xl leading-relaxed mb-6" style={{ color: colors.charcoal }}>
+                    High blood pressure is called the "silent killer" because it typically has no symptoms—until it's too late.
+                    It affects your heart, brain, kidneys, and eyes without warning.
+                  </p>
+                  <p className="text-lg leading-relaxed mb-8" style={{ color: colors.charcoal }}>
+                    Every one-point drop in blood pressure above normal results in a <span style={{ color: colors.starRed, fontWeight: 600 }}>2% drop in cardiovascular mortality</span>.
+                    By simply knowing your numbers, you can take control of your health and protect your family.
+                  </p>
+
+                  <div className="rounded-2xl p-6 border" style={{ backgroundColor: colors.softCloud, borderColor: '#E2E8F0' }}>
+                    <h3 className="font-bold mb-4" style={{ color: colors.trustNavy, fontFamily: "'Montserrat', sans-serif" }}>
+                      What the numbers mean:
+                    </h3>
+                    <div className="space-y-3">
+                      <div className="flex items-center gap-4">
+                        <div className="w-24 h-10 rounded-lg flex items-center justify-center"
+                             style={{ backgroundColor: `${colors.neighborhoodTeal}20` }}>
+                          <span className="font-bold text-sm" style={{ color: colors.neighborhoodTeal }}>&lt;120/80</span>
+                        </div>
+                        <span style={{ color: colors.charcoal }}>Normal blood pressure</span>
+                      </div>
+                      <div className="flex items-center gap-4">
+                        <div className="w-24 h-10 rounded-lg flex items-center justify-center"
+                             style={{ backgroundColor: `${colors.vitalityYellow}30` }}>
+                          <span className="font-bold text-sm" style={{ color: '#B8860B' }}>120-129</span>
+                        </div>
+                        <span style={{ color: colors.charcoal }}>Elevated—time to take action</span>
+                      </div>
+                      <div className="flex items-center gap-4">
+                        <div className="w-24 h-10 rounded-lg flex items-center justify-center"
+                             style={{ backgroundColor: `${colors.starRed}15` }}>
+                          <span className="font-bold text-sm" style={{ color: colors.starRed }}>&ge;130/80</span>
+                        </div>
+                        <span style={{ color: colors.charcoal }}>High blood pressure—see a doctor</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className={`fade-right ${aboutVisible ? 'visible' : ''}`} style={{ transitionDelay: '0.2s' }}>
+                  <div className="aspect-square rounded-3xl overflow-hidden relative"
+                       style={{ background: `linear-gradient(135deg, ${colors.skyBlue}20, ${colors.softCloud})` }}>
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="text-center">
+                        <div className="relative inline-block">
+                          <div className="absolute inset-0 rounded-full pulse-ring" style={{ border: `3px solid ${colors.skyBlue}40` }} />
+                          <ActivityIcon className="w-32 h-32 mx-auto mb-6" style={{ color: colors.skyBlue }} strokeWidth={1} />
+                        </div>
+                        <div className="text-6xl font-bold mb-2" style={{ fontFamily: "'Montserrat', sans-serif", color: colors.trustNavy }}>
+                          120/80
+                        </div>
+                        <div className="text-lg" style={{ color: colors.coolGray }}>Know your numbers</div>
+                      </div>
+                    </div>
+                    <div className="absolute top-8 left-8 w-16 h-16 rounded-full opacity-30 float-slow" style={{ backgroundColor: colors.skyBlue }} />
+                    <div className="absolute bottom-12 right-12 w-24 h-24 rounded-full opacity-30 float-medium" style={{ backgroundColor: colors.neighborhoodTeal }} />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* ── Why It Matters ── */}
+          <section className="relative py-24 text-white overflow-hidden" id="why" style={{ backgroundColor: colors.trustNavy }}>
+            <video
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="absolute inset-0 w-full h-full"
+              style={{ objectFit: 'cover', zIndex: 0 }}
+            >
+              <source src="https://player.vimeo.com/progressive_redirect/playback/1165769670/rendition/540p/file.mp4%20%28540p%29.mp4?loc=external&log_user=0&signature=4cf4eb6e01baad4418507b6325e7af9c1badff6520fd6d8b566239b4af06f4a5" type="video/mp4" />
+            </video>
+            <div className="absolute inset-0" style={{ backgroundColor: 'rgba(10, 31, 57, 0.72)', zIndex: 1 }} />
+            <div className="relative max-w-7xl mx-auto px-6" style={{ zIndex: 2 }}>
+              <div ref={whyRef} className={`max-w-3xl mb-16 fade-up ${whyVisible ? 'visible' : ''}`}>
+                <span className="font-semibold tracking-wide text-sm uppercase mb-4 block"
+                      style={{ color: colors.skyBlue, fontFamily: "'Poppins', sans-serif" }}>
+                  Why This Matters
+                </span>
+                <h2 className="text-4xl md:text-5xl font-bold mb-6 leading-tight"
+                    style={{ fontFamily: "'Montserrat', sans-serif" }}>
+                  Chicago has one of the largest life expectancy gaps in the nation.
+                </h2>
+                <p className="text-xl leading-relaxed" style={{ color: 'rgba(255,255,255,0.8)' }}>
+                  Cardiovascular disease and stroke are the leading contributors to this gap. This is unacceptable—and changing it requires coordinated commitment and effort from across our healthcare ecosystem.
+                </p>
+              </div>
+
+              <div className="grid md:grid-cols-3 gap-8 stagger-children">
+                {[
+                  {
+                    icon: <HeartIcon className="w-7 h-7" style={{ color: colors.starRed }} />,
+                    bg: `${colors.starRed}30`,
+                    title: 'Heart Disease',
+                    text: 'The #1 cause of death in Chicago\'s South and West Side communities. With proper blood pressure control, most cases are preventable.'
+                  },
+                  {
+                    icon: <UsersIcon className="w-7 h-7" style={{ color: colors.neighborhoodTeal }} />,
+                    bg: `${colors.neighborhoodTeal}30`,
+                    title: 'Community Health Workers',
+                    text: 'Hundreds of embedded community health workers are bringing evidence-based care directly to neighborhoods, meeting people where they are.'
+                  },
+                  {
+                    icon: <MapPinIcon className="w-7 h-7" style={{ color: colors.vitalityYellow }} />,
+                    bg: `${colors.vitalityYellow}30`,
+                    title: 'Community-Centered',
+                    text: 'We\'re partnering with community-based organizations to ensure care is centered within the community, not imposed from outside.'
+                  }
+                ].map((card, i) => (
+                  <div key={i}
+                       className={`card-hover backdrop-blur-sm rounded-2xl p-8 border transition-all hover:scale-105 fade-up ${whyVisible ? 'visible' : ''}`}
+                       style={{ backgroundColor: 'rgba(255,255,255,0.05)', borderColor: 'rgba(255,255,255,0.1)', transitionDelay: `${i * 0.15}s` }}>
+                    <div className="w-14 h-14 rounded-xl flex items-center justify-center mb-6"
+                         style={{ backgroundColor: card.bg }}>
+                      {card.icon}
+                    </div>
+                    <h3 className="text-2xl font-bold mb-4" style={{ fontFamily: "'Montserrat', sans-serif" }}>{card.title}</h3>
+                    <p style={{ color: 'rgba(255,255,255,0.7)' }}>{card.text}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* ── Why Blood Pressure Control Matters ── */}
+          <section className="py-24" id="blood-pressure" style={{ backgroundColor: colors.softCloud }}>
+            <div className="max-w-7xl mx-auto px-6">
+              <div ref={bpRef} className={`text-center mb-16 fade-up ${bpVisible ? 'visible' : ''}`}>
+                <span className="font-semibold tracking-wide text-sm uppercase mb-4 block"
+                      style={{ color: colors.skyBlue, fontFamily: "'Poppins', sans-serif" }}>
+                  Understanding the Risk
+                </span>
+                <h2 className="text-4xl md:text-5xl font-bold mb-6"
+                    style={{ fontFamily: "'Montserrat', sans-serif", color: colors.trustNavy }}>
+                  Why Blood Pressure Control Matters in Chicago
+                </h2>
+                <p className="text-xl max-w-3xl mx-auto" style={{ color: colors.charcoal }}>
+                  High blood pressure is a silent threat affecting communities across our city. Understanding it is the first step to controlling it.
+                </p>
+              </div>
+
+              {/* Key Facts Grid */}
+              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16 stagger-children">
+                {[
+                  { icon: <ActivityIcon className="w-6 h-6" style={{ color: colors.starRed }} />, bg: `${colors.starRed}15`, title: '130/80 mm Hg', text: 'High blood pressure (hypertension) is consistently at or above this level.' },
+                  { icon: <HeartIcon className="w-6 h-6" style={{ color: colors.skyBlue }} />, bg: `${colors.skyBlue}20`, title: 'Silent Threat', text: 'High blood pressure typically has no signs or symptoms but damages your heart, brain, kidneys, and eyes.' },
+                  { icon: <CheckIcon className="w-6 h-6" style={{ color: colors.neighborhoodTeal }} />, bg: `${colors.neighborhoodTeal}20`, title: 'Any Age', text: 'No matter your age, you can take steps each day to keep your blood pressure in a healthy range.' },
+                  { icon: <UsersIcon className="w-6 h-6" style={{ color: '#B8860B' }} />, bg: `${colors.vitalityYellow}30`, title: 'Treatable', text: 'Many people can control their blood pressure through lifestyle changes or blood pressure medicines.' }
+                ].map((card, i) => (
+                  <div key={i}
+                       className={`bg-white rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all hover:-translate-y-1 fade-up ${bpVisible ? 'visible' : ''}`}
+                       style={{ transitionDelay: `${i * 0.1}s` }}>
+                    <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-4"
+                         style={{ backgroundColor: card.bg }}>
+                      {card.icon}
+                    </div>
+                    <h3 className="font-bold mb-2" style={{ fontFamily: "'Montserrat', sans-serif", color: colors.trustNavy }}>
+                      {card.title}
+                    </h3>
+                    <p className="text-sm" style={{ color: colors.charcoal }}>{card.text}</p>
+                  </div>
+                ))}
+              </div>
+
+              {/* Educational Content + Chart */}
+              <div className="grid lg:grid-cols-2 gap-12 items-center">
+                <div className={`fade-left ${bpVisible ? 'visible' : ''}`} style={{ transitionDelay: '0.3s' }}>
+                  <h3 className="text-2xl font-bold mb-6" style={{ fontFamily: "'Montserrat', sans-serif", color: colors.trustNavy }}>
+                    What is High Blood Pressure?
+                  </h3>
+                  <div className="space-y-4" style={{ color: colors.charcoal }}>
+                    <p>Blood pressure is the force that blood exerts against the walls of your arteries. Arteries carry blood from your heart to other parts of your body.</p>
+                    <p><strong style={{ color: colors.trustNavy }}>Normal blood pressure</strong> is less than 120/80 mm Hg. High blood pressure, also called hypertension, is blood pressure that is consistently at or above 130/80 mm Hg.</p>
+                    <p>Your blood pressure changes throughout the day based on your activities. Having blood pressure consistently above normal may result in a diagnosis of high blood pressure.</p>
+                    <p><strong style={{ color: colors.starRed }}>The higher your blood pressure levels, the greater your risk</strong> of other health problems, such as heart disease, heart attack, and stroke.</p>
+                  </div>
+                </div>
+
+                {/* Life Expectancy Chart */}
+                <div ref={chartRef} className={`scale-in ${chartVisible ? 'visible' : ''}`}>
+                  <LifeExpectancyChart isVisible={chartVisible} colors={colors} />
+                </div>
+              </div>
+
+              {/* CTA */}
+              <div className="mt-16 text-center">
+                <p className="text-lg mb-6" style={{ color: colors.charcoal }}>
+                  Worried you might have high blood pressure? The first step is getting checked.
+                </p>
+                <a href="#action"
+                   className="inline-flex items-center justify-center gap-2 text-white px-8 py-4 rounded-full font-semibold text-lg transition-all hover:scale-105 hover:shadow-xl"
+                   style={{ backgroundColor: colors.starRed, fontFamily: "'Poppins', sans-serif" }}>
+                  Find a Screening Near You
+                  <ArrowRightIcon className="w-5 h-5" />
+                </a>
+              </div>
+            </div>
+          </section>
+
+          {/* ── Our Model ── */}
+          <section className="py-24 bg-white" id="model">
+            <div className="max-w-7xl mx-auto px-6">
+              <div ref={modelRef} className={`text-center mb-16 fade-up ${modelVisible ? 'visible' : ''}`}>
+                <span className="font-semibold tracking-wide text-sm uppercase mb-4 block"
+                      style={{ color: colors.skyBlue, fontFamily: "'Poppins', sans-serif" }}>
+                  How It Works
+                </span>
+                <h2 className="text-4xl md:text-5xl font-bold mb-6"
+                    style={{ fontFamily: "'Montserrat', sans-serif", color: colors.trustNavy }}>
+                  Our Model
+                </h2>
+                <p className="text-xl max-w-3xl mx-auto" style={{ color: colors.charcoal }}>
+                  Live Healthy Chicago's model aligns payors, providers, and communities around improved outcomes across an entire geography.
+                </p>
+              </div>
+
+              <div className="grid lg:grid-cols-2 gap-16 items-center">
+                <div className={`flex justify-center fade-left ${modelVisible ? 'visible' : ''}`}>
+                  <img
+                    src="https://assets.codepen.io/3457845/LHC%2BModel.webp"
+                    alt="Live Healthy Chicago Model - Three pillars: Clinical Practice Transformation, Public Health Campaign, and Mobile Care in Community, all surrounding the goal of 1% Reduction in ASCVD Risk"
+                    className="max-w-full h-auto"
+                    style={{ maxWidth: '500px' }}
+                  />
+                </div>
+
+                <div className={`fade-right ${modelVisible ? 'visible' : ''}`} style={{ transitionDelay: '0.2s' }}>
+                  <div className="space-y-6">
+                    {[
+                      { num: '1', color: '#6B8DD6', title: 'Clinical Practice Transformation', text: 'Improvements at the clinic level, including the integration of pharmacists into the primary care team for better medication management and blood pressure control.' },
+                      { num: '2', color: colors.skyBlue, title: 'Public Health Campaign', text: 'A city-wide public health campaign co-designed by individuals with relevant lived expertise, ensuring authentic community voice in messaging and outreach.' },
+                      { num: '3', color: colors.trustNavy, title: 'Mobile Care in Community', text: 'Deployment of mobile outreach teams that work in partnership with community organizations, meeting people where they are.' }
+                    ].map((step) => (
+                      <div key={step.num} className="flex gap-4 group">
+                        <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 transition-transform group-hover:scale-110"
+                             style={{ backgroundColor: step.color }}>
+                          <span className="text-white font-bold text-lg">{step.num}</span>
+                        </div>
+                        <div>
+                          <h3 className="text-xl font-bold mb-2" style={{ fontFamily: "'Montserrat', sans-serif", color: colors.trustNavy }}>
+                            {step.title}
+                          </h3>
+                          <p style={{ color: colors.charcoal }}>{step.text}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="mt-8 p-6 rounded-2xl" style={{ backgroundColor: colors.softCloud }}>
+                    <h4 className="font-bold mb-3" style={{ fontFamily: "'Montserrat', sans-serif", color: colors.trustNavy }}>
+                      Powered by Data
+                    </h4>
+                    <p className="text-sm" style={{ color: colors.charcoal }}>
+                      Through <strong>CAPriCORN</strong>, a federated electronic health record network, we'll have access to data and insights that enable us to continuously measure progress. Historically limited to hospitals and academic institutions, the network will be expanded to include community clinics—providing insights at the population level.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-16 text-center">
+                <p className="text-lg italic" style={{ color: colors.charcoal }}>
+                  The result: meaningful, authentic, and community-driven impact across all levels of care.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          {/* ── Neighborhoods ── */}
+          <section className="py-24" id="neighborhoods" style={{ backgroundColor: colors.softCloud }}>
+            <div className="max-w-7xl mx-auto px-6">
+              <div ref={hoodRef} className={`text-center mb-16 fade-up ${hoodVisible ? 'visible' : ''}`}>
+                <span className="font-semibold tracking-wide text-sm uppercase mb-4 block"
+                      style={{ color: colors.skyBlue, fontFamily: "'Poppins', sans-serif" }}>
+                  Our Communities
+                </span>
+                <h2 className="text-4xl md:text-5xl font-bold mb-6"
+                    style={{ fontFamily: "'Montserrat', sans-serif", color: colors.trustNavy }}>
+                  27 Priority Neighborhoods
+                </h2>
+                <p className="text-xl max-w-2xl mx-auto" style={{ color: colors.charcoal }}>
+                  Over the next three years, we're focusing on neighborhoods across Chicago's West and South Sides with the highest rates of cardiovascular disease and stroke.
+                </p>
+              </div>
+
+              <div className={`relative rounded-3xl overflow-hidden shadow-2xl scale-in ${hoodVisible ? 'visible' : ''}`}
+                   style={{ height: '580px' }}
+                   onMouseEnter={() => { carouselPaused.current = true; }}
+                   onMouseLeave={() => { carouselPaused.current = false; }}>
+
+                {/* Slides */}
+                {neighborhoods.map((hood, i) => {
+                  const diff = Math.abs(hood.rate - CHICAGO_HTN_AVG).toFixed(1);
+                  const isAbove = hood.rate > CHICAGO_HTN_AVG;
+                  const maxScale = 60;
+                  const barPct = Math.min(100, (hood.rate / maxScale) * 100);
+                  const avgPct = Math.min(100, (CHICAGO_HTN_AVG / maxScale) * 100);
+                  return (
+                    <div key={hood.name}
+                         className="absolute inset-0 transition-opacity duration-700"
+                         style={{ opacity: i === carouselIdx ? 1 : 0, pointerEvents: i === carouselIdx ? 'auto' : 'none' }}>
+                      {/* Background */}
+                      {hood.img ? (
+                        <img src={hood.img} alt={hood.name}
+                             className="absolute inset-0 w-full h-full"
+                             style={{ objectFit: 'cover', objectPosition: 'center' }} />
+                      ) : (
+                        <div className="absolute inset-0"
+                             style={{ background: 'linear-gradient(135deg, #1B365D 0%, #2a4a7f 50%, #1a3a6b 100%)' }}>
+                          <div className="absolute inset-0 opacity-10"
+                               style={{ backgroundImage: 'radial-gradient(circle at 30% 50%, #46B7E5 0%, transparent 60%), radial-gradient(circle at 75% 30%, #48C9B0 0%, transparent 50%)' }} />
+                        </div>
+                      )}
+                      {/* Bottom gradient overlay */}
+                      <div className="absolute inset-0"
+                           style={{ background: 'linear-gradient(to top, rgba(8,18,38,0.95) 0%, rgba(8,18,38,0.6) 45%, rgba(8,18,38,0.15) 100%)' }} />
+
+                      {/* Text content */}
+                      <div className="absolute inset-x-0 bottom-0 p-8 md:p-10">
+                        <div className="text-xs font-semibold tracking-widest uppercase mb-2"
+                             style={{ color: colors.skyBlue, fontFamily: "'Poppins', sans-serif" }}>
+                          Priority Neighborhood {i + 1} of {neighborhoods.length}
+                        </div>
+                        <h3 className="text-4xl md:text-5xl font-bold text-white mb-6"
+                            style={{ fontFamily: "'Montserrat', sans-serif" }}>
+                          {hood.name}
+                        </h3>
+
+                        {/* Stat row */}
+                        <div className="flex items-end gap-6 mb-5">
+                          <div>
+                            <div className="text-5xl font-bold leading-none mb-1"
+                                 style={{ fontFamily: "'Montserrat', sans-serif", color: isAbove ? colors.starRed : colors.neighborhoodTeal }}>
+                              {hood.rate}%
+                            </div>
+                            <div className="text-sm" style={{ color: 'rgba(255,255,255,0.65)' }}>
+                              Hypertension Rate&nbsp;(±{hood.moe}%)
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-2 pb-1">
+                            <span className="text-xl" style={{ color: isAbove ? colors.starRed : colors.neighborhoodTeal }}>
+                              {isAbove ? '▲' : '▼'}
+                            </span>
+                            <div>
+                              <div className="font-bold text-white text-lg leading-tight">{diff} pts</div>
+                              <div className="text-xs leading-tight" style={{ color: 'rgba(255,255,255,0.6)' }}>
+                                {isAbove ? 'above' : 'below'} city avg
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Comparison bar */}
+                        <div style={{ maxWidth: '460px' }}>
+                          <div className="relative h-2 rounded-full mb-2"
+                               style={{ backgroundColor: 'rgba(255,255,255,0.15)' }}>
+                            <div className="absolute top-0 left-0 h-full rounded-full transition-all duration-700"
+                                 style={{ width: `${barPct}%`, backgroundColor: isAbove ? colors.starRed : colors.neighborhoodTeal }} />
+                            {/* City avg marker */}
+                            <div className="absolute top-1/2 w-0.5 rounded-full"
+                                 style={{ left: `${avgPct}%`, height: '16px', transform: 'translateY(-50%)', backgroundColor: 'white', opacity: 0.8 }} />
+                          </div>
+                          <div className="flex justify-between text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>
+                            <span>0%</span>
+                            <span style={{ position: 'relative', left: `calc(${avgPct}% - 60px)` }}>
+                              Chicago avg: {CHICAGO_HTN_AVG}%
+                            </span>
+                            <span>{maxScale}%</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+
+                {/* Prev button */}
+                <button onClick={() => setCarouselIdx(i => (i - 1 + neighborhoods.length) % neighborhoods.length)}
+                        className="absolute left-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full flex items-center justify-center transition-all hover:scale-110"
+                        style={{ backgroundColor: 'rgba(255,255,255,0.15)', backdropFilter: 'blur(8px)', zIndex: 10 }}>
+                  <ChevronLeftIcon className="w-5 h-5 text-white" />
+                </button>
+
+                {/* Next button */}
+                <button onClick={() => setCarouselIdx(i => (i + 1) % neighborhoods.length)}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full flex items-center justify-center transition-all hover:scale-110"
+                        style={{ backgroundColor: 'rgba(255,255,255,0.15)', backdropFilter: 'blur(8px)', zIndex: 10 }}>
+                  <ChevronRightIcon className="w-5 h-5 text-white" />
+                </button>
+
+                {/* Dot indicators */}
+                <div className="absolute top-5 left-1/2 -translate-x-1/2 flex flex-wrap gap-1.5 justify-center"
+                     style={{ maxWidth: '320px', zIndex: 10 }}>
+                  {neighborhoods.map((_, i) => (
+                    <button key={i} onClick={() => setCarouselIdx(i)}
+                            className="rounded-full transition-all duration-300"
+                            style={{
+                              width: i === carouselIdx ? '20px' : '8px',
+                              height: '8px',
+                              backgroundColor: i === carouselIdx ? 'white' : 'rgba(255,255,255,0.35)'
+                            }} />
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* ── Partners ── */}
+          <section className="py-24 bg-white" id="partners">
+            <div className="max-w-7xl mx-auto px-6">
+              <div ref={partnerRef} className={`text-center mb-16 fade-up ${partnerVisible ? 'visible' : ''}`}>
+                <span className="font-semibold tracking-wide text-sm uppercase mb-4 block"
+                      style={{ color: colors.skyBlue, fontFamily: "'Poppins', sans-serif" }}>
+                  The Coalition
+                </span>
+                <h2 className="text-4xl md:text-5xl font-bold mb-6"
+                    style={{ fontFamily: "'Montserrat', sans-serif", color: colors.trustNavy }}>
+                  Everyone In, Nobody Out
+                </h2>
+                <p className="text-xl max-w-2xl mx-auto" style={{ color: colors.charcoal }}>
+                  Live Healthy Chicago brings together partners, programs, and resources from across the healthcare ecosystem to take meaningful steps toward heart health.
+                </p>
+              </div>
+
+              {/* ── Tabbed Coalition ── */}
+              {(() => {
+                const allTabs = [
+                  {
+                    title: 'Leadership',
+                    dark: true,
+                    logos: healthAccelerator.filter(o => o.src),
+                    textOnly: healthAccelerator.filter(o => !o.src).map(o => o.name),
+                  },
+                  ...partnerGroups.map(g => ({ ...g, dark: false }))
+                ];
+                const tab = allTabs[partnerTabIdx];
+                return (
+                  <div className={`fade-up ${partnerVisible ? 'visible' : ''}`}
+                       onMouseEnter={() => { partnerPaused.current = true; }}
+                       onMouseLeave={() => { partnerPaused.current = false; }}>
+
+                    {/* Tab bar */}
+                    <div className="flex overflow-x-auto mb-8 border-b" style={{ borderColor: '#E2E8F0', scrollbarWidth: 'none' }}>
+                      {allTabs.map((t, i) => (
+                        <button key={t.title}
+                                onClick={() => { setPartnerTabIdx(i); partnerPaused.current = true; }}
+                                className="relative flex-shrink-0 px-5 py-3 text-sm font-semibold transition-colors whitespace-nowrap"
+                                style={{
+                                  color: i === partnerTabIdx ? colors.trustNavy : colors.coolGray,
+                                  fontFamily: "'Poppins', sans-serif",
+                                  borderBottom: i === partnerTabIdx ? `2px solid ${colors.skyBlue}` : '2px solid transparent',
+                                  marginBottom: '-1px',
+                                }}>
+                          {t.title}
+                        </button>
+                      ))}
+                    </div>
+
+                    {/* Tab content */}
+                    <div key={partnerTabIdx}
+                         className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4"
+                         style={{ animation: 'fadeIn 0.3s ease-out' }}>
+                      {tab.logos.map((logo, i) => (
+                        <div key={i}
+                             className="rounded-2xl p-5 flex items-center justify-center shadow-sm hover:shadow-md transition-all hover:-translate-y-1"
+                             style={{ aspectRatio: '3/2', backgroundColor: tab.dark ? 'rgba(27,54,93,0.06)' : 'white' }}>
+                          <img src={logo.src} alt={logo.alt || logo.name} title={logo.alt || logo.name}
+                               className="max-w-full max-h-full object-contain"
+                               style={{ maxHeight: '64px' }}
+                               loading="lazy" />
+                        </div>
+                      ))}
+                      {tab.textOnly.map((name) => (
+                        <div key={name}
+                             className="rounded-2xl p-5 flex items-center justify-center text-center shadow-sm hover:shadow-md transition-all hover:-translate-y-1"
+                             style={{ aspectRatio: '3/2', backgroundColor: colors.softCloud }}>
+                          <span className="text-sm font-semibold leading-tight" style={{ color: colors.trustNavy }}>{name}</span>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Progress dots */}
+                    <div className="flex justify-center gap-2 mt-8">
+                      {allTabs.map((_, i) => (
+                        <button key={i}
+                                onClick={() => { setPartnerTabIdx(i); partnerPaused.current = true; }}
+                                className="rounded-full transition-all duration-300"
+                                style={{
+                                  width: i === partnerTabIdx ? '20px' : '8px',
+                                  height: '8px',
+                                  backgroundColor: i === partnerTabIdx ? colors.skyBlue : '#CBD5E0',
+                                }} />
+                      ))}
+                    </div>
+                  </div>
+                );
+              })()}
+            </div>
+          </section>
+
+          {/* ── News ── */}
+          <section className="py-24" id="news" style={{ backgroundColor: colors.softCloud }}>
+            <div className="max-w-7xl mx-auto px-6">
+              <div ref={newsRef} className={`text-center mb-16 fade-up ${newsVisible ? 'visible' : ''}`}>
+                <span className="font-semibold tracking-wide text-sm uppercase mb-4 block"
+                      style={{ color: colors.skyBlue, fontFamily: "'Poppins', sans-serif" }}>
+                  Latest News
+                </span>
+                <h2 className="text-4xl md:text-5xl font-bold mb-6"
+                    style={{ fontFamily: "'Montserrat', sans-serif", color: colors.trustNavy }}>
+                  Stories &amp; Updates
+                </h2>
+                <p className="text-xl max-w-2xl mx-auto" style={{ color: colors.charcoal }}>
+                  Follow the movement — from policy wins to community voices on the front lines of heart health.
+                </p>
+              </div>
+
+              {/* Featured Article */}
+              {newsItems.filter(n => n.featured).map((article, i) => (
+                <div key={i}
+                     className={`mb-12 cursor-pointer fade-up ${newsVisible ? 'visible' : ''}`}
+                     onClick={() => setSelectedArticle(article)}>
+                  <div className="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all group">
+                    <div className="grid md:grid-cols-2">
+                      <div className="aspect-video md:aspect-auto overflow-hidden">
+                        <img src={article.image} alt={article.title}
+                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                             loading="lazy" />
+                      </div>
+                      <div className="p-8 md:p-10 flex flex-col justify-center">
+                        <div className="flex items-center gap-3 mb-4">
+                          <span className="text-xs font-semibold px-3 py-1 rounded-full"
+                                style={{ backgroundColor: `${colors.starRed}12`, color: colors.starRed }}>
+                            {article.category}
+                          </span>
+                          <span className="text-sm" style={{ color: colors.coolGray }}>{article.date}</span>
+                        </div>
+                        <h3 className="text-2xl md:text-3xl font-bold mb-4 group-hover:opacity-80 transition-opacity"
+                            style={{ fontFamily: "'Montserrat', sans-serif", color: colors.trustNavy }}>
+                          {article.title}
+                        </h3>
+                        <p className="text-lg mb-6 leading-relaxed" style={{ color: colors.charcoal }}>
+                          {article.excerpt}
+                        </p>
+                        {article.podcast && (
+                          <div className="flex items-center gap-2 mb-4 px-3 py-2 rounded-lg"
+                               style={{ backgroundColor: `${colors.trustNavy}08` }}>
+                            <div className="w-6 h-6 rounded-full flex items-center justify-center" style={{ backgroundColor: colors.skyBlue }}>
+                              <svg width="10" height="10" viewBox="0 0 24 24" fill="white"><polygon points="8,4 20,12 8,20"/></svg>
+                            </div>
+                            <span className="text-sm font-semibold" style={{ color: colors.trustNavy }}>Includes podcast episode</span>
+                          </div>
+                        )}
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm font-medium" style={{ color: colors.coolGray }}>By {article.author}</span>
+                          <span className="inline-flex items-center gap-2 font-semibold text-sm group-hover:gap-3 transition-all"
+                                style={{ color: colors.skyBlue, fontFamily: "'Poppins', sans-serif" }}>
+                            Read Article <ArrowRightIcon className="w-4 h-4" />
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+
+              {/* Article Grid */}
+              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {newsItems.filter(n => !n.featured).map((article, i) => (
+                  <div key={i}
+                       className={`bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all hover:-translate-y-1 cursor-pointer group fade-up ${newsVisible ? 'visible' : ''}`}
+                       style={{ transitionDelay: `${0.1 + i * 0.08}s` }}
+                       onClick={() => setSelectedArticle(article)}>
+                    <div className="aspect-video overflow-hidden">
+                      <img src={article.image} alt={article.title}
+                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                           loading="lazy" />
+                    </div>
+                    <div className="p-5">
+                      <div className="flex items-center gap-3 mb-3">
+                        <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full"
+                              style={{ backgroundColor: `${colors.skyBlue}15`, color: colors.skyBlue }}>
+                          {article.category}
+                        </span>
+                        <span className="text-xs" style={{ color: colors.coolGray }}>{article.date}</span>
+                      </div>
+                      <h3 className="font-bold leading-snug mb-2 group-hover:opacity-80 transition-opacity"
+                          style={{ fontFamily: "'Montserrat', sans-serif", color: colors.trustNavy }}>
+                        {article.title}
+                      </h3>
+                      <p className="text-sm line-clamp-3" style={{ color: colors.charcoal }}>
+                        {article.excerpt}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* ── Article Detail Modal ── */}
+          {selectedArticle && (
+            <div className="fixed inset-0 z-50 flex items-start justify-center p-4 overflow-y-auto"
+                 onClick={() => setSelectedArticle(null)}>
+              <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" style={{ animation: 'fadeIn 0.2s ease-out' }} />
+              <div className="relative bg-white rounded-3xl max-w-3xl w-full my-8 shadow-2xl"
+                   style={{ animation: 'modalSlideUp 0.3s ease-out' }}
+                   onClick={(e) => e.stopPropagation()}>
+                {/* Hero image */}
+                <div className="aspect-video rounded-t-3xl overflow-hidden">
+                  <img src={selectedArticle.image} alt={selectedArticle.title}
+                       className="w-full h-full object-cover" />
+                </div>
+                <button onClick={() => setSelectedArticle(null)}
+                        className="absolute top-4 right-4 w-9 h-9 rounded-full flex items-center justify-center shadow-lg transition-colors"
+                        style={{ backgroundColor: 'rgba(255,255,255,0.9)', color: colors.charcoal }}>
+                  <XIcon className="w-5 h-5" />
+                </button>
+                <div className="p-8 md:p-10">
+                  <div className="flex items-center gap-3 mb-4">
+                    <span className="text-xs font-semibold px-3 py-1 rounded-full"
+                          style={{ backgroundColor: `${colors.skyBlue}15`, color: colors.skyBlue }}>
+                      {selectedArticle.category}
+                    </span>
+                    <span className="text-sm" style={{ color: colors.coolGray }}>{selectedArticle.date}</span>
+                    <span className="text-sm" style={{ color: colors.coolGray }}>&middot;</span>
+                    <span className="text-sm" style={{ color: colors.coolGray }}>By {selectedArticle.author}</span>
+                  </div>
+                  <h2 className="text-3xl md:text-4xl font-bold mb-6 leading-tight"
+                      style={{ fontFamily: "'Montserrat', sans-serif", color: colors.trustNavy }}>
+                    {selectedArticle.title}
+                  </h2>
+                  <p className="text-lg font-medium mb-8 leading-relaxed"
+                     style={{ color: colors.charcoal, borderLeft: `4px solid ${colors.skyBlue}`, paddingLeft: '1rem' }}>
+                    {selectedArticle.excerpt}
+                  </p>
+                  {selectedArticle.podcast && (
+                    <div className="mb-8">
+                      <PodcastPlayer podcast={selectedArticle.podcast} colors={colors} />
+                    </div>
+                  )}
+                  <div className="space-y-5">
+                    {selectedArticle.body.map((para, pi) => (
+                      <p key={pi} className="leading-relaxed" style={{ color: colors.charcoal }}>{para}</p>
+                    ))}
+                  </div>
+                  {selectedArticle.url && (
+                    <div className="mt-8 pt-6 border-t" style={{ borderColor: '#E2E8F0' }}>
+                      <a href={selectedArticle.url} target="_blank" rel="noopener noreferrer"
+                         className="inline-flex items-center gap-2 font-semibold transition-all hover:gap-3"
+                         style={{ color: colors.skyBlue, fontFamily: "'Poppins', sans-serif" }}>
+                        Read on livehealthychi.org <ArrowRightIcon className="w-4 h-4" />
+                      </a>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* ── Events ── */}
+          <section className="py-24" id="events" style={{ backgroundColor: colors.softCloud }}>
+            <div className="max-w-7xl mx-auto px-6">
+              <div ref={eventsRef} className={`text-center mb-16 fade-up ${eventsVisible ? 'visible' : ''}`}>
+                <span className="font-semibold tracking-wide text-sm uppercase mb-4 block"
+                      style={{ color: colors.skyBlue, fontFamily: "'Poppins', sans-serif" }}>
+                  Upcoming Events
+                </span>
+                <h2 className="text-4xl md:text-5xl font-bold mb-6"
+                    style={{ fontFamily: "'Montserrat', sans-serif", color: colors.trustNavy }}>
+                  Get Screened Near You
+                </h2>
+                <p className="text-xl max-w-2xl mx-auto" style={{ color: colors.charcoal }}>
+                  Free blood pressure screenings are coming to neighborhoods across the South and West Sides. Find an event and take the first step.
+                </p>
+              </div>
+
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {events.map((evt, i) => (
+                  <div key={i}
+                       className={`bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all hover:-translate-y-1 cursor-pointer fade-up ${eventsVisible ? 'visible' : ''}`}
+                       style={{ transitionDelay: `${Math.min(i * 0.08, 0.4)}s` }}
+                       onClick={() => setSelectedEvent(evt)}>
+                    <div className="h-2" style={{ backgroundColor: evt.color }} />
+                    <div className="p-6">
+                      <div className="flex items-start gap-4 mb-4">
+                        <div className="flex-shrink-0 w-14 text-center rounded-xl py-2"
+                             style={{ backgroundColor: `${evt.color}12` }}>
+                          <div className="text-xs font-semibold uppercase" style={{ color: evt.color }}>
+                            {evt.date.split(' ')[0]}
+                          </div>
+                          <div className="text-2xl font-bold leading-tight" style={{ fontFamily: "'Montserrat', sans-serif", color: colors.trustNavy }}>
+                            {evt.date.split(' ')[1].replace(',', '')}
+                          </div>
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h3 className="font-bold text-lg leading-snug mb-1"
+                              style={{ fontFamily: "'Montserrat', sans-serif", color: colors.trustNavy }}>
+                            {evt.title}
+                          </h3>
+                          <p className="text-sm" style={{ color: colors.coolGray }}>{evt.day} &middot; {evt.time}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-2 mb-4">
+                        <MapPinIcon className="w-4 h-4 mt-0.5 flex-shrink-0" style={{ color: colors.coolGray }} />
+                        <span className="text-sm" style={{ color: colors.charcoal }}>{evt.location}</span>
+                      </div>
+                      <div className="flex flex-wrap gap-2">
+                        {evt.tags.map(tag => (
+                          <span key={tag}
+                                className="text-xs font-semibold px-3 py-1 rounded-full"
+                                style={{ backgroundColor: `${evt.color}12`, color: evt.color }}>
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* ── Event Detail Modal ── */}
+          {selectedEvent && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center p-4"
+                 onClick={() => setSelectedEvent(null)}>
+              <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" style={{ animation: 'fadeIn 0.2s ease-out' }} />
+              <div className="relative bg-white rounded-3xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl"
+                   style={{ animation: 'modalSlideUp 0.3s ease-out' }}
+                   onClick={(e) => e.stopPropagation()}>
+                <div className="h-2 rounded-t-3xl" style={{ backgroundColor: selectedEvent.color }} />
+                <button onClick={() => setSelectedEvent(null)}
+                        className="absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors"
+                        style={{ color: colors.coolGray }}>
+                  <XIcon className="w-5 h-5" />
+                </button>
+                <div className="p-8">
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {selectedEvent.tags.map(tag => (
+                      <span key={tag}
+                            className="text-xs font-semibold px-3 py-1 rounded-full"
+                            style={{ backgroundColor: `${selectedEvent.color}12`, color: selectedEvent.color }}>
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                  <h3 className="text-2xl font-bold mb-2"
+                      style={{ fontFamily: "'Montserrat', sans-serif", color: colors.trustNavy }}>
+                    {selectedEvent.title}
+                  </h3>
+                  <div className="space-y-3 mb-6">
+                    <div className="flex items-center gap-3">
+                      <CalendarIcon className="w-5 h-5 flex-shrink-0" style={{ color: selectedEvent.color }} />
+                      <span style={{ color: colors.charcoal }}>
+                        {selectedEvent.day}, {selectedEvent.date} &middot; {selectedEvent.time}
+                      </span>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <MapPinIcon className="w-5 h-5 flex-shrink-0 mt-0.5" style={{ color: selectedEvent.color }} />
+                      <div>
+                        <div className="font-semibold" style={{ color: colors.trustNavy }}>{selectedEvent.location}</div>
+                        <div className="text-sm" style={{ color: colors.coolGray }}>{selectedEvent.address}</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="rounded-2xl p-5 mb-6" style={{ backgroundColor: colors.softCloud }}>
+                    <p className="leading-relaxed" style={{ color: colors.charcoal }}>
+                      {selectedEvent.description}
+                    </p>
+                  </div>
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <a href="#"
+                       className="flex-1 inline-flex items-center justify-center gap-2 text-white px-6 py-3 rounded-full font-semibold transition-all hover:scale-105"
+                       style={{ backgroundColor: selectedEvent.color, fontFamily: "'Poppins', sans-serif" }}>
+                      RSVP for This Event
+                      <ArrowRightIcon className="w-4 h-4" />
+                    </a>
+                    <button onClick={() => setSelectedEvent(null)}
+                            className="flex-1 inline-flex items-center justify-center px-6 py-3 rounded-full font-semibold border-2 transition-all hover:bg-gray-50"
+                            style={{ borderColor: '#E2E8F0', color: colors.charcoal, fontFamily: "'Poppins', sans-serif" }}>
+                      Close
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* ── Take Action ── */}
+          <section className="py-24 text-white" id="action" style={{ backgroundColor: colors.starRed }}>
+            <div className="max-w-7xl mx-auto px-6">
+              <div ref={actionRef} className={`max-w-3xl mx-auto text-center fade-up ${actionVisible ? 'visible' : ''}`}>
+                <span className="font-semibold tracking-wide text-sm uppercase mb-4 block"
+                      style={{ color: 'rgba(255,255,255,0.8)', fontFamily: "'Poppins', sans-serif" }}>
+                  Take Action Today
+                </span>
+                <h2 className="text-4xl md:text-5xl font-bold mb-6 leading-tight"
+                    style={{ fontFamily: "'Montserrat', sans-serif" }}>
+                  Your heart can't wait. Neither can your family.
+                </h2>
+                <p className="text-xl leading-relaxed mb-12" style={{ color: 'rgba(255,255,255,0.9)' }}>
+                  Getting your blood pressure checked takes just minutes. It could add years to your life. Find a screening near you or connect with a health center today.
+                </p>
+
+                <div className="grid sm:grid-cols-2 gap-6 mb-12">
+                  <div className="card-hover backdrop-blur-sm rounded-2xl p-8 text-left transition-all hover:scale-105"
+                       style={{ backgroundColor: 'rgba(255,255,255,0.15)' }}>
+                    <CalendarIcon className="w-10 h-10 mb-4" style={{ color: 'rgba(255,255,255,0.9)' }} />
+                    <h3 className="text-xl font-bold mb-2" style={{ fontFamily: "'Montserrat', sans-serif" }}>Get Screened</h3>
+                    <p className="mb-4" style={{ color: 'rgba(255,255,255,0.8)' }}>Find a free blood pressure screening event in your neighborhood.</p>
+                    <a href="#" className="inline-flex items-center gap-2 font-semibold hover:gap-3 transition-all"
+                       style={{ fontFamily: "'Poppins', sans-serif" }}>
+                      View Events <ArrowRightIcon className="w-4 h-4" />
+                    </a>
+                  </div>
+
+                  <div className="card-hover backdrop-blur-sm rounded-2xl p-8 text-left transition-all hover:scale-105"
+                       style={{ backgroundColor: 'rgba(255,255,255,0.15)' }}>
+                    <MapPinIcon className="w-10 h-10 mb-4" style={{ color: 'rgba(255,255,255,0.9)' }} />
+                    <h3 className="text-xl font-bold mb-2" style={{ fontFamily: "'Montserrat', sans-serif" }}>Find a Health Center</h3>
+                    <p className="mb-4" style={{ color: 'rgba(255,255,255,0.8)' }}>Connect with a community health center for ongoing care and support.</p>
+                    <a href="#" className="inline-flex items-center gap-2 font-semibold hover:gap-3 transition-all"
+                       style={{ fontFamily: "'Poppins', sans-serif" }}>
+                      Find Care <ArrowRightIcon className="w-4 h-4" />
+                    </a>
+                  </div>
+                </div>
+
+                <div className="pt-8 border-t" style={{ borderColor: 'rgba(255,255,255,0.3)' }}>
+                  <p className="mb-4" style={{ color: 'rgba(255,255,255,0.8)' }}>Questions about Live Healthy Chicago?</p>
+                  <a href="mailto:info@livehealthychi.org" className="text-lg font-semibold hover:opacity-80 transition-opacity">
+                    info@livehealthychi.org
+                  </a>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* ── Pressure Drop Campaign ── */}
+          <section className="py-24 overflow-hidden" style={{ backgroundColor: colors.vitalityYellow }}>
+            <div className="max-w-7xl mx-auto px-6">
+              <div className="text-center mb-12">
+                <span className="font-semibold tracking-wide text-sm uppercase mb-4 block"
+                      style={{ color: colors.trustNavy, fontFamily: "'Poppins', sans-serif", opacity: 0.7 }}>
+                  The Campaign
+                </span>
+                <h2 className="text-4xl md:text-5xl font-bold mb-4"
+                    style={{ fontFamily: "'Montserrat', sans-serif", color: colors.trustNavy }}>
+                  Pressure Drop
+                </h2>
+                <p className="text-xl max-w-2xl mx-auto" style={{ color: colors.trustNavy, opacity: 0.8 }}>
+                  Chicago icons are getting their blood pressure checked. Now it's your turn.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+                {[
+                  {
+                    name: 'President Obama',
+                    caption: 'Getting his numbers checked',
+                    src: 'https://res.cloudinary.com/dsbllwpbh/video/upload/v1770752156/Gen-4_5_Getting_his_blood_pressure_checked_2200445191.gen-4_5_getting_his_blood_pressure_checked_2200445191_yqmzjo.mp4',
+                  },
+                  {
+                    name: 'Caleb Williams',
+                    caption: 'Leading on and off the field',
+                    src: 'https://res.cloudinary.com/dsbllwpbh/video/upload/v1770752155/garyricke_httpss.mj.runTfKUG7BXhwo_--ar_143256_--motion_high__c50e260c-5dde-4e27-9333-e326bc15726e_2_g3ekda.mp4',
+                  },
+                  {
+                    name: 'Bill Murray',
+                    caption: "It ain't over till you check",
+                    src: 'https://res.cloudinary.com/dsbllwpbh/video/upload/v1770752154/garyricke_httpss.mj.runVgyAXi6d6RI_--ar_143256_--motion_high__e4481e85-0ff3-49e1-8e09-4f9cb779e52f_0_moncms.mp4',
+                  },
+                  {
+                    name: 'Whitney B',
+                    caption: 'Know your numbers, sis',
+                    src: 'https://res.cloudinary.com/dsbllwpbh/video/upload/v1770752153/garyricke_httpss.mj.runA21w68dAuME_--ar_143256_--motion_high__1a5ca01a-eea4-4ec1-842a-18b653a1ee55_1_rdpxdz.mp4',
+                  },
+                ].map((vid, i) => (
+                  <div key={i} className="group relative rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all hover:-translate-y-1"
+                       style={{ aspectRatio: '9/14' }}>
+                    <video
+                      className="absolute inset-0 w-full h-full object-cover"
+                      src={vid.src}
+                      muted
+                      loop
+                      playsInline
+                      preload="metadata"
+                      onMouseEnter={(e) => e.target.play()}
+                      onMouseLeave={(e) => { e.target.pause(); e.target.currentTime = 0; }}
+                      onTouchStart={(e) => {
+                        if (e.target.paused) e.target.play();
+                        else { e.target.pause(); e.target.currentTime = 0; }
+                      }}
+                    />
+                    {/* Play hint */}
+                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none transition-opacity group-hover:opacity-0"
+                         style={{ backgroundColor: 'rgba(0,0,0,0.15)' }}>
+                      <div className="w-14 h-14 rounded-full flex items-center justify-center backdrop-blur-sm"
+                           style={{ backgroundColor: 'rgba(255,255,255,0.25)' }}>
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><polygon points="8,4 20,12 8,20"/></svg>
+                      </div>
+                    </div>
+                    {/* Bottom gradient + label */}
+                    <div className="absolute bottom-0 left-0 right-0 p-4 pt-16"
+                         style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.7), transparent)' }}>
+                      <h4 className="text-white font-bold text-lg leading-tight" style={{ fontFamily: "'Montserrat', sans-serif" }}>
+                        {vid.name}
+                      </h4>
+                      <p className="text-sm" style={{ color: 'rgba(255,255,255,0.8)' }}>{vid.caption}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-10 text-center">
+                <a href="#action"
+                   className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full font-semibold text-lg transition-all hover:scale-105 hover:shadow-xl"
+                   style={{ backgroundColor: colors.trustNavy, color: '#fff', fontFamily: "'Poppins', sans-serif" }}>
+                  Get Your Blood Pressure Checked
+                  <ArrowRightIcon className="w-5 h-5" />
+                </a>
+              </div>
+            </div>
+          </section>
+
+          {/* ── Footer ── */}
+          <footer className="py-12 text-white" style={{ backgroundColor: colors.trustNavy }}>
+            <div className="max-w-7xl mx-auto px-6">
+              <div className="flex flex-col md:flex-row justify-between items-center gap-8">
+                <div className="flex items-center gap-3">
+                  <img
+                    src="https://assets.codepen.io/3457845/logo-Live-Healthy-Chicago.png"
+                    alt="Live Healthy Chicago"
+                    className="h-10 w-auto"
+                  />
+                </div>
+                <div className="flex gap-8 text-sm" style={{ color: colors.coolGray }}>
+                  <a href="#" className="hover:text-white transition-colors">About</a>
+                  <a href="#" className="hover:text-white transition-colors">Partners</a>
+                  <a href="#" className="hover:text-white transition-colors">Events</a>
+                  <a href="#" className="hover:text-white transition-colors">Contact</a>
+                  <a href="#" className="hover:text-white transition-colors">Portal Access</a>
+                </div>
+              </div>
+              <div className="mt-8 pt-8 border-t text-center text-sm" style={{ borderColor: 'rgba(255,255,255,0.1)', color: colors.coolGray }}>
+                <p>&copy; 2026 Live Healthy Chicago. A coalition committed to closing the life expectancy gap.</p>
+                <p className="mt-2">livehealthychi.org</p>
+              </div>
+            </div>
+          </footer>
+        </div>
+      );
+    }
+
+    // Render
+    ReactDOM.render(<LiveHealthyChicago />, document.getElementById('root'));
+  </script>
+</body>
+</html>
