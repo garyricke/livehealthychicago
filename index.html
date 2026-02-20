@@ -640,6 +640,56 @@
     }
 
     // ── Main App ──
+    // ── Google Sheets CSV URL ──────────────────────────────────────────────────
+    // After publishing your sheet (File → Share → Publish to web → CSV), paste the URL below:
+    const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSUS02k2X8ZpE70QyMM0gDAPhvhzEYPt0rOgUgZUZcqZj--zq0P0AdO7HtS4U0uNA_kRm6f8MTZJM4Y/pub?output=csv';
+
+    const EVENT_COLORS = ['#48C9B0', '#46B7E5', '#6B8DD6', '#F6AD55', '#E5202F', '#48A999'];
+
+    function parseCSV(text) {
+      // Character-by-character parser that correctly handles quoted fields
+      // containing commas and newlines (e.g. multi-line Long Description cells).
+      const rows = [];
+      text = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+      let i = 0, cells = [], cur = '', inQ = false;
+      while (i < text.length) {
+        const ch = text[i];
+        if (inQ) {
+          if (ch === '"' && text[i + 1] === '"') { cur += '"'; i += 2; } // escaped ""
+          else if (ch === '"') { inQ = false; i++; }
+          else { cur += ch; i++; }
+        } else {
+          if (ch === '"') { inQ = true; i++; }
+          else if (ch === ',') { cells.push(cur.trim()); cur = ''; i++; }
+          else if (ch === '\n') {
+            cells.push(cur.trim());
+            if (cells.some(c => c !== '')) rows.push(cells);
+            cells = []; cur = ''; i++;
+          } else { cur += ch; i++; }
+        }
+      }
+      cells.push(cur.trim());
+      if (cells.some(c => c !== '')) rows.push(cells);
+      return rows;
+    }
+
+    // Parses "M/D/YYYY" from Google Sheets into date parts for the event card
+    function parseSheetDate(raw) {
+      if (!raw) return { full: '', weekday: '' };
+      const parts = raw.trim().split('/');
+      if (parts.length !== 3) return { full: raw, weekday: '' };
+      const monthIdx = parseInt(parts[0], 10) - 1;
+      const dayNum   = parseInt(parts[1], 10);
+      const year     = parseInt(parts[2], 10);
+      const MONTHS   = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      const DAYS     = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+      const d = new Date(year, monthIdx, dayNum);
+      return {
+        full:    `${MONTHS[monthIdx] || ''} ${dayNum}, ${year}`,
+        weekday: DAYS[d.getDay()] || '',
+      };
+    }
+
     function LiveHealthyChicago() {
       const [unlocked, setUnlocked] = React.useState(() => sessionStorage.getItem('lhc_auth') === '1');
       const [gateInput, setGateInput] = React.useState('');
@@ -1002,74 +1052,48 @@
         return () => { if (!mobileMenuOpen) document.body.style.overflow = ''; };
       }, [selectedEvent, selectedArticle]);
 
-      const events = [
-        {
-          date: 'Mar 8, 2026',
-          day: 'Saturday',
-          time: '9:00 AM – 1:00 PM',
-          title: 'Know Your Numbers Day — Englewood',
-          location: 'Englewood Community Health Center',
-          address: '641 W 63rd St, Chicago, IL 60621',
-          description: 'Free blood pressure screenings, heart-healthy cooking demos, and one-on-one time with community health workers. Walk-ins welcome — no insurance or ID needed.',
-          tags: ['Free Screening', 'Family Friendly'],
-          color: colors.starRed,
-        },
-        {
-          date: 'Mar 15, 2026',
-          day: 'Saturday',
-          time: '10:00 AM – 2:00 PM',
-          title: 'Pressure Drop Block Party — Austin',
-          location: 'Austin Town Hall Park',
-          address: '5610 W Lake St, Chicago, IL 60644',
-          description: 'Live music, food trucks, and free health screenings including blood pressure, BMI, and blood glucose. Get your numbers checked while enjoying a neighborhood block party.',
-          tags: ['Free Screening', 'Live Music', 'Food'],
-          color: colors.skyBlue,
-        },
-        {
-          date: 'Mar 22, 2026',
-          day: 'Saturday',
-          time: '8:30 AM – 12:00 PM',
-          title: 'Heart Health Sunday — Roseland',
-          location: 'Roseland Community Hospital',
-          address: '45 W 111th St, Chicago, IL 60628',
-          description: 'Partner with your church community and get screened after morning service. Blood pressure checks, stroke risk education, and pharmacist consultations available on-site.',
-          tags: ['Free Screening', 'Faith-Based'],
-          color: colors.neighborhoodTeal,
-        },
-        {
-          date: 'Apr 5, 2026',
-          day: 'Saturday',
-          time: '10:00 AM – 3:00 PM',
-          title: 'Community Wellness Fair — North Lawndale',
-          location: 'Lawndale Christian Health Center',
-          address: '3860 W Ogden Ave, Chicago, IL 60623',
-          description: 'A full-day wellness fair with free blood pressure screenings, health education workshops, kids\' activities, and connections to primary care. Interpreters available.',
-          tags: ['Free Screening', 'Family Friendly', 'Bilingual'],
-          color: colors.vitalityYellow,
-        },
-        {
-          date: 'Apr 12, 2026',
-          day: 'Saturday',
-          time: '11:00 AM – 2:00 PM',
-          title: 'South Shore Pop-Up Clinic',
-          location: 'South Shore Cultural Center',
-          address: '7059 S South Shore Dr, Chicago, IL 60649',
-          description: 'Drop in for a free blood pressure check in a relaxed, welcoming environment. Community health workers will be on hand to help you understand your numbers and connect you to follow-up care.',
-          tags: ['Free Screening', 'Walk-In'],
-          color: '#6B8DD6',
-        },
-        {
-          date: 'Apr 19, 2026',
-          day: 'Saturday',
-          time: '9:00 AM – 1:00 PM',
-          title: 'Heart Smart Morning — West Garfield Park',
-          location: 'Garfield Park Fieldhouse',
-          address: '100 N Central Park Ave, Chicago, IL 60624',
-          description: 'Start your weekend with a free blood pressure check, guided walking group, and healthy breakfast samples. Learn simple daily steps to keep your numbers in a healthy range.',
-          tags: ['Free Screening', 'Fitness', 'Food'],
-          color: colors.neighborhoodTeal,
-        },
-      ];
+      const [events, setEvents] = React.useState([]);
+      const [eventsLoading, setEventsLoading] = React.useState(true);
+      const [eventsError, setEventsError] = React.useState(false);
+      const [eventsFilter, setEventsFilter] = React.useState('All');
+
+      React.useEffect(() => {
+        fetch(SHEET_CSV_URL)
+          .then(r => { if (!r.ok) throw new Error(); return r.text(); })
+          .then(csv => {
+            const rows = parseCSV(csv);
+            if (rows.length < 2) { setEventsLoading(false); return; }
+            // Actual sheet columns (from Excel import):
+            // A(0): LHC Confirmed | B(1): Event Date (M/D/YYYY) | C(2): Host
+            // D(3): Event Name | E(4): Event Hours | F(5): Event Description
+            // G(6): Long Description | H(7): Host Contact | I(8): LHC Lead
+            // J(9): Requested Resources | K(10): Location | L(11): Neighborhood
+            // M(12): Estimated Attendees | N(13): Image
+            const data = rows.slice(1)
+              .filter(r => r[0] && /confirm|yes/i.test(r[0]))
+              .map((r, i) => {
+                const pd = parseSheetDate(r[1]);
+                return {
+                  date:            pd.full,
+                  day:             pd.weekday,
+                  title:           r[3] || 'Untitled Event',
+                  time:            r[4] || '',
+                  description:     r[5] || '',
+                  longDescription: r[6] || '',
+                  location:        r[10] || '',
+                  address:         r[10] || '',
+                  neighborhood:    r[11] || '',
+                  image:           r[13] || '',
+                  tags:            ['Free Screening'],
+                  rsvpUrl:         '',
+                  color:           EVENT_COLORS[i % EVENT_COLORS.length],
+                };
+              });
+            setEvents(data);
+            setEventsLoading(false);
+          })
+          .catch(() => { setEventsError(true); setEventsLoading(false); });
+      }, []);
 
       // Rich article body renderer
       const boldify = (text) => {
@@ -1878,7 +1902,7 @@
               ))}
 
               {/* Article Grid */}
-              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6" style={{ display: 'none' }}>
                 {newsItems.filter(n => !n.featured).map((article, i) => (
                   <div key={i}
                        className={`bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all hover:-translate-y-1 cursor-pointer group fade-up ${newsVisible ? 'visible' : ''}`}
@@ -1963,7 +1987,7 @@
           {/* ── Events ── */}
           <section className="py-24" id="events" style={{ backgroundColor: colors.softCloud }}>
             <div className="max-w-7xl mx-auto px-6">
-              <div ref={eventsRef} className={`text-center mb-16 fade-up ${eventsVisible ? 'visible' : ''}`}>
+              <div ref={eventsRef} className={`text-center mb-12 fade-up ${eventsVisible ? 'visible' : ''}`}>
                 <span className="font-semibold tracking-wide text-sm uppercase mb-4 block"
                       style={{ color: colors.skyBlue, fontFamily: "'Poppins', sans-serif" }}>
                   Upcoming Events
@@ -1977,49 +2001,132 @@
                 </p>
               </div>
 
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {events.map((evt, i) => (
-                  <div key={i}
-                       className={`bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all hover:-translate-y-1 cursor-pointer fade-up ${eventsVisible ? 'visible' : ''}`}
-                       style={{ transitionDelay: `${Math.min(i * 0.08, 0.4)}s` }}
-                       onClick={() => setSelectedEvent(evt)}>
-                    <div className="h-2" style={{ backgroundColor: evt.color }} />
-                    <div className="p-6">
-                      <div className="flex items-start gap-4 mb-4">
-                        <div className="flex-shrink-0 w-14 text-center rounded-xl py-2"
-                             style={{ backgroundColor: `${evt.color}12` }}>
-                          <div className="text-xs font-semibold uppercase" style={{ color: evt.color }}>
-                            {evt.date.split(' ')[0]}
-                          </div>
-                          <div className="text-2xl font-bold leading-tight" style={{ fontFamily: "'Montserrat', sans-serif", color: colors.trustNavy }}>
-                            {evt.date.split(' ')[1].replace(',', '')}
-                          </div>
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <h3 className="font-bold text-lg leading-snug mb-1"
-                              style={{ fontFamily: "'Montserrat', sans-serif", color: colors.trustNavy }}>
-                            {evt.title}
-                          </h3>
-                          <p className="text-sm" style={{ color: colors.coolGray }}>{evt.day} &middot; {evt.time}</p>
-                        </div>
+              {/* Neighborhood filter pills */}
+              {!eventsLoading && !eventsError && events.length > 0 && (() => {
+                const hoods = ['All', ...Array.from(new Set(events.map(e => e.neighborhood).filter(Boolean))).sort()];
+                const filtered = eventsFilter === 'All' ? events : events.filter(e => e.neighborhood === eventsFilter);
+                return (
+                  <>
+                    <div className={`flex flex-wrap gap-2 mb-10 justify-center fade-up ${eventsVisible ? 'visible' : ''}`}>
+                      {hoods.map(h => (
+                        <button key={h} onClick={() => setEventsFilter(h)}
+                                className="px-4 py-2 rounded-full text-sm font-semibold transition-all"
+                                style={{
+                                  fontFamily: "'Poppins', sans-serif",
+                                  backgroundColor: eventsFilter === h ? colors.trustNavy : 'white',
+                                  color: eventsFilter === h ? 'white' : colors.charcoal,
+                                  border: `2px solid ${eventsFilter === h ? colors.trustNavy : '#E2E8F0'}`,
+                                }}>
+                          {h}
+                        </button>
+                      ))}
+                    </div>
+
+                    {filtered.length === 0 ? (
+                      <div className="text-center py-16">
+                        <p className="text-lg font-semibold mb-2" style={{ color: colors.trustNavy }}>No events in {eventsFilter} yet.</p>
+                        <p style={{ color: colors.coolGray }}>Check back soon or select another neighborhood.</p>
                       </div>
-                      <div className="flex items-start gap-2 mb-4">
-                        <MapPinIcon className="w-4 h-4 mt-0.5 flex-shrink-0" style={{ color: colors.coolGray }} />
-                        <span className="text-sm" style={{ color: colors.charcoal }}>{evt.location}</span>
-                      </div>
-                      <div className="flex flex-wrap gap-2">
-                        {evt.tags.map(tag => (
-                          <span key={tag}
-                                className="text-xs font-semibold px-3 py-1 rounded-full"
-                                style={{ backgroundColor: `${evt.color}12`, color: evt.color }}>
-                            {tag}
-                          </span>
+                    ) : (
+                      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {filtered.map((evt, i) => (
+                          <div key={i}
+                               className={`bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all hover:-translate-y-1 cursor-pointer fade-up ${eventsVisible ? 'visible' : ''}`}
+                               style={{ transitionDelay: `${Math.min(i * 0.07, 0.35)}s` }}
+                               onClick={() => setSelectedEvent(evt)}>
+                            <div className="h-1.5" style={{ backgroundColor: evt.color }} />
+                            <div className="p-6">
+                              <div className="flex items-start gap-4 mb-4">
+                                <div className="flex-shrink-0 w-14 text-center rounded-xl py-2"
+                                     style={{ backgroundColor: `${evt.color}15` }}>
+                                  <div className="text-xs font-bold uppercase tracking-wide" style={{ color: evt.color }}>
+                                    {evt.date.split(' ')[0]}
+                                  </div>
+                                  <div className="text-2xl font-bold leading-tight" style={{ fontFamily: "'Montserrat', sans-serif", color: colors.trustNavy }}>
+                                    {(evt.date.split(' ')[1] || '').replace(',', '')}
+                                  </div>
+                                </div>
+                                <div className="flex-1 min-w-0">
+                                  <h3 className="font-bold text-base leading-snug mb-1"
+                                      style={{ fontFamily: "'Montserrat', sans-serif", color: colors.trustNavy }}>
+                                    {evt.title}
+                                  </h3>
+                                  <p className="text-sm" style={{ color: colors.coolGray }}>{evt.day}{evt.day && evt.time ? ' · ' : ''}{evt.time}</p>
+                                </div>
+                              </div>
+                              <div className="flex items-start gap-2 mb-3">
+                                <MapPinIcon className="w-4 h-4 mt-0.5 flex-shrink-0" style={{ color: colors.coolGray }} />
+                                <div>
+                                  <span className="text-sm" style={{ color: colors.charcoal }}>{evt.location}</span>
+                                  {evt.neighborhood && <span className="text-xs ml-2 px-2 py-0.5 rounded-full" style={{ backgroundColor: `${evt.color}15`, color: evt.color }}>{evt.neighborhood}</span>}
+                                </div>
+                              </div>
+                              <div className="flex flex-wrap gap-1.5">
+                                {evt.tags.map(tag => (
+                                  <span key={tag} className="text-xs font-semibold px-2.5 py-1 rounded-full"
+                                        style={{ backgroundColor: `${evt.color}12`, color: evt.color }}>
+                                    {tag}
+                                  </span>
+                                ))}
+                              </div>
+                            </div>
+                          </div>
                         ))}
                       </div>
+                    )}
+                  </>
+                );
+              })()}
+
+              {/* Loading skeletons */}
+              {eventsLoading && (
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {[1,2,3].map(i => (
+                    <div key={i} className="bg-white rounded-2xl overflow-hidden shadow-sm">
+                      <div className="h-1.5 bg-gray-200" />
+                      <div className="p-6 space-y-3 animate-pulse">
+                        <div className="flex gap-4">
+                          <div className="w-14 h-14 rounded-xl bg-gray-100" />
+                          <div className="flex-1 space-y-2 pt-1">
+                            <div className="h-4 bg-gray-100 rounded w-3/4" />
+                            <div className="h-3 bg-gray-100 rounded w-1/2" />
+                          </div>
+                        </div>
+                        <div className="h-3 bg-gray-100 rounded w-2/3" />
+                        <div className="flex gap-2">
+                          <div className="h-6 w-24 bg-gray-100 rounded-full" />
+                          <div className="h-6 w-20 bg-gray-100 rounded-full" />
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Error state */}
+              {eventsError && (
+                <div className="text-center py-16 rounded-3xl bg-white shadow-sm">
+                  <HeartIcon className="w-12 h-12 mx-auto mb-4" style={{ color: colors.coolGray }} />
+                  <p className="text-lg font-semibold mb-2" style={{ color: colors.trustNavy }}>Couldn't load events right now.</p>
+                  <p style={{ color: colors.coolGray }}>Please check back shortly.</p>
+                </div>
+              )}
+
+              {/* Empty state (sheet connected but no confirmed events) */}
+              {!eventsLoading && !eventsError && events.length === 0 && (
+                <div className="text-center py-16 rounded-3xl bg-white shadow-sm">
+                  <CalendarIcon className="w-12 h-12 mx-auto mb-4" style={{ color: colors.coolGray }} />
+                  <p className="text-lg font-semibold mb-2" style={{ color: colors.trustNavy }}>Events coming soon.</p>
+                  <p style={{ color: colors.coolGray }}>Check back for upcoming screenings in your neighborhood.</p>
+                </div>
+              )}
+
+              {/* Source note */}
+              {!eventsLoading && !eventsError && (
+                <p className="text-center text-xs mt-10" style={{ color: colors.coolGray }}>
+                  Events updated live from Google Sheets. Confirmed events appear automatically.
+                </p>
+              )}
             </div>
           </section>
 
@@ -2032,9 +2139,16 @@
                    style={{ animation: 'modalSlideUp 0.3s ease-out' }}
                    onClick={(e) => e.stopPropagation()}>
                 <div className="h-2 rounded-t-3xl" style={{ backgroundColor: selectedEvent.color }} />
+                {selectedEvent.image && (
+                  <div className="w-full overflow-hidden" style={{ maxHeight: '220px' }}>
+                    <img src={selectedEvent.image} alt={selectedEvent.title}
+                         className="w-full object-cover"
+                         style={{ maxHeight: '220px' }} />
+                  </div>
+                )}
                 <button onClick={() => setSelectedEvent(null)}
                         className="absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors"
-                        style={{ color: colors.coolGray }}>
+                        style={{ color: selectedEvent.image ? 'white' : colors.coolGray, backgroundColor: selectedEvent.image ? 'rgba(0,0,0,0.35)' : 'transparent' }}>
                   <XIcon className="w-5 h-5" />
                 </button>
                 <div className="p-8">
@@ -2067,17 +2181,32 @@
                     </div>
                   </div>
                   <div className="rounded-2xl p-5 mb-6" style={{ backgroundColor: colors.softCloud }}>
-                    <p className="leading-relaxed" style={{ color: colors.charcoal }}>
-                      {selectedEvent.description}
-                    </p>
+                    {selectedEvent.longDescription ? (
+                      <div className="space-y-3">
+                        {selectedEvent.longDescription.split(/\n+/).map((para, i) => para.trim() && (
+                          <p key={i} className="leading-relaxed" style={{ color: colors.charcoal }}>{para.trim()}</p>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="leading-relaxed" style={{ color: colors.charcoal }}>
+                        {selectedEvent.description}
+                      </p>
+                    )}
                   </div>
                   <div className="flex flex-col sm:flex-row gap-3">
-                    <a href="#"
-                       className="flex-1 inline-flex items-center justify-center gap-2 text-white px-6 py-3 rounded-full font-semibold transition-all hover:scale-105"
-                       style={{ backgroundColor: selectedEvent.color, fontFamily: "'Poppins', sans-serif" }}>
-                      RSVP for This Event
-                      <ArrowRightIcon className="w-4 h-4" />
-                    </a>
+                    {selectedEvent.rsvpUrl ? (
+                      <a href={selectedEvent.rsvpUrl} target="_blank" rel="noopener noreferrer"
+                         className="flex-1 inline-flex items-center justify-center gap-2 text-white px-6 py-3 rounded-full font-semibold transition-all hover:scale-105"
+                         style={{ backgroundColor: selectedEvent.color, fontFamily: "'Poppins', sans-serif" }}>
+                        RSVP for This Event
+                        <ArrowRightIcon className="w-4 h-4" />
+                      </a>
+                    ) : (
+                      <div className="flex-1 inline-flex items-center justify-center gap-2 text-white px-6 py-3 rounded-full font-semibold opacity-60 cursor-default"
+                           style={{ backgroundColor: selectedEvent.color, fontFamily: "'Poppins', sans-serif" }}>
+                        Walk-ins Welcome
+                      </div>
+                    )}
                     <button onClick={() => setSelectedEvent(null)}
                             className="flex-1 inline-flex items-center justify-center px-6 py-3 rounded-full font-semibold border-2 transition-all hover:bg-gray-50"
                             style={{ borderColor: '#E2E8F0', color: colors.charcoal, fontFamily: "'Poppins', sans-serif" }}>
@@ -2132,9 +2261,11 @@
 
                 <div className="pt-8 border-t" style={{ borderColor: 'rgba(255,255,255,0.3)' }}>
                   <p className="mb-4" style={{ color: 'rgba(255,255,255,0.8)' }}>Questions about Live Healthy Chicago?</p>
-                  <a href="mailto:info@livehealthychi.org" className="text-lg font-semibold hover:opacity-80 transition-opacity">
-                    info@livehealthychi.org
-                  </a>
+                  <button onClick={() => setContactOpen(true)}
+                          className="inline-flex items-center gap-2 px-6 py-3 rounded-full font-semibold transition-all hover:scale-105"
+                          style={{ backgroundColor: 'white', color: colors.trustNavy, fontFamily: "'Poppins', sans-serif" }}>
+                    Contact Us
+                  </button>
                 </div>
               </div>
             </div>
