@@ -635,12 +635,18 @@
       const handleContactSubmit = e => {
         e.preventDefault();
         setContactStatus('submitting');
-        fetch('/', {
+        fetch('/index.html', {
           method: 'POST',
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
           body: new URLSearchParams({ 'form-name': 'contact', 'bot-field': '', ...contactForm }).toString(),
         })
-          .then(() => setContactStatus('success'))
+          .then(res => {
+            if (res.ok || res.status === 303) {
+              setContactStatus('success');
+            } else {
+              setContactStatus('error');
+            }
+          })
           .catch(() => setContactStatus('error'));
       };
 
