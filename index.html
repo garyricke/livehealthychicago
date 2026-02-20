@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Live Healthy Chicago</title>
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/dsbllwpbh/image/upload/v1771612857/favicon-live-healthy-chicago_e7o6el.png" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
@@ -728,6 +729,7 @@
 
       const healthAccelerator = [
         { name: 'AllianceChicago', src: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1770748053/Gemini_Generated_Image_84dw6184dw6184dw_zzljlj.png' },
+        { name: 'Cook County Health', src: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1770748053/cook-county-health_o4hlzw.png' },
         { name: 'Chicago Department of Public Health' },
         { name: 'Community Advisory Board' },
         { name: 'Northwestern University' },
@@ -781,7 +783,7 @@
             { src: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1770748049/american-medical-association_dmkzge.png', alt: 'American Medical Association' },
             { src: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1770748050/illlinois-department-of-public-health_amnhpb.png', alt: 'Illinois Department of Public Health' },
           ],
-          textOnly: ['Chicago Department of Public Health', 'Northwestern Medicine']
+          textOnly: ['Chicago Department of Public Health']
         },
         {
           title: 'Other Organizations',
@@ -836,12 +838,54 @@
             subtitle: 'A conversation with Dr. David Ansell',
           },
           body: [
-            'Dr. David Ansell has spent decades fighting health inequity on Chicago\u2019s South and West Sides. As the author of "The Death Gap" and Senior Vice President for Community Health Equity at Rush University Medical Center, he\u2019s seen firsthand how preventable diseases like hypertension devastate communities.',
-            'In this wide-ranging conversation, Dr. Ansell explains why high blood pressure is the single most important modifiable risk factor for heart disease and stroke\u2014and why African American Chicagoans are disproportionately affected.',
-            '\u201CIf you could do just one thing for your health, get your blood pressure checked,\u201D Dr. Ansell says. \u201CIt takes two minutes. It costs nothing. And it could save your life.\u201D',
-            'He outlines how Live Healthy Chicago\u2019s three-pillar model\u2014clinical practice transformation, a public health campaign, and mobile care teams\u2014is designed to reach the neighborhoods where cardiovascular risk is highest.',
-            '\u201CWe\u2019re not waiting for people to come to us. We\u2019re going to where they are\u2014in barbershops, churches, community centers, and on the block.\u201D',
-            'Dr. Ansell also addresses the systemic roots of the life-expectancy gap, from decades of disinvestment to food deserts, and makes the case that coordinated, community-driven action can bend the curve.'
+            { type: 'p', text: 'An interview with Dr. David Ansell on why hypertension matters, what people can do today, and how Live Healthy Chicago aims to shrink the city\u2019s life-expectancy divide.' },
+
+            { type: 'h3', text: 'Who Dr. David Ansell Is\u2014and Why This Work Became His Life\u2019s Focus' },
+            { type: 'p', text: 'Dr. David Ansell is a Rush primary care physician and a **social epidemiologist**\u2014someone who studies the social causes of disease and how to reduce unfair gaps in health outcomes. In his view, the most urgent and unjust gap is the **life expectancy gap**: the difference in how long people live depending on which neighborhood they call home.' },
+            { type: 'p', text: 'He frames this as a \u201c**wicked problem**\u201d\u2014a complex challenge that can\u2019t be solved by pulling a single thread. Instead, it requires a long-term, collaborative approach: many people with different expertise around the same table, building \u201ccollective efficacy,\u201d and creating momentum over time as early wins begin to compound.' },
+
+            { type: 'h3', text: 'Why Hypertension Is the \u201cOne Thing\u201d That Can Change Everything' },
+            { type: 'p', text: 'Hypertension (high blood pressure) is central to Live Healthy Chicago because it\u2019s both common and deeply tied to preventable early death. Dr. Ansell emphasizes that uncontrolled blood pressure can lead to:' },
+            { type: 'ul', items: ['**Strokes**', '**Heart attacks**', '**Heart failure**', '**Kidney damage**', '**Memory loss and cognitive decline**'] },
+            { type: 'p', text: 'He points out a harsh reality: the consequences often show up **before age 65**, creating ripple effects\u2014lost years, lost function, and disrupted families.' },
+            { type: 'blockquote', text: '\u201cIf people do only one thing, it should be to get their blood pressure checked.\u201d Dr. Ansell compares it to maintaining a car\u2014except the body doesn\u2019t always give a warning light. Blood pressure can be dangerous long before you \u201cfeel\u201d anything.' },
+
+            { type: 'h3', text: 'The Hidden Driver: Conditions That Create Disease in the First Place' },
+            { type: 'p', text: 'Dr. Ansell stresses that high blood pressure is not just a clinic problem\u2014it\u2019s a conditions problem. He highlights the factors that shape risk long before someone ever sees a cuff:' },
+            { type: 'ul', items: ['Safe neighborhoods', 'Access to healthy food', 'Ability to exercise', 'Sleep quality', 'Chronic stress and strain'] },
+            { type: 'p', text: 'Managing hypertension is often medically straightforward\u2014but changing the conditions that **cause** and **worsen** it is far more complex. That\u2019s why the initiative is designed to work on treatment and the surrounding environment at the same time.' },
+
+            { type: 'h3', text: 'From \u201cThe Death Gap\u201d to West Side United to Live Healthy Chicago' },
+            { type: 'p', text: 'Dr. Ansell explains how his long experience in Chicago\u2014especially years embedded in communities through Cook County Hospital and Mount Sinai\u2014led him to see two realities at once: the illness in individual patients and the illness concentrated in neighborhoods.' },
+            { type: 'p', text: 'That insight ultimately became his book, **\u201cThe Death Gap: How Inequality Kills,\u201d** and later a decision to leave a traditional executive role to focus full-time on closing the life expectancy gap. This work helped spark **West Side United**, which originally targeted a small number of high-impact areas, including **maternal/child health** and **hypertension**.' },
+            { type: 'p', text: 'After the disruptions of the COVID era\u2014when the coalition pivoted into emergency racial equity response work\u2014this effort was expanded and relaunched as **Live Healthy Chicago**, with a bigger citywide ambition.' },
+
+            { type: 'h3', text: 'The Core Goal: Reduce Life Expectancy Inequity Driven by Heart Disease and Stroke' },
+            { type: 'p', text: 'Live Healthy Chicago targets the biggest contributor to Chicago\u2019s life expectancy gap: **heart disease and stroke**. In some neighborhoods, the **mortality rate from heart disease and stroke can be four to five times the city\u2019s rate**, and blood pressure control rates can be dramatically lower.' },
+            { type: 'p', text: 'Dr. Ansell contrasts Rush\u2019s internal blood pressure control rate (around **78%**) with some communities where control may be closer to **50%**\u2014meaning only half of people with hypertension are actually controlled. And even that, he cautions, may not reflect **newer targets** that set the bar lower than older standards.' },
+
+            { type: 'h3', text: '\u201cKnow Your Numbers\u201d: A Simple Call to Action With Citywide Reach' },
+            { type: 'p', text: 'The public-facing behavior change Live Healthy Chicago wants is clear and repeatable:' },
+            { type: 'ul', items: ['**Get your blood pressure checked**', '**Understand what the numbers mean**', '**Know what to do next\u2014and where to go for help**'] },
+            { type: 'p', text: 'Dr. Ansell describes this as the foundation of a broader effort to protect not only individual health, but family stability and community wellbeing. He also underscores that pregnancy deserves special attention: hypertension-related complications are a **preventable driver of maternal deaths**.' },
+
+            { type: 'h3', text: 'Building Trust by Meeting People Where They Are' },
+            { type: 'p', text: 'Because mistrust in healthcare can be widespread\u2014especially in communities that have experienced neglect or harm\u2014the program must work through partnerships and practical access points. The initiative\u2019s strategy includes:' },
+            { type: 'ul', items: ['**Training community organizations** to measure blood pressure correctly', 'Offering checks in everyday settings\u2014community programs, resource sites, and faith communities', '**Mobile screenings** to reach people outside traditional clinic walls', '**Public education** that feels relevant and motivating, not fear-based'] },
+            { type: 'p', text: 'He notes that older messaging like \u201cthe silent killer\u201d may not be effective enough. The newer direction aims to connect hypertension control to what people care about most: **protecting your future and your family**.' },
+
+            { type: 'h3', text: 'A Major Shift in How Hypertension Should Be Treated' },
+            { type: 'p', text: 'Best practice for hypertension has evolved\u2014and the healthcare system doesn\u2019t always keep up. Dr. Ansell describes the shift away from the old model (occasional readings with a wall cuff) toward a more effective, modern approach:' },
+            { type: 'ul', items: ['**Validated automatic cuffs**', '**Team-based care** (not just one clinician)', '**Home blood pressure monitoring**', '**Remote sharing of readings**', 'Faster medication adjustments when numbers are high'] },
+            { type: 'p', text: 'It can take **many years** for the best evidence to become routine practice everywhere\u2014meaning patients may need to advocate for better measurement and monitoring methods.' },
+
+            { type: 'h3', text: 'What the Website Should Do: Inform, Guide, and Mobilize' },
+            { type: 'p', text: 'Dr. Ansell outlines multiple audiences and jobs-to-be-done for Live Healthy Chicago\u2019s web presence:' },
+            { type: 'ul', items: ['**Philanthropy and funders:** clearly explain what makes the initiative different and why it matters', '**Public awareness:** define the challenge in plain, accessible terms', '**Action for residents:** provide \u201cwhat do I do now?\u201d pathways for anyone who needs a blood pressure check or guidance after a high reading'] },
+            { type: 'p', text: 'He references lessons from breast cancer equity work, where the key function was helping someone quickly answer: \u201cI need a mammogram\u2014how do I get one?\u201d The parallel here is: **\u201cI need my blood pressure checked\u2014what\u2019s my next step?\u201d**' },
+
+            { type: 'h3', text: 'The Personal Proof Point' },
+            { type: 'p', text: 'Near the end of the conversation, Dr. Ansell shares his own approach to maintaining healthy blood pressure: **exercise** and a **vegetarian diet**. A simple but grounded reminder that prevention and daily habits matter\u2014alongside medical care and community-level change.' },
           ],
           featured: true,
         },
@@ -995,6 +1039,40 @@
           color: colors.neighborhoodTeal,
         },
       ];
+
+      // Rich article body renderer
+      const boldify = (text) => {
+        const parts = text.split(/(\*\*.*?\*\*)/g);
+        return parts.map((p, i) => p.startsWith('**') ? <strong key={i}>{p.slice(2,-2)}</strong> : p);
+      };
+      const renderBodyItem = (item, i) => {
+        if (typeof item === 'string') return <p key={i} className="leading-relaxed" style={{ color: colors.charcoal }}>{item}</p>;
+        switch (item.type) {
+          case 'h3': return (
+            <h3 key={i} className="text-xl font-bold mt-8 mb-2" style={{ fontFamily: "'Montserrat', sans-serif", color: colors.trustNavy }}>{item.text}</h3>
+          );
+          case 'p': return (
+            <p key={i} className="leading-relaxed" style={{ color: colors.charcoal }}>{boldify(item.text)}</p>
+          );
+          case 'blockquote': return (
+            <blockquote key={i} className="border-l-4 pl-5 py-2 my-1 italic rounded-r-lg"
+                        style={{ borderColor: colors.skyBlue, backgroundColor: `${colors.skyBlue}0d`, color: colors.charcoal }}>
+              {boldify(item.text)}
+            </blockquote>
+          );
+          case 'ul': return (
+            <ul key={i} className="space-y-1.5 pl-1">
+              {item.items.map((li, j) => (
+                <li key={j} className="flex gap-2.5 leading-relaxed" style={{ color: colors.charcoal }}>
+                  <span className="mt-1.5 w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: colors.skyBlue }} />
+                  <span>{boldify(li)}</span>
+                </li>
+              ))}
+            </ul>
+          );
+          default: return <p key={i} className="leading-relaxed" style={{ color: colors.charcoal }}>{item.text}</p>;
+        }
+      };
 
       // Animated counters for hero stats
       const stat1 = useCounter(27, 1200, statsVisible);
@@ -1755,7 +1833,7 @@
           {selectedArticle && (
             <div className="fixed inset-0 z-50 flex items-start justify-center p-4 overflow-y-auto"
                  onClick={() => setSelectedArticle(null)}>
-              <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" style={{ animation: 'fadeIn 0.2s ease-out' }} />
+              <div className="fixed inset-0 bg-black/50 backdrop-blur-sm" style={{ animation: 'fadeIn 0.2s ease-out' }} />
               <div className="relative bg-white rounded-3xl max-w-3xl w-full my-8 shadow-2xl"
                    style={{ animation: 'modalSlideUp 0.3s ease-out' }}
                    onClick={(e) => e.stopPropagation()}>
@@ -1792,20 +1870,9 @@
                       <PodcastPlayer podcast={selectedArticle.podcast} colors={colors} />
                     </div>
                   )}
-                  <div className="space-y-5">
-                    {selectedArticle.body.map((para, pi) => (
-                      <p key={pi} className="leading-relaxed" style={{ color: colors.charcoal }}>{para}</p>
-                    ))}
+                  <div className="space-y-4">
+                    {selectedArticle.body.map((item, pi) => renderBodyItem(item, pi))}
                   </div>
-                  {selectedArticle.url && (
-                    <div className="mt-8 pt-6 border-t" style={{ borderColor: '#E2E8F0' }}>
-                      <a href={selectedArticle.url} target="_blank" rel="noopener noreferrer"
-                         className="inline-flex items-center gap-2 font-semibold transition-all hover:gap-3"
-                         style={{ color: colors.skyBlue, fontFamily: "'Poppins', sans-serif" }}>
-                        Read on livehealthychi.org <ArrowRightIcon className="w-4 h-4" />
-                      </a>
-                    </div>
-                  )}
                 </div>
               </div>
             </div>
@@ -1878,7 +1945,7 @@
           {selectedEvent && (
             <div className="fixed inset-0 z-50 flex items-center justify-center p-4"
                  onClick={() => setSelectedEvent(null)}>
-              <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" style={{ animation: 'fadeIn 0.2s ease-out' }} />
+              <div className="fixed inset-0 bg-black/50 backdrop-blur-sm" style={{ animation: 'fadeIn 0.2s ease-out' }} />
               <div className="relative bg-white rounded-3xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl"
                    style={{ animation: 'modalSlideUp 0.3s ease-out' }}
                    onClick={(e) => e.stopPropagation()}>
