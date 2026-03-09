@@ -72,6 +72,15 @@
     @keyframes heroReveal {
       to { opacity: 1; transform: translateY(0); }
     }
+    @keyframes heartbeat {
+      0%   { transform: scale(1); }
+      14%  { transform: scale(1.22); }
+      28%  { transform: scale(1); }
+      42%  { transform: scale(1.18); }
+      70%  { transform: scale(1); }
+      100% { transform: scale(1); }
+    }
+    .heartbeat { animation: heartbeat 1.4s ease-in-out infinite; }
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(6px); }
       to   { opacity: 1; transform: translateY(0); }
@@ -682,6 +691,7 @@
     }
 
     function LiveHealthyChicago() {
+
       const [scrolled, setScrolled] = React.useState(false);
       const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
       const [contactOpen, setContactOpen] = React.useState(false);
@@ -693,7 +703,7 @@
       const handleContactSubmit = e => {
         e.preventDefault();
         setContactStatus('submitting');
-        fetch('/index.html', {
+        fetch('/index-stage.html', {
           method: 'POST',
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
           body: new URLSearchParams({ 'form-name': 'contact', 'bot-field': '', ...contactForm }).toString(),
@@ -1109,6 +1119,7 @@
       const stat1 = useCounter(27, 1200, statsVisible);
       const stat2 = useCounter(75, 1400, statsVisible);
 
+
       return (
         <div className="min-h-screen" style={{ fontFamily: "'Open Sans', sans-serif", backgroundColor: colors.softCloud }}>
 
@@ -1197,14 +1208,13 @@
 
                 <h1 className="hero-reveal text-5xl md:text-7xl font-bold text-white leading-tight mb-6"
                     style={{ fontFamily: "'Montserrat', sans-serif" }}>
-                  Know Your Numbers.
+                  Stronger Hearts.
                   <br />
-                  <span style={{ color: colors.skyBlue }}>Save Your Life.</span>
+                  <span style={{ color: colors.skyBlue }}>Healthier Neighborhoods.</span>
                 </h1>
 
                 <p className="hero-reveal text-xl md:text-2xl leading-relaxed mb-8 max-w-2xl" style={{ color: 'rgba(255,255,255,0.8)' }}>
-                  African American Chicagoans live, on average, <span className="text-white font-semibold">nearly 11 years less</span> than other residents.
-                  Heart disease and stroke are the leading causes. Together, we can change this.
+                  Live Healthy Chicago brings together organizations, programs, and resources to help people take meaningful steps to improve their heart health.
                 </p>
 
                 <div className="hero-reveal flex flex-col sm:flex-row gap-4 mb-16">
@@ -1254,19 +1264,19 @@
                 <div className={`fade-left ${aboutVisible ? 'visible' : ''}`}>
                   <span className="font-semibold tracking-wide text-sm uppercase mb-4 block"
                         style={{ color: colors.skyBlue, fontFamily: "'Poppins', sans-serif" }}>
-                    The One Thing
+                    What Is Blood Pressure?
                   </span>
                   <h2 className="text-4xl md:text-5xl font-bold mb-6 leading-tight"
                       style={{ fontFamily: "'Montserrat', sans-serif", color: colors.trustNavy }}>
-                    If you could do just one thing for your health, get your blood pressure checked.
+                    Blood pressure measures how hard your heart works.
                   </h2>
                   <p className="text-xl leading-relaxed mb-6" style={{ color: colors.charcoal }}>
-                    High blood pressure is called the "silent killer" because it typically has no symptoms—until it's too late.
-                    It affects your heart, brain, kidneys, and eyes without warning.
+                    If blood vessels are stiff or narrow, your heart works harder and your blood pressure numbers go up.
+                    High blood pressure often has no symptoms — but it can cause serious health problems over time.
                   </p>
                   <p className="text-lg leading-relaxed mb-8" style={{ color: colors.charcoal }}>
-                    Every one-point drop in blood pressure above normal results in a <span style={{ color: colors.starRed, fontWeight: 600 }}>2% drop in cardiovascular mortality</span>.
-                    By simply knowing your numbers, you can take control of your health and protect your family.
+                    Checking your blood pressure is one of the most important things you can do for your health.
+                    The good news: <span style={{ color: colors.trustNavy, fontWeight: 600 }}>high blood pressure is treatable</span> — and taking action early makes a real difference.
                   </p>
 
                   <div className="rounded-2xl p-6 border" style={{ backgroundColor: colors.softCloud, borderColor: '#E2E8F0' }}>
@@ -1339,14 +1349,14 @@
               <div ref={whyRef} className={`max-w-3xl mb-16 fade-up ${whyVisible ? 'visible' : ''}`}>
                 <span className="font-semibold tracking-wide text-sm uppercase mb-4 block"
                       style={{ color: colors.skyBlue, fontFamily: "'Poppins', sans-serif" }}>
-                  Why This Matters
+                  Why It Matters
                 </span>
                 <h2 className="text-4xl md:text-5xl font-bold mb-6 leading-tight"
                     style={{ fontFamily: "'Montserrat', sans-serif" }}>
-                  Chicago has one of the largest life expectancy gaps in the nation.
+                  High blood pressure often has no symptoms — but it can affect your whole life.
                 </h2>
                 <p className="text-xl leading-relaxed" style={{ color: 'rgba(255,255,255,0.8)' }}>
-                  Cardiovascular disease and stroke are the leading contributors to this gap. This is unacceptable—and changing it requires coordinated commitment and effort from across our healthcare ecosystem.
+                  Left unchecked, high blood pressure can lead to serious health problems. Knowing your numbers — and acting on them — is one of the most powerful steps you can take for your health.
                 </p>
               </div>
 
@@ -1355,20 +1365,20 @@
                   {
                     icon: <HeartIcon className="w-7 h-7" style={{ color: colors.starRed }} />,
                     bg: `${colors.starRed}30`,
-                    title: 'Heart Disease',
-                    text: 'The #1 cause of death in Chicago\'s South and West Side communities. With proper blood pressure control, most cases are preventable.'
+                    title: 'Heart Attacks & Stroke',
+                    text: 'High blood pressure is a leading cause of heart attacks and stroke — but controlling it can significantly lower your risk.'
                   },
                   {
-                    icon: <UsersIcon className="w-7 h-7" style={{ color: colors.neighborhoodTeal }} />,
+                    icon: <ActivityIcon className="w-7 h-7" style={{ color: colors.neighborhoodTeal }} />,
                     bg: `${colors.neighborhoodTeal}30`,
-                    title: 'Community Health Workers',
-                    text: 'Hundreds of embedded community health workers are bringing evidence-based care directly to neighborhoods, meeting people where they are.'
+                    title: 'Kidney Disease',
+                    text: 'Your kidneys filter your blood. When blood pressure stays high, it can damage them over time — often without any warning signs.'
                   },
                   {
-                    icon: <MapPinIcon className="w-7 h-7" style={{ color: colors.vitalityYellow }} />,
+                    icon: <UsersIcon className="w-7 h-7" style={{ color: colors.vitalityYellow }} />,
                     bg: `${colors.vitalityYellow}30`,
-                    title: 'Community-Centered',
-                    text: 'We\'re partnering with community-based organizations to ensure care is centered within the community, not imposed from outside.'
+                    title: 'Dementia',
+                    text: 'Managing blood pressure is one of the best ways to protect your memory and brain health as you age.'
                   }
                 ].map((card, i) => (
                   <div key={i}
@@ -1392,14 +1402,14 @@
               <div ref={bpRef} className={`text-center mb-16 fade-up ${bpVisible ? 'visible' : ''}`}>
                 <span className="font-semibold tracking-wide text-sm uppercase mb-4 block"
                       style={{ color: colors.skyBlue, fontFamily: "'Poppins', sans-serif" }}>
-                  Understanding the Risk
+                  Know Your Numbers
                 </span>
                 <h2 className="text-4xl md:text-5xl font-bold mb-6"
                     style={{ fontFamily: "'Montserrat', sans-serif", color: colors.trustNavy }}>
-                  Why Blood Pressure Control Matters in Chicago
+                  Understanding your blood pressure is the first step
                 </h2>
                 <p className="text-xl max-w-3xl mx-auto" style={{ color: colors.charcoal }}>
-                  High blood pressure is a silent threat affecting communities across our city. Understanding it is the first step to controlling it.
+                  No matter your age, you can take steps to keep your blood pressure in a healthy range. Here's what the numbers mean.
                 </p>
               </div>
 
@@ -1407,7 +1417,7 @@
               <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16 stagger-children">
                 {[
                   { icon: <ActivityIcon className="w-6 h-6" style={{ color: colors.starRed }} />, bg: `${colors.starRed}15`, title: '130/80 mm Hg', text: 'High blood pressure (hypertension) is consistently at or above this level.' },
-                  { icon: <HeartIcon className="w-6 h-6" style={{ color: colors.skyBlue }} />, bg: `${colors.skyBlue}20`, title: 'Silent Threat', text: 'High blood pressure typically has no signs or symptoms but damages your heart, brain, kidneys, and eyes.' },
+                  { icon: <HeartIcon className="w-6 h-6" style={{ color: colors.skyBlue }} />, bg: `${colors.skyBlue}20`, title: 'No Symptoms', text: 'High blood pressure usually has no signs — that\'s why getting checked regularly is so important.' },
                   { icon: <CheckIcon className="w-6 h-6" style={{ color: colors.neighborhoodTeal }} />, bg: `${colors.neighborhoodTeal}20`, title: 'Any Age', text: 'No matter your age, you can take steps each day to keep your blood pressure in a healthy range.' },
                   { icon: <UsersIcon className="w-6 h-6" style={{ color: '#B8860B' }} />, bg: `${colors.vitalityYellow}30`, title: 'Treatable', text: 'Many people can control their blood pressure through lifestyle changes or blood pressure medicines.' }
                 ].map((card, i) => (
@@ -1430,13 +1440,13 @@
               <div className="grid lg:grid-cols-2 gap-12 items-center">
                 <div className={`fade-left ${bpVisible ? 'visible' : ''}`} style={{ transitionDelay: '0.3s' }}>
                   <h3 className="text-2xl font-bold mb-6" style={{ fontFamily: "'Montserrat', sans-serif", color: colors.trustNavy }}>
-                    What is High Blood Pressure?
+                    What do the numbers mean?
                   </h3>
                   <div className="space-y-4" style={{ color: colors.charcoal }}>
-                    <p>Blood pressure is the force that blood exerts against the walls of your arteries. Arteries carry blood from your heart to other parts of your body.</p>
-                    <p><strong style={{ color: colors.trustNavy }}>Normal blood pressure</strong> is less than 120/80 mm Hg. High blood pressure, also called hypertension, is blood pressure that is consistently at or above 130/80 mm Hg.</p>
-                    <p>Your blood pressure changes throughout the day based on your activities. Having blood pressure consistently above normal may result in a diagnosis of high blood pressure.</p>
-                    <p><strong style={{ color: colors.starRed }}>The higher your blood pressure levels, the greater your risk</strong> of other health problems, such as heart disease, heart attack, and stroke.</p>
+                    <p>Blood pressure is measured with two numbers. The top number shows the pressure when your heart beats. The bottom number shows the pressure when your heart rests between beats.</p>
+                    <p><strong style={{ color: colors.trustNavy }}>Normal blood pressure</strong> is below 120/80. If your numbers are consistently at or above 130/80, that's considered high blood pressure (also called hypertension).</p>
+                    <p>Your blood pressure can change throughout the day — that's normal. What matters is your usual range over time.</p>
+                    <p><strong style={{ color: colors.neighborhoodTeal }}>The good news:</strong> many people can bring their blood pressure down through lifestyle changes, medication, or both. Talk to your doctor about what's right for you.</p>
                   </div>
                 </div>
 
@@ -1449,7 +1459,7 @@
               {/* CTA */}
               <div className="mt-16 text-center">
                 <p className="text-lg mb-6" style={{ color: colors.charcoal }}>
-                  Worried you might have high blood pressure? The first step is getting checked.
+                  Ready to take action? Free screenings are available in your neighborhood.
                 </p>
                 <a href="#action"
                    className="inline-flex items-center justify-center gap-2 text-white px-8 py-4 rounded-full font-semibold text-lg transition-all hover:scale-105 hover:shadow-xl"
@@ -1471,10 +1481,10 @@
                 </span>
                 <h2 className="text-4xl md:text-5xl font-bold mb-6"
                     style={{ fontFamily: "'Montserrat', sans-serif", color: colors.trustNavy }}>
-                  Our Model
+                  How Live Healthy Chicago Works
                 </h2>
                 <p className="text-xl max-w-3xl mx-auto" style={{ color: colors.charcoal }}>
-                  Live Healthy Chicago's model aligns payors, providers, and communities around improved outcomes across an entire geography.
+                  Live Healthy Chicago helps people across the city stay well by making it easier to understand and manage blood pressure.
                 </p>
               </div>
 
@@ -1491,9 +1501,9 @@
                 <div className={`fade-right ${modelVisible ? 'visible' : ''}`} style={{ transitionDelay: '0.2s' }}>
                   <div className="space-y-6">
                     {[
-                      { num: '1', color: '#6B8DD6', title: 'Clinical Practice Transformation', text: 'Improvements at the clinic level, including the integration of pharmacists into the primary care team for better medication management and blood pressure control.' },
-                      { num: '2', color: colors.skyBlue, title: 'Public Health Campaign', text: 'A city-wide public health campaign co-designed by individuals with relevant lived expertise, ensuring authentic community voice in messaging and outreach.' },
-                      { num: '3', color: colors.trustNavy, title: 'Mobile Care in Community', text: 'Deployment of mobile outreach teams that work in partnership with community organizations, meeting people where they are.' }
+                      { num: '1', color: '#6B8DD6', title: 'Stronger Clinic Care', text: 'We work with health centers to improve how blood pressure is measured, monitored, and managed — including pharmacist support and home monitoring tools.' },
+                      { num: '2', color: colors.skyBlue, title: 'Community Outreach', text: 'We work with community partners to increase access to blood pressure screenings, connect people at risk with the support they need, and help them take charge of their health.' },
+                      { num: '3', color: colors.trustNavy, title: 'Care That Comes to You', text: 'Mobile teams bring screenings and support directly into neighborhoods — so getting checked is simple, close to home, and free.' }
                     ].map((step) => (
                       <div key={step.num} className="flex gap-4 group">
                         <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 transition-transform group-hover:scale-110"
@@ -1512,10 +1522,10 @@
 
                   <div className="mt-8 p-6 rounded-2xl" style={{ backgroundColor: colors.softCloud }}>
                     <h4 className="font-bold mb-3" style={{ fontFamily: "'Montserrat', sans-serif", color: colors.trustNavy }}>
-                      Powered by Data
+                      Staying healthy is more reachable for everyone.
                     </h4>
                     <p className="text-sm" style={{ color: colors.charcoal }}>
-                      Through <strong>CAPriCORN</strong>, a federated electronic health record network, we'll have access to data and insights that enable us to continuously measure progress. Historically limited to hospitals and academic institutions, the network will be expanded to include community clinics—providing insights at the population level.
+                      By using proven programs that include pharmacist guidance and home monitoring, we make it easier for people to manage their blood pressure — wherever they start.
                     </p>
                   </div>
                 </div>
@@ -1760,6 +1770,234 @@
             </div>
           </section>
 
+          {/* ── Events ── */}
+          <section className="py-24" id="events" style={{ backgroundColor: colors.softCloud }}>
+            <div className="max-w-7xl mx-auto px-6">
+              <div ref={eventsRef} className={`text-center mb-12 fade-up ${eventsVisible ? 'visible' : ''}`}>
+                <span className="font-semibold tracking-wide text-sm uppercase mb-4 block"
+                      style={{ color: colors.skyBlue, fontFamily: "'Poppins', sans-serif" }}>
+                  Upcoming Events
+                </span>
+                <h2 className="text-4xl md:text-5xl font-bold mb-6"
+                    style={{ fontFamily: "'Montserrat', sans-serif", color: colors.trustNavy }}>
+                  Get Screened Near You
+                </h2>
+                <p className="text-xl max-w-2xl mx-auto" style={{ color: colors.charcoal }}>
+                  Free blood pressure screenings are coming to neighborhoods across the South and West Sides. Find an event and take the first step.
+                </p>
+              </div>
+
+              {/* Neighborhood filter pills */}
+              {!eventsLoading && !eventsError && events.length > 0 && (() => {
+                const hoods = ['All', ...Array.from(new Set(events.map(e => e.neighborhood).filter(Boolean))).sort()];
+                const filtered = eventsFilter === 'All' ? events : events.filter(e => e.neighborhood === eventsFilter);
+                return (
+                  <>
+                    <div className={`flex flex-wrap gap-2 mb-10 justify-center fade-up ${eventsVisible ? 'visible' : ''}`}>
+                      {hoods.map(h => (
+                        <button key={h} onClick={() => setEventsFilter(h)}
+                                className="px-4 py-2 rounded-full text-sm font-semibold transition-all"
+                                style={{
+                                  fontFamily: "'Poppins', sans-serif",
+                                  backgroundColor: eventsFilter === h ? colors.trustNavy : 'white',
+                                  color: eventsFilter === h ? 'white' : colors.charcoal,
+                                  border: `2px solid ${eventsFilter === h ? colors.trustNavy : '#E2E8F0'}`,
+                                }}>
+                          {h}
+                        </button>
+                      ))}
+                    </div>
+
+                    {filtered.length === 0 ? (
+                      <div className="text-center py-16">
+                        <p className="text-lg font-semibold mb-2" style={{ color: colors.trustNavy }}>No events in {eventsFilter} yet.</p>
+                        <p style={{ color: colors.coolGray }}>Check back soon or select another neighborhood.</p>
+                      </div>
+                    ) : (
+                      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {filtered.map((evt, i) => (
+                          <div key={i}
+                               className={`bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all hover:-translate-y-1 cursor-pointer fade-up ${eventsVisible ? 'visible' : ''}`}
+                               style={{ transitionDelay: `${Math.min(i * 0.07, 0.35)}s` }}
+                               onClick={() => setSelectedEvent(evt)}>
+                            <div className="h-1.5" style={{ backgroundColor: evt.color }} />
+                            <div className="p-6">
+                              <div className="flex items-start gap-4 mb-4">
+                                <div className="flex-shrink-0 w-14 text-center rounded-xl py-2"
+                                     style={{ backgroundColor: `${evt.color}15` }}>
+                                  <div className="text-xs font-bold uppercase tracking-wide" style={{ color: evt.color }}>
+                                    {evt.date.split(' ')[0]}
+                                  </div>
+                                  <div className="text-2xl font-bold leading-tight" style={{ fontFamily: "'Montserrat', sans-serif", color: colors.trustNavy }}>
+                                    {(evt.date.split(' ')[1] || '').replace(',', '')}
+                                  </div>
+                                </div>
+                                <div className="flex-1 min-w-0">
+                                  <h3 className="font-bold text-base leading-snug mb-1"
+                                      style={{ fontFamily: "'Montserrat', sans-serif", color: colors.trustNavy }}>
+                                    {evt.title}
+                                  </h3>
+                                  <p className="text-sm" style={{ color: colors.coolGray }}>{evt.day}{evt.day && evt.time ? ' · ' : ''}{evt.time}</p>
+                                </div>
+                              </div>
+                              <div className="flex items-start gap-2 mb-3">
+                                <MapPinIcon className="w-4 h-4 mt-0.5 flex-shrink-0" style={{ color: colors.coolGray }} />
+                                <div>
+                                  <span className="text-sm" style={{ color: colors.charcoal }}>{evt.location}</span>
+                                  {evt.neighborhood && <span className="text-xs ml-2 px-2 py-0.5 rounded-full" style={{ backgroundColor: `${evt.color}15`, color: evt.color }}>{evt.neighborhood}</span>}
+                                </div>
+                              </div>
+                              <div className="flex flex-wrap gap-1.5">
+                                {evt.tags.map(tag => (
+                                  <span key={tag} className="text-xs font-semibold px-2.5 py-1 rounded-full"
+                                        style={{ backgroundColor: `${evt.color}12`, color: evt.color }}>
+                                    {tag}
+                                  </span>
+                                ))}
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </>
+                );
+              })()}
+
+              {/* Loading skeletons */}
+              {eventsLoading && (
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {[1,2,3].map(i => (
+                    <div key={i} className="bg-white rounded-2xl overflow-hidden shadow-sm">
+                      <div className="h-1.5 bg-gray-200" />
+                      <div className="p-6 space-y-3 animate-pulse">
+                        <div className="flex gap-4">
+                          <div className="w-14 h-14 rounded-xl bg-gray-100" />
+                          <div className="flex-1 space-y-2 pt-1">
+                            <div className="h-4 bg-gray-100 rounded w-3/4" />
+                            <div className="h-3 bg-gray-100 rounded w-1/2" />
+                          </div>
+                        </div>
+                        <div className="h-3 bg-gray-100 rounded w-2/3" />
+                        <div className="flex gap-2">
+                          <div className="h-6 w-24 bg-gray-100 rounded-full" />
+                          <div className="h-6 w-20 bg-gray-100 rounded-full" />
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Error state */}
+              {eventsError && (
+                <div className="text-center py-16 rounded-3xl bg-white shadow-sm">
+                  <HeartIcon className="w-12 h-12 mx-auto mb-4" style={{ color: colors.coolGray }} />
+                  <p className="text-lg font-semibold mb-2" style={{ color: colors.trustNavy }}>Couldn't load events right now.</p>
+                  <p style={{ color: colors.coolGray }}>Please check back shortly.</p>
+                </div>
+              )}
+
+              {/* Empty state (sheet connected but no confirmed events) */}
+              {!eventsLoading && !eventsError && events.length === 0 && (
+                <div className="text-center py-16 rounded-3xl bg-white shadow-sm">
+                  <CalendarIcon className="w-12 h-12 mx-auto mb-4" style={{ color: colors.coolGray }} />
+                  <p className="text-lg font-semibold mb-2" style={{ color: colors.trustNavy }}>Events coming soon.</p>
+                  <p style={{ color: colors.coolGray }}>Check back for upcoming screenings in your neighborhood.</p>
+                </div>
+              )}
+
+            </div>
+          </section>
+
+          {/* ── Event Detail Modal ── */}
+          {selectedEvent && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center p-4"
+                 onClick={() => setSelectedEvent(null)}>
+              <div className="fixed inset-0 bg-black/50 backdrop-blur-sm" style={{ animation: 'fadeIn 0.2s ease-out' }} />
+              <div className="relative bg-white rounded-3xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl"
+                   style={{ animation: 'modalSlideUp 0.3s ease-out' }}
+                   onClick={(e) => e.stopPropagation()}>
+                <div className="h-2 rounded-t-3xl" style={{ backgroundColor: selectedEvent.color }} />
+                {selectedEvent.image && (
+                  <div className="w-full overflow-hidden" style={{ maxHeight: '220px' }}>
+                    <img src={selectedEvent.image} alt={selectedEvent.title}
+                         className="w-full object-cover"
+                         style={{ maxHeight: '220px' }} />
+                  </div>
+                )}
+                <button onClick={() => setSelectedEvent(null)}
+                        className="absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors"
+                        style={{ color: selectedEvent.image ? 'white' : colors.coolGray, backgroundColor: selectedEvent.image ? 'rgba(0,0,0,0.35)' : 'transparent' }}>
+                  <XIcon className="w-5 h-5" />
+                </button>
+                <div className="p-8">
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {selectedEvent.tags.map(tag => (
+                      <span key={tag}
+                            className="text-xs font-semibold px-3 py-1 rounded-full"
+                            style={{ backgroundColor: `${selectedEvent.color}12`, color: selectedEvent.color }}>
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                  <h3 className="text-2xl font-bold mb-2"
+                      style={{ fontFamily: "'Montserrat', sans-serif", color: colors.trustNavy }}>
+                    {selectedEvent.title}
+                  </h3>
+                  <div className="space-y-3 mb-6">
+                    <div className="flex items-center gap-3">
+                      <CalendarIcon className="w-5 h-5 flex-shrink-0" style={{ color: selectedEvent.color }} />
+                      <span style={{ color: colors.charcoal }}>
+                        {selectedEvent.day}, {selectedEvent.date} &middot; {selectedEvent.time}
+                      </span>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <MapPinIcon className="w-5 h-5 flex-shrink-0 mt-0.5" style={{ color: selectedEvent.color }} />
+                      <div>
+                        <div className="font-semibold" style={{ color: colors.trustNavy }}>{selectedEvent.location}</div>
+                        <div className="text-sm" style={{ color: colors.coolGray }}>{selectedEvent.address}</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="rounded-2xl p-5 mb-6" style={{ backgroundColor: colors.softCloud }}>
+                    {selectedEvent.longDescription ? (
+                      <div className="space-y-3">
+                        {selectedEvent.longDescription.split(/\n+/).map((para, i) => para.trim() && (
+                          <p key={i} className="leading-relaxed" style={{ color: colors.charcoal }}>{para.trim()}</p>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="leading-relaxed" style={{ color: colors.charcoal }}>
+                        {selectedEvent.description}
+                      </p>
+                    )}
+                  </div>
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    {selectedEvent.rsvpUrl ? (
+                      <a href={selectedEvent.rsvpUrl} target="_blank" rel="noopener noreferrer"
+                         className="flex-1 inline-flex items-center justify-center gap-2 text-white px-6 py-3 rounded-full font-semibold transition-all hover:scale-105"
+                         style={{ backgroundColor: selectedEvent.color, fontFamily: "'Poppins', sans-serif" }}>
+                        RSVP for This Event
+                        <ArrowRightIcon className="w-4 h-4" />
+                      </a>
+                    ) : (
+                      <div className="flex-1 inline-flex items-center justify-center gap-2 text-white px-6 py-3 rounded-full font-semibold opacity-60 cursor-default"
+                           style={{ backgroundColor: selectedEvent.color, fontFamily: "'Poppins', sans-serif" }}>
+                        Walk-ins Welcome
+                      </div>
+                    )}
+                    <button onClick={() => setSelectedEvent(null)}
+                            className="flex-1 inline-flex items-center justify-center px-6 py-3 rounded-full font-semibold border-2 transition-all hover:bg-gray-50"
+                            style={{ borderColor: '#E2E8F0', color: colors.charcoal, fontFamily: "'Poppins', sans-serif" }}>
+                      Close
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* ── News ── */}
           <section className="py-24" id="news" style={{ backgroundColor: colors.softCloud }}>
             <div className="max-w-7xl mx-auto px-6">
@@ -1909,240 +2147,6 @@
             </div>
           )}
 
-          {/* ── Events ── */}
-          <section className="py-24" id="events" style={{ backgroundColor: colors.softCloud }}>
-            <div className="max-w-7xl mx-auto px-6">
-              <div ref={eventsRef} className={`text-center mb-12 fade-up ${eventsVisible ? 'visible' : ''}`}>
-                <span className="font-semibold tracking-wide text-sm uppercase mb-4 block"
-                      style={{ color: colors.skyBlue, fontFamily: "'Poppins', sans-serif" }}>
-                  Upcoming Events
-                </span>
-                <h2 className="text-4xl md:text-5xl font-bold mb-6"
-                    style={{ fontFamily: "'Montserrat', sans-serif", color: colors.trustNavy }}>
-                  Get Screened Near You
-                </h2>
-                <p className="text-xl max-w-2xl mx-auto" style={{ color: colors.charcoal }}>
-                  Free blood pressure screenings are coming to neighborhoods across the South and West Sides. Find an event and take the first step.
-                </p>
-              </div>
-
-              {/* Neighborhood filter pills */}
-              {!eventsLoading && !eventsError && events.length > 0 && (() => {
-                const hoods = ['All', ...Array.from(new Set(events.map(e => e.neighborhood).filter(Boolean))).sort()];
-                const filtered = eventsFilter === 'All' ? events : events.filter(e => e.neighborhood === eventsFilter);
-                return (
-                  <>
-                    <div className={`flex flex-wrap gap-2 mb-10 justify-center fade-up ${eventsVisible ? 'visible' : ''}`}>
-                      {hoods.map(h => (
-                        <button key={h} onClick={() => setEventsFilter(h)}
-                                className="px-4 py-2 rounded-full text-sm font-semibold transition-all"
-                                style={{
-                                  fontFamily: "'Poppins', sans-serif",
-                                  backgroundColor: eventsFilter === h ? colors.trustNavy : 'white',
-                                  color: eventsFilter === h ? 'white' : colors.charcoal,
-                                  border: `2px solid ${eventsFilter === h ? colors.trustNavy : '#E2E8F0'}`,
-                                }}>
-                          {h}
-                        </button>
-                      ))}
-                    </div>
-
-                    {filtered.length === 0 ? (
-                      <div className="text-center py-16">
-                        <p className="text-lg font-semibold mb-2" style={{ color: colors.trustNavy }}>No events in {eventsFilter} yet.</p>
-                        <p style={{ color: colors.coolGray }}>Check back soon or select another neighborhood.</p>
-                      </div>
-                    ) : (
-                      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {filtered.map((evt, i) => (
-                          <div key={i}
-                               className={`bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all hover:-translate-y-1 cursor-pointer fade-up ${eventsVisible ? 'visible' : ''}`}
-                               style={{ transitionDelay: `${Math.min(i * 0.07, 0.35)}s` }}
-                               onClick={() => setSelectedEvent(evt)}>
-                            <div className="h-1.5" style={{ backgroundColor: evt.color }} />
-                            <div className="p-6">
-                              <div className="flex items-start gap-4 mb-4">
-                                <div className="flex-shrink-0 w-14 text-center rounded-xl py-2"
-                                     style={{ backgroundColor: `${evt.color}15` }}>
-                                  <div className="text-xs font-bold uppercase tracking-wide" style={{ color: evt.color }}>
-                                    {evt.date.split(' ')[0]}
-                                  </div>
-                                  <div className="text-2xl font-bold leading-tight" style={{ fontFamily: "'Montserrat', sans-serif", color: colors.trustNavy }}>
-                                    {(evt.date.split(' ')[1] || '').replace(',', '')}
-                                  </div>
-                                </div>
-                                <div className="flex-1 min-w-0">
-                                  <h3 className="font-bold text-base leading-snug mb-1"
-                                      style={{ fontFamily: "'Montserrat', sans-serif", color: colors.trustNavy }}>
-                                    {evt.title}
-                                  </h3>
-                                  <p className="text-sm" style={{ color: colors.coolGray }}>{evt.day}{evt.day && evt.time ? ' · ' : ''}{evt.time}</p>
-                                </div>
-                              </div>
-                              <div className="flex items-start gap-2 mb-3">
-                                <MapPinIcon className="w-4 h-4 mt-0.5 flex-shrink-0" style={{ color: colors.coolGray }} />
-                                <div>
-                                  <span className="text-sm" style={{ color: colors.charcoal }}>{evt.location}</span>
-                                  {evt.neighborhood && <span className="text-xs ml-2 px-2 py-0.5 rounded-full" style={{ backgroundColor: `${evt.color}15`, color: evt.color }}>{evt.neighborhood}</span>}
-                                </div>
-                              </div>
-                              <div className="flex flex-wrap gap-1.5">
-                                {evt.tags.map(tag => (
-                                  <span key={tag} className="text-xs font-semibold px-2.5 py-1 rounded-full"
-                                        style={{ backgroundColor: `${evt.color}12`, color: evt.color }}>
-                                    {tag}
-                                  </span>
-                                ))}
-                              </div>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </>
-                );
-              })()}
-
-              {/* Loading skeletons */}
-              {eventsLoading && (
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {[1,2,3].map(i => (
-                    <div key={i} className="bg-white rounded-2xl overflow-hidden shadow-sm">
-                      <div className="h-1.5 bg-gray-200" />
-                      <div className="p-6 space-y-3 animate-pulse">
-                        <div className="flex gap-4">
-                          <div className="w-14 h-14 rounded-xl bg-gray-100" />
-                          <div className="flex-1 space-y-2 pt-1">
-                            <div className="h-4 bg-gray-100 rounded w-3/4" />
-                            <div className="h-3 bg-gray-100 rounded w-1/2" />
-                          </div>
-                        </div>
-                        <div className="h-3 bg-gray-100 rounded w-2/3" />
-                        <div className="flex gap-2">
-                          <div className="h-6 w-24 bg-gray-100 rounded-full" />
-                          <div className="h-6 w-20 bg-gray-100 rounded-full" />
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              {/* Error state */}
-              {eventsError && (
-                <div className="text-center py-16 rounded-3xl bg-white shadow-sm">
-                  <HeartIcon className="w-12 h-12 mx-auto mb-4" style={{ color: colors.coolGray }} />
-                  <p className="text-lg font-semibold mb-2" style={{ color: colors.trustNavy }}>Couldn't load events right now.</p>
-                  <p style={{ color: colors.coolGray }}>Please check back shortly.</p>
-                </div>
-              )}
-
-              {/* Empty state (sheet connected but no confirmed events) */}
-              {!eventsLoading && !eventsError && events.length === 0 && (
-                <div className="text-center py-16 rounded-3xl bg-white shadow-sm">
-                  <CalendarIcon className="w-12 h-12 mx-auto mb-4" style={{ color: colors.coolGray }} />
-                  <p className="text-lg font-semibold mb-2" style={{ color: colors.trustNavy }}>Events coming soon.</p>
-                  <p style={{ color: colors.coolGray }}>Check back for upcoming screenings in your neighborhood.</p>
-                </div>
-              )}
-
-              {/* Source note */}
-              {!eventsLoading && !eventsError && (
-                <p className="text-center text-xs mt-10" style={{ color: colors.coolGray }}>
-                  Events updated live from Google Sheets. Confirmed events appear automatically.
-                </p>
-              )}
-            </div>
-          </section>
-
-          {/* ── Event Detail Modal ── */}
-          {selectedEvent && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center p-4"
-                 onClick={() => setSelectedEvent(null)}>
-              <div className="fixed inset-0 bg-black/50 backdrop-blur-sm" style={{ animation: 'fadeIn 0.2s ease-out' }} />
-              <div className="relative bg-white rounded-3xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl"
-                   style={{ animation: 'modalSlideUp 0.3s ease-out' }}
-                   onClick={(e) => e.stopPropagation()}>
-                <div className="h-2 rounded-t-3xl" style={{ backgroundColor: selectedEvent.color }} />
-                {selectedEvent.image && (
-                  <div className="w-full overflow-hidden" style={{ maxHeight: '220px' }}>
-                    <img src={selectedEvent.image} alt={selectedEvent.title}
-                         className="w-full object-cover"
-                         style={{ maxHeight: '220px' }} />
-                  </div>
-                )}
-                <button onClick={() => setSelectedEvent(null)}
-                        className="absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors"
-                        style={{ color: selectedEvent.image ? 'white' : colors.coolGray, backgroundColor: selectedEvent.image ? 'rgba(0,0,0,0.35)' : 'transparent' }}>
-                  <XIcon className="w-5 h-5" />
-                </button>
-                <div className="p-8">
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {selectedEvent.tags.map(tag => (
-                      <span key={tag}
-                            className="text-xs font-semibold px-3 py-1 rounded-full"
-                            style={{ backgroundColor: `${selectedEvent.color}12`, color: selectedEvent.color }}>
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                  <h3 className="text-2xl font-bold mb-2"
-                      style={{ fontFamily: "'Montserrat', sans-serif", color: colors.trustNavy }}>
-                    {selectedEvent.title}
-                  </h3>
-                  <div className="space-y-3 mb-6">
-                    <div className="flex items-center gap-3">
-                      <CalendarIcon className="w-5 h-5 flex-shrink-0" style={{ color: selectedEvent.color }} />
-                      <span style={{ color: colors.charcoal }}>
-                        {selectedEvent.day}, {selectedEvent.date} &middot; {selectedEvent.time}
-                      </span>
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <MapPinIcon className="w-5 h-5 flex-shrink-0 mt-0.5" style={{ color: selectedEvent.color }} />
-                      <div>
-                        <div className="font-semibold" style={{ color: colors.trustNavy }}>{selectedEvent.location}</div>
-                        <div className="text-sm" style={{ color: colors.coolGray }}>{selectedEvent.address}</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="rounded-2xl p-5 mb-6" style={{ backgroundColor: colors.softCloud }}>
-                    {selectedEvent.longDescription ? (
-                      <div className="space-y-3">
-                        {selectedEvent.longDescription.split(/\n+/).map((para, i) => para.trim() && (
-                          <p key={i} className="leading-relaxed" style={{ color: colors.charcoal }}>{para.trim()}</p>
-                        ))}
-                      </div>
-                    ) : (
-                      <p className="leading-relaxed" style={{ color: colors.charcoal }}>
-                        {selectedEvent.description}
-                      </p>
-                    )}
-                  </div>
-                  <div className="flex flex-col sm:flex-row gap-3">
-                    {selectedEvent.rsvpUrl ? (
-                      <a href={selectedEvent.rsvpUrl} target="_blank" rel="noopener noreferrer"
-                         className="flex-1 inline-flex items-center justify-center gap-2 text-white px-6 py-3 rounded-full font-semibold transition-all hover:scale-105"
-                         style={{ backgroundColor: selectedEvent.color, fontFamily: "'Poppins', sans-serif" }}>
-                        RSVP for This Event
-                        <ArrowRightIcon className="w-4 h-4" />
-                      </a>
-                    ) : (
-                      <div className="flex-1 inline-flex items-center justify-center gap-2 text-white px-6 py-3 rounded-full font-semibold opacity-60 cursor-default"
-                           style={{ backgroundColor: selectedEvent.color, fontFamily: "'Poppins', sans-serif" }}>
-                        Walk-ins Welcome
-                      </div>
-                    )}
-                    <button onClick={() => setSelectedEvent(null)}
-                            className="flex-1 inline-flex items-center justify-center px-6 py-3 rounded-full font-semibold border-2 transition-all hover:bg-gray-50"
-                            style={{ borderColor: '#E2E8F0', color: colors.charcoal, fontFamily: "'Poppins', sans-serif" }}>
-                      Close
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-
           {/* ── Take Action ── */}
           <section className="py-24 text-white" id="action" style={{ backgroundColor: colors.starRed }}>
             <div className="max-w-7xl mx-auto px-6">
@@ -2153,10 +2157,10 @@
                 </span>
                 <h2 className="text-4xl md:text-5xl font-bold mb-6 leading-tight"
                     style={{ fontFamily: "'Montserrat', sans-serif" }}>
-                  Your heart can't wait. Neither can your family.
+                  Take action early to protect your heart.
                 </h2>
                 <p className="text-xl leading-relaxed mb-12" style={{ color: 'rgba(255,255,255,0.9)' }}>
-                  Getting your blood pressure checked takes just minutes. It could add years to your life. Find a screening near you or connect with a health center today.
+                  Getting your blood pressure checked is free, fast, and available near you. Find a screening or connect with a health center — and take that first step today.
                 </p>
 
                 <div className="grid sm:grid-cols-2 gap-6 mb-12">
@@ -2303,7 +2307,7 @@
                 </div>
               </div>
               <div className="mt-8 pt-8 border-t text-center text-sm" style={{ borderColor: 'rgba(255,255,255,0.1)', color: colors.coolGray }}>
-                <p>&copy; 2026 Live Healthy Chicago. A coalition committed to closing the life expectancy gap.</p>
+                <p>&copy; 2026 Live Healthy Chicago. Stronger Hearts. Healthier Neighborhoods.</p>
                 <p className="mt-2">livehealthychi.com</p>
               </div>
             </div>
