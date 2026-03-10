@@ -207,6 +207,30 @@
       filter: grayscale(0%);
       opacity: 1;
     }
+
+    /* Story video carousel */
+    .story-scroll::-webkit-scrollbar { display: none; }
+
+    /* Pressure Drop Player */
+    @keyframes pdHeartbeat {
+      0%   { transform: scale(1); }
+      12%  { transform: scale(1.28); }
+      24%  { transform: scale(1); }
+      36%  { transform: scale(1.20); }
+      60%  { transform: scale(1); }
+      100% { transform: scale(1); }
+    }
+    .pd-heartbeat { animation: pdHeartbeat 1.4s ease-in-out infinite; }
+
+    @keyframes pdRing {
+      0%   { transform: scale(1); opacity: 0.6; }
+      100% { transform: scale(1.9); opacity: 0; }
+    }
+
+    @keyframes pdWave {
+      0%, 100% { transform: scaleY(0.4); }
+      50%      { transform: scaleY(1); }
+    }
   </style>
 </head>
 <body>
@@ -483,6 +507,505 @@
             </div>
           </div>
         </div>
+      );
+    }
+
+    // ── Pressure Drop Player Component ──
+    const PRESSURE_DROP_LYRICS = `[Intro]
+
+Pressure drop, oh pressure drop.
+Know your numbers
+or they're gonna drop on you
+I say, pressure drop, oh pressure drop
+Let that pressure, let it drop on you
+
+[Verse 1]
+I say, it's a silent thing
+you won't even feel it
+But that high number
+it's doin' you wrong
+I say, it's a silent thing
+you won't even feel it
+Until that pressure
+it's doin' you wrong
+
+[Chorus]
+I say, pressure drop, oh pressure drop
+Get it to one-twenty
+let it drop on you
+I say, pressure drop, oh pressure drop
+Save your heart and mind
+let it drop on you
+
+[Verse 2]
+Check it at the clinic
+Check it at the food bank
+Don't let the death gap
+Take you too young
+Check it in the morning
+Check it with your own cuff
+Protect your family
+keep 'em real strong
+
+[Bridge]
+I say, "Hey!" (Hey!)
+Know your numbers! (Hey!)
+One-thirty's high! (Hey!)
+Check it today! (Hey!)
+Oh yeah! (Oh yeah!)
+I say, pressure drop
+oh pressure drop
+Let that pressure, let it drop on you
+
+[Outro]
+Pressure drop, oh pressure drop
+One point down, it's better for you
+I say, pressure drop
+oh pressure drop
+let it drop on you`;
+
+    const WAVE_HEIGHTS = [3,6,9,13,8,14,11,7,12,5,13,9,6,11,8,13,10,5,12,7,10,14,6,9,12,7,11,5,8,13];
+
+    const PD_TRACKS = {
+      a: { src: 'https://res.cloudinary.com/dsbllwpbh/video/upload/v1772565763/Pressure_Drop_0_Voc_thrlky.mp3',    label: 'A Side' },
+      b: { src: 'https://res.cloudinary.com/dsbllwpbh/video/upload/v1772571282/Pressure_Drop-b-side_wljlnn.mp3', label: 'B Side' },
+    };
+
+    function PressureDropPlayer({ colors }) {
+      const audioRef = React.useRef(null);
+      const progressRef = React.useRef(null);
+      const pendingPlay = React.useRef(false);
+      const [side, setSide] = React.useState('a');
+      const [playing, setPlaying] = React.useState(false);
+      const [currentTime, setCurrent] = React.useState(0);
+      const [duration, setDuration] = React.useState(0);
+      const [lyricsOpen, setLyricsOpen] = React.useState(false);
+
+      const fmt = (s) => {
+        const m = Math.floor(s / 60);
+        const sec = Math.floor(s % 60);
+        return `${m}:${sec < 10 ? '0' : ''}${sec}`;
+      };
+
+      const toggle = () => {
+        if (!audioRef.current) return;
+        if (playing) audioRef.current.pause();
+        else audioRef.current.play();
+        setPlaying(!playing);
+      };
+
+      const seek = (e) => {
+        if (!progressRef.current || !audioRef.current || !duration) return;
+        const rect = progressRef.current.getBoundingClientRect();
+        const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+        audioRef.current.currentTime = pct * duration;
+      };
+
+      const switchSide = (newSide) => {
+        if (newSide === side) return;
+        pendingPlay.current = playing;
+        setPlaying(false);
+        setCurrent(0);
+        setDuration(0);
+        setSide(newSide);
+      };
+
+      const pct = duration ? (currentTime / duration) * 100 : 0;
+
+      return (
+        <>
+          <section className="py-20" style={{ background: 'linear-gradient(160deg, #0a1428 0%, #1c1024 60%, #0a1428 100%)' }}>
+            <div className="max-w-xl mx-auto px-6 text-center">
+              <span className="font-semibold tracking-widest text-xs uppercase mb-3 block"
+                    style={{ color: '#e05c7a', fontFamily: "'Poppins', sans-serif", letterSpacing: '0.2em' }}>
+                The Sound of Change
+              </span>
+              <h2 className="text-4xl md:text-5xl font-bold text-white mb-1"
+                  style={{ fontFamily: "'Montserrat', sans-serif" }}>
+                Pressure Drop
+              </h2>
+              <p className="text-sm mb-6" style={{ color: 'rgba(255,255,255,0.4)', fontFamily: "'Open Sans', sans-serif" }}>
+                Live Healthy Chicago Original
+              </p>
+
+              {/* A/B Side toggle */}
+              <div className="inline-flex rounded-full p-1 mb-8"
+                   style={{ backgroundColor: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)' }}>
+                {['a', 'b'].map((s) => (
+                  <button
+                    key={s}
+                    onClick={() => switchSide(s)}
+                    className="px-5 py-2 rounded-full text-sm font-semibold transition-all"
+                    style={{
+                      fontFamily: "'Poppins', sans-serif",
+                      backgroundColor: side === s ? '#dc3545' : 'transparent',
+                      color: side === s ? 'white' : 'rgba(255,255,255,0.45)',
+                      boxShadow: side === s ? '0 2px 12px rgba(220,53,69,0.4)' : 'none',
+                    }}
+                  >
+                    {PD_TRACKS[s].label}
+                  </button>
+                ))}
+              </div>
+
+              {/* Beating Heart */}
+              <div className="flex justify-center mb-10">
+                <div className="relative flex items-center justify-center w-32 h-32">
+                  {playing && <>
+                    <div className="absolute w-32 h-32 rounded-full pointer-events-none"
+                         style={{ border: '2px solid rgba(220,53,69,0.5)', animation: 'pdRing 1.4s ease-out infinite' }} />
+                    <div className="absolute w-32 h-32 rounded-full pointer-events-none"
+                         style={{ border: '2px solid rgba(220,53,69,0.3)', animation: 'pdRing 1.4s ease-out 0.7s infinite' }} />
+                  </>}
+                  <div className="w-24 h-24 rounded-full flex items-center justify-center"
+                       style={{ background: 'radial-gradient(circle, rgba(220,53,69,0.2) 0%, rgba(220,53,69,0.05) 100%)', border: '2px solid rgba(220,53,69,0.35)' }}>
+                    <HeartIcon
+                      className={`w-12 h-12 ${playing ? 'pd-heartbeat' : ''}`}
+                      style={{ color: '#dc3545', transition: 'color 0.3s' }}
+                      fill={true}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Audio */}
+              <audio
+                key={side}
+                ref={audioRef}
+                src={PD_TRACKS[side].src}
+                preload="metadata"
+                onLoadedMetadata={(e) => {
+                  setDuration(e.target.duration);
+                  if (pendingPlay.current) {
+                    e.target.play().then(() => setPlaying(true)).catch(() => {});
+                    pendingPlay.current = false;
+                  }
+                }}
+                onTimeUpdate={(e) => setCurrent(e.target.currentTime)}
+                onEnded={() => setPlaying(false)}
+              />
+
+              {/* Waveform bars */}
+              <div className="flex items-end justify-center gap-0.5 h-10 mb-8">
+                {WAVE_HEIGHTS.map((h, i) => (
+                  <div key={i} className="w-1.5 rounded-full origin-bottom"
+                       style={{
+                         height: playing ? `${h * 2.6}px` : '4px',
+                         backgroundColor: playing ? '#e05c7a' : 'rgba(255,255,255,0.15)',
+                         animation: playing ? `pdWave ${0.6 + (i % 5) * 0.12}s ease-in-out ${(i * 0.04) % 0.6}s infinite` : 'none',
+                         transition: 'height 0.3s ease, background-color 0.3s ease',
+                       }} />
+                ))}
+              </div>
+
+              {/* Play/Pause button */}
+              <div className="flex items-center justify-center mb-8">
+                <button
+                  onClick={toggle}
+                  className="w-18 h-18 rounded-full flex items-center justify-center transition-all hover:scale-105 active:scale-95"
+                  style={{
+                    width: '72px', height: '72px',
+                    background: 'linear-gradient(135deg, #dc3545, #b02a37)',
+                    boxShadow: playing ? '0 0 32px rgba(220,53,69,0.55), 0 0 8px rgba(220,53,69,0.3)' : '0 4px 20px rgba(0,0,0,0.4)',
+                  }}
+                  aria-label={playing ? 'Pause' : 'Play'}
+                >
+                  {playing ? (
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
+                      <rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/>
+                    </svg>
+                  ) : (
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="white" style={{ marginLeft: '3px' }}>
+                      <polygon points="6,3 20,12 6,21"/>
+                    </svg>
+                  )}
+                </button>
+              </div>
+
+              {/* Progress bar */}
+              <div className="mb-6">
+                <div
+                  ref={progressRef}
+                  className="h-1.5 rounded-full cursor-pointer relative overflow-hidden"
+                  style={{ backgroundColor: 'rgba(255,255,255,0.12)' }}
+                  onClick={seek}
+                >
+                  <div className="h-full rounded-full"
+                       style={{ width: `${pct}%`, background: 'linear-gradient(90deg, #dc3545, #e05c7a)', transition: 'width 0.1s linear' }} />
+                </div>
+                <div className="flex justify-between mt-2 text-xs" style={{ color: 'rgba(255,255,255,0.35)', fontFamily: "'Open Sans', sans-serif" }}>
+                  <span>{fmt(currentTime)}</span>
+                  <span>{duration ? fmt(duration) : '--:--'}</span>
+                </div>
+              </div>
+
+              {/* Lyrics button */}
+              <button
+                onClick={() => setLyricsOpen(true)}
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-semibold transition-all hover:scale-105 hover:bg-white/10"
+                style={{ border: '1px solid rgba(255,255,255,0.2)', color: 'rgba(255,255,255,0.7)', fontFamily: "'Poppins', sans-serif" }}
+              >
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>
+                </svg>
+                View Lyrics
+              </button>
+            </div>
+          </section>
+
+          {/* Lyrics Modal */}
+          {lyricsOpen && (
+            <div className="fixed inset-0 flex items-end sm:items-center justify-center p-0 sm:p-4"
+                 style={{ zIndex: 300 }}
+                 onClick={e => { if (e.target === e.currentTarget) setLyricsOpen(false); }}>
+              <div className="absolute inset-0" style={{ backgroundColor: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(10px)' }}
+                   onClick={() => setLyricsOpen(false)} />
+              <div className="relative rounded-t-3xl sm:rounded-2xl overflow-hidden w-full sm:max-w-md flex flex-col"
+                   style={{ maxHeight: '88vh', background: 'linear-gradient(160deg, #0f1e3a 0%, #1c1024 100%)', border: '1px solid rgba(220,53,69,0.25)', animation: 'modalSlideUp 0.3s ease-out' }}>
+                {/* Handle bar (mobile) */}
+                <div className="flex justify-center pt-3 pb-1 sm:hidden">
+                  <div className="w-10 h-1 rounded-full" style={{ backgroundColor: 'rgba(255,255,255,0.2)' }} />
+                </div>
+                {/* Header */}
+                <div className="flex items-center justify-between px-6 py-4 border-b flex-shrink-0"
+                     style={{ borderColor: 'rgba(255,255,255,0.08)' }}>
+                  <div className="flex items-center gap-3">
+                    <HeartIcon className="w-5 h-5 pd-heartbeat" style={{ color: '#dc3545' }} fill={true} />
+                    <div>
+                      <h3 className="font-bold text-white text-base" style={{ fontFamily: "'Montserrat', sans-serif" }}>
+                        Pressure Drop
+                      </h3>
+                      <p className="text-xs" style={{ color: 'rgba(255,255,255,0.4)' }}>Live Healthy Chicago Original</p>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => setLyricsOpen(false)}
+                    className="w-8 h-8 rounded-full flex items-center justify-center transition-colors hover:bg-white/10"
+                    aria-label="Close lyrics"
+                  >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" strokeWidth="2.5">
+                      <path d="M18 6 6 18M6 6l12 12"/>
+                    </svg>
+                  </button>
+                </div>
+                {/* Lyrics content */}
+                <div className="overflow-y-auto px-6 py-5 flex-1"
+                     style={{ scrollbarWidth: 'thin', scrollbarColor: 'rgba(220,53,69,0.3) transparent' }}>
+                  <pre className="text-sm leading-8 whitespace-pre-wrap"
+                       style={{ color: 'rgba(255,255,255,0.82)', fontFamily: "'Open Sans', sans-serif", fontSize: '0.9rem' }}>
+                    {PRESSURE_DROP_LYRICS.split('\n').map((line, i) => {
+                      const isSection = /^\[/.test(line.trim());
+                      return (
+                        <span key={i} style={isSection ? { color: '#e05c7a', fontWeight: 600, display: 'block', marginTop: i > 0 ? '1.2em' : 0, letterSpacing: '0.05em', fontSize: '0.75rem', textTransform: 'uppercase' } : { display: 'block' }}>
+                          {line || '\u00A0'}
+                        </span>
+                      );
+                    })}
+                  </pre>
+                </div>
+              </div>
+            </div>
+          )}
+        </>
+      );
+    }
+
+    // ── Story Videos Data & Components ──
+    const STORY_VIDEOS = [
+      {
+        src: 'https://player.vimeo.com/progressive_redirect/playback/1172266886/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=774216e1dc8f2c95fad1029ec6b147c4ef1beb34750956400d235fc3444c32dd',
+        num: '01',
+        title: 'What Is Live Healthy Chicago?',
+        description: 'A citywide initiative to help communities know their numbers and take control of their blood pressure.',
+      },
+      {
+        src: 'https://player.vimeo.com/progressive_redirect/playback/1172266910/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=d4c0e6a228de48821cd81e7cf7c40509c0cc1c3e7ab17dabbdf56dff904a417f',
+        num: '02',
+        title: 'Why Blood Pressure Matters',
+        description: "High blood pressure has no symptoms — but it's the leading driver of stroke, heart attack, and kidney disease.",
+      },
+      {
+        src: 'https://player.vimeo.com/progressive_redirect/playback/1172269411/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=6d2a3cc0cbfd1dd024fb570e37d7f78bb25121b8de9942b1dc93becdd713825e',
+        num: '03',
+        title: 'Care That Comes to You',
+        description: 'From park screenings to pharmacy visits at food pantries, we bring the clinic to the community.',
+        seekTo: 36,
+      },
+      {
+        src: 'https://player.vimeo.com/progressive_redirect/playback/1172269231/rendition/1080p/file.mp4%20%281080p%29.mp4?loc=external&log_user=0&signature=f7716d06e93cefa8c746e3fd3206bdb8afb1e4fd58612b7203493354b35dda0a',
+        num: '04',
+        title: 'Full Circle',
+        description: 'West side nurses and community leaders on what this program means for the neighborhoods they call home.',
+      },
+    ];
+
+    function StoryVideoCard({ vid, colors, onExpand }) {
+      const videoRef = React.useRef(null);
+      const [hovering, setHovering] = React.useState(false);
+
+      return (
+        <div
+          className="flex flex-col md:flex-row rounded-2xl overflow-hidden"
+          style={{ backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.09)' }}
+        >
+          {/* Text block */}
+          <div className="flex flex-col justify-center p-8 md:p-10" style={{ flex: '1' }}>
+            <span className="text-6xl font-bold leading-none mb-4 block select-none"
+                  style={{ color: 'rgba(255,255,255,0.08)', fontFamily: "'Montserrat', sans-serif" }}>
+              {vid.num}
+            </span>
+            <h3 className="text-2xl md:text-3xl font-bold text-white mb-4 leading-tight"
+                style={{ fontFamily: "'Montserrat', sans-serif" }}>
+              {vid.title}
+            </h3>
+            <p className="text-base md:text-lg leading-relaxed mb-8"
+               style={{ color: 'rgba(255,255,255,0.65)', fontFamily: "'Open Sans', sans-serif" }}>
+              {vid.description}
+            </p>
+            <button
+              onClick={onExpand}
+              className="inline-flex items-center gap-3 self-start group"
+              aria-label={`Watch: ${vid.title}`}
+            >
+              <span
+                className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 transition-transform group-hover:scale-110"
+                style={{ backgroundColor: colors.skyBlue }}
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="white" style={{ marginLeft: '3px' }}>
+                  <polygon points="6,3 20,12 6,21"/>
+                </svg>
+              </span>
+              <span className="font-semibold text-white group-hover:opacity-75 transition-opacity"
+                    style={{ fontFamily: "'Poppins', sans-serif" }}>
+                Watch
+              </span>
+            </button>
+          </div>
+
+          {/* Video thumbnail */}
+          <div className="flex items-center justify-center p-6 md:p-8 flex-shrink-0">
+            <div
+              className="relative rounded-xl overflow-hidden cursor-pointer"
+              style={{ width: '180px', aspectRatio: '9/16' }}
+              onMouseEnter={() => { setHovering(true); videoRef.current?.play(); }}
+              onMouseLeave={() => {
+                setHovering(false);
+                if (videoRef.current) { videoRef.current.pause(); videoRef.current.currentTime = 0; }
+              }}
+              onClick={onExpand}
+            >
+              <video
+                ref={videoRef}
+                src={vid.src}
+                className="absolute inset-0 w-full h-full object-cover"
+                style={{ transform: hovering ? 'scale(1.04)' : 'scale(1)', transition: 'transform 0.5s ease' }}
+                muted loop playsInline preload="metadata"
+                onLoadedMetadata={e => { e.target.currentTime = vid.seekTo ?? 3; }}
+              />
+              <div className="absolute inset-0 pointer-events-none"
+                   style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.45) 0%, transparent 50%)' }} />
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div
+                  className="w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300"
+                  style={{
+                    backgroundColor: hovering ? 'rgba(255,255,255,0.92)' : 'rgba(255,255,255,0.18)',
+                    border: '2px solid rgba(255,255,255,0.5)',
+                  }}
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24"
+                       fill={hovering ? colors.trustNavy : 'white'}
+                       style={{ marginLeft: '2px', transition: 'fill 0.25s ease' }}>
+                    <polygon points="6,3 20,12 6,21"/>
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    function VideoStoriesSection({ colors }) {
+      const [headerRef, headerVisible] = useInView();
+      const [activeVideo, setActiveVideo] = React.useState(null);
+      const modalVideoRef = React.useRef(null);
+
+      // Escape key to close
+      React.useEffect(() => {
+        if (!activeVideo) return;
+        const handler = (e) => { if (e.key === 'Escape') setActiveVideo(null); };
+        window.addEventListener('keydown', handler);
+        return () => window.removeEventListener('keydown', handler);
+      }, [activeVideo]);
+
+      // Auto-play when modal opens
+      React.useEffect(() => {
+        if (activeVideo && modalVideoRef.current) {
+          modalVideoRef.current.currentTime = 0;
+          modalVideoRef.current.play().catch(() => {});
+        }
+      }, [activeVideo]);
+
+      return (
+        <>
+          <section id="watch" className="py-24"
+                   style={{ background: `linear-gradient(180deg, ${colors.trustNavy} 0%, #0d1d35 100%)` }}>
+            <div className="max-w-5xl mx-auto px-6">
+
+              {/* Header */}
+              <div ref={headerRef} className={`text-center mb-16 fade-up ${headerVisible ? 'visible' : ''}`}>
+                <span className="font-semibold tracking-wide text-sm uppercase mb-4 block"
+                      style={{ color: colors.skyBlue, fontFamily: "'Poppins', sans-serif" }}>
+                  From the Field
+                </span>
+                <h2 className="text-4xl md:text-5xl font-bold text-white mb-4"
+                    style={{ fontFamily: "'Montserrat', sans-serif" }}>
+                  Watch Their Stories
+                </h2>
+                <p className="text-xl max-w-2xl mx-auto"
+                   style={{ color: 'rgba(255,255,255,0.65)', fontFamily: "'Open Sans', sans-serif" }}>
+                  Doctors, pharmacists, and community members share how Live Healthy Chicago is changing lives — one neighborhood at a time.
+                </p>
+              </div>
+
+              {/* Video cards grid */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {STORY_VIDEOS.map((vid, i) => (
+                  <StoryVideoCard key={i} vid={vid} colors={colors} onExpand={() => setActiveVideo(vid)} />
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* Fullscreen video modal */}
+          {activeVideo && (
+            <div className="fixed inset-0 flex items-center justify-center"
+                 style={{ zIndex: 400, backgroundColor: 'rgba(0,0,0,0.96)' }}
+                 onClick={() => setActiveVideo(null)}>
+              <div className="relative"
+                   style={{ height: '94vh', aspectRatio: '9/16', maxWidth: 'calc(94vh * 9 / 16)' }}
+                   onClick={e => e.stopPropagation()}>
+                <video
+                  ref={modalVideoRef}
+                  src={activeVideo.src}
+                  className="w-full h-full object-cover rounded-2xl"
+                  controls playsInline autoPlay
+                  style={{ display: 'block' }}
+                />
+                <button
+                  onClick={() => setActiveVideo(null)}
+                  className="absolute top-3 right-3 w-9 h-9 rounded-full flex items-center justify-center transition-colors hover:bg-black/60"
+                  style={{ backgroundColor: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(6px)' }}
+                  aria-label="Close video"
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5">
+                    <path d="M18 6 6 18M6 6l12 12"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          )}
+        </>
       );
     }
 
@@ -2207,6 +2730,9 @@
             </div>
           )}
 
+          {/* ── Watch Their Stories ── */}
+          <VideoStoriesSection colors={colors} />
+
           {/* ── Take Action ── */}
           <section className="py-24 text-white" id="action" style={{ backgroundColor: colors.starRed }}>
             <div className="max-w-7xl mx-auto px-6">
@@ -2346,6 +2872,9 @@
               </div>
             </div>
           </section>
+
+          {/* ── Pressure Drop Audio Player ── */}
+          <PressureDropPlayer colors={colors} />
 
           {/* ── Footer ── */}
           <footer className="py-12 text-white" style={{ backgroundColor: colors.trustNavy }}>
