@@ -1531,6 +1531,58 @@ let it drop on you`;
 
       const newsItems = [
         {
+          date: 'Mar 13, 2026',
+          category: 'Event',
+          title: 'Community Turns Out Strong for Live Healthy Chicago\u2019s March Health Fair',
+          excerpt: 'More than 100 community members joined clinicians, community health workers, and partners at a free blood pressure screening and heart health education event on the South Side \u2014 a sign of the growing momentum behind Live Healthy Chicago.',
+          image: 'news-events/live-healthy-chicago-march-13/community-room-full-event-overview.jpg',
+          author: 'Live Healthy Chicago',
+          featured: true,
+          body: [
+            { type: 'p', text: '[Placeholder] On March 13, 2026, Live Healthy Chicago brought its community health fair to [Location \u2014 to be confirmed], drawing a packed room of residents, clinicians, community health workers, and partner organizations united around one goal: keeping hearts healthy on Chicago\u2019s South and West Sides.' },
+            { type: 'p', text: '[Placeholder] The event offered free blood pressure screenings, one-on-one consultations with pharmacists and nurses, and educational sessions on understanding your numbers and managing hypertension at home. Community health workers from partner organizations were on hand to connect attendees with ongoing care resources.' },
+
+            { type: 'h3', text: 'Highlights from the Day' },
+            { type: 'ul', items: [
+              '[Placeholder] Free blood pressure screenings for all attendees',
+              '[Placeholder] Live demonstrations of home monitoring techniques',
+              '[Placeholder] Q&A sessions with physicians and pharmacists',
+              '[Placeholder] Community resource tables from partner organizations',
+              '[Placeholder] Fitness demonstration and movement session',
+            ]},
+
+            { type: 'blockquote', text: '[Placeholder quote] \u201cEvents like this are exactly what Live Healthy Chicago is about \u2014 meeting people where they are, in their communities, with real resources and real conversations.\u201d \u2014 Event Organizer' },
+
+            { type: 'p', text: '[Placeholder] The energy in the room reflected what organizers have seen at every stop: people are hungry for this kind of trusted, accessible health outreach. Several attendees learned their blood pressure numbers for the first time and left with a care plan and a follow-up contact.' },
+
+            { type: 'h3', text: 'Photos from the Event' },
+            { type: 'gallery', images: [
+              { src: 'news-events/live-healthy-chicago-march-13/community-room-full-event-overview.jpg',    alt: 'Full community room at the March 13 event' },
+              { src: 'news-events/live-healthy-chicago-march-13/blood-pressure-screening.jpg',              alt: 'Blood pressure screening in progress' },
+              { src: 'news-events/live-healthy-chicago-march-13/speaker-red-jacket-arm-raised.jpg',         alt: 'Speaker addressing the crowd' },
+              { src: 'news-events/live-healthy-chicago-march-13/five-women-leaders-group-photo.jpg',        alt: 'Five women leaders at the event' },
+              { src: 'news-events/live-healthy-chicago-march-13/speaker-blue-suit-microphone.jpg',          alt: 'Speaker at the microphone' },
+              { src: 'news-events/live-healthy-chicago-march-13/mobile-team-group-photo.jpg',               alt: 'Mobile health team group photo' },
+              { src: 'news-events/live-healthy-chicago-march-13/team-group-photo-holding-red-hearts.jpg',   alt: 'Team holding red heart cutouts' },
+              { src: 'news-events/live-healthy-chicago-march-13/senior-woman-dancing-smiling.jpg',          alt: 'Senior community member dancing and smiling' },
+              { src: 'news-events/live-healthy-chicago-march-13/seniors-arms-raised-exercise-class.jpg',    alt: 'Seniors with arms raised in exercise session' },
+              { src: 'news-events/live-healthy-chicago-march-13/speaker-turban-microphone-closeup.jpg',     alt: 'Speaker close-up at microphone' },
+              { src: 'news-events/live-healthy-chicago-march-13/attendee-profile-turban-listening.jpg',     alt: 'Attendee listening intently' },
+              { src: 'news-events/live-healthy-chicago-march-13/candid-conversation-turban-woman.jpg',      alt: 'Candid conversation at the event' },
+              { src: 'news-events/live-healthy-chicago-march-13/turban-woman-clapping-crowd.jpg',           alt: 'Community member clapping in the crowd' },
+              { src: 'news-events/live-healthy-chicago-march-13/two-women-embrace-greeting.jpg',            alt: 'Two women embracing in greeting' },
+              { src: 'news-events/live-healthy-chicago-march-13/woman-green-jacket-conversation.jpg',       alt: 'Woman in green jacket in conversation' },
+              { src: 'news-events/live-healthy-chicago-march-13/woman-purple-jacket-engaging-crowd.jpg',    alt: 'Woman in purple jacket engaging the crowd' },
+              { src: 'news-events/live-healthy-chicago-march-13/uchicago-medicine-large-team-mural.jpg',    alt: 'UChicago Medicine large team in front of mural' },
+              { src: 'news-events/live-healthy-chicago-march-13/uchicago-medicine-team-at-table.jpg',       alt: 'UChicago Medicine team at outreach table' },
+              { src: 'news-events/live-healthy-chicago-march-13/urban-health-initiative-table-outreach.jpg', alt: 'Urban Health Initiative outreach table' },
+            ]},
+
+            { type: 'h3', text: 'What\u2019s Next' },
+            { type: 'p', text: '[Placeholder] Live Healthy Chicago will continue its community health fair series throughout the spring. Check the Events section for upcoming dates and locations near you. If you\u2019re a community organization interested in hosting or partnering, reach out through the contact form.' },
+          ],
+        },
+        {
           date: 'Feb 20, 2026',
           category: 'Interview',
           title: 'Closing Chicago\u2019s \u201CDeath Gap\u201D by Tackling High Blood Pressure',
@@ -1769,6 +1821,72 @@ let it drop on you`;
         const parts = text.split(/(\*\*.*?\*\*)/g);
         return parts.map((p, i) => p.startsWith('**') ? <strong key={i}>{p.slice(2,-2)}</strong> : p);
       };
+      // ── Gallery component with lightbox ──
+      const GalleryBlock = ({ images, colors }) => {
+        const [lightboxIdx, setLightboxIdx] = React.useState(null);
+        const prev = () => setLightboxIdx(i => (i - 1 + images.length) % images.length);
+        const next = () => setLightboxIdx(i => (i + 1) % images.length);
+        React.useEffect(() => {
+          if (lightboxIdx === null) return;
+          const onKey = (e) => {
+            if (e.key === 'ArrowLeft')  prev();
+            if (e.key === 'ArrowRight') next();
+            if (e.key === 'Escape')     setLightboxIdx(null);
+          };
+          window.addEventListener('keydown', onKey);
+          return () => window.removeEventListener('keydown', onKey);
+        }, [lightboxIdx]);
+        return (
+          <>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mt-2">
+              {images.map((img, idx) => (
+                <button key={idx} onClick={() => setLightboxIdx(idx)}
+                        className="relative rounded-xl overflow-hidden group"
+                        style={{ aspectRatio: '4/3' }}>
+                  <img src={img.src} alt={img.alt || ''}
+                       className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                       style={{ background: 'rgba(8,18,38,0.32)' }}>
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
+                      <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6M8 11h6"/>
+                    </svg>
+                  </div>
+                </button>
+              ))}
+            </div>
+            {lightboxIdx !== null && (
+              <div className="fixed inset-0 flex items-center justify-center"
+                   style={{ zIndex: 100, backgroundColor: 'rgba(0,0,0,0.92)' }}
+                   onClick={() => setLightboxIdx(null)}>
+                <button onClick={(e) => { e.stopPropagation(); setLightboxIdx(null); }}
+                        className="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center"
+                        style={{ backgroundColor: 'rgba(255,255,255,0.15)', color: 'white', zIndex: 101 }}>
+                  <XIcon className="w-5 h-5" />
+                </button>
+                <button onClick={(e) => { e.stopPropagation(); prev(); }}
+                        className="absolute left-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full flex items-center justify-center transition-all hover:scale-110"
+                        style={{ backgroundColor: 'rgba(255,255,255,0.15)', color: 'white', zIndex: 101 }}>
+                  <ChevronLeftIcon className="w-5 h-5" />
+                </button>
+                <img src={images[lightboxIdx].src} alt={images[lightboxIdx].alt || ''}
+                     className="rounded-xl"
+                     style={{ maxWidth: '88vw', maxHeight: '84vh', objectFit: 'contain', zIndex: 101 }}
+                     onClick={(e) => e.stopPropagation()} />
+                <button onClick={(e) => { e.stopPropagation(); next(); }}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full flex items-center justify-center transition-all hover:scale-110"
+                        style={{ backgroundColor: 'rgba(255,255,255,0.15)', color: 'white', zIndex: 101 }}>
+                  <ChevronRightIcon className="w-5 h-5" />
+                </button>
+                <div className="absolute bottom-4 text-sm font-semibold"
+                     style={{ color: 'rgba(255,255,255,0.55)', fontFamily: "'Poppins', sans-serif" }}>
+                  {lightboxIdx + 1} / {images.length}
+                </div>
+              </div>
+            )}
+          </>
+        );
+      };
+
       const renderBodyItem = (item, i) => {
         if (typeof item === 'string') return <p key={i} className="leading-relaxed" style={{ color: colors.charcoal }}>{item}</p>;
         switch (item.type) {
@@ -1794,6 +1912,7 @@ let it drop on you`;
               ))}
             </ul>
           );
+          case 'gallery': return <GalleryBlock key={i} images={item.images} colors={colors} />;
           case 'bio': return (
             <div key={i} className="flex gap-5 mt-2 p-5 rounded-2xl" style={{ backgroundColor: `${colors.trustNavy}08` }}>
               <img src={item.img} alt={item.name}
