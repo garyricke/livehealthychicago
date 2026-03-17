@@ -1,0 +1,1276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex" />
+  <title>Professional Portal — Live Healthy Chicago</title>
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/dsbllwpbh/image/upload/v1771534996/favicon-live-healthy-chicago_ky0rhy.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800;900&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Poppins', sans-serif; background: #F7FAFC; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up { animation: fadeUp 0.5s ease forwards; }
+    input, select { outline: none; }
+    input:focus, select:focus { outline: 2px solid #46B7E5; outline-offset: 0; }
+  </style>
+</head>
+<body>
+
+  <!-- Static Netlify form for crawler detection -->
+  <form name="portal-signup" data-netlify="true" netlify-honeypot="bot-field" hidden>
+    <input name="bot-field" />
+    <input name="name" />
+    <input name="email" />
+    <input name="role" />
+    <input name="roleOther" />
+    <input name="organization" />
+    <input name="zip" />
+  </form>
+
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    // ── Brand Colors ──────────────────────────────────────────────
+    const C = {
+      starRed: '#E5202F',
+      skyBlue: '#46B7E5',
+      trustNavy: '#1B365D',
+      vitalityYellow: '#FFB81C',
+      neighborhoodTeal: '#48C9B0',
+      charcoal: '#2D2D2D',
+      softCloud: '#F7FAFC',
+    };
+
+    // ── Password Gate ─────────────────────────────────────────────
+    const PORTAL_HASH = '3cb968a982080be1d7a5df98dc49673a8c052d2642ef7730b7753cee5b87c3dd';
+    const SESSION_KEY = 'lhc_portal_auth';
+
+    async function sha256(str) {
+      const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+      return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    // ── Content Data ──────────────────────────────────────────────
+    const SECTIONS = [
+      {
+        id: 'chw',
+        label: 'CHW Resources',
+        color: C.skyBlue,
+        description: 'Tools and materials for Community Health Workers conducting outreach, screenings, and education in priority neighborhoods.',
+        resources: [
+          {
+            title: 'Blood Pressure Basics — Patient Handout',
+            description: 'Plain-language one-pager for patients. Available in English and Spanish. Print-ready PDF formatted for letter size.',
+            type: 'PDF',
+            gradient: `linear-gradient(135deg, ${C.trustNavy}, #2a4a7f)`,
+          },
+          {
+            title: 'BP Screening Workflow',
+            description: 'Step-by-step guide for conducting blood pressure screenings at community events, health fairs, and churches.',
+            type: 'PDF',
+            gradient: 'linear-gradient(135deg, #0d2a4d, #1B365D)',
+          },
+          {
+            title: 'Talking Points & Scripts',
+            description: 'Conversation guides and scripts for health fairs, farmers markets, and faith community events.',
+            type: 'PDF',
+            gradient: `linear-gradient(135deg, ${C.skyBlue}, #2a89b4)`,
+          },
+          {
+            title: 'How to Use These Materials at Events',
+            description: 'Short guide covering setup, engagement strategies, and follow-up for health fairs, markets, and churches.',
+            type: 'Guide',
+            gradient: `linear-gradient(135deg, ${C.neighborhoodTeal}, #2a9b86)`,
+          },
+        ],
+      },
+      {
+        id: 'clinical',
+        label: 'Clinical / Technical',
+        color: C.neighborhoodTeal,
+        description: 'Evidence-based resources for clinicians, nurses, and healthcare administrators managing hypertension.',
+        resources: [
+          {
+            title: 'BP Treatment & Management Guidelines',
+            description: 'Current hypertension treatment guidelines aligned with AMA/AHA standards, adapted for community settings.',
+            type: 'PDF',
+            gradient: `linear-gradient(135deg, ${C.trustNavy}, #2a4a7f)`,
+          },
+          {
+            title: 'Training Slide Deck',
+            description: 'Comprehensive slide deck for provider training on hypertension management and LHC program workflows.',
+            type: 'Slides',
+            typeColor: C.vitalityYellow,
+            gradient: 'linear-gradient(135deg, #1a2e50, #1B365D)',
+          },
+          {
+            title: 'Clinic Workflow Templates',
+            description: 'Customizable templates for integrating BP control protocols into existing clinic workflows.',
+            type: 'Template',
+            typeColor: C.neighborhoodTeal,
+            gradient: `linear-gradient(135deg, ${C.neighborhoodTeal}, #1a7a6b)`,
+          },
+          {
+            title: 'AMA & CDPH Resource Links',
+            description: 'Curated external links to AMA hypertension resources, CDPH tools, and nationally recognized guidelines.',
+            type: 'Links',
+            typeColor: C.skyBlue,
+            gradient: `linear-gradient(135deg, ${C.skyBlue}, #1a6a8f)`,
+          },
+        ],
+      },
+      {
+        id: 'social',
+        label: 'Social Media Kit',
+        color: C.vitalityYellow,
+        description: 'Ready-to-use graphics, captions, and guidance for promoting Live Healthy Chicago on social media.',
+        resources: [
+          {
+            title: 'Social Graphics Pack',
+            description: 'Square (1:1) and 16:9 formatted graphics for Instagram, Facebook, LinkedIn, and X/Twitter.',
+            type: 'Graphics',
+            typeColor: C.vitalityYellow,
+            gradient: `linear-gradient(135deg, ${C.vitalityYellow}, #c48a00)`,
+          },
+          {
+            title: 'Sample Captions & Hashtags',
+            description: 'Ready-to-post captions in short, medium, and long formats, with hashtag recommendations and tagging guidance.',
+            type: 'PDF',
+            gradient: `linear-gradient(135deg, ${C.trustNavy}, #2a4a7f)`,
+          },
+          {
+            title: 'Usage & Localization Guide',
+            description: 'How to localize posts for your neighborhood and community, and how to co-brand with your partner organization.',
+            type: 'Guide',
+            typeColor: C.neighborhoodTeal,
+            gradient: `linear-gradient(135deg, ${C.neighborhoodTeal}, #1a7a6b)`,
+          },
+        ],
+      },
+    ];
+
+    const COMING_SOON = [
+      {
+        title: 'Community Engagement Toolkit',
+        description: 'Event checklists, tabling guides, and community scripts',
+      },
+      {
+        title: 'Trainings & Events',
+        description: 'Upcoming CHW trainings, provider sessions, and recorded archives',
+      },
+      {
+        title: 'Partner Links & Data',
+        description: 'Neighborhood data, AMA resources, CDPH tools',
+      },
+    ];
+
+    // ── SVG Icons ─────────────────────────────────────────────────
+    const HeartIcon = ({ size = 20, color = 'currentColor' }) => (
+      <svg width={size} height={size} viewBox="0 0 24 24" fill={color} xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+      </svg>
+    );
+
+    const CheckIcon = () => (
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+        <polyline points="20 6 9 17 4 12" />
+      </svg>
+    );
+
+    const ArrowRightIcon = () => (
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <line x1="5" y1="12" x2="19" y2="12" />
+        <polyline points="12 5 19 12 12 19" />
+      </svg>
+    );
+
+    const DownloadIcon = () => (
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+        <polyline points="7 10 12 15 17 10" />
+        <line x1="12" y1="15" x2="12" y2="3" />
+      </svg>
+    );
+
+    const ExternalLinkIcon = () => (
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+        <polyline points="15 3 21 3 21 9" />
+        <line x1="10" y1="14" x2="21" y2="3" />
+      </svg>
+    );
+
+    const LockIcon = ({ size = 20 }) => (
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+      </svg>
+    );
+
+    const DocumentIcon = () => (
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+        <polyline points="14 2 14 8 20 8" />
+        <line x1="16" y1="13" x2="8" y2="13" />
+        <line x1="16" y1="17" x2="8" y2="17" />
+        <polyline points="10 9 9 9 8 9" />
+      </svg>
+    );
+
+    // ── ResourceCard ──────────────────────────────────────────────
+    function ResourceCard({ resource }) {
+      const typeColor = resource.typeColor || C.starRed;
+
+      const getActionLabel = (type) => {
+        if (type === 'Guide') return 'View Guide';
+        if (type === 'Links') return 'View Links';
+        return 'Download';
+      };
+
+      const getActionIcon = (type) => {
+        if (type === 'Links') return <ExternalLinkIcon />;
+        return <DownloadIcon />;
+      };
+
+      return (
+        <div style={{
+          background: 'white',
+          borderRadius: '16px',
+          border: '1px solid rgba(0,0,0,0.07)',
+          overflow: 'hidden',
+          display: 'flex',
+          flexDirection: 'column',
+          boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
+        }}>
+          {/* Visual header */}
+          <div style={{
+            height: '140px',
+            background: resource.gradient,
+            position: 'relative',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+            <div style={{ opacity: 0.22, color: 'white' }}>
+              <DocumentIcon />
+            </div>
+            {/* Type badge top-right */}
+            <div style={{
+              position: 'absolute',
+              top: '10px',
+              right: '10px',
+              background: 'rgba(255,255,255,0.18)',
+              borderRadius: '20px',
+              padding: '2px 10px',
+              fontSize: '10px',
+              fontWeight: 600,
+              color: 'white',
+              letterSpacing: '0.04em',
+              border: '1px solid rgba(255,255,255,0.3)',
+            }}>
+              {resource.type}
+            </div>
+            {/* Placeholder label bottom-left */}
+            <div style={{
+              position: 'absolute',
+              bottom: '8px',
+              left: '10px',
+              fontSize: '9px',
+              color: 'rgba(255,255,255,0.5)',
+              letterSpacing: '0.02em',
+            }}>
+              Placeholder — coming soon
+            </div>
+          </div>
+
+          {/* Content area */}
+          <div style={{ padding: '16px', flex: 1, display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            {/* Inline type badge */}
+            <div style={{
+              display: 'inline-flex',
+              alignSelf: 'flex-start',
+              background: typeColor + '18',
+              color: typeColor,
+              fontSize: '10px',
+              fontWeight: 700,
+              padding: '2px 8px',
+              borderRadius: '20px',
+              letterSpacing: '0.05em',
+              textTransform: 'uppercase',
+            }}>
+              {resource.type}
+            </div>
+
+            <div style={{
+              fontSize: '14px',
+              fontWeight: 700,
+              color: C.trustNavy,
+              fontFamily: "'Montserrat', sans-serif",
+              lineHeight: 1.3,
+            }}>
+              {resource.title}
+            </div>
+
+            <div style={{
+              fontSize: '12px',
+              color: C.charcoal,
+              opacity: 0.75,
+              lineHeight: 1.6,
+              flex: 1,
+            }}>
+              {resource.description}
+            </div>
+
+            <button
+              disabled
+              style={{
+                marginTop: '8px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '6px',
+                padding: '9px 14px',
+                background: C.trustNavy,
+                color: 'white',
+                border: 'none',
+                borderRadius: '8px',
+                fontSize: '12px',
+                fontWeight: 600,
+                cursor: 'not-allowed',
+                opacity: 0.55,
+                fontFamily: "'Poppins', sans-serif",
+              }}
+            >
+              {getActionIcon(resource.type)}
+              {getActionLabel(resource.type)}
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    // ── InteriorView ──────────────────────────────────────────────
+    function InteriorView({ onSignOut }) {
+      const [activeSection, setActiveSection] = useState('chw');
+      const section = SECTIONS.find(s => s.id === activeSection);
+
+      return (
+        <div style={{ minHeight: '100vh', background: C.softCloud }}>
+          {/* Sticky header */}
+          <header style={{
+            position: 'sticky',
+            top: 0,
+            zIndex: 50,
+            background: 'white',
+            borderBottom: '1px solid rgba(0,0,0,0.08)',
+            boxShadow: '0 1px 6px rgba(0,0,0,0.06)',
+          }}>
+            <div style={{
+              maxWidth: '1152px',
+              margin: '0 auto',
+              padding: '0 24px',
+              height: '64px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <img
+                  src="https://assets.codepen.io/3457845/logo-Live-Healthy-Chicago.png"
+                  alt="Live Healthy Chicago"
+                  style={{ height: '36px' }}
+                />
+                <div style={{
+                  background: C.skyBlue + '18',
+                  color: C.skyBlue,
+                  fontSize: '11px',
+                  fontWeight: 700,
+                  padding: '3px 10px',
+                  borderRadius: '20px',
+                  letterSpacing: '0.05em',
+                  textTransform: 'uppercase',
+                  border: `1px solid ${C.skyBlue}33`,
+                }}>
+                  Professional Portal
+                </div>
+              </div>
+              <button
+                onClick={onSignOut}
+                style={{
+                  background: 'transparent',
+                  border: `1.5px solid rgba(0,0,0,0.18)`,
+                  color: C.charcoal,
+                  borderRadius: '20px',
+                  padding: '6px 16px',
+                  fontSize: '13px',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  fontFamily: "'Poppins', sans-serif",
+                }}
+              >
+                Sign Out
+              </button>
+            </div>
+          </header>
+
+          {/* Main content */}
+          <main style={{ maxWidth: '1152px', margin: '0 auto', padding: '40px 24px 80px' }}>
+            {/* Welcome heading */}
+            <div style={{ marginBottom: '36px' }} className="fade-up">
+              <h1 style={{
+                fontSize: '28px',
+                fontWeight: 800,
+                color: C.trustNavy,
+                fontFamily: "'Montserrat', sans-serif",
+                marginBottom: '6px',
+              }}>
+                Partner Resources
+              </h1>
+              <p style={{ fontSize: '15px', color: C.charcoal, opacity: 0.7 }}>
+                Downloadable tools, materials, and guides for Live Healthy Chicago partners.
+              </p>
+            </div>
+
+            {/* Tab row */}
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginBottom: '32px' }}>
+              {SECTIONS.map(s => {
+                const isActive = activeSection === s.id;
+                return (
+                  <button
+                    key={s.id}
+                    onClick={() => setActiveSection(s.id)}
+                    style={{
+                      padding: '9px 20px',
+                      borderRadius: '30px',
+                      fontSize: '13px',
+                      fontWeight: 600,
+                      border: isActive ? 'none' : `1.5px solid rgba(0,0,0,0.14)`,
+                      background: isActive ? s.color : 'white',
+                      color: isActive ? 'white' : C.charcoal,
+                      cursor: 'pointer',
+                      boxShadow: isActive ? `0 4px 14px ${s.color}44` : 'none',
+                      transition: 'all 0.2s ease',
+                      fontFamily: "'Poppins', sans-serif",
+                    }}
+                  >
+                    {s.label}
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Section heading */}
+            <div style={{ marginBottom: '24px' }}>
+              <h2 style={{
+                fontSize: '20px',
+                fontWeight: 700,
+                color: C.trustNavy,
+                fontFamily: "'Montserrat', sans-serif",
+                marginBottom: '6px',
+              }}>
+                {section.label}
+              </h2>
+              <p style={{ fontSize: '14px', color: C.charcoal, opacity: 0.7, maxWidth: '640px' }}>
+                {section.description}
+              </p>
+            </div>
+
+            {/* Resource grid */}
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
+              gap: '20px',
+              marginBottom: '56px',
+            }}>
+              {section.resources.map((resource, i) => (
+                <ResourceCard key={i} resource={resource} />
+              ))}
+            </div>
+
+            {/* Coming Soon */}
+            <div style={{ marginTop: '16px' }}>
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '10px',
+                marginBottom: '20px',
+              }}>
+                <h3 style={{
+                  fontSize: '16px',
+                  fontWeight: 700,
+                  color: C.trustNavy,
+                  fontFamily: "'Montserrat', sans-serif",
+                }}>
+                  Coming Soon
+                </h3>
+                <div style={{
+                  height: '1px',
+                  flex: 1,
+                  background: 'rgba(0,0,0,0.1)',
+                }} />
+              </div>
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))',
+                gap: '16px',
+              }}>
+                {COMING_SOON.map((item, i) => (
+                  <div
+                    key={i}
+                    style={{
+                      border: '1.5px dashed rgba(0,0,0,0.18)',
+                      borderRadius: '14px',
+                      padding: '20px',
+                      background: 'transparent',
+                    }}
+                  >
+                    <div style={{
+                      display: 'inline-flex',
+                      background: 'rgba(0,0,0,0.06)',
+                      color: C.charcoal,
+                      opacity: 0.6,
+                      fontSize: '10px',
+                      fontWeight: 700,
+                      padding: '2px 8px',
+                      borderRadius: '20px',
+                      letterSpacing: '0.05em',
+                      textTransform: 'uppercase',
+                      marginBottom: '10px',
+                    }}>
+                      Coming Soon
+                    </div>
+                    <div style={{
+                      fontSize: '14px',
+                      fontWeight: 700,
+                      color: C.trustNavy,
+                      fontFamily: "'Montserrat', sans-serif",
+                      marginBottom: '6px',
+                    }}>
+                      {item.title}
+                    </div>
+                    <div style={{
+                      fontSize: '12px',
+                      color: C.charcoal,
+                      opacity: 0.6,
+                      lineHeight: 1.5,
+                    }}>
+                      {item.description}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </main>
+        </div>
+      );
+    }
+
+    // ── LandingView ───────────────────────────────────────────────
+    function LandingView({ onSignUp, onLogin }) {
+      return (
+        <div style={{ minHeight: '100vh', background: C.trustNavy }}>
+          {/* Header */}
+          <header style={{ padding: '20px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', maxWidth: '1152px', margin: '0 auto' }}>
+            <img
+              src="https://assets.codepen.io/3457845/logo-Live-Healthy-Chicago.png"
+              alt="Live Healthy Chicago"
+              style={{ height: '36px', filter: 'brightness(0) invert(1)' }}
+            />
+            <a
+              href="/"
+              style={{
+                color: 'rgba(255,255,255,0.7)',
+                fontSize: '13px',
+                fontWeight: 600,
+                textDecoration: 'none',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '4px',
+              }}
+            >
+              ← Back to main site
+            </a>
+          </header>
+
+          {/* Hero */}
+          <div style={{ maxWidth: '800px', margin: '0 auto', padding: '60px 24px 100px', textAlign: 'center' }} className="fade-up">
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginBottom: '20px' }}>
+              <HeartIcon size={22} color={C.starRed} />
+              <span style={{
+                color: C.skyBlue,
+                fontSize: '12px',
+                fontWeight: 700,
+                letterSpacing: '0.12em',
+                textTransform: 'uppercase',
+              }}>
+                Professional Portal
+              </span>
+            </div>
+
+            <h1 style={{
+              fontFamily: "'Montserrat', sans-serif",
+              fontWeight: 900,
+              fontSize: 'clamp(30px, 5vw, 46px)',
+              color: 'white',
+              lineHeight: 1.15,
+              marginBottom: '20px',
+            }}>
+              Resources for the People<br />Doing the Work
+            </h1>
+
+            <p style={{
+              fontSize: '16px',
+              color: 'rgba(255,255,255,0.78)',
+              lineHeight: 1.7,
+              marginBottom: '36px',
+              maxWidth: '560px',
+              margin: '0 auto 36px',
+            }}>
+              A private library of tools, materials, and guidance for Community Health Workers, clinicians, and partner organizations in Live Healthy Chicago.
+            </p>
+
+            {/* What's inside box */}
+            <div style={{
+              background: 'rgba(255,255,255,0.07)',
+              border: '1px solid rgba(255,255,255,0.15)',
+              borderRadius: '16px',
+              padding: '28px 32px',
+              marginBottom: '40px',
+              textAlign: 'left',
+              maxWidth: '480px',
+              margin: '0 auto 40px',
+            }}>
+              <div style={{
+                fontSize: '12px',
+                fontWeight: 700,
+                color: 'rgba(255,255,255,0.5)',
+                letterSpacing: '0.1em',
+                textTransform: 'uppercase',
+                marginBottom: '16px',
+              }}>
+                What's inside
+              </div>
+              {[
+                'Downloadable flyers and printed materials',
+                'Social media graphics and messages',
+                'Training opportunities & certificates (coming soon)',
+                'Updates targeted to your role (CHWs, clinicians, and more)',
+              ].map((item, i) => (
+                <div key={i} style={{
+                  display: 'flex',
+                  alignItems: 'flex-start',
+                  gap: '10px',
+                  marginBottom: i < 3 ? '12px' : 0,
+                  color: 'white',
+                  fontSize: '14px',
+                  lineHeight: 1.5,
+                }}>
+                  <span style={{ color: C.neighborhoodTeal, flexShrink: 0, marginTop: '1px' }}>
+                    <CheckIcon />
+                  </span>
+                  {item}
+                </div>
+              ))}
+            </div>
+
+            {/* CTAs */}
+            <div style={{ display: 'flex', gap: '14px', justifyContent: 'center', flexWrap: 'wrap' }}>
+              <button
+                onClick={onSignUp}
+                style={{
+                  background: C.starRed,
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '30px',
+                  padding: '14px 32px',
+                  fontSize: '15px',
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                  fontFamily: "'Poppins', sans-serif",
+                  boxShadow: `0 4px 18px ${C.starRed}55`,
+                }}
+              >
+                Sign Up for Access
+              </button>
+              <button
+                onClick={onLogin}
+                style={{
+                  background: 'transparent',
+                  color: 'white',
+                  border: '1.5px solid rgba(255,255,255,0.5)',
+                  borderRadius: '30px',
+                  padding: '14px 28px',
+                  fontSize: '14px',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  fontFamily: "'Poppins', sans-serif",
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                }}
+              >
+                I already have the password →
+              </button>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // ── SignUpView ────────────────────────────────────────────────
+    function SignUpView({ onSuccess, onBack }) {
+      const [fields, setFields] = useState({
+        name: '',
+        email: '',
+        role: '',
+        roleOther: '',
+        organization: '',
+        zip: '',
+      });
+      const [submitting, setSubmitting] = useState(false);
+      const [error, setError] = useState('');
+
+      const set = (key, val) => setFields(f => ({ ...f, [key]: val }));
+
+      const isValid =
+        fields.name.trim() &&
+        fields.email.trim() &&
+        fields.role &&
+        (fields.role !== 'Other' || fields.roleOther.trim()) &&
+        fields.organization.trim() &&
+        fields.zip.trim();
+
+      const handleSubmit = async (e) => {
+        e.preventDefault();
+        setSubmitting(true);
+        setError('');
+        try {
+          const body = new URLSearchParams({
+            'form-name': 'portal-signup',
+            'bot-field': '',
+            name: fields.name,
+            email: fields.email,
+            role: fields.role === 'Other' ? fields.roleOther : fields.role,
+            roleOther: fields.roleOther,
+            organization: fields.organization,
+            zip: fields.zip,
+          });
+          const res = await fetch('/portal.html', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: body.toString(),
+          });
+          if (res.ok || res.status === 303) {
+            onSuccess(fields.name, fields.email);
+          } else {
+            setError('Something went wrong. Please try again.');
+          }
+        } catch (err) {
+          setError('Network error. Please try again.');
+        } finally {
+          setSubmitting(false);
+        }
+      };
+
+      const inputStyle = {
+        width: '100%',
+        border: '1.5px solid rgba(0,0,0,0.14)',
+        borderRadius: '10px',
+        padding: '11px 14px',
+        fontSize: '14px',
+        fontFamily: "'Poppins', sans-serif",
+        color: C.charcoal,
+        background: 'white',
+      };
+
+      const labelStyle = {
+        display: 'block',
+        fontSize: '12px',
+        fontWeight: 600,
+        color: C.trustNavy,
+        marginBottom: '6px',
+        letterSpacing: '0.02em',
+      };
+
+      return (
+        <div style={{ minHeight: '100vh', background: C.softCloud, padding: '32px 16px 80px' }}>
+          <button
+            onClick={onBack}
+            style={{
+              background: 'none',
+              border: 'none',
+              color: C.skyBlue,
+              fontSize: '14px',
+              fontWeight: 600,
+              cursor: 'pointer',
+              padding: '0 0 24px',
+              display: 'block',
+              maxWidth: '512px',
+              margin: '0 auto',
+              fontFamily: "'Poppins', sans-serif",
+            }}
+          >
+            ← Back
+          </button>
+
+          <div style={{
+            background: 'white',
+            borderRadius: '24px',
+            padding: '40px 36px',
+            maxWidth: '512px',
+            margin: '0 auto',
+            boxShadow: '0 4px 24px rgba(0,0,0,0.07)',
+          }} className="fade-up">
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
+              <HeartIcon size={18} color={C.starRed} />
+              <span style={{ fontSize: '11px', fontWeight: 700, color: C.skyBlue, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                Portal Sign-Up
+              </span>
+            </div>
+            <h1 style={{
+              fontFamily: "'Montserrat', sans-serif",
+              fontWeight: 800,
+              fontSize: '26px',
+              color: C.trustNavy,
+              marginBottom: '28px',
+            }}>
+              Join the Portal
+            </h1>
+
+            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
+              <div>
+                <label style={labelStyle}>Full Name *</label>
+                <input
+                  type="text"
+                  value={fields.name}
+                  onChange={e => set('name', e.target.value)}
+                  placeholder="Your name"
+                  required
+                  style={inputStyle}
+                />
+              </div>
+
+              <div>
+                <label style={labelStyle}>Email Address *</label>
+                <input
+                  type="email"
+                  value={fields.email}
+                  onChange={e => set('email', e.target.value)}
+                  placeholder="you@organization.org"
+                  required
+                  style={inputStyle}
+                />
+              </div>
+
+              <div>
+                <label style={labelStyle}>Your Role *</label>
+                <select
+                  value={fields.role}
+                  onChange={e => set('role', e.target.value)}
+                  required
+                  style={{ ...inputStyle, appearance: 'none', cursor: 'pointer' }}
+                >
+                  <option value="" disabled>Select your role…</option>
+                  <option value="CHW (Community Health Worker)">CHW (Community Health Worker)</option>
+                  <option value="Nurse">Nurse</option>
+                  <option value="Medical Doctor (MD / DO)">Medical Doctor (MD / DO)</option>
+                  <option value="NP / PA">NP / PA</option>
+                  <option value="Healthcare Admin">Healthcare Admin</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+
+              {fields.role === 'Other' && (
+                <div className="fade-up">
+                  <label style={labelStyle}>Please describe your role *</label>
+                  <input
+                    type="text"
+                    value={fields.roleOther}
+                    onChange={e => set('roleOther', e.target.value)}
+                    placeholder="e.g. Community Organizer, Researcher…"
+                    required
+                    style={inputStyle}
+                  />
+                </div>
+              )}
+
+              <div>
+                <label style={labelStyle}>Organization *</label>
+                <input
+                  type="text"
+                  value={fields.organization}
+                  onChange={e => set('organization', e.target.value)}
+                  placeholder="Your clinic, hospital, or community org"
+                  required
+                  style={inputStyle}
+                />
+              </div>
+
+              <div>
+                <label style={labelStyle}>Home ZIP Code *</label>
+                <input
+                  type="text"
+                  value={fields.zip}
+                  onChange={e => set('zip', e.target.value)}
+                  placeholder="60601"
+                  maxLength={10}
+                  required
+                  style={inputStyle}
+                />
+                <p style={{ fontSize: '11px', color: C.charcoal, opacity: 0.55, marginTop: '5px' }}>
+                  To understand where our partners live and work
+                </p>
+              </div>
+
+              {error && (
+                <div style={{
+                  background: '#FFF0F0',
+                  border: '1px solid #E5202F44',
+                  borderRadius: '8px',
+                  padding: '10px 14px',
+                  fontSize: '13px',
+                  color: C.starRed,
+                }}>
+                  {error}
+                </div>
+              )}
+
+              <button
+                type="submit"
+                disabled={!isValid || submitting}
+                style={{
+                  background: isValid && !submitting ? C.starRed : 'rgba(0,0,0,0.15)',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '12px',
+                  padding: '14px',
+                  fontSize: '15px',
+                  fontWeight: 700,
+                  cursor: isValid && !submitting ? 'pointer' : 'not-allowed',
+                  fontFamily: "'Poppins', sans-serif",
+                  transition: 'background 0.2s ease',
+                  marginTop: '4px',
+                }}
+              >
+                {submitting ? 'Submitting…' : 'Request Access'}
+              </button>
+            </form>
+          </div>
+        </div>
+      );
+    }
+
+    // ── ConfirmView ───────────────────────────────────────────────
+    function ConfirmView({ name, onEnterPortal }) {
+      const firstName = name.split(' ')[0];
+      return (
+        <div style={{ minHeight: '100vh', background: C.softCloud, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px' }}>
+          <div style={{
+            background: 'white',
+            borderRadius: '24px',
+            padding: '48px 40px',
+            maxWidth: '460px',
+            width: '100%',
+            textAlign: 'center',
+            boxShadow: '0 4px 24px rgba(0,0,0,0.08)',
+          }} className="fade-up">
+            {/* Green check circle */}
+            <div style={{
+              width: '60px',
+              height: '60px',
+              borderRadius: '50%',
+              background: C.neighborhoodTeal + '20',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              margin: '0 auto 20px',
+            }}>
+              <div style={{ color: C.neighborhoodTeal, transform: 'scale(1.8)' }}>
+                <CheckIcon />
+              </div>
+            </div>
+
+            <h1 style={{
+              fontFamily: "'Montserrat', sans-serif",
+              fontWeight: 800,
+              fontSize: '26px',
+              color: C.trustNavy,
+              marginBottom: '12px',
+            }}>
+              You're in, {firstName}!
+            </h1>
+
+            <p style={{ fontSize: '14px', color: C.charcoal, opacity: 0.65, lineHeight: 1.6, marginBottom: '28px' }}>
+              Your request has been received. Here's the portal password to access resources right now.
+            </p>
+
+            {/* Password box */}
+            <div style={{
+              background: C.trustNavy,
+              borderRadius: '14px',
+              padding: '20px 24px',
+              marginBottom: '28px',
+            }}>
+              <div style={{
+                fontSize: '11px',
+                fontWeight: 700,
+                color: C.skyBlue,
+                letterSpacing: '0.1em',
+                textTransform: 'uppercase',
+                marginBottom: '10px',
+              }}>
+                Portal Password
+              </div>
+              <div style={{
+                fontFamily: "'Montserrat', sans-serif",
+                fontWeight: 800,
+                fontSize: '28px',
+                color: 'white',
+                letterSpacing: '0.25em',
+                textTransform: 'lowercase',
+              }}>
+                heart
+              </div>
+            </div>
+
+            {/* Email note */}
+            <p style={{ fontSize: '12px', color: C.charcoal, opacity: 0.55, marginBottom: '28px', lineHeight: 1.6 }}>
+              {/* TODO: connect automated email via Zapier or Netlify Functions */}
+              We'll send a confirmation to your email with this password and updates for your role.
+            </p>
+
+            <button
+              onClick={onEnterPortal}
+              style={{
+                background: C.starRed,
+                color: 'white',
+                border: 'none',
+                borderRadius: '12px',
+                padding: '14px 32px',
+                fontSize: '15px',
+                fontWeight: 700,
+                cursor: 'pointer',
+                fontFamily: "'Poppins', sans-serif",
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                margin: '0 auto',
+                boxShadow: `0 4px 16px ${C.starRed}44`,
+              }}
+            >
+              Enter the Portal →
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    // ── LoginView ─────────────────────────────────────────────────
+    function LoginView({ onSuccess, onBack }) {
+      const [password, setPassword] = useState('');
+      const [error, setError] = useState('');
+      const [loading, setLoading] = useState(false);
+
+      const handleSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        setError('');
+        const hash = await sha256(password);
+        if (hash === PORTAL_HASH) {
+          sessionStorage.setItem(SESSION_KEY, 'true');
+          onSuccess();
+        } else {
+          setError('Incorrect password. Check your email or contact us.');
+        }
+        setLoading(false);
+      };
+
+      return (
+        <div style={{ minHeight: '100vh', background: C.softCloud, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '24px' }}>
+          {/* Logo above card */}
+          <img
+            src="https://assets.codepen.io/3457845/logo-Live-Healthy-Chicago.png"
+            alt="Live Healthy Chicago"
+            style={{ height: '44px', marginBottom: '28px' }}
+          />
+
+          <div style={{
+            background: 'white',
+            borderRadius: '24px',
+            padding: '40px 36px',
+            maxWidth: '380px',
+            width: '100%',
+            boxShadow: '0 4px 24px rgba(0,0,0,0.08)',
+            textAlign: 'center',
+          }} className="fade-up">
+            <div style={{ color: C.trustNavy, marginBottom: '12px' }}>
+              <LockIcon size={24} />
+            </div>
+            <h2 style={{
+              fontFamily: "'Montserrat', sans-serif",
+              fontWeight: 800,
+              fontSize: '22px',
+              color: C.trustNavy,
+              marginBottom: '24px',
+            }}>
+              Portal Login
+            </h2>
+
+            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+              <input
+                type="password"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                placeholder="Enter portal password"
+                autoFocus
+                required
+                style={{
+                  width: '100%',
+                  border: '1.5px solid rgba(0,0,0,0.14)',
+                  borderRadius: '10px',
+                  padding: '12px 14px',
+                  fontSize: '15px',
+                  fontFamily: "'Poppins', sans-serif",
+                  color: C.charcoal,
+                  textAlign: 'center',
+                  letterSpacing: '0.1em',
+                }}
+              />
+
+              {error && (
+                <div style={{
+                  background: '#FFF0F0',
+                  border: '1px solid #E5202F44',
+                  borderRadius: '8px',
+                  padding: '10px 14px',
+                  fontSize: '13px',
+                  color: C.starRed,
+                  textAlign: 'left',
+                }}>
+                  {error}
+                </div>
+              )}
+
+              <button
+                type="submit"
+                disabled={!password || loading}
+                style={{
+                  background: password && !loading ? C.trustNavy : 'rgba(0,0,0,0.15)',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '10px',
+                  padding: '13px',
+                  fontSize: '14px',
+                  fontWeight: 700,
+                  cursor: password && !loading ? 'pointer' : 'not-allowed',
+                  fontFamily: "'Poppins', sans-serif",
+                  transition: 'background 0.2s ease',
+                }}
+              >
+                {loading ? 'Checking…' : 'Enter Portal'}
+              </button>
+            </form>
+
+            <p style={{ fontSize: '12px', color: C.charcoal, opacity: 0.55, marginTop: '20px', lineHeight: 1.6 }}>
+              Don't have a password?{' '}
+              <a href="/#action" style={{ color: C.skyBlue, fontWeight: 600 }}>
+                Request access
+              </a>
+            </p>
+          </div>
+
+          <button
+            onClick={onBack}
+            style={{
+              background: 'none',
+              border: 'none',
+              color: C.skyBlue,
+              fontSize: '13px',
+              fontWeight: 600,
+              cursor: 'pointer',
+              marginTop: '20px',
+              fontFamily: "'Poppins', sans-serif",
+            }}
+          >
+            ← Back to portal landing
+          </button>
+        </div>
+      );
+    }
+
+    // ── PortalApp (root state machine) ───────────────────────────
+    function PortalApp() {
+      const [view, setView] = useState('landing');
+      const [confirmName, setConfirmName] = useState('');
+
+      useEffect(() => {
+        if (sessionStorage.getItem(SESSION_KEY) === 'true') setView('interior');
+      }, []);
+
+      const handleSignOut = () => {
+        sessionStorage.removeItem(SESSION_KEY);
+        setView('landing');
+      };
+
+      if (view === 'landing') {
+        return (
+          <LandingView
+            onSignUp={() => setView('signup')}
+            onLogin={() => setView('login')}
+          />
+        );
+      }
+
+      if (view === 'signup') {
+        return (
+          <SignUpView
+            onSuccess={(name) => {
+              setConfirmName(name);
+              setView('confirm');
+            }}
+            onBack={() => setView('landing')}
+          />
+        );
+      }
+
+      if (view === 'confirm') {
+        return (
+          <ConfirmView
+            name={confirmName}
+            onEnterPortal={() => setView('login')}
+          />
+        );
+      }
+
+      if (view === 'login') {
+        return (
+          <LoginView
+            onSuccess={() => setView('interior')}
+            onBack={() => setView('landing')}
+          />
+        );
+      }
+
+      if (view === 'interior') {
+        return <InteriorView onSignOut={handleSignOut} />;
+      }
+
+      return null;
+    }
+
+    // ── Mount ─────────────────────────────────────────────────────
+    ReactDOM.createRoot(document.getElementById('root')).render(<PortalApp />);
+  </script>
+</body>
+</html>
