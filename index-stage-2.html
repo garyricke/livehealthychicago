@@ -1528,6 +1528,7 @@ let it drop on you`;
 
       const [selectedEvent, setSelectedEvent] = React.useState(null);
       const [selectedArticle, setSelectedArticle] = React.useState(null);
+      const [showTranscript, setShowTranscript] = React.useState(false);
 
       const newsItems = [
         {
@@ -1654,6 +1655,29 @@ let it drop on you`;
           excerpt: 'At a Live Healthy Chicago community event, Chicago Department of Public Health Commissioner Dr. Olusimbo (Simbo) Ige delivered a passionate call to action \u2014 linking personal experience, a stark life-expectancy gap, and a clear citywide mission.',
           image: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1773771441/Dr_Ige_2_27_26_thumb_tqmfrq.jpg',
           video: 'https://player.vimeo.com/progressive_redirect/playback/1174486208/rendition/720p/file.mp4%20%28720p%29.mp4?loc=external&log_user=0&signature=09dd4fc7453481de31cd1770ca29113795b41dc717efb9cad65d4c1d77e58b6f',
+          transcript: `So I put on my pink blouse and I said, "Let's go and celebrate this event." Why are we celebrating? Good people, we are celebrating. You hear from a doctor who's a Black woman — here is another Black woman saying: for us, by us. We are out here on a Friday because we care.
+
+Because we know that heart disease is the number one reason why Black people are not getting to be grandparents. People lived and their lives were cut short because of something that was preventable. And every single person in this room — if you're a Black person in this room and you have a family member who has high blood pressure, raise your hand.
+
+It's the same for me on both sides. I'm married to a Black man. The same story. So this is something we are passionate about. It impacts all of us. It's something that resonates deeply because we see it every day, but it's also something that we know is solvable. Let me tell you why.
+
+In December, I was working in New York on improving life expectancy for New Yorkers, and they called me in because they were celebrating that New York City had reached a milestone: 83 years in life expectancy — the highest life expectancy ever for the city of New York. And they had invited me to be a part of that celebration because of some of the work that we had done before. And it got me thinking — why is it that Black people in New York live to be 80 and Black people in Chicago live to be 62?
+
+Why? You know the number one reason: heart disease, homicides, and opioid overdose. So I came back and I said, look — I told my folks, everybody in my department — I said, I want it to be that Chicago overtakes New York. Yes! We don't want to be the second city anymore. We want Black people in Chicago to live to be a hundred.
+
+So that is our mission. We want to overtake New York. And why is that important? Because it is not being Black that makes us die young. That is not the reason. If you move from this location and move to another location, you'll live longer. So now we know what the problem is. It is ensuring that there are resources in our community.
+
+And look around you now. Yes — resources, resources, resources, resources, resources all around us. So I want to say thank you to you, Chicago. I want to say thank you to SSHCO. I want to say thank you to Miles Square. I want to say thank you to the American Heart Association, because we are bringing the resources to the community.
+
+This is how we live to be a hundred. That is why I'm excited — because when I said in December that I wanted Chicago to overtake New York, I did not know this was brewing. And so when I came in here today, I'm doing my happy dance. My vision is coming true — not because I am the one solving the problem, but because we are mobilizing. There are people, there are doctors, there are cardiologists, there are educators everywhere who say: we will bring resources to our community.
+
+So I want to say thank you to you all. Our community health workers are out there — they're taking blood pressures, they're counseling people. We have new medicine, we have everybody out here rallying, and I'm pulling together. And the Parks District said, "We got you. We are going to make our facilities available." There's a gym, there's food, there's all of the things we need to stay healthy.
+
+So I am convinced that in my lifetime, in my generation, we can begin to tell stories of how people live to a hundred. No more stories of people dying at 40. No more stories of people dying at 45. No more stories of Chicago being last in life expectancy.
+
+And I know that is going to happen now because we have you all. So thank you, everyone, for coming out on a Friday. Thank you for loving on our communities. Thank you for bringing your resources and your passion and your smiles, so that our communities feel loved and wrapped around and feel a warm safety net.
+
+And that is how we overcome high blood pressure. They'll tell you about food and salt and all of those things, but really it's about loving on our communities. And that is what we're doing today. So, thank you. Happy Friday!`,
           author: 'Dr. Olusimbo (Simbo) Ige, CDPH',
           featured: true,
           body: [
@@ -1760,7 +1784,10 @@ let it drop on you`;
       // Close modals on Escape
       React.useEffect(() => {
         const handleKey = (e) => {
-          if (e.key === 'Escape') { setSelectedEvent(null); setSelectedArticle(null); }
+          if (e.key === 'Escape') {
+            if (showTranscript) { setShowTranscript(false); }
+            else { setSelectedEvent(null); setSelectedArticle(null); }
+          }
         };
         window.addEventListener('keydown', handleKey);
         return () => window.removeEventListener('keydown', handleKey);
@@ -3102,6 +3129,53 @@ let it drop on you`;
                   <div className="space-y-4">
                     {selectedArticle.body.map((item, pi) => renderBodyItem(item, pi))}
                   </div>
+                  {selectedArticle.transcript && (
+                    <div className="mt-8 pt-6" style={{ borderTop: `1px solid rgba(0,0,0,0.08)` }}>
+                      <button
+                        onClick={() => setShowTranscript(true)}
+                        className="inline-flex items-center gap-2 text-sm font-semibold px-4 py-2 rounded-full transition-colors"
+                        style={{ backgroundColor: `${colors.skyBlue}12`, color: colors.skyBlue, border: `1px solid ${colors.skyBlue}30` }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>
+                          <line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>
+                        </svg>
+                        View Full Transcript
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* ── Transcript Modal ── */}
+          {showTranscript && selectedArticle?.transcript && (
+            <div className="fixed inset-0 flex items-start justify-center p-4 overflow-y-auto" style={{ zIndex: 60 }}
+                 onClick={() => setShowTranscript(false)}>
+              <div className="fixed inset-0 bg-black/60 backdrop-blur-sm" />
+              <div className="relative bg-white rounded-3xl max-w-2xl w-full my-12 shadow-2xl"
+                   style={{ animation: 'modalSlideUp 0.25s ease-out' }}
+                   onClick={(e) => e.stopPropagation()}>
+                <div className="flex items-center justify-between px-8 pt-8 pb-4"
+                     style={{ borderBottom: `1px solid rgba(0,0,0,0.08)` }}>
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-widest mb-1" style={{ color: colors.skyBlue }}>Transcript</p>
+                    <h3 className="text-lg font-bold leading-snug" style={{ fontFamily: "'Montserrat', sans-serif", color: colors.trustNavy }}>
+                      {selectedArticle.author}
+                    </h3>
+                  </div>
+                  <button onClick={() => setShowTranscript(false)}
+                          className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 transition-colors"
+                          style={{ backgroundColor: 'rgba(0,0,0,0.06)', color: colors.charcoal }}>
+                    <XIcon className="w-5 h-5" />
+                  </button>
+                </div>
+                <div className="px-8 py-6">
+                  {selectedArticle.transcript.split('\n\n').map((para, i) => (
+                    <p key={i} className="text-sm leading-relaxed mb-4 last:mb-0" style={{ color: colors.charcoal }}>
+                      {para}
+                    </p>
+                  ))}
                 </div>
               </div>
             </div>
