@@ -1265,55 +1265,217 @@ let it drop on you`;
     }
 
     // ── Main App ──
-    // ── Google Sheets CSV URL ──────────────────────────────────────────────────
-    // After publishing your sheet (File → Share → Publish to web → CSV), paste the URL below:
-    const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSUS02k2X8ZpE70QyMM0gDAPhvhzEYPt0rOgUgZUZcqZj--zq0P0AdO7HtS4U0uNA_kRm6f8MTZJM4Y/pub?output=csv';
+    // ── Static Events Data ──────────────────────────────────────────────────
+    const eventsData = [
+      {
+        id: 'baby-shower-apr-2026',
+        title: 'Community Baby Shower',
+        subtitle: 'A West Side Collaborative Event by Sankofa Wellness Village and Aetna Better Health',
+        badge: 'Black Maternal Health Week',
+        date: 'April 11, 2026',
+        weekday: 'Saturday',
+        time: '1:00 \u2013 3:00 P.M.',
+        location: 'Garfield Park Field House',
+        address: '100 N. Central Park Ave., Chicago, IL 60624',
+        description: 'A free event for pregnant and postpartum parents and West Side families \u2014 celebrating Black Maternal Health Week with giveaways, health screenings, and community support.',
+        rsvpUrl: 'https://www.eventbrite.com/e/black-maternal-health-week-2026-community-baby-shower-tickets-1984412349757?aff=oddtdtcreator',
+        heroImage: 'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1774371280/lhc-events/baby-shower/hero.jpg',
+        features: [
+          { label: 'Baby Supplies\n& Giveaways',       img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1774371281/lhc-events/baby-shower/icon-bottle.png' },
+          { label: 'Prenatal &\nPostpartum Support',   img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1774371283/lhc-events/baby-shower/icon-prenatal.png' },
+          { label: 'Health Screenings\n& Resources',   icon: 'health' },
+          { label: 'Safe Sleep\nEducation & More',     img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1774371282/lhc-events/baby-shower/icon-safe-sleep.png' },
+        ],
+        qrCode: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1774371290/lhc-events/baby-shower/qr-code.png',
+        partners: [
+          { name: 'West Side Healthy Parents & Babies', src: 'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1774371294/lhc-events/baby-shower/logo-wshpb.png' },
+          { name: 'West Side United',                   src: 'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1774371292/lhc-events/baby-shower/logo-west-side-united.png' },
+          { name: 'Aetna Better Health',                src: 'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1774371293/lhc-events/baby-shower/logo-aetna.png' },
+          { name: "Lurie Children's Hospital",          src: 'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1774371292/lhc-events/baby-shower/logo-lurie-childrens.png' },
+          { name: 'Erie Family Health Centers',         src: 'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1774371287/lhc-events/baby-shower/logo-erie-family.png' },
+          { name: 'Sinai Chicago',                      src: 'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1774371286/lhc-events/baby-shower/logo-sinai-chicago.png' },
+          { name: 'Garfield Park Rite to Wellness',     src: 'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1774371288/lhc-events/baby-shower/logo-garfield-park-wellness.png' },
+          { name: 'RUSH',                               src: 'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1774371289/lhc-events/baby-shower/logo-rush.png' },
+          { name: 'YMCA of Metro Chicago',              src: 'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1774371290/lhc-events/baby-shower/logo-ymca.png' },
+          { name: 'equal hope',                         src: 'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1774371285/lhc-events/baby-shower/logo-equal-hope.png' },
+          { name: 'UI Health',                          src: 'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1774371284/lhc-events/baby-shower/logo-ui-health.png' },
+          { name: 'Cook County Health',                 src: 'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1774371283/lhc-events/baby-shower/logo-cook-county-health.png' },
+          { name: 'TCB',                                src: 'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1774371285/lhc-events/baby-shower/logo-tcb.png' },
+        ],
+      },
+    ];
 
-    const EVENT_COLORS = ['#48C9B0', '#46B7E5', '#6B8DD6', '#F6AD55', '#E5202F', '#48A999'];
+    // ── Event components (outside LiveHealthyChicago for stable references) ──
+    const EV_NAVY   = '#1B365D';
+    const EV_YELLOW = '#F5B400';
+    const EV_RED    = '#E5202F';
 
-    function parseCSV(text) {
-      // Character-by-character parser that correctly handles quoted fields
-      // containing commas and newlines (e.g. multi-line Long Description cells).
-      const rows = [];
-      text = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
-      let i = 0, cells = [], cur = '', inQ = false;
-      while (i < text.length) {
-        const ch = text[i];
-        if (inQ) {
-          if (ch === '"' && text[i + 1] === '"') { cur += '"'; i += 2; } // escaped ""
-          else if (ch === '"') { inQ = false; i++; }
-          else { cur += ch; i++; }
-        } else {
-          if (ch === '"') { inQ = true; i++; }
-          else if (ch === ',') { cells.push(cur.trim()); cur = ''; i++; }
-          else if (ch === '\n') {
-            cells.push(cur.trim());
-            if (cells.some(c => c !== '')) rows.push(cells);
-            cells = []; cur = ''; i++;
-          } else { cur += ch; i++; }
-        }
-      }
-      cells.push(cur.trim());
-      if (cells.some(c => c !== '')) rows.push(cells);
-      return rows;
-    }
+    const EventHealthIcon = () => (
+      <svg viewBox="0 0 48 48" fill="none" className="w-12 h-12">
+        <rect x="8" y="6" width="32" height="36" rx="4" fill="rgba(255,255,255,0.25)" stroke="white" strokeWidth="2"/>
+        <path d="M16 18h16M16 24h10" stroke="white" strokeWidth="2.5" strokeLinecap="round"/>
+        <path d="M28 30l3 3 5-5" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M24 11c0-1.1.9-2 2-2s2 .9 2 2v1H22v-1c0-1.1.9-2 2-2z" fill="white"/>
+      </svg>
+    );
 
-    // Parses "M/D/YYYY" from Google Sheets into date parts for the event card
-    function parseSheetDate(raw) {
-      if (!raw) return { full: '', weekday: '' };
-      const parts = raw.trim().split('/');
-      if (parts.length !== 3) return { full: raw, weekday: '' };
-      const monthIdx = parseInt(parts[0], 10) - 1;
-      const dayNum   = parseInt(parts[1], 10);
-      const year     = parseInt(parts[2], 10);
-      const MONTHS   = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-      const DAYS     = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-      const d = new Date(year, monthIdx, dayNum);
-      return {
-        full:    `${MONTHS[monthIdx] || ''} ${dayNum}, ${year}`,
-        weekday: DAYS[d.getDay()] || '',
-      };
-    }
+    const EventCard = ({ event, onOpen }) => (
+      <div className="cursor-pointer group rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1"
+           style={{ backgroundColor: EV_NAVY }}
+           onClick={onOpen}>
+        <div className="relative overflow-hidden" style={{ height: '240px' }}>
+          <img src={event.heroImage} alt={event.title}
+               className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" />
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(27,54,93,0.15) 30%, rgba(27,54,93,0.88))' }} />
+          {event.badge && (
+            <div className="absolute top-4 left-4 flex items-center gap-1.5 px-3 py-1.5 rounded-full"
+                 style={{ backgroundColor: EV_RED }}>
+              <svg className="w-3 h-3" viewBox="0 0 24 24" fill="white"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>
+              <span className="text-xs font-bold text-white tracking-wide" style={{ fontFamily: "'Poppins', sans-serif" }}>{event.badge}</span>
+            </div>
+          )}
+        </div>
+        <div className="p-6">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-4"
+               style={{ backgroundColor: EV_YELLOW }}>
+            <svg className="w-3.5 h-3.5" fill={EV_NAVY} viewBox="0 0 20 20"><path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd"/></svg>
+            <span className="text-xs font-bold" style={{ color: EV_NAVY, fontFamily: "'Poppins', sans-serif" }}>
+              {event.weekday}, {event.date} &middot; {event.time}
+            </span>
+          </div>
+          <h3 className="text-xl font-black text-white mb-2 leading-tight" style={{ fontFamily: "'Montserrat', sans-serif" }}>{event.title}</h3>
+          <p className="text-sm mb-5 leading-relaxed" style={{ color: 'rgba(255,255,255,0.72)' }}>{event.description}</p>
+          <div className="flex items-start gap-2 mb-6">
+            <svg className="w-4 h-4 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke={EV_YELLOW} strokeWidth="2">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z"/>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
+            <div>
+              <div className="text-sm font-semibold text-white">{event.location}</div>
+              <div className="text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>{event.address}</div>
+            </div>
+          </div>
+          <button className="w-full py-3 rounded-full text-sm font-bold transition-all group-hover:brightness-110"
+                  style={{ backgroundColor: EV_YELLOW, color: EV_NAVY, fontFamily: "'Poppins', sans-serif" }}>
+            See Details &amp; Register \u2192
+          </button>
+        </div>
+      </div>
+    );
+
+    const EventModal = ({ event, onClose }) => {
+      if (!event) return null;
+      const tileBgs   = [EV_YELLOW, EV_NAVY,  EV_RED,   '#2A6496'];
+      const tileText  = [EV_NAVY,   'white',   'white',  'white'  ];
+      return (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4"
+             style={{ animation: 'fadeIn 0.2s ease-out' }}
+             onClick={onClose}>
+          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm" />
+          <div className="relative bg-white rounded-3xl max-w-lg w-full max-h-[92vh] overflow-y-auto shadow-2xl"
+               style={{ animation: 'modalSlideUp 0.3s ease-out' }}
+               onClick={e => e.stopPropagation()}>
+
+            {/* Hero */}
+            <div className="relative overflow-hidden rounded-t-3xl" style={{ height: '280px' }}>
+              <img src={event.heroImage} alt={event.title} className="w-full h-full object-cover object-top" />
+              <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, transparent 25%, rgba(27,54,93,0.95))' }} />
+              <div className="absolute bottom-0 left-0 right-0 p-6">
+                {event.badge && (
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full mb-2"
+                       style={{ backgroundColor: EV_RED }}>
+                    <svg className="w-3 h-3" viewBox="0 0 24 24" fill="white"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>
+                    <span className="text-xs font-bold text-white tracking-wide" style={{ fontFamily: "'Poppins', sans-serif" }}>{event.badge}</span>
+                  </div>
+                )}
+                <h2 className="text-3xl font-black text-white leading-tight" style={{ fontFamily: "'Montserrat', sans-serif" }}>{event.title}</h2>
+                <p className="text-sm font-semibold italic mt-1" style={{ color: EV_YELLOW }}>{event.subtitle}</p>
+              </div>
+              <button onClick={onClose}
+                      className="absolute top-4 right-4 w-9 h-9 rounded-full flex items-center justify-center transition-opacity hover:opacity-80"
+                      style={{ backgroundColor: 'rgba(0,0,0,0.45)', color: 'white' }}>
+                <XIcon className="w-4 h-4" />
+              </button>
+            </div>
+
+            <div className="p-6 space-y-6">
+
+              {/* Date / location */}
+              <div className="rounded-2xl p-4 space-y-3" style={{ backgroundColor: '#F0F4F8' }}>
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0" style={{ backgroundColor: EV_YELLOW }}>
+                    <svg className="w-4 h-4" fill={EV_NAVY} viewBox="0 0 20 20"><path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd"/></svg>
+                  </div>
+                  <div>
+                    <div className="font-bold text-sm" style={{ color: EV_NAVY }}>{event.weekday}, {event.date}</div>
+                    <div className="text-sm" style={{ color: '#555' }}>{event.time}</div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0" style={{ backgroundColor: EV_YELLOW }}>
+                    <svg className="w-4 h-4" fill="none" stroke={EV_NAVY} strokeWidth="2" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z"/>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <div className="font-bold text-sm" style={{ color: EV_NAVY }}>{event.location}</div>
+                    <div className="text-sm" style={{ color: '#555' }}>{event.address}</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Description */}
+              <p className="leading-relaxed" style={{ color: '#2D2D2D' }}>{event.description}</p>
+
+              {/* Feature tiles */}
+              <div className="grid grid-cols-2 gap-3">
+                {event.features.map((f, idx) => (
+                  <div key={idx} className="rounded-2xl p-4 flex flex-col items-center text-center gap-3 min-h-[110px] justify-center"
+                       style={{ backgroundColor: tileBgs[idx] }}>
+                    {f.img
+                      ? <img src={f.img} alt={f.label} className="w-12 h-12 object-contain" />
+                      : <EventHealthIcon />
+                    }
+                    <span className="text-xs font-bold uppercase tracking-wide leading-tight whitespace-pre-line"
+                          style={{ color: tileText[idx], fontFamily: "'Poppins', sans-serif" }}>
+                      {f.label}
+                    </span>
+                  </div>
+                ))}
+              </div>
+
+              {/* QR + Register */}
+              <div className="flex items-center gap-4 p-4 rounded-2xl" style={{ backgroundColor: EV_NAVY }}>
+                <img src={event.qrCode} alt="QR Code to register" className="w-20 h-20 rounded-xl bg-white p-1 flex-shrink-0" />
+                <div>
+                  <p className="text-sm mb-2" style={{ color: 'rgba(255,255,255,0.75)' }}>Scan to register or click below</p>
+                  <a href={event.rsvpUrl} target="_blank" rel="noopener noreferrer"
+                     className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold transition-all hover:brightness-110"
+                     style={{ backgroundColor: EV_YELLOW, color: EV_NAVY, fontFamily: "'Poppins', sans-serif" }}>
+                    Learn More &amp; Register
+                    <ArrowRightIcon className="w-4 h-4" />
+                  </a>
+                </div>
+              </div>
+
+              {/* Partner logos */}
+              <div>
+                <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: '#999' }}>Community Partners</p>
+                <div className="flex flex-wrap gap-4 items-center">
+                  {event.partners.map((p, idx) => (
+                    <img key={idx} src={p.src} alt={p.name}
+                         className="object-contain opacity-75 hover:opacity-100 transition-opacity"
+                         style={{ height: '28px', maxWidth: '90px' }} />
+                  ))}
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      );
+    };
 
     // ── Stable utility + sub-components (defined outside LiveHealthyChicago so
     //    they keep a constant reference across re-renders, preventing unmount/
@@ -2008,48 +2170,6 @@ And that is how we overcome high blood pressure. They'll tell you about food and
         return () => { if (!mobileMenuOpen) document.body.style.overflow = ''; };
       }, [selectedEvent, selectedArticle]);
 
-      const [events, setEvents] = React.useState([]);
-      const [eventsLoading, setEventsLoading] = React.useState(true);
-      const [eventsError, setEventsError] = React.useState(false);
-      const [eventsFilter, setEventsFilter] = React.useState('All');
-
-      React.useEffect(() => {
-        fetch(SHEET_CSV_URL)
-          .then(r => { if (!r.ok) throw new Error(); return r.text(); })
-          .then(csv => {
-            const rows = parseCSV(csv);
-            if (rows.length < 2) { setEventsLoading(false); return; }
-            // Actual sheet columns (from Excel import):
-            // A(0): LHC Confirmed | B(1): Event Date (M/D/YYYY) | C(2): Host
-            // D(3): Event Name | E(4): Event Hours | F(5): Event Description
-            // G(6): Long Description | H(7): Host Contact | I(8): LHC Lead
-            // J(9): Requested Resources | K(10): Location | L(11): Neighborhood
-            // M(12): Estimated Attendees | N(13): Image
-            const data = rows.slice(1)
-              .filter(r => r[0] && /confirm|yes/i.test(r[0]))
-              .map((r, i) => {
-                const pd = parseSheetDate(r[1]);
-                return {
-                  date:            pd.full,
-                  day:             pd.weekday,
-                  title:           r[3] || 'Untitled Event',
-                  time:            r[4] || '',
-                  description:     r[5] || '',
-                  longDescription: r[6] || '',
-                  location:        r[10] || '',
-                  address:         r[10] || '',
-                  neighborhood:    r[11] || '',
-                  image:           r[13] || '',
-                  tags:            ['Free Screening'],
-                  rsvpUrl:         '',
-                  color:           EVENT_COLORS[i % EVENT_COLORS.length],
-                };
-              });
-            setEvents(data);
-            setEventsLoading(false);
-          })
-          .catch(() => { setEventsError(true); setEventsLoading(false); });
-      }, []);
 
       const renderBodyItem = (item, i) => {
         if (typeof item === 'string') return <p key={i} className="leading-relaxed" style={{ color: colors.charcoal }}>{item}</p>;
@@ -2889,232 +3009,34 @@ And that is how we overcome high blood pressure. They'll tell you about food and
           </section>
 
           {/* ── Events ── */}
-          <section className="py-24" id="events" style={{ backgroundColor: colors.softCloud, display: 'none' }}>
+          <section className="py-24" id="events" style={{ backgroundColor: '#0F1E35' }}>
             <div className="max-w-7xl mx-auto px-6">
-              <div ref={eventsRef} className={`text-center mb-12 fade-up ${eventsVisible ? 'visible' : ''}`}>
+              <div ref={eventsRef} className={`text-center mb-14 fade-up ${eventsVisible ? 'visible' : ''}`}>
                 <span className="font-semibold tracking-wide text-sm uppercase mb-4 block"
-                      style={{ color: colors.skyBlue, fontFamily: "'Poppins', sans-serif" }}>
+                      style={{ color: EV_YELLOW, fontFamily: "'Poppins', sans-serif" }}>
                   Upcoming Events
                 </span>
-                <h2 className="text-4xl md:text-5xl font-bold mb-6"
-                    style={{ fontFamily: "'Montserrat', sans-serif", color: colors.trustNavy }}>
-                  Get Screened Near You
+                <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white"
+                    style={{ fontFamily: "'Montserrat', sans-serif" }}>
+                  Join Us in the Community
                 </h2>
-                <p className="text-xl max-w-2xl mx-auto" style={{ color: colors.charcoal }}>
-                  Free blood pressure screenings are coming to neighborhoods across the South and West Sides. Find an event and take the first step.
+                <p className="text-xl max-w-2xl mx-auto" style={{ color: 'rgba(255,255,255,0.72)' }}>
+                  Free events for West Side and South Side families. No appointment needed.
                 </p>
               </div>
 
-              {/* Neighborhood filter pills */}
-              {!eventsLoading && !eventsError && events.length > 0 && (() => {
-                const hoods = ['All', ...Array.from(new Set(events.map(e => e.neighborhood).filter(Boolean))).sort()];
-                const filtered = eventsFilter === 'All' ? events : events.filter(e => e.neighborhood === eventsFilter);
-                return (
-                  <>
-                    <div className={`flex flex-wrap gap-2 mb-10 justify-center fade-up ${eventsVisible ? 'visible' : ''}`}>
-                      {hoods.map(h => (
-                        <button key={h} onClick={() => setEventsFilter(h)}
-                                className="px-4 py-2 rounded-full text-sm font-semibold transition-all"
-                                style={{
-                                  fontFamily: "'Poppins', sans-serif",
-                                  backgroundColor: eventsFilter === h ? colors.trustNavy : 'white',
-                                  color: eventsFilter === h ? 'white' : colors.charcoal,
-                                  border: `2px solid ${eventsFilter === h ? colors.trustNavy : '#E2E8F0'}`,
-                                }}>
-                          {h}
-                        </button>
-                      ))}
-                    </div>
-
-                    {filtered.length === 0 ? (
-                      <div className="text-center py-16">
-                        <p className="text-lg font-semibold mb-2" style={{ color: colors.trustNavy }}>No events in {eventsFilter} yet.</p>
-                        <p style={{ color: colors.coolGray }}>Check back soon or select another neighborhood.</p>
-                      </div>
-                    ) : (
-                      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {filtered.map((evt, i) => (
-                          <div key={i}
-                               className={`bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all hover:-translate-y-1 cursor-pointer fade-up ${eventsVisible ? 'visible' : ''}`}
-                               style={{ transitionDelay: `${Math.min(i * 0.07, 0.35)}s` }}
-                               onClick={() => setSelectedEvent(evt)}>
-                            <div className="h-1.5" style={{ backgroundColor: evt.color }} />
-                            <div className="p-6">
-                              <div className="flex items-start gap-4 mb-4">
-                                <div className="flex-shrink-0 w-14 text-center rounded-xl py-2"
-                                     style={{ backgroundColor: `${evt.color}15` }}>
-                                  <div className="text-xs font-bold uppercase tracking-wide" style={{ color: evt.color }}>
-                                    {evt.date.split(' ')[0]}
-                                  </div>
-                                  <div className="text-2xl font-bold leading-tight" style={{ fontFamily: "'Montserrat', sans-serif", color: colors.trustNavy }}>
-                                    {(evt.date.split(' ')[1] || '').replace(',', '')}
-                                  </div>
-                                </div>
-                                <div className="flex-1 min-w-0">
-                                  <h3 className="font-bold text-base leading-snug mb-1"
-                                      style={{ fontFamily: "'Montserrat', sans-serif", color: colors.trustNavy }}>
-                                    {evt.title}
-                                  </h3>
-                                  <p className="text-sm" style={{ color: colors.coolGray }}>{evt.day}{evt.day && evt.time ? ' · ' : ''}{evt.time}</p>
-                                </div>
-                              </div>
-                              <div className="flex items-start gap-2 mb-3">
-                                <MapPinIcon className="w-4 h-4 mt-0.5 flex-shrink-0" style={{ color: colors.coolGray }} />
-                                <div>
-                                  <span className="text-sm" style={{ color: colors.charcoal }}>{evt.location}</span>
-                                  {evt.neighborhood && <span className="text-xs ml-2 px-2 py-0.5 rounded-full" style={{ backgroundColor: `${evt.color}15`, color: evt.color }}>{evt.neighborhood}</span>}
-                                </div>
-                              </div>
-                              <div className="flex flex-wrap gap-1.5">
-                                {evt.tags.map(tag => (
-                                  <span key={tag} className="text-xs font-semibold px-2.5 py-1 rounded-full"
-                                        style={{ backgroundColor: `${evt.color}12`, color: evt.color }}>
-                                    {tag}
-                                  </span>
-                                ))}
-                              </div>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </>
-                );
-              })()}
-
-              {/* Loading skeletons */}
-              {eventsLoading && (
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {[1,2,3].map(i => (
-                    <div key={i} className="bg-white rounded-2xl overflow-hidden shadow-sm">
-                      <div className="h-1.5 bg-gray-200" />
-                      <div className="p-6 space-y-3 animate-pulse">
-                        <div className="flex gap-4">
-                          <div className="w-14 h-14 rounded-xl bg-gray-100" />
-                          <div className="flex-1 space-y-2 pt-1">
-                            <div className="h-4 bg-gray-100 rounded w-3/4" />
-                            <div className="h-3 bg-gray-100 rounded w-1/2" />
-                          </div>
-                        </div>
-                        <div className="h-3 bg-gray-100 rounded w-2/3" />
-                        <div className="flex gap-2">
-                          <div className="h-6 w-24 bg-gray-100 rounded-full" />
-                          <div className="h-6 w-20 bg-gray-100 rounded-full" />
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              {/* Error state */}
-              {eventsError && (
-                <div className="text-center py-16 rounded-3xl bg-white shadow-sm">
-                  <HeartIcon className="w-12 h-12 mx-auto mb-4" style={{ color: colors.coolGray }} />
-                  <p className="text-lg font-semibold mb-2" style={{ color: colors.trustNavy }}>Couldn't load events right now.</p>
-                  <p style={{ color: colors.coolGray }}>Please check back shortly.</p>
-                </div>
-              )}
-
-              {/* Empty state (sheet connected but no confirmed events) */}
-              {!eventsLoading && !eventsError && events.length === 0 && (
-                <div className="text-center py-16 rounded-3xl bg-white shadow-sm">
-                  <CalendarIcon className="w-12 h-12 mx-auto mb-4" style={{ color: colors.coolGray }} />
-                  <p className="text-lg font-semibold mb-2" style={{ color: colors.trustNavy }}>Events coming soon.</p>
-                  <p style={{ color: colors.coolGray }}>Check back for upcoming screenings in your neighborhood.</p>
-                </div>
-              )}
+              {/* Event cards */}
+              <div className={`grid md:grid-cols-2 lg:grid-cols-3 gap-8 fade-up ${eventsVisible ? 'visible' : ''}`}>
+                {eventsData.map(evt => (
+                  <EventCard key={evt.id} event={evt} onOpen={() => setSelectedEvent(evt)} />
+                ))}
+              </div>
 
             </div>
           </section>
 
           {/* ── Event Detail Modal ── */}
-          {selectedEvent && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center p-4"
-                 onClick={() => setSelectedEvent(null)}>
-              <div className="fixed inset-0 bg-black/50 backdrop-blur-sm" style={{ animation: 'fadeIn 0.2s ease-out' }} />
-              <div className="relative bg-white rounded-3xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl"
-                   style={{ animation: 'modalSlideUp 0.3s ease-out' }}
-                   onClick={(e) => e.stopPropagation()}>
-                <div className="h-2 rounded-t-3xl" style={{ backgroundColor: selectedEvent.color }} />
-                {selectedEvent.image && (
-                  <div className="w-full overflow-hidden" style={{ maxHeight: '220px' }}>
-                    <img src={selectedEvent.image} alt={selectedEvent.title}
-                         className="w-full object-cover"
-                         style={{ maxHeight: '220px' }} />
-                  </div>
-                )}
-                <button onClick={() => setSelectedEvent(null)}
-                        className="absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors"
-                        style={{ color: selectedEvent.image ? 'white' : colors.coolGray, backgroundColor: selectedEvent.image ? 'rgba(0,0,0,0.35)' : 'transparent' }}>
-                  <XIcon className="w-5 h-5" />
-                </button>
-                <div className="p-8">
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {selectedEvent.tags.map(tag => (
-                      <span key={tag}
-                            className="text-xs font-semibold px-3 py-1 rounded-full"
-                            style={{ backgroundColor: `${selectedEvent.color}12`, color: selectedEvent.color }}>
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                  <h3 className="text-2xl font-bold mb-2"
-                      style={{ fontFamily: "'Montserrat', sans-serif", color: colors.trustNavy }}>
-                    {selectedEvent.title}
-                  </h3>
-                  <div className="space-y-3 mb-6">
-                    <div className="flex items-center gap-3">
-                      <CalendarIcon className="w-5 h-5 flex-shrink-0" style={{ color: selectedEvent.color }} />
-                      <span style={{ color: colors.charcoal }}>
-                        {selectedEvent.day}, {selectedEvent.date} &middot; {selectedEvent.time}
-                      </span>
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <MapPinIcon className="w-5 h-5 flex-shrink-0 mt-0.5" style={{ color: selectedEvent.color }} />
-                      <div>
-                        <div className="font-semibold" style={{ color: colors.trustNavy }}>{selectedEvent.location}</div>
-                        <div className="text-sm" style={{ color: colors.coolGray }}>{selectedEvent.address}</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="rounded-2xl p-5 mb-6" style={{ backgroundColor: colors.softCloud }}>
-                    {selectedEvent.longDescription ? (
-                      <div className="space-y-3">
-                        {selectedEvent.longDescription.split(/\n+/).map((para, i) => para.trim() && (
-                          <p key={i} className="leading-relaxed" style={{ color: colors.charcoal }}>{para.trim()}</p>
-                        ))}
-                      </div>
-                    ) : (
-                      <p className="leading-relaxed" style={{ color: colors.charcoal }}>
-                        {selectedEvent.description}
-                      </p>
-                    )}
-                  </div>
-                  <div className="flex flex-col sm:flex-row gap-3">
-                    {selectedEvent.rsvpUrl ? (
-                      <a href={selectedEvent.rsvpUrl} target="_blank" rel="noopener noreferrer"
-                         className="flex-1 inline-flex items-center justify-center gap-2 text-white px-6 py-3 rounded-full font-semibold transition-all hover:scale-105"
-                         style={{ backgroundColor: selectedEvent.color, fontFamily: "'Poppins', sans-serif" }}>
-                        RSVP for This Event
-                        <ArrowRightIcon className="w-4 h-4" />
-                      </a>
-                    ) : (
-                      <div className="flex-1 inline-flex items-center justify-center gap-2 text-white px-6 py-3 rounded-full font-semibold opacity-60 cursor-default"
-                           style={{ backgroundColor: selectedEvent.color, fontFamily: "'Poppins', sans-serif" }}>
-                        Walk-ins Welcome
-                      </div>
-                    )}
-                    <button onClick={() => setSelectedEvent(null)}
-                            className="flex-1 inline-flex items-center justify-center px-6 py-3 rounded-full font-semibold border-2 transition-all hover:bg-gray-50"
-                            style={{ borderColor: '#E2E8F0', color: colors.charcoal, fontFamily: "'Poppins', sans-serif" }}>
-                      Close
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
+          <EventModal event={selectedEvent} onClose={() => setSelectedEvent(null)} />
 
           {/* ── News ── */}
           <section className="py-24" id="news" style={{ backgroundColor: colors.softCloud }}>
