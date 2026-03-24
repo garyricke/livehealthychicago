@@ -1305,6 +1305,23 @@ let it drop on you`;
       },
     ];
 
+      {
+        id: 'rush-health-fair-apr-2026',
+        title: 'RUSH Health & Wellness Fair',
+        subtitle: 'Hosted by the Office of Community Health Equity and Engagement',
+        date: 'April 18, 2026',
+        weekday: 'Saturday',
+        time: '10:00 A.M. \u2013 3:00 P.M.',
+        location: 'Bethel New Life',
+        address: '1150 N. Lamon Ave., Chicago, IL 60651',
+        description: 'A free, all-ages Health & Wellness Fair with blood pressure screenings, fitness activities, nutrition education, mental health support, and community resources.',
+        longDescription: 'Join us for a community-focused Health & Wellness Fair designed for all ages. Participants can access free health screenings including blood pressure, balance assessments, and head and neck cancer screenings, along with hands-on nutrition education and engaging fitness activities. Mental health support and community resource connections will be available to help support overall well-being. Enjoy partner giveaways, prizes, and interactive activities in a welcoming, family-friendly environment. Come connect, move, learn, and take steps toward a healthier you.',
+        highlights: ['All Ages', 'Free Parking', 'In Person', '5 Hours'],
+        rsvpUrl: 'https://www.eventbrite.com/e/rush-health-wellness-fair-tickets-1981979687599',
+        heroImage: 'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1774372165/lhc-events/rush-health-fair/hero.jpg',
+      },
+    ];
+
     // ── Event components (outside LiveHealthyChicago for stable references) ──
     const EV_NAVY   = '#1B365D';
     const EV_YELLOW = '#F5B400';
@@ -1428,48 +1445,81 @@ let it drop on you`;
               {/* Description */}
               <p className="leading-relaxed" style={{ color: '#2D2D2D' }}>{event.description}</p>
 
-              {/* Feature tiles */}
-              <div className="grid grid-cols-2 gap-3">
-                {event.features.map((f, idx) => (
-                  <div key={idx} className="rounded-2xl p-4 flex flex-col items-center text-center gap-3 min-h-[110px] justify-center"
-                       style={{ backgroundColor: tileBgs[idx] }}>
-                    {f.img
-                      ? <img src={f.img} alt={f.label} className="w-12 h-12 object-contain" />
-                      : <EventHealthIcon />
-                    }
-                    <span className="text-xs font-bold uppercase tracking-wide leading-tight whitespace-pre-line"
-                          style={{ color: tileText[idx], fontFamily: "'Poppins', sans-serif" }}>
-                      {f.label}
+              {/* Highlights */}
+              {event.highlights && (
+                <div className="flex flex-wrap gap-2">
+                  {event.highlights.map((h, idx) => (
+                    <span key={idx} className="text-xs font-semibold px-3 py-1.5 rounded-full"
+                          style={{ backgroundColor: `${EV_YELLOW}25`, color: EV_NAVY, fontFamily: "'Poppins', sans-serif" }}>
+                      {h}
                     </span>
-                  </div>
-                ))}
-              </div>
-
-              {/* QR + Register */}
-              <div className="flex items-center gap-4 p-4 rounded-2xl" style={{ backgroundColor: EV_NAVY }}>
-                <img src={event.qrCode} alt="QR Code to register" className="w-20 h-20 rounded-xl bg-white p-1 flex-shrink-0" />
-                <div>
-                  <p className="text-sm mb-2" style={{ color: 'rgba(255,255,255,0.75)' }}>Scan to register or click below</p>
-                  <a href={event.rsvpUrl} target="_blank" rel="noopener noreferrer"
-                     className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold transition-all hover:brightness-110"
-                     style={{ backgroundColor: EV_YELLOW, color: EV_NAVY, fontFamily: "'Poppins', sans-serif" }}>
-                    Learn More &amp; Register
-                    <ArrowRightIcon className="w-4 h-4" />
-                  </a>
-                </div>
-              </div>
-
-              {/* Partner logos */}
-              <div>
-                <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: '#999' }}>Community Partners</p>
-                <div className="flex flex-wrap gap-4 items-center">
-                  {event.partners.map((p, idx) => (
-                    <img key={idx} src={p.src} alt={p.name}
-                         className="object-contain opacity-75 hover:opacity-100 transition-opacity"
-                         style={{ height: '28px', maxWidth: '90px' }} />
                   ))}
                 </div>
-              </div>
+              )}
+
+              {/* Long description */}
+              {event.longDescription && (
+                <p className="text-sm leading-relaxed" style={{ color: '#555' }}>{event.longDescription}</p>
+              )}
+
+              {/* Feature tiles */}
+              {event.features && (
+                <div className="grid grid-cols-2 gap-3">
+                  {event.features.map((f, idx) => (
+                    <div key={idx} className="rounded-2xl p-4 flex flex-col items-center text-center gap-3 min-h-[110px] justify-center"
+                         style={{ backgroundColor: tileBgs[idx] }}>
+                      {f.img
+                        ? <img src={f.img} alt={f.label} className="w-12 h-12 object-contain" />
+                        : <EventHealthIcon />
+                      }
+                      <span className="text-xs font-bold uppercase tracking-wide leading-tight whitespace-pre-line"
+                            style={{ color: tileText[idx], fontFamily: "'Poppins', sans-serif" }}>
+                        {f.label}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* QR + Register (with QR code) */}
+              {event.qrCode && (
+                <div className="flex items-center gap-4 p-4 rounded-2xl" style={{ backgroundColor: EV_NAVY }}>
+                  <img src={event.qrCode} alt="QR Code to register" className="w-20 h-20 rounded-xl bg-white p-1 flex-shrink-0" />
+                  <div>
+                    <p className="text-sm mb-2" style={{ color: 'rgba(255,255,255,0.75)' }}>Scan to register or click below</p>
+                    <a href={event.rsvpUrl} target="_blank" rel="noopener noreferrer"
+                       className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold transition-all hover:brightness-110"
+                       style={{ backgroundColor: EV_YELLOW, color: EV_NAVY, fontFamily: "'Poppins', sans-serif" }}>
+                      Learn More &amp; Register
+                      <ArrowRightIcon className="w-4 h-4" />
+                    </a>
+                  </div>
+                </div>
+              )}
+
+              {/* Register button (no QR code) */}
+              {!event.qrCode && event.rsvpUrl && (
+                <a href={event.rsvpUrl} target="_blank" rel="noopener noreferrer"
+                   className="flex items-center justify-center gap-2 w-full py-3.5 rounded-full font-bold text-sm transition-all hover:brightness-110"
+                   style={{ backgroundColor: EV_YELLOW, color: EV_NAVY, fontFamily: "'Poppins', sans-serif" }}>
+                  Register on Eventbrite
+                  <ArrowRightIcon className="w-4 h-4" />
+                </a>
+              )}
+
+              {/* Partner logos */}
+              {event.partners && (
+                <div>
+                  <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: '#999' }}>Community Partners</p>
+                  <div className="flex flex-wrap gap-4 items-center">
+                    {event.partners.map((p, idx) => (
+                      <img key={idx} src={p.src} alt={p.name}
+                           className="object-contain opacity-75 hover:opacity-100 transition-opacity"
+                           style={{ height: '28px', maxWidth: '90px' }} />
+                    ))}
+                  </div>
+                </div>
+              )}
 
             </div>
           </div>
