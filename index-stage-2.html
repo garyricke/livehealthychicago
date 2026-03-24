@@ -716,7 +716,7 @@ let it drop on you`;
 
       return (
         <>
-          <section className="py-20" style={{ background: 'linear-gradient(160deg, #0a1428 0%, #1c1024 60%, #0a1428 100%)' }}>
+          <section id="pressure-drop" className="py-20" style={{ background: 'linear-gradient(160deg, #0a1428 0%, #1c1024 60%, #0a1428 100%)' }}>
             <div className="max-w-xl mx-auto px-6 text-center">
               <span className="font-semibold tracking-widest text-xs uppercase mb-3 block"
                     style={{ color: '#e05c7a', fontFamily: "'Poppins', sans-serif", letterSpacing: '0.2em' }}>
@@ -1372,7 +1372,7 @@ let it drop on you`;
           </div>
           <button className="w-full py-3 rounded-full text-sm font-bold transition-all group-hover:brightness-110"
                   style={{ backgroundColor: EV_YELLOW, color: EV_NAVY, fontFamily: "'Poppins', sans-serif" }}>
-            See Details &amp; Register \u2192
+            See Details &amp; Register →
           </button>
         </div>
       </div>
@@ -1772,6 +1772,13 @@ let it drop on you`;
           }
         }, 4000);
         return () => clearInterval(id);
+      }, []);
+
+      React.useEffect(() => {
+        const hash = window.location.hash;
+        if (!hash) return;
+        const el = document.querySelector(hash);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
       }, []);
 
       const healthAccelerator = [
@@ -2963,6 +2970,59 @@ And that is how we overcome high blood pressure. They'll tell you about food and
             </div>
           </section>
 
+          {/* ── Take Action ── */}
+          <section className="py-24 text-white" id="action" style={{ backgroundColor: colors.starRed }}>
+            <div className="max-w-7xl mx-auto px-6">
+              <div ref={actionRef} className={`max-w-3xl mx-auto text-center fade-up ${actionVisible ? 'visible' : ''}`}>
+                <span className="font-semibold tracking-wide text-sm uppercase mb-4 block"
+                      style={{ color: 'rgba(255,255,255,0.8)', fontFamily: "'Poppins', sans-serif" }}>
+                  Take Action Today
+                </span>
+                <h2 className="text-4xl md:text-5xl font-bold mb-6 leading-tight"
+                    style={{ fontFamily: "'Montserrat', sans-serif" }}>
+                  Take action early to protect your heart.
+                </h2>
+                <p className="text-xl leading-relaxed mb-12" style={{ color: 'rgba(255,255,255,0.9)' }}>
+                  Getting your blood pressure checked is free, fast, and available near you. Find a screening or connect with a health center — and take that first step today.
+                </p>
+
+                <div className="grid sm:grid-cols-2 gap-6 mb-12">
+                  <div className="card-hover backdrop-blur-sm rounded-2xl p-8 text-left transition-all hover:scale-105"
+                       style={{ backgroundColor: 'rgba(255,255,255,0.15)' }}>
+                    <CalendarIcon className="w-10 h-10 mb-4" style={{ color: 'rgba(255,255,255,0.9)' }} />
+                    <h3 className="text-xl font-bold mb-2" style={{ fontFamily: "'Montserrat', sans-serif" }}>Get Screened</h3>
+                    <p className="mb-4" style={{ color: 'rgba(255,255,255,0.8)' }}>Find a free blood pressure screening event in your neighborhood.</p>
+                    <a href="#events" className="inline-flex items-center gap-2 font-semibold hover:gap-3 transition-all"
+                       style={{ fontFamily: "'Poppins', sans-serif" }}>
+                      View Events <ArrowRightIcon className="w-4 h-4" />
+                    </a>
+                  </div>
+
+                  <div className="card-hover backdrop-blur-sm rounded-2xl p-8 text-left transition-all hover:scale-105"
+                       style={{ backgroundColor: 'rgba(255,255,255,0.15)' }}>
+                    <MapPinIcon className="w-10 h-10 mb-4" style={{ color: 'rgba(255,255,255,0.9)' }} />
+                    <h3 className="text-xl font-bold mb-2" style={{ fontFamily: "'Montserrat', sans-serif" }}>Find a Health Center</h3>
+                    <p className="mb-4" style={{ color: 'rgba(255,255,255,0.8)' }}>Connect with a community health center for ongoing care and support.</p>
+                    <a href="https://findahealthcenter.hrsa.gov/" target="_blank" rel="noopener noreferrer"
+                       className="inline-flex items-center gap-2 font-semibold hover:gap-3 transition-all"
+                       style={{ fontFamily: "'Poppins', sans-serif" }}>
+                      Find Care <ArrowRightIcon className="w-4 h-4" />
+                    </a>
+                  </div>
+                </div>
+
+                <div className="pt-8 border-t" style={{ borderColor: 'rgba(255,255,255,0.3)' }}>
+                  <p className="mb-4" style={{ color: 'rgba(255,255,255,0.8)' }}>Questions about Live Healthy Chicago?</p>
+                  <button onClick={() => setContactOpen(true)}
+                          className="inline-flex items-center gap-2 px-6 py-3 rounded-full font-semibold transition-all hover:scale-105"
+                          style={{ backgroundColor: 'white', color: colors.trustNavy, fontFamily: "'Poppins', sans-serif" }}>
+                    Contact Us
+                  </button>
+                </div>
+              </div>
+            </div>
+          </section>
+
           {/* ── Partners ── */}
           <section className="py-24 bg-white" id="partners">
             <div className="max-w-7xl mx-auto px-6">
@@ -3311,59 +3371,6 @@ And that is how we overcome high blood pressure. They'll tell you about food and
 
           {/* ── Watch Their Stories ── */}
           <VideoStoriesSection colors={colors} />
-
-          {/* ── Take Action ── */}
-          <section className="py-24 text-white" id="action" style={{ backgroundColor: colors.starRed }}>
-            <div className="max-w-7xl mx-auto px-6">
-              <div ref={actionRef} className={`max-w-3xl mx-auto text-center fade-up ${actionVisible ? 'visible' : ''}`}>
-                <span className="font-semibold tracking-wide text-sm uppercase mb-4 block"
-                      style={{ color: 'rgba(255,255,255,0.8)', fontFamily: "'Poppins', sans-serif" }}>
-                  Take Action Today
-                </span>
-                <h2 className="text-4xl md:text-5xl font-bold mb-6 leading-tight"
-                    style={{ fontFamily: "'Montserrat', sans-serif" }}>
-                  Take action early to protect your heart.
-                </h2>
-                <p className="text-xl leading-relaxed mb-12" style={{ color: 'rgba(255,255,255,0.9)' }}>
-                  Getting your blood pressure checked is free, fast, and available near you. Find a screening or connect with a health center — and take that first step today.
-                </p>
-
-                <div className="grid sm:grid-cols-2 gap-6 mb-12">
-                  <div className="card-hover backdrop-blur-sm rounded-2xl p-8 text-left transition-all hover:scale-105"
-                       style={{ backgroundColor: 'rgba(255,255,255,0.15)' }}>
-                    <CalendarIcon className="w-10 h-10 mb-4" style={{ color: 'rgba(255,255,255,0.9)' }} />
-                    <h3 className="text-xl font-bold mb-2" style={{ fontFamily: "'Montserrat', sans-serif" }}>Get Screened</h3>
-                    <p className="mb-4" style={{ color: 'rgba(255,255,255,0.8)' }}>Find a free blood pressure screening event in your neighborhood.</p>
-                    <a href="#events" className="inline-flex items-center gap-2 font-semibold hover:gap-3 transition-all"
-                       style={{ fontFamily: "'Poppins', sans-serif" }}>
-                      View Events <ArrowRightIcon className="w-4 h-4" />
-                    </a>
-                  </div>
-
-                  <div className="card-hover backdrop-blur-sm rounded-2xl p-8 text-left transition-all hover:scale-105"
-                       style={{ backgroundColor: 'rgba(255,255,255,0.15)' }}>
-                    <MapPinIcon className="w-10 h-10 mb-4" style={{ color: 'rgba(255,255,255,0.9)' }} />
-                    <h3 className="text-xl font-bold mb-2" style={{ fontFamily: "'Montserrat', sans-serif" }}>Find a Health Center</h3>
-                    <p className="mb-4" style={{ color: 'rgba(255,255,255,0.8)' }}>Connect with a community health center for ongoing care and support.</p>
-                    <a href="https://findahealthcenter.hrsa.gov/" target="_blank" rel="noopener noreferrer"
-                       className="inline-flex items-center gap-2 font-semibold hover:gap-3 transition-all"
-                       style={{ fontFamily: "'Poppins', sans-serif" }}>
-                      Find Care <ArrowRightIcon className="w-4 h-4" />
-                    </a>
-                  </div>
-                </div>
-
-                <div className="pt-8 border-t" style={{ borderColor: 'rgba(255,255,255,0.3)' }}>
-                  <p className="mb-4" style={{ color: 'rgba(255,255,255,0.8)' }}>Questions about Live Healthy Chicago?</p>
-                  <button onClick={() => setContactOpen(true)}
-                          className="inline-flex items-center gap-2 px-6 py-3 rounded-full font-semibold transition-all hover:scale-105"
-                          style={{ backgroundColor: 'white', color: colors.trustNavy, fontFamily: "'Poppins', sans-serif" }}>
-                    Contact Us
-                  </button>
-                </div>
-              </div>
-            </div>
-          </section>
 
           {/* ── Pressure Drop Campaign ── */}
           <section className="py-24 overflow-hidden" style={{ backgroundColor: colors.vitalityYellow, display: 'none' }}>
