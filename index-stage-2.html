@@ -1729,10 +1729,11 @@ let it drop on you`;
             ]},
 
             { type: 'h3', text: 'Voices from the Room' },
-            { type: 'bio', name: 'Octavio Vega, MD', role: 'Internist, Rush University Medical Center', text: 'An internist whose work focuses on the social and environmental factors shaping patient health \u2014 the ones that rarely show up in an exam room. Dr. Vega is part of the 31-partner Live Healthy Chicago coalition.' },
-            { type: 'blockquote', text: '\u201cIn the busy day-to-day practice of clinic or hospital-based work, it\u2019s easy to lose sight of some of the issues that affect patients outside of the hospital room and outside of the exam room. Events like this bring us back to thinking about those factors \u2014 to really take those into consideration when we\u2019re treating folks who have hypertension so that we can treat the patient holistically.\u201d \u2014 Dr. Octavio Vega, MD' },
+            { type: 'bio', img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1774369584/lhc-events/feb-21-englewood/dr-octavio-vega.jpg', name: 'Octavio Vega, MD', role: 'Internist, Rush University Medical Center', text: 'An internist whose work focuses on the social and environmental factors shaping patient health \u2014 the ones that rarely show up in an exam room. Dr. Vega is part of the 31-partner Live Healthy Chicago coalition.' },
+            { type: 'blockquote', text: '\u201cIn the busy day-to-day practice of clinic or hospital-based work, it\u2019s easy to lose sight of some of the issues that affect patients outside of the hospital room and outside of the exam room. Events like this bring us back to thinking about those factors \u2014 to really take those into consideration when we\u2019re treating folks who have hypertension so that we can treat the patient holistically.\u201d' },
+            { type: 'divider' },
             { type: 'bio', img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1773776491/dr-david-ansell-high-quality_t3wtzn.jpg', name: 'David Ansell, MD, MPH', role: 'Senior VP, Community Health Equity, Rush University Medical System', text: 'A primary care physician, social epidemiologist, and author whose career has been defined by one question: why do people in some Chicago neighborhoods live so many fewer years than those just miles away? His answer shaped Live Healthy Chicago.' },
-            { type: 'blockquote', text: '\u201cImagine you\u2019re a working person. You have parents who are elderly, kids. You\u2019re back and forth commuting. Your blood pressure\u2019s up. You don\u2019t have that much money. You have to pay $30 for parking. You go in, of course your blood pressure\u2019s up in the office, and then they say: \u2018Come back in a month.\u2019 That\u2019s no way to treat something like this.\u201d \u2014 Dr. David Ansell, MD, MPH' },
+            { type: 'blockquote', text: '\u201cImagine you\u2019re a working person. You have parents who are elderly, kids. You\u2019re back and forth commuting. Your blood pressure\u2019s up. You don\u2019t have that much money. You have to pay $30 for parking. You go in, of course your blood pressure\u2019s up in the office, and then they say: \u2018Come back in a month.\u2019 That\u2019s no way to treat something like this.\u201d' },
 
             { type: 'h3', text: 'Evidence-Based Care: The AMA MAP\u2122 Hypertension Program' },
             { type: 'p', text: 'As part of its community health effort, Rush adopted the **AMA MAP\u2122 Hypertension** program in 2022, embedding its metrics and reports directly into its electronic health record. MAP stands for three interconnected steps \u2014 each one building a more consistent, effective path to blood pressure control:' },
@@ -2076,6 +2077,7 @@ And that is how we overcome high blood pressure. They'll tell you about food and
             </ul>
           );
           case 'gallery':   return <GalleryBlock   key={i} images={item.images} colors={colors} />;
+          case 'divider':   return <hr key={i} className="my-6" style={{ borderColor: `${colors.skyBlue}30` }} />;
           case 'accordion': return <AccordionBlock key={i} items={item.items}   colors={colors} />;
           case 'glossary':  return <GlossaryBlock  key={i} terms={item.terms}   colors={colors} />;
           case 'statRow': return (
