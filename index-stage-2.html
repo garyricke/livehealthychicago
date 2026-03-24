@@ -1315,6 +1315,132 @@ let it drop on you`;
       };
     }
 
+    // ── Stable utility + sub-components (defined outside LiveHealthyChicago so
+    //    they keep a constant reference across re-renders, preventing unmount/
+    //    remount when parent state like partnerTabIdx or carouselIdx changes) ──
+
+    const boldify = (text) => {
+      const parts = text.split(/(\*\*.*?\*\*)/g);
+      return parts.map((p, i) => p.startsWith('**') ? <strong key={i}>{p.slice(2,-2)}</strong> : p);
+    };
+
+    const GalleryBlock = ({ images, colors }) => {
+      const [lightboxIdx, setLightboxIdx] = React.useState(null);
+      const prev = () => setLightboxIdx(i => (i - 1 + images.length) % images.length);
+      const next = () => setLightboxIdx(i => (i + 1) % images.length);
+      React.useEffect(() => {
+        if (lightboxIdx === null) return;
+        const onKey = (e) => {
+          if (e.key === 'ArrowLeft')  prev();
+          if (e.key === 'ArrowRight') next();
+          if (e.key === 'Escape')     setLightboxIdx(null);
+        };
+        window.addEventListener('keydown', onKey);
+        return () => window.removeEventListener('keydown', onKey);
+      }, [lightboxIdx]);
+      return (
+        <>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mt-2">
+            {images.map((img, idx) => (
+              <button key={idx} onClick={() => setLightboxIdx(idx)}
+                      className="relative rounded-xl overflow-hidden group"
+                      style={{ aspectRatio: '4/3' }}>
+                <img src={img.src} alt={img.alt || ''}
+                     className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                     style={{ background: 'rgba(8,18,38,0.32)' }}>
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
+                    <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6M8 11h6"/>
+                  </svg>
+                </div>
+              </button>
+            ))}
+          </div>
+          {lightboxIdx !== null && (
+            <div className="fixed inset-0 flex items-center justify-center"
+                 style={{ zIndex: 100, backgroundColor: 'rgba(0,0,0,0.92)' }}
+                 onClick={() => setLightboxIdx(null)}>
+              <button onClick={(e) => { e.stopPropagation(); setLightboxIdx(null); }}
+                      className="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center"
+                      style={{ backgroundColor: 'rgba(255,255,255,0.15)', color: 'white', zIndex: 101 }}>
+                <XIcon className="w-5 h-5" />
+              </button>
+              <button onClick={(e) => { e.stopPropagation(); prev(); }}
+                      className="absolute left-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full flex items-center justify-center transition-all hover:scale-110"
+                      style={{ backgroundColor: 'rgba(255,255,255,0.15)', color: 'white', zIndex: 101 }}>
+                <ChevronLeftIcon className="w-5 h-5" />
+              </button>
+              <img src={images[lightboxIdx].src} alt={images[lightboxIdx].alt || ''}
+                   className="rounded-xl"
+                   style={{ maxWidth: '88vw', maxHeight: '84vh', objectFit: 'contain', zIndex: 101 }}
+                   onClick={(e) => e.stopPropagation()} />
+              <button onClick={(e) => { e.stopPropagation(); next(); }}
+                      className="absolute right-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full flex items-center justify-center transition-all hover:scale-110"
+                      style={{ backgroundColor: 'rgba(255,255,255,0.15)', color: 'white', zIndex: 101 }}>
+                <ChevronRightIcon className="w-5 h-5" />
+              </button>
+              <div className="absolute bottom-4 text-sm font-semibold"
+                   style={{ color: 'rgba(255,255,255,0.55)', fontFamily: "'Poppins', sans-serif" }}>
+                {lightboxIdx + 1} / {images.length}
+              </div>
+            </div>
+          )}
+        </>
+      );
+    };
+
+    const AccordionBlock = ({ items, colors }) => {
+      const [openIdx, setOpenIdx] = React.useState(null);
+      const toggle = (idx) => setOpenIdx(openIdx === idx ? null : idx);
+      return (
+        <div className="rounded-2xl overflow-hidden mt-3 mb-1" style={{ border: `1.5px solid ${colors.skyBlue}35` }}>
+          {items.map((item, idx) => (
+            <div key={idx} style={{ borderBottom: idx < items.length - 1 ? `1px solid ${colors.skyBlue}25` : 'none' }}>
+              <button onClick={() => toggle(idx)}
+                      className="w-full flex items-center justify-between px-5 py-4 text-left transition-colors"
+                      style={{ backgroundColor: openIdx === idx ? `${colors.skyBlue}12` : `${colors.trustNavy}05` }}>
+                <span className="font-semibold pr-3" style={{ fontFamily: "'Poppins', sans-serif", color: colors.trustNavy, fontSize: '0.93rem' }}>{item.title}</span>
+                <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke={colors.skyBlue} strokeWidth="2.5" viewBox="0 0 24 24"
+                     style={{ transition: 'transform 0.2s', transform: openIdx === idx ? 'rotate(180deg)' : 'rotate(0deg)' }}>
+                  <path d="M6 9l6 6 6-6"/>
+                </svg>
+              </button>
+              {openIdx === idx && (
+                <div className="px-5 pb-5 pt-2 text-sm leading-relaxed" style={{ color: colors.charcoal, backgroundColor: `${colors.skyBlue}08` }}>
+                  {boldify(item.content)}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      );
+    };
+
+    const GlossaryBlock = ({ terms, colors }) => {
+      const [openIdx, setOpenIdx] = React.useState(null);
+      const toggle = (idx) => setOpenIdx(openIdx === idx ? null : idx);
+      return (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-3 mb-1">
+          {terms.map((t, idx) => (
+            <div key={idx} className="rounded-xl overflow-hidden cursor-pointer select-none"
+                 style={{ border: `1px solid ${colors.skyBlue}30`, backgroundColor: openIdx === idx ? `${colors.skyBlue}10` : `${colors.trustNavy}05`, transition: 'background-color 0.15s' }}
+                 onClick={() => toggle(idx)}>
+              <div className="flex items-center justify-between px-4 py-3 gap-2">
+                <span className="font-semibold text-sm" style={{ fontFamily: "'Poppins', sans-serif", color: colors.trustNavy }}>{t.term}</span>
+                <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke={colors.skyBlue} strokeWidth="2" viewBox="0 0 24 24"
+                     style={{ transition: 'transform 0.2s', transform: openIdx === idx ? 'rotate(180deg)' : 'rotate(0deg)' }}>
+                  <path d="M6 9l6 6 6-6"/>
+                </svg>
+              </div>
+              {openIdx === idx && (
+                <div className="px-4 pb-4 text-sm leading-relaxed" style={{ color: colors.charcoal }}>{t.definition}</div>
+              )}
+            </div>
+          ))}
+        </div>
+      );
+    };
+
     function LiveHealthyChicago() {
       // ── Password gate (hash-based — plaintext never stored) ──────────────
       const PW_HASH = '3cb968a982080be1d7a5df98dc49673a8c052d2642ef7730b7753cee5b87c3dd';
@@ -1923,129 +2049,6 @@ And that is how we overcome high blood pressure. They'll tell you about food and
           })
           .catch(() => { setEventsError(true); setEventsLoading(false); });
       }, []);
-
-      // Rich article body renderer
-      const boldify = (text) => {
-        const parts = text.split(/(\*\*.*?\*\*)/g);
-        return parts.map((p, i) => p.startsWith('**') ? <strong key={i}>{p.slice(2,-2)}</strong> : p);
-      };
-      // ── Gallery component with lightbox ──
-      const GalleryBlock = ({ images, colors }) => {
-        const [lightboxIdx, setLightboxIdx] = React.useState(null);
-        const prev = () => setLightboxIdx(i => (i - 1 + images.length) % images.length);
-        const next = () => setLightboxIdx(i => (i + 1) % images.length);
-        React.useEffect(() => {
-          if (lightboxIdx === null) return;
-          const onKey = (e) => {
-            if (e.key === 'ArrowLeft')  prev();
-            if (e.key === 'ArrowRight') next();
-            if (e.key === 'Escape')     setLightboxIdx(null);
-          };
-          window.addEventListener('keydown', onKey);
-          return () => window.removeEventListener('keydown', onKey);
-        }, [lightboxIdx]);
-        return (
-          <>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mt-2">
-              {images.map((img, idx) => (
-                <button key={idx} onClick={() => setLightboxIdx(idx)}
-                        className="relative rounded-xl overflow-hidden group"
-                        style={{ aspectRatio: '4/3' }}>
-                  <img src={img.src} alt={img.alt || ''}
-                       className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
-                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-                       style={{ background: 'rgba(8,18,38,0.32)' }}>
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
-                      <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6M8 11h6"/>
-                    </svg>
-                  </div>
-                </button>
-              ))}
-            </div>
-            {lightboxIdx !== null && (
-              <div className="fixed inset-0 flex items-center justify-center"
-                   style={{ zIndex: 100, backgroundColor: 'rgba(0,0,0,0.92)' }}
-                   onClick={() => setLightboxIdx(null)}>
-                <button onClick={(e) => { e.stopPropagation(); setLightboxIdx(null); }}
-                        className="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center"
-                        style={{ backgroundColor: 'rgba(255,255,255,0.15)', color: 'white', zIndex: 101 }}>
-                  <XIcon className="w-5 h-5" />
-                </button>
-                <button onClick={(e) => { e.stopPropagation(); prev(); }}
-                        className="absolute left-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full flex items-center justify-center transition-all hover:scale-110"
-                        style={{ backgroundColor: 'rgba(255,255,255,0.15)', color: 'white', zIndex: 101 }}>
-                  <ChevronLeftIcon className="w-5 h-5" />
-                </button>
-                <img src={images[lightboxIdx].src} alt={images[lightboxIdx].alt || ''}
-                     className="rounded-xl"
-                     style={{ maxWidth: '88vw', maxHeight: '84vh', objectFit: 'contain', zIndex: 101 }}
-                     onClick={(e) => e.stopPropagation()} />
-                <button onClick={(e) => { e.stopPropagation(); next(); }}
-                        className="absolute right-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full flex items-center justify-center transition-all hover:scale-110"
-                        style={{ backgroundColor: 'rgba(255,255,255,0.15)', color: 'white', zIndex: 101 }}>
-                  <ChevronRightIcon className="w-5 h-5" />
-                </button>
-                <div className="absolute bottom-4 text-sm font-semibold"
-                     style={{ color: 'rgba(255,255,255,0.55)', fontFamily: "'Poppins', sans-serif" }}>
-                  {lightboxIdx + 1} / {images.length}
-                </div>
-              </div>
-            )}
-          </>
-        );
-      };
-
-      const AccordionBlock = ({ items, colors }) => {
-        const [openIdx, setOpenIdx] = React.useState(null);
-        const toggle = (idx) => setOpenIdx(openIdx === idx ? null : idx);
-        return (
-          <div className="rounded-2xl overflow-hidden mt-3 mb-1" style={{ border: `1.5px solid ${colors.skyBlue}35` }}>
-            {items.map((item, idx) => (
-              <div key={idx} style={{ borderBottom: idx < items.length - 1 ? `1px solid ${colors.skyBlue}25` : 'none' }}>
-                <button onClick={() => toggle(idx)}
-                        className="w-full flex items-center justify-between px-5 py-4 text-left transition-colors"
-                        style={{ backgroundColor: openIdx === idx ? `${colors.skyBlue}12` : `${colors.trustNavy}05` }}>
-                  <span className="font-semibold pr-3" style={{ fontFamily: "'Poppins', sans-serif", color: colors.trustNavy, fontSize: '0.93rem' }}>{item.title}</span>
-                  <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke={colors.skyBlue} strokeWidth="2.5" viewBox="0 0 24 24"
-                       style={{ transition: 'transform 0.2s', transform: openIdx === idx ? 'rotate(180deg)' : 'rotate(0deg)' }}>
-                    <path d="M6 9l6 6 6-6"/>
-                  </svg>
-                </button>
-                {openIdx === idx && (
-                  <div className="px-5 pb-5 pt-2 text-sm leading-relaxed" style={{ color: colors.charcoal, backgroundColor: `${colors.skyBlue}08` }}>
-                    {boldify(item.content)}
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        );
-      };
-
-      const GlossaryBlock = ({ terms, colors }) => {
-        const [openIdx, setOpenIdx] = React.useState(null);
-        const toggle = (idx) => setOpenIdx(openIdx === idx ? null : idx);
-        return (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-3 mb-1">
-            {terms.map((t, idx) => (
-              <div key={idx} className="rounded-xl overflow-hidden cursor-pointer select-none"
-                   style={{ border: `1px solid ${colors.skyBlue}30`, backgroundColor: openIdx === idx ? `${colors.skyBlue}10` : `${colors.trustNavy}05`, transition: 'background-color 0.15s' }}
-                   onClick={() => toggle(idx)}>
-                <div className="flex items-center justify-between px-4 py-3 gap-2">
-                  <span className="font-semibold text-sm" style={{ fontFamily: "'Poppins', sans-serif", color: colors.trustNavy }}>{t.term}</span>
-                  <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke={colors.skyBlue} strokeWidth="2" viewBox="0 0 24 24"
-                       style={{ transition: 'transform 0.2s', transform: openIdx === idx ? 'rotate(180deg)' : 'rotate(0deg)' }}>
-                    <path d="M6 9l6 6 6-6"/>
-                  </svg>
-                </div>
-                {openIdx === idx && (
-                  <div className="px-4 pb-4 text-sm leading-relaxed" style={{ color: colors.charcoal }}>{t.definition}</div>
-                )}
-              </div>
-            ))}
-          </div>
-        );
-      };
 
       const renderBodyItem = (item, i) => {
         if (typeof item === 'string') return <p key={i} className="leading-relaxed" style={{ color: colors.charcoal }}>{item}</p>;
