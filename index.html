@@ -282,6 +282,96 @@
         <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
       </svg>
     );
+    const StoreIcon = ({ className, style }) => (
+      <svg className={className} style={style} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>
+      </svg>
+    );
+    const PillIcon = ({ className, style }) => (
+      <svg className={className} style={style} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"/><path d="m8.5 8.5 7 7"/>
+      </svg>
+    );
+    const TreeIcon = ({ className, style }) => (
+      <svg className={className} style={style} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <path d="M12 22v-4"/><path d="M5 9l7-7 7 7h-4v4H9V9z"/><path d="M3 15l9-6 9 6H3z"/>
+      </svg>
+    );
+    const BookOpenIcon = ({ className, style }) => (
+      <svg className={className} style={style} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+      </svg>
+    );
+    const SchoolIcon = ({ className, style }) => (
+      <svg className={className} style={style} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/>
+      </svg>
+    );
+
+    // ── Neighborhood Mini Map ──
+    const NeighborhoodMiniMap = ({ neighborhoods, currentName, colors }) => {
+      const W = 110, H = 148, PAD = 6;
+      const LAT_MIN = 41.615, LAT_MAX = 42.030;
+      const LNG_MIN = -87.955, LNG_MAX = -87.515;
+      const toX = lng => ((lng - LNG_MIN) / (LNG_MAX - LNG_MIN)) * (W - PAD * 2) + PAD;
+      const toY = lat => ((LAT_MAX - lat) / (LAT_MAX - LAT_MIN)) * (H - PAD * 2) + PAD;
+
+      const outlinePts = [
+        [42.022, -87.890], [42.022, -87.752], [42.022, -87.710],
+        [42.014, -87.524], [41.928, -87.524], [41.855, -87.524],
+        [41.798, -87.524], [41.714, -87.529], [41.645, -87.533],
+        [41.645, -87.600], [41.630, -87.620], [41.630, -87.660],
+        [41.668, -87.869], [41.737, -87.884], [41.768, -87.950],
+        [41.869, -87.950], [41.940, -87.890],
+      ].map(([lat, lng]) => `${toX(lng).toFixed(1)},${toY(lat).toFixed(1)}`).join(' ');
+
+      const lakeX = toX(-87.527);
+      const current = neighborhoods.find(n => n.name === currentName);
+
+      return (
+        <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} style={{ display: 'block' }}>
+          <rect x={lakeX} y={PAD} width={W - lakeX + 2} height={H - PAD * 2}
+                fill="rgba(70,183,229,0.18)" />
+          <polygon points={outlinePts}
+                   fill="rgba(255,255,255,0.06)"
+                   stroke="rgba(255,255,255,0.28)"
+                   strokeWidth="0.8"
+                   strokeLinejoin="round" />
+          {neighborhoods.map(n => {
+            const isCurrent = n.name === currentName;
+            return (
+              <g key={n.name}>
+                {isCurrent && (
+                  <circle cx={toX(n.lng)} cy={toY(n.lat)} r="7"
+                          fill="rgba(70,183,229,0.22)" />
+                )}
+                <circle cx={toX(n.lng)} cy={toY(n.lat)}
+                        r={isCurrent ? 3.5 : 2}
+                        fill={isCurrent ? colors.skyBlue : 'rgba(255,255,255,0.38)'}
+                        stroke={isCurrent ? 'white' : 'none'}
+                        strokeWidth="0.8" />
+              </g>
+            );
+          })}
+          {(() => {
+            const cx = toX(-87.629), cy = toY(41.883);
+            const r = 4, ri = 1.6;
+            const pts = [
+              `${cx},${cy - r}`, `${cx + ri},${cy - ri}`, `${cx + r},${cy}`,
+              `${cx + ri},${cy + ri}`, `${cx},${cy + r}`, `${cx - ri},${cy + ri}`,
+              `${cx - r},${cy}`, `${cx - ri},${cy - ri}`,
+            ].join(' ');
+            return <polygon points={pts} fill={colors.starRed} opacity="0.9" />;
+          })()}
+          <text x={W - 4} y={H / 2} fontSize="6" fill="rgba(70,183,229,0.65)"
+                textAnchor="middle" transform={`rotate(90, ${W - 4}, ${H / 2})`}
+                style={{ fontFamily: 'sans-serif', letterSpacing: '0.04em' }}>
+            Lake Michigan
+          </text>
+        </svg>
+      );
+    };
+
     const CalendarIcon = ({ className, style }) => (
       <svg className={className} style={style} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
         <rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/>
@@ -953,37 +1043,38 @@
 
       const CHICAGO_HTN_AVG = 31.9;
       const neighborhoods = [
-        { name: 'Auburn Gresham',      rate: 45.9, moe: 10.6, img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771357440/Auburn-Gresham-il-b_v9uolm.jpg' },
-        { name: 'Austin',              rate: 36.9, moe: 5.9,  img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771356625/austin-il_oi6t2o.webp' },
-        { name: 'Avalon Park',         rate: 39.5, moe: 11.0, img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771357591/avalon-park-il-b_e5e1dh.jpg' },
-        { name: 'Burnside',            rate: 39.1, moe: 12.2, img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771356625/burnside-il_tsolts.jpg' },
-        { name: 'Calumet Heights',     rate: 51.4, moe: 11.3, img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771383150/calumet-heights-il-reframe_klvgz8.jpg' },
-        { name: 'Chatham',             rate: 45.4, moe: 11.2, img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771383788/chatham-il-reframe_oobz0f.jpg' },
-        { name: 'Douglas',             rate: 29.7, moe: 10.5, img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771384176/douglas-chicago-illinois-reframe_bej8mt.jpg' },
-        { name: 'East Garfield Park',  rate: 28.3, moe: 8.9,  img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771384523/east-garfield-park-reframed_nokcyb.jpg' },
-        { name: 'Englewood',           rate: 37.1, moe: 10.0, img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771385231/englewood-chicago-reframe_prxott.jpg' },
-        { name: 'Fuller Park',         rate: 41.9, moe: 10.7, img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771535139/fuller-park-chicago-il-gemini_piyett.jpg' },
-        { name: 'Garfield Ridge',      rate: 33.1, moe: 7.9,  img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771535139/garfield-ridge-people-added-gemini_eztsbg.jpg' },
-        { name: 'Grand Boulevard',     rate: 49.8, moe: 9.7,  img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771535139/grand-boulevard-chicago-il_olnodg.avif' },
-        { name: 'Greater Grand Crossing', rate: 37.5, moe: 10.0, img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771535139/greater-grand-crossing-chicago-il-real-ai-enhanced-reframe_mz1zyz.jpg' },
-        { name: 'Montclare',           rate: 39.3, moe: 12.2, img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771535139/montclare-chi_cago-il-real-ai-enhanced_xptfh2.jpg' },
-        { name: 'Morgan Park',         rate: 46.0, moe: 12.9, img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771535142/morgan-park-chicago-il-real-ai-enhanced_xqgmup.jpg' },
-        { name: 'North Lawndale',      rate: 39.5, moe: 9.5,  img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771535139/North-Lawndale-chicago-real-ai-enhance-add-people_oelmlm.jpg' },
-        { name: 'Oakland',             rate: 44.8, moe: 10.6, img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771535140/oakland-chicago-ai_pdrgbq.jpg' },
-        { name: 'Riverdale',           rate: 27.8, moe: 9.9,  img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771535140/riverdale-chicago-il-ai_wmaun4.jpg' },
-        { name: 'Roseland',            rate: 45.6, moe: 10.3, img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771535140/roseland-chicago-real-ai-enhanced_ogxq2l.jpg' },
-        { name: 'South Chicago',       rate: 33.7, moe: 9.3,  img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771535140/south-chicago-il-real-ai-enhanced_oyibla.jpg' },
-        { name: 'South Lawndale',      rate: 19.8, moe: 4.4,  img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771535140/south-lawndale-real-ai-enhanced-b_lb1pxv.jpg' },
-        { name: 'South Shore',         rate: 39.2, moe: 10.5, img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771535141/south-shore-chicago-real-ai-enhanced-add-people-b_xpbq4a.jpg' },
-        { name: 'Washington Heights',  rate: 38.4, moe: 9.8,  img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771535140/washington-heights-chicago-il-real-ai-enhanced-add-people-b_nde8vb.jpg' },
-        { name: 'West Englewood',      rate: 44.1, moe: 10.2, img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1774632385/lhc-neighborhoods/west-englewood-63rd-wolcott.jpg' },
-        { name: 'West Garfield Park',  rate: 44.6, moe: 9.5,  img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771535141/west-garfield-park-chicago-il-real-ai-enhanced-b_zyfmxz.jpg' },
-        { name: 'West Pullman',        rate: 41.5, moe: 11.4, img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771535141/west-pullman-chicago-il-real-ai-zoom-in-b_masjam.jpg' },
-        { name: 'Woodlawn',            rate: 38.1, moe: 10.1, img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771535141/woodlawn-chicago-real-ai-enhanced-scaled-b_kcxhf8.jpg' },
+        { name: 'Auburn Gresham',      rate: 45.9, moe: 10.6, lat: 41.7470, lng: -87.6630, img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771357440/Auburn-Gresham-il-b_v9uolm.jpg',          population: 45109, groceryStores: 3,    pharmacies: 1,    parks: 8,    libraries: 2,    schools: 17 },
+        { name: 'Austin',              rate: 36.9, moe: 5.9,  lat: 41.8950, lng: -87.7660, img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771356625/austin-il_oi6t2o.webp',                   population: 96753, groceryStores: 4,    pharmacies: 3,    parks: 17,   libraries: 3,    schools: 22 },
+        { name: 'Avalon Park',         rate: 39.5, moe: 11.0, lat: 41.7390, lng: -87.5900, img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771357591/avalon-park-il-b_e5e1dh.jpg',             population: 9347,  groceryStores: 1,    pharmacies: 1,    parks: 3,    libraries: 1,    schools: 5  },
+        { name: 'Burnside',            rate: 39.1, moe: 12.2, lat: 41.7190, lng: -87.6110, img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771356625/burnside-il_tsolts.jpg',                  population: 2137,  groceryStores: 0,    pharmacies: 0,    parks: 1,    libraries: 0,    schools: 1  },
+        { name: 'Calumet Heights',     rate: 51.4, moe: 11.3, lat: 41.7220, lng: -87.5790, img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771383150/calumet-heights-il-reframe_klvgz8.jpg',   population: 11643, groceryStores: 1,    pharmacies: 1,    parks: 2,    libraries: 0,    schools: 6  },
+        { name: 'Chatham',             rate: 45.4, moe: 11.2, lat: 41.7480, lng: -87.6240, img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771383788/chatham-il-reframe_oobz0f.jpg',           population: 30875, groceryStores: 2,    pharmacies: 1,    parks: 4,    libraries: 2,    schools: 17 },
+        { name: 'Douglas',             rate: 29.7, moe: 10.5, lat: 41.8390, lng: -87.6180, img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771384176/douglas-chicago-illinois-reframe_bej8mt.jpg', population: 21756, groceryStores: 2,    pharmacies: 4,    parks: 6,    libraries: 1,    schools: 6  },
+        { name: 'East Garfield Park',  rate: 28.3, moe: 8.9,  lat: 41.8820, lng: -87.7240, img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771384523/east-garfield-park-reframed_nokcyb.jpg', population: 19995, groceryStores: 1,    pharmacies: 2,    parks: 8,    libraries: 1,    schools: 27 },
+        { name: 'Englewood',           rate: 37.1, moe: 10.0, lat: 41.7780, lng: -87.6460, img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771385231/englewood-chicago-reframe_prxott.jpg',    population: 21377, groceryStores: 1,    pharmacies: 1,    parks: 10,   libraries: 1,    schools: 19 },
+        { name: 'Fuller Park',         rate: 41.9, moe: 10.7, lat: 41.8040, lng: -87.6350, img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771535139/fuller-park-chicago-il-gemini_piyett.jpg', population: 2214, groceryStores: 0,    pharmacies: 1,    parks: 2,    libraries: 0,    schools: 1  },
+        { name: 'Garfield Ridge',      rate: 33.1, moe: 7.9,  lat: 41.7960, lng: -87.7730, img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771535139/garfield-ridge-people-added-gemini_eztsbg.jpg', population: 36345, groceryStores: 3,    pharmacies: 5,    parks: 5,    libraries: 1,    schools: 6  },
+        { name: 'Grand Boulevard',     rate: 49.8, moe: 9.7,  lat: 41.8100, lng: -87.6140, img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771535139/grand-boulevard-chicago-il_olnodg.avif', population: 26340, groceryStores: 1,    pharmacies: 1,    parks: 5,    libraries: 1,    schools: 9  },
+        { name: 'Greater Grand Crossing', rate: 37.5, moe: 10.0, lat: 41.7620, lng: -87.6170, img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771535139/greater-grand-crossing-chicago-il-real-ai-enhanced-reframe_mz1zyz.jpg', population: 29637, groceryStores: 2, pharmacies: 1, parks: 6, libraries: 1, schools: 13 },
+        { name: 'Montclare',           rate: 39.3, moe: 12.2, lat: 41.9220, lng: -87.7820, img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771535139/montclare-chi_cago-il-real-ai-enhanced_xptfh2.jpg', population: 14084, groceryStores: 2,    pharmacies: 3,    parks: 2,    libraries: 1,    schools: 1  },
+        { name: 'Morgan Park',         rate: 46.0, moe: 12.9, lat: 41.6920, lng: -87.6640, img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771535142/morgan-park-chicago-il-real-ai-enhanced_xqgmup.jpg', population: 21832, groceryStores: 2, pharmacies: 2, parks: 12, libraries: 2, schools: 12 },
+        { name: 'North Lawndale',      rate: 39.5, moe: 9.5,  lat: 41.8540, lng: -87.7180, img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771535139/North-Lawndale-chicago-real-ai-enhance-add-people_oelmlm.jpg', population: 34817, groceryStores: 1, pharmacies: 3, parks: 13, libraries: 3, schools: 17 },
+        { name: 'Oakland',             rate: 44.8, moe: 10.6, lat: 41.8240, lng: -87.5960, img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771535140/oakland-chicago-ai_pdrgbq.jpg',          population: 6940,  groceryStores: 0,    pharmacies: 1,    parks: 2,    libraries: 0,    schools: 3  },
+        { name: 'Riverdale',           rate: 27.8, moe: 9.9,  lat: 41.6340, lng: -87.6210, img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771535140/riverdale-chicago-il-ai_wmaun4.jpg',      population: 7483,  groceryStores: 1,    pharmacies: 1,    parks: 2,    libraries: 1,    schools: 6  },
+        { name: 'Roseland',            rate: 45.6, moe: 10.3, lat: 41.6860, lng: -87.6280, img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771535140/roseland-chicago-real-ai-enhanced_ogxq2l.jpg', population: 36745, groceryStores: 3, pharmacies: 5, parks: 0, libraries: 1, schools: 17 },
+        { name: 'South Chicago',       rate: 33.7, moe: 9.3,  lat: 41.7390, lng: -87.5530, img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771535140/south-chicago-il-real-ai-enhanced_oyibla.jpg', population: 27507, groceryStores: 5, pharmacies: 1, parks: 5, libraries: 1, schools: 18 },
+        { name: 'South Lawndale',      rate: 19.8, moe: 4.4,  lat: 41.8510, lng: -87.7060, img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771535140/south-lawndale-real-ai-enhanced-b_lb1pxv.jpg', population: 71402, groceryStores: 4, pharmacies: 6, parks: 8, libraries: 3, schools: 23 },
+        { name: 'South Shore',         rate: 39.2, moe: 10.5, lat: 41.7640, lng: -87.5710, img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771535141/south-shore-chicago-real-ai-enhanced-add-people-b_xpbq4a.jpg', population: 51378, groceryStores: 2, pharmacies: 4, parks: 6, libraries: 2, schools: 15 },
+        { name: 'Washington Heights',  rate: 38.4, moe: 9.8,  lat: 41.7050, lng: -87.6530, img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771535140/washington-heights-chicago-il-real-ai-enhanced-add-people-b_nde8vb.jpg', population: 24756, groceryStores: 2, pharmacies: 2, parks: 7, libraries: 1, schools: 15 },
+        { name: 'West Englewood',      rate: 44.1, moe: 10.2, lat: 41.7780, lng: -87.6630, img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1774632385/lhc-neighborhoods/west-englewood-63rd-wolcott.jpg', population: 28312, groceryStores: 3, pharmacies: 2, parks: 5, libraries: 1, schools: 14 },
+        { name: 'West Garfield Park',  rate: 44.6, moe: 9.5,  lat: 41.8820, lng: -87.7400, img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771535141/west-garfield-park-chicago-il-real-ai-enhanced-b_zyfmxz.jpg', population: 17423, groceryStores: 2, pharmacies: 1, parks: 4, libraries: 1, schools: 15 },
+        { name: 'West Pullman',        rate: 41.5, moe: 11.4, lat: 41.6800, lng: -87.6410, img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771535141/west-pullman-chicago-il-real-ai-zoom-in-b_masjam.jpg', population: 24421, groceryStores: 1, pharmacies: 1, parks: 3, libraries: 1, schools: 9 },
+        { name: 'Woodlawn',            rate: 38.1, moe: 10.1, lat: 41.7820, lng: -87.5960, img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771535141/woodlawn-chicago-real-ai-enhanced-scaled-b_kcxhf8.jpg', population: 24803, groceryStores: 4, pharmacies: 4, parks: 7, libraries: 4, schools: 10 },
       ];
 
       const [carouselIdx, setCarouselIdx] = React.useState(0);
       const carouselPaused = React.useRef(false);
+      const [hoodGridView, setHoodGridView] = React.useState(false);
       React.useEffect(() => {
         const id = setInterval(() => {
           if (!carouselPaused.current) {
@@ -1718,7 +1809,7 @@
               </div>
 
               <div className={`relative rounded-3xl overflow-hidden shadow-2xl scale-in ${hoodVisible ? 'visible' : ''}`}
-                   style={{ height: '580px' }}
+                   style={{ height: '660px' }}
                    onMouseEnter={() => { carouselPaused.current = true; }}
                    onMouseLeave={() => { carouselPaused.current = false; }}>
 
@@ -1751,6 +1842,10 @@
 
                       {/* Text content */}
                       <div className="absolute inset-x-0 bottom-0 p-8 md:p-10">
+                        <div className="mb-3 rounded-xl overflow-hidden inline-block"
+                             style={{ backgroundColor: 'rgba(8,18,38,0.6)', backdropFilter: 'blur(6px)', border: '1px solid rgba(255,255,255,0.12)' }}>
+                          <NeighborhoodMiniMap neighborhoods={neighborhoods} currentName={hood.name} colors={colors} />
+                        </div>
                         <div className="text-xs font-semibold tracking-widest uppercase mb-2"
                              style={{ color: colors.skyBlue, fontFamily: "'Poppins', sans-serif" }}>
                           Priority Neighborhood {i + 1} of {neighborhoods.length}
@@ -1794,46 +1889,114 @@
                             <div className="absolute top-1/2 w-0.5 rounded-full"
                                  style={{ left: `${avgPct}%`, height: '16px', transform: 'translateY(-50%)', backgroundColor: 'white', opacity: 0.8 }} />
                           </div>
-                          <div className="flex justify-between text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>
+                          <div className="relative flex justify-between text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>
                             <span>0%</span>
-                            <span style={{ position: 'relative', left: `calc(${avgPct}% - 60px)` }}>
+                            <span className="absolute" style={{ left: `${avgPct}%`, transform: 'translateX(-50%)', whiteSpace: 'nowrap' }}>
                               Chicago avg: {CHICAGO_HTN_AVG}%
                             </span>
                             <span>{maxScale}%</span>
                           </div>
+                        </div>
+
+                        {/* Community Stats Grid */}
+                        <div className="mt-4 grid grid-cols-3 gap-2" style={{ maxWidth: '460px' }}>
+                          {[
+                            { Icon: UsersIcon,    label: 'Population',     value: hood.population     != null ? hood.population.toLocaleString() : '—' },
+                            { Icon: StoreIcon,    label: 'Grocery Stores', value: hood.groceryStores  != null ? hood.groceryStores               : '—' },
+                            { Icon: PillIcon,     label: 'Pharmacies',     value: hood.pharmacies     != null ? hood.pharmacies                  : '—' },
+                            { Icon: TreeIcon,     label: 'Public Parks',   value: hood.parks          != null ? hood.parks                       : '—' },
+                            { Icon: BookOpenIcon, label: 'Libraries',      value: hood.libraries      != null ? hood.libraries                   : '—' },
+                            { Icon: SchoolIcon,   label: 'Schools',        value: hood.schools        != null ? hood.schools                     : '—' },
+                          ].map(({ Icon, label, value }) => (
+                            <div key={label} className="flex items-center gap-1.5 px-2 py-1.5 rounded-lg"
+                                 style={{ backgroundColor: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(4px)' }}>
+                              <Icon className="w-4 h-4 flex-shrink-0" style={{ color: colors.skyBlue }} />
+                              <div className="min-w-0">
+                                <div className="text-xs font-bold text-white leading-none">{value}</div>
+                                <div className="leading-tight" style={{ color: 'rgba(255,255,255,0.5)', fontSize: '9px' }}>{label}</div>
+                              </div>
+                            </div>
+                          ))}
                         </div>
                       </div>
                     </div>
                   );
                 })}
 
-                {/* Prev button */}
-                <button onClick={() => setCarouselIdx(i => (i - 1 + neighborhoods.length) % neighborhoods.length)}
-                        className="absolute left-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full flex items-center justify-center transition-all hover:scale-110"
-                        style={{ backgroundColor: 'rgba(255,255,255,0.15)', backdropFilter: 'blur(8px)', zIndex: 10 }}>
-                  <ChevronLeftIcon className="w-5 h-5 text-white" />
+                {/* ALL / Back button */}
+                <button onClick={() => setHoodGridView(v => !v)}
+                        className="absolute top-5 left-4 flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold tracking-wide transition-all"
+                        style={{ backgroundColor: hoodGridView ? 'white' : 'rgba(229,32,47,0.82)', backdropFilter: 'blur(8px)', color: hoodGridView ? colors.trustNavy : 'white', fontFamily: "'Poppins', sans-serif", zIndex: 12 }}>
+                  {hoodGridView ? '← Back' : 'ALL'}
                 </button>
+
+                {/* Grid overlay */}
+                {hoodGridView && (
+                  <div className="absolute inset-0 overflow-y-auto p-4 pt-12"
+                       style={{ backgroundColor: 'rgba(8,18,38,0.97)', zIndex: 11 }}>
+                    <div className="grid gap-2"
+                         style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))' }}>
+                      {neighborhoods.map((n, i) => (
+                        <button key={n.name}
+                                onClick={() => { setCarouselIdx(i); setHoodGridView(false); }}
+                                className="relative rounded-xl overflow-hidden group"
+                                style={{ aspectRatio: '4/3', cursor: 'pointer' }}>
+                          {n.img
+                            ? <img src={n.img} alt={n.name} className="absolute inset-0 w-full h-full"
+                                   style={{ objectFit: 'cover', transition: 'transform 0.3s' }} />
+                            : <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, #1B365D, #2a4a7f)' }} />
+                          }
+                          <div className="absolute inset-0 transition-opacity duration-200"
+                               style={{ background: 'linear-gradient(to top, rgba(8,18,38,0.88) 0%, rgba(8,18,38,0.1) 60%)' }} />
+                          {i === carouselIdx && (
+                            <div className="absolute inset-0 rounded-xl"
+                                 style={{ border: `2px solid ${colors.skyBlue}` }} />
+                          )}
+                          <div className="absolute bottom-0 inset-x-0 px-2 py-1.5">
+                            <div className="font-semibold text-white leading-tight"
+                                 style={{ fontSize: '9px', fontFamily: "'Poppins', sans-serif" }}>
+                              {n.name}
+                            </div>
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Prev button */}
+                {!hoodGridView && (
+                  <button onClick={() => setCarouselIdx(i => (i - 1 + neighborhoods.length) % neighborhoods.length)}
+                          className="absolute left-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full flex items-center justify-center transition-all hover:scale-110"
+                          style={{ backgroundColor: 'rgba(255,255,255,0.15)', backdropFilter: 'blur(8px)', zIndex: 10 }}>
+                    <ChevronLeftIcon className="w-5 h-5 text-white" />
+                  </button>
+                )}
 
                 {/* Next button */}
-                <button onClick={() => setCarouselIdx(i => (i + 1) % neighborhoods.length)}
-                        className="absolute right-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full flex items-center justify-center transition-all hover:scale-110"
-                        style={{ backgroundColor: 'rgba(255,255,255,0.15)', backdropFilter: 'blur(8px)', zIndex: 10 }}>
-                  <ChevronRightIcon className="w-5 h-5 text-white" />
-                </button>
+                {!hoodGridView && (
+                  <button onClick={() => setCarouselIdx(i => (i + 1) % neighborhoods.length)}
+                          className="absolute right-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full flex items-center justify-center transition-all hover:scale-110"
+                          style={{ backgroundColor: 'rgba(255,255,255,0.15)', backdropFilter: 'blur(8px)', zIndex: 10 }}>
+                    <ChevronRightIcon className="w-5 h-5 text-white" />
+                  </button>
+                )}
 
                 {/* Dot indicators */}
-                <div className="absolute top-5 left-1/2 -translate-x-1/2 flex flex-wrap gap-1.5 justify-center"
-                     style={{ maxWidth: '320px', zIndex: 10 }}>
-                  {neighborhoods.map((_, i) => (
-                    <button key={i} onClick={() => setCarouselIdx(i)}
-                            className="rounded-full transition-all duration-300"
-                            style={{
-                              width: i === carouselIdx ? '20px' : '8px',
-                              height: '8px',
-                              backgroundColor: i === carouselIdx ? 'white' : 'rgba(255,255,255,0.35)'
-                            }} />
-                  ))}
-                </div>
+                {!hoodGridView && (
+                  <div className="absolute top-5 left-1/2 -translate-x-1/2 flex flex-wrap gap-1.5 justify-center"
+                       style={{ maxWidth: '260px', zIndex: 10 }}>
+                    {neighborhoods.map((_, i) => (
+                      <button key={i} onClick={() => setCarouselIdx(i)}
+                              className="rounded-full transition-all duration-300"
+                              style={{
+                                width: i === carouselIdx ? '20px' : '8px',
+                                height: '8px',
+                                backgroundColor: i === carouselIdx ? 'white' : 'rgba(255,255,255,0.35)'
+                              }} />
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           </section>
