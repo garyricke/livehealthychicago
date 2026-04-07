@@ -1798,7 +1798,7 @@
     const val = document.getElementById('gate-input').value;
     const hash = await sha256(val);
     if (hash === HASH) {
-      sessionStorage.setItem('lhc_brand_auth', '1');
+      localStorage.setItem('lhc_brand_auth', '1');
       unlock();
     } else {
       const err = document.getElementById('gate-error');
@@ -1814,7 +1814,7 @@
   }
 
   // Check session on load
-  if (sessionStorage.getItem('lhc_brand_auth') === '1') {
+  if (localStorage.getItem('lhc_brand_auth') === '1') {
     unlock();
   }
 
