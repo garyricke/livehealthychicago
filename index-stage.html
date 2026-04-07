@@ -2745,6 +2745,225 @@ let it drop on you`;
       softCloud: '#F7FAFC'
     };
 
+    // ── Our Model pillars ──
+    const MODEL_PILLARS = [
+      {
+        num: '1',
+        icon: (
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{width:'28px',height:'28px'}}>
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+          </svg>
+        ),
+        color: '#6B8DD6',
+        label: 'Clinical',
+        title: 'Stronger Clinic Care',
+        text: 'We work with health centers to improve how blood pressure is measured, monitored, and managed — including pharmacist support and home monitoring tools.',
+        detail: 'Partner clinics receive tools, training, and pharmacist support to catch and control high blood pressure before it becomes a crisis.',
+        img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1775584721/lhc-model/pillar-clinic-care.jpg',
+      },
+      {
+        num: '2',
+        icon: (
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{width:'28px',height:'28px'}}>
+            <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+          </svg>
+        ),
+        color: colors.skyBlue,
+        label: 'Community',
+        title: 'Community Outreach',
+        text: 'We work with community partners to increase access to blood pressure screenings, connect people at risk with the support they need, and help them take charge of their health.',
+        detail: 'From faith communities to barbershops, we meet people where they are — building trust and awareness neighborhood by neighborhood.',
+        img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1775584722/lhc-model/pillar-community-outreach.jpg',
+      },
+      {
+        num: '3',
+        icon: (
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{width:'28px',height:'28px'}}>
+            <rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>
+          </svg>
+        ),
+        color: colors.neighborhoodTeal,
+        label: 'Mobile',
+        title: 'Care That Comes to You',
+        text: 'Mobile teams bring screenings and support directly into neighborhoods — so getting checked is simple, close to home, and free.',
+        detail: 'No appointment, no barrier. Our mobile pharmacists and health workers show up in the places you already go.',
+        img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1775584723/lhc-model/pillar-mobile-care.jpg',
+      },
+    ];
+
+    function ModelV2() {
+      const [active, setActive] = React.useState(0);
+      const userStoppedRef = React.useRef(false);
+      const pill = MODEL_PILLARS[active];
+
+      // Auto-advance every 4s; stops permanently on any user interaction
+      React.useEffect(() => {
+        const id = setInterval(() => {
+          if (userStoppedRef.current) { clearInterval(id); return; }
+          setActive(a => (a + 1) % MODEL_PILLARS.length);
+        }, 4000);
+        return () => clearInterval(id);
+      }, []);
+
+      const handleSelect = (i) => {
+        userStoppedRef.current = true;
+        setActive(i);
+      };
+
+      return (
+        <section style={{ backgroundColor: '#F0F4F8', padding: '96px 0' }}>
+          <div style={{ maxWidth: '900px', margin: '0 auto', padding: '0 24px' }}>
+
+            {/* Header */}
+            <div style={{ textAlign: 'center', marginBottom: '56px' }}>
+              <span style={{ fontFamily: "'Poppins',sans-serif", fontSize: '11px', fontWeight: 700,
+                letterSpacing: '0.18em', textTransform: 'uppercase', color: colors.skyBlue,
+                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginBottom: '12px' }}>
+                <span style={{ display: 'inline-block', width: '28px', height: '2px', background: colors.skyBlue }}/>
+                How It Works
+              </span>
+              <h2 style={{ fontFamily: "'Montserrat',sans-serif", fontWeight: 800,
+                fontSize: 'clamp(26px,4vw,40px)', color: colors.trustNavy, marginBottom: '14px' }}>
+                How Live Healthy Chicago Works
+              </h2>
+              <p style={{ fontFamily: "'Open Sans',sans-serif", fontSize: '17px',
+                color: colors.charcoal, maxWidth: '560px', margin: '0 auto', lineHeight: 1.7 }}>
+                Three interconnected pillars — all wrapped in community insight and mobilization.
+              </p>
+            </div>
+
+            {/* Tab strip */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px', marginBottom: '24px' }}>
+              {MODEL_PILLARS.map((p, i) => (
+                <button key={i} onClick={() => handleSelect(i)}
+                  style={{
+                    border: 'none', cursor: 'pointer', borderRadius: '16px', padding: '20px 16px',
+                    display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px',
+                    backgroundColor: active === i ? p.color : 'white',
+                    color: active === i ? 'white' : colors.trustNavy,
+                    boxShadow: active === i ? `0 8px 32px ${p.color}50` : '0 2px 8px rgba(0,0,0,0.07)',
+                    transform: active === i ? 'translateY(-4px)' : 'translateY(0)',
+                    transition: 'all 0.3s cubic-bezier(0.34,1.56,0.64,1)',
+                    outline: 'none',
+                  }}>
+                  <div style={{
+                    width: '52px', height: '52px', borderRadius: '50%',
+                    backgroundColor: active === i ? 'rgba(255,255,255,0.2)' : p.color + '18',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    color: active === i ? 'white' : p.color,
+                    transition: 'all 0.3s',
+                  }}>
+                    {p.icon}
+                  </div>
+                  <div>
+                    <div style={{ fontFamily: "'Poppins',sans-serif", fontWeight: 700,
+                      fontSize: '13px', marginBottom: '2px',
+                      color: active === i ? 'white' : colors.trustNavy }}>
+                      {p.title}
+                    </div>
+                    <div style={{ fontFamily: "'Open Sans',sans-serif", fontSize: '11px',
+                      color: active === i ? 'rgba(255,255,255,0.7)' : colors.coolGray }}>
+                      Pillar {p.num}
+                    </div>
+                  </div>
+                </button>
+              ))}
+            </div>
+
+            {/* Detail panel */}
+            <div style={{ borderRadius: '20px', backgroundColor: 'white', overflow: 'hidden', boxShadow: '0 4px 24px rgba(0,0,0,0.08)' }}>
+              {/* Photo */}
+              <div style={{ position: 'relative', height: '240px', overflow: 'hidden' }}>
+                <img key={pill.img} src={pill.img} alt={pill.title}
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center', display: 'block', transition: 'opacity 0.4s ease' }} />
+                <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(to bottom, transparent 40%, ${pill.color}CC 100%)` }} />
+                <div style={{ position: 'absolute', bottom: '20px', left: '24px', display: 'flex', alignItems: 'center', gap: '12px' }}>
+                  <div style={{ width: '44px', height: '44px', borderRadius: '12px', flexShrink: 0,
+                    backgroundColor: 'rgba(255,255,255,0.2)', backdropFilter: 'blur(8px)',
+                    border: '1.5px solid rgba(255,255,255,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}>
+                    {pill.icon}
+                  </div>
+                  <div>
+                    <p style={{ fontFamily: "'Poppins',sans-serif", fontSize: '10px', fontWeight: 700,
+                      textTransform: 'uppercase', letterSpacing: '0.12em', color: 'rgba(255,255,255,0.7)', margin: '0 0 2px' }}>
+                      Pillar {pill.num} of 3
+                    </p>
+                    <h3 style={{ fontFamily: "'Montserrat',sans-serif", fontWeight: 800, fontSize: '18px',
+                      color: 'white', margin: 0, textShadow: '0 1px 4px rgba(0,0,0,0.3)' }}>
+                      {pill.title}
+                    </h3>
+                  </div>
+                </div>
+              </div>
+              <div style={{ padding: '28px 32px' }}>
+                <p style={{ fontFamily: "'Open Sans',sans-serif", fontSize: '15px',
+                  color: colors.charcoal, lineHeight: 1.75, marginBottom: '14px' }}>
+                  {pill.text}
+                </p>
+                <p style={{ fontFamily: "'Open Sans',sans-serif", fontSize: '14px',
+                  color: colors.coolGray, lineHeight: 1.65, borderLeft: `3px solid ${pill.color}`,
+                  paddingLeft: '14px', margin: 0 }}>
+                  {pill.detail}
+                </p>
+              </div>
+              {/* Prev / Next nav */}
+              <div style={{ borderTop: '1px solid #EEF0F4', padding: '16px 32px',
+                display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <button onClick={() => handleSelect(Math.max(0, active - 1))}
+                  disabled={active === 0}
+                  style={{ background: 'none', border: 'none', cursor: active === 0 ? 'default' : 'pointer',
+                    fontFamily: "'Poppins',sans-serif", fontWeight: 600, fontSize: '13px',
+                    color: active === 0 ? colors.coolGray : colors.trustNavy,
+                    display: 'flex', alignItems: 'center', gap: '6px', opacity: active === 0 ? 0.4 : 1,
+                    transition: 'opacity 0.2s', padding: 0 }}>
+                  ← Previous
+                </button>
+                <div style={{ display: 'flex', gap: '8px' }}>
+                  {MODEL_PILLARS.map((p, i) => (
+                    <div key={i} onClick={() => handleSelect(i)}
+                      style={{ width: active === i ? '24px' : '8px', height: '8px',
+                        borderRadius: '4px', backgroundColor: active === i ? pill.color : '#D1D5DB',
+                        cursor: 'pointer', transition: 'all 0.3s' }} />
+                  ))}
+                </div>
+                <button onClick={() => handleSelect(Math.min(MODEL_PILLARS.length - 1, active + 1))}
+                  disabled={active === MODEL_PILLARS.length - 1}
+                  style={{ background: 'none', border: 'none', cursor: active === MODEL_PILLARS.length - 1 ? 'default' : 'pointer',
+                    fontFamily: "'Poppins',sans-serif", fontWeight: 600, fontSize: '13px',
+                    color: active === MODEL_PILLARS.length - 1 ? colors.coolGray : colors.trustNavy,
+                    display: 'flex', alignItems: 'center', gap: '6px',
+                    opacity: active === MODEL_PILLARS.length - 1 ? 0.4 : 1,
+                    transition: 'opacity 0.2s', padding: 0 }}>
+                  Next →
+                </button>
+              </div>
+            </div>
+
+            {/* Community wrap note */}
+            <div style={{ marginTop: '28px', padding: '16px 24px', borderRadius: '12px',
+              border: `1.5px dashed ${colors.skyBlue}60`,
+              display: 'flex', alignItems: 'center', gap: '12px', backgroundColor: 'rgba(70,183,229,0.05)' }}>
+              <svg viewBox="0 0 24 24" fill="none" stroke={colors.skyBlue} strokeWidth="2"
+                   strokeLinecap="round" strokeLinejoin="round" style={{width:'20px',height:'20px',flexShrink:0}}>
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+              </svg>
+              <p style={{ fontFamily: "'Open Sans',sans-serif", fontSize: '13px',
+                color: colors.charcoal, lineHeight: 1.6, margin: 0 }}>
+                <strong style={{ color: colors.trustNavy }}>Community Insight & Mobilization</strong> — all three pillars are powered by trusted community relationships, local data, and grassroots partnership.
+              </p>
+            </div>
+
+            {/* Closing quote */}
+            <p style={{ textAlign: 'center', marginTop: '40px', fontFamily: "'Open Sans',sans-serif",
+              fontSize: '16px', color: colors.charcoal, fontStyle: 'italic', lineHeight: 1.7 }}>
+              The result: meaningful, authentic, and community-driven impact across all levels of care.
+            </p>
+          </div>
+        </section>
+      );
+    }
+
     function LiveHealthyChicago() {
       const [scrolled, setScrolled] = React.useState(false);
       const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
@@ -3693,72 +3912,7 @@ And that is how we overcome high blood pressure. They'll tell you about food and
           <BPReadingSection />
 
           {/* ── Our Model ── */}
-          <section className="py-24 bg-white" id="model">
-            <div className="max-w-7xl mx-auto px-6">
-              <div ref={modelRef} className={`text-center mb-16 fade-up ${modelVisible ? 'visible' : ''}`}>
-                <span className="font-semibold tracking-wide text-sm uppercase mb-4 block"
-                      style={{ color: colors.skyBlue, fontFamily: "'Poppins', sans-serif" }}>
-                  How It Works
-                </span>
-                <h2 className="text-4xl md:text-5xl font-bold mb-6"
-                    style={{ fontFamily: "'Montserrat', sans-serif", color: colors.trustNavy }}>
-                  How Live Healthy Chicago Works
-                </h2>
-                <p className="text-xl max-w-3xl mx-auto" style={{ color: colors.charcoal }}>
-                  Live Healthy Chicago helps people across the city stay well by making it easier to understand and manage blood pressure.
-                </p>
-              </div>
-
-              <div className="grid lg:grid-cols-2 gap-16 items-center">
-                <div className={`flex justify-center fade-left ${modelVisible ? 'visible' : ''}`}>
-                  <img
-                    src="https://assets.codepen.io/3457845/LHC%2BModel.webp"
-                    alt="Live Healthy Chicago Model - Three pillars: Clinical Practice Transformation, Public Health Campaign, and Mobile Care in Community, all surrounding the goal of 1% Reduction in ASCVD Risk"
-                    className="max-w-full h-auto"
-                    style={{ maxWidth: '500px' }}
-                  />
-                </div>
-
-                <div className={`fade-right ${modelVisible ? 'visible' : ''}`} style={{ transitionDelay: '0.2s' }}>
-                  <div className="space-y-6">
-                    {[
-                      { num: '1', color: '#6B8DD6', title: 'Stronger Clinic Care', text: 'We work with health centers to improve how blood pressure is measured, monitored, and managed — including pharmacist support and home monitoring tools.' },
-                      { num: '2', color: colors.skyBlue, title: 'Community Outreach', text: 'We work with community partners to increase access to blood pressure screenings, connect people at risk with the support they need, and help them take charge of their health.' },
-                      { num: '3', color: colors.trustNavy, title: 'Care That Comes to You', text: 'Mobile teams bring screenings and support directly into neighborhoods — so getting checked is simple, close to home, and free.' }
-                    ].map((step) => (
-                      <div key={step.num} className="flex gap-4 group">
-                        <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 transition-transform group-hover:scale-110"
-                             style={{ backgroundColor: step.color }}>
-                          <span className="text-white font-bold text-lg">{step.num}</span>
-                        </div>
-                        <div>
-                          <h3 className="text-xl font-bold mb-2" style={{ fontFamily: "'Montserrat', sans-serif", color: colors.trustNavy }}>
-                            {step.title}
-                          </h3>
-                          <p style={{ color: colors.charcoal }}>{step.text}</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className="mt-8 p-6 rounded-2xl" style={{ backgroundColor: colors.softCloud }}>
-                    <h4 className="font-bold mb-3" style={{ fontFamily: "'Montserrat', sans-serif", color: colors.trustNavy }}>
-                      Staying healthy is more reachable for everyone.
-                    </h4>
-                    <p className="text-sm" style={{ color: colors.charcoal }}>
-                      By using proven programs that include pharmacist guidance and home monitoring, we make it easier for people to manage their blood pressure — wherever they start.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-16 text-center">
-                <p className="text-lg italic" style={{ color: colors.charcoal }}>
-                  The result: meaningful, authentic, and community-driven impact across all levels of care.
-                </p>
-              </div>
-            </div>
-          </section>
+          <ModelV2 />
 
           {/* ── Neighborhoods ── */}
           <section className="py-24" id="neighborhoods" style={{ backgroundColor: colors.softCloud }}>
