@@ -235,6 +235,18 @@
     /* BPQuiz / drawer modal animations */
     @keyframes backdropIn { from { opacity: 0; } to { opacity: 1; } }
     @keyframes slideInRight { from { transform: translateX(100%); } to { transform: translateX(0); } }
+
+    /* BP Reading Section — mobile layout */
+    @media (max-width: 700px) {
+      .bp-tips-grid {
+        display: flex !important;
+        flex-direction: column;
+        gap: 24px;
+      }
+      .bp-tips-grid > div:first-child { order: 2; }  /* left tips */
+      .bp-tips-grid > div:nth-child(2) { order: 1; width: 100% !important; max-width: 100% !important; } /* illustration */
+      .bp-tips-grid > div:last-child { order: 3; }   /* right tips */
+    }
   </style>
 </head>
 <body>
@@ -1460,7 +1472,7 @@ let it drop on you`;
             </div>
 
             {/* Main interactive area */}
-            <div style={{ display:'grid', gridTemplateColumns:'1fr auto 1fr', gap:'0', alignItems:'center', position:'relative' }}>
+            <div className="bp-tips-grid" style={{ display:'grid', gridTemplateColumns:'1fr auto 1fr', gap:'0', alignItems:'center', position:'relative' }}>
 
               {/* Left tip column */}
               <div style={{ display:'flex', flexDirection:'column', gap:'10px', paddingRight:'20px' }}>
@@ -1513,23 +1525,10 @@ let it drop on you`;
                 />
                 <svg style={{ position:'absolute', inset:0, width:'100%', height:'100%', pointerEvents:'none', zIndex:2 }}
                      viewBox="0 0 100 116.7" preserveAspectRatio="none">
-                  {visibleTips.map(tip => {
-                    const ax = tip.anchor.x;
-                    const ay = tip.anchor.y * 1.167;
-                    const bx = tip.side === 'right' ? 0 : 100;
-                    const by = (tip.bubble.y + 5.5) * 1.167;
-                    return (
-                      <line key={tip.id}
-                        x1={bx} y1={by} x2={ax} y2={ay}
-                        stroke={tip.color} strokeWidth="0.6" strokeDasharray="2 1.5"
-                        opacity="0.7"
-                      />
-                    );
-                  })}
                   {visibleTips.map(tip => (
                     <circle key={`dot-${tip.id}`}
-                      cx={tip.anchor.x} cy={tip.anchor.y * 1.167} r="1.6"
-                      fill={tip.color} opacity="0.9"
+                      cx={tip.anchor.x} cy={tip.anchor.y * 1.167} r="1.8"
+                      fill={tip.color} opacity="0.95"
                     />
                   ))}
                 </svg>
