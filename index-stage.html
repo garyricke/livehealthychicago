@@ -3003,6 +3003,20 @@ let it drop on you`;
         return () => { document.body.style.overflow = ''; };
       }, [mobileMenuOpen]);
 
+      // Hash deep-link: #pressuredrop or #pressure-drop → scroll to Pressure Drop player
+      React.useEffect(() => {
+        const scrollToPressureDrop = () => {
+          const hash = window.location.hash.replace('#', '').toLowerCase().replace(/-/g, '');
+          if (hash === 'pressuredrop') {
+            const el = document.getElementById('pressure-drop');
+            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        };
+        scrollToPressureDrop();
+        window.addEventListener('hashchange', scrollToPressureDrop);
+        return () => window.removeEventListener('hashchange', scrollToPressureDrop);
+      }, []);
+
       const CHICAGO_HTN_AVG = 31.9;
       const neighborhoods = [
         { name: 'Auburn Gresham',      rate: 45.9, moe: 10.6, lat: 41.7470, lng: -87.6630, img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/v1771357440/Auburn-Gresham-il-b_v9uolm.jpg',          population: 45109, groceryStores: 3,    pharmacies: 1,    parks: 8,    libraries: 2,    schools: 17 },
