@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex" />
   <title>Professional Portal — Live Healthy Chicago</title>
-  <link rel="icon" type="image/png" href="https://res.cloudinary.com/dsbllwpbh/image/upload/v1771534996/favicon-live-healthy-chicago_ky0rhy.png" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon-portal.svg" />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800;900&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
@@ -64,6 +64,58 @@
     // ── Content Data ──────────────────────────────────────────────
     const SECTIONS = [
       {
+        id: 'clinical',
+        label: 'Clinical / Technical',
+        color: C.neighborhoodTeal,
+        description: 'Evidence-based resources for clinicians, nurses, and healthcare administrators managing hypertension.',
+        resources: [
+          {
+            title: 'AMA MAP™ Hypertension Resources',
+            description: 'AMA\u2019s library of tools and resources to help your practice improve hypertension outcomes — including patient handouts, training videos, and clinical process guides.',
+            type: 'Website',
+            typeColor: C.skyBlue,
+            url: 'https://map.ama-assn.org/resources',
+            thumbnail: 'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1775582098/lhc-resources/ama-map-htn-thumb',
+          },
+          {
+            title: 'Hypertension Bites',
+            description: 'A CDC Foundation initiative by the Hypertension Control Alliance — advancing awareness, action, and patient-centered solutions for high blood pressure prevention and control.',
+            type: 'Website',
+            typeColor: C.neighborhoodTeal,
+            url: 'https://www.mybpcontrol.org/',
+            thumbnail: 'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1775582098/lhc-resources/mybpcontrol-thumb',
+          },
+          {
+            title: 'American Heart Association — High Blood Pressure',
+            description: 'Resources from the American Heart Association to support understanding and controlling blood pressure, including facts, risk tools, and treatment guidance.',
+            type: 'Website',
+            typeColor: C.starRed,
+            url: 'https://www.heart.org/en/health-topics/high-blood-pressure',
+            thumbnail: 'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1775582098/lhc-resources/aha-thumb',
+          },
+          {
+            title: 'BP Treatment & Management Guidelines',
+            description: 'Current hypertension treatment guidelines aligned with AMA/AHA standards, adapted for community settings.',
+            type: 'PDF',
+            gradient: `linear-gradient(135deg, ${C.trustNavy}, #2a4a7f)`,
+          },
+          {
+            title: 'Training Slide Deck',
+            description: 'Comprehensive slide deck for provider training on hypertension management and LHC program workflows.',
+            type: 'Slides',
+            typeColor: C.vitalityYellow,
+            gradient: 'linear-gradient(135deg, #1a2e50, #1B365D)',
+          },
+          {
+            title: 'Clinic Workflow Templates',
+            description: 'Customizable templates for integrating BP control protocols into existing clinic workflows.',
+            type: 'Template',
+            typeColor: C.neighborhoodTeal,
+            gradient: `linear-gradient(135deg, ${C.neighborhoodTeal}, #1a7a6b)`,
+          },
+        ],
+      },
+      {
         id: 'chw',
         label: 'CHW Resources',
         color: C.skyBlue,
@@ -92,41 +144,6 @@
             description: 'Short guide covering setup, engagement strategies, and follow-up for health fairs, markets, and churches.',
             type: 'Guide',
             gradient: `linear-gradient(135deg, ${C.neighborhoodTeal}, #2a9b86)`,
-          },
-        ],
-      },
-      {
-        id: 'clinical',
-        label: 'Clinical / Technical',
-        color: C.neighborhoodTeal,
-        description: 'Evidence-based resources for clinicians, nurses, and healthcare administrators managing hypertension.',
-        resources: [
-          {
-            title: 'BP Treatment & Management Guidelines',
-            description: 'Current hypertension treatment guidelines aligned with AMA/AHA standards, adapted for community settings.',
-            type: 'PDF',
-            gradient: `linear-gradient(135deg, ${C.trustNavy}, #2a4a7f)`,
-          },
-          {
-            title: 'Training Slide Deck',
-            description: 'Comprehensive slide deck for provider training on hypertension management and LHC program workflows.',
-            type: 'Slides',
-            typeColor: C.vitalityYellow,
-            gradient: 'linear-gradient(135deg, #1a2e50, #1B365D)',
-          },
-          {
-            title: 'Clinic Workflow Templates',
-            description: 'Customizable templates for integrating BP control protocols into existing clinic workflows.',
-            type: 'Template',
-            typeColor: C.neighborhoodTeal,
-            gradient: `linear-gradient(135deg, ${C.neighborhoodTeal}, #1a7a6b)`,
-          },
-          {
-            title: 'AMA & CDPH Resource Links',
-            description: 'Curated external links to AMA hypertension resources, CDPH tools, and nationally recognized guidelines.',
-            type: 'Links',
-            typeColor: C.skyBlue,
-            gradient: `linear-gradient(135deg, ${C.skyBlue}, #1a6a8f)`,
           },
         ],
       },
@@ -231,15 +248,16 @@
     // ── ResourceCard ──────────────────────────────────────────────
     function ResourceCard({ resource }) {
       const typeColor = resource.typeColor || C.starRed;
+      const live = !!resource.url;
 
       const getActionLabel = (type) => {
         if (type === 'Guide') return 'View Guide';
-        if (type === 'Links') return 'View Links';
+        if (type === 'Links' || type === 'Website') return 'Visit Site';
         return 'Download';
       };
 
       const getActionIcon = (type) => {
-        if (type === 'Links') return <ExternalLinkIcon />;
+        if (type === 'Links' || type === 'Website') return <ExternalLinkIcon />;
         return <DownloadIcon />;
       };
 
@@ -256,21 +274,27 @@
           {/* Visual header */}
           <div style={{
             height: '140px',
-            background: resource.gradient,
+            background: resource.gradient || '#e8edf4',
             position: 'relative',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
+            overflow: 'hidden',
           }}>
-            <div style={{ opacity: 0.22, color: 'white' }}>
-              <DocumentIcon />
-            </div>
+            {resource.thumbnail ? (
+              <img src={resource.thumbnail} alt={resource.title}
+                   style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top' }} />
+            ) : (
+              <div style={{ opacity: 0.22, color: 'white' }}>
+                <DocumentIcon />
+              </div>
+            )}
             {/* Type badge top-right */}
             <div style={{
               position: 'absolute',
               top: '10px',
               right: '10px',
-              background: 'rgba(255,255,255,0.18)',
+              background: resource.thumbnail ? 'rgba(27,54,93,0.75)' : 'rgba(255,255,255,0.18)',
               borderRadius: '20px',
               padding: '2px 10px',
               fontSize: '10px',
@@ -278,20 +302,22 @@
               color: 'white',
               letterSpacing: '0.04em',
               border: '1px solid rgba(255,255,255,0.3)',
+              backdropFilter: 'blur(4px)',
             }}>
               {resource.type}
             </div>
-            {/* Placeholder label bottom-left */}
-            <div style={{
-              position: 'absolute',
-              bottom: '8px',
-              left: '10px',
-              fontSize: '9px',
-              color: 'rgba(255,255,255,0.5)',
-              letterSpacing: '0.02em',
-            }}>
-              Placeholder — coming soon
-            </div>
+            {!live && !resource.thumbnail && (
+              <div style={{
+                position: 'absolute',
+                bottom: '8px',
+                left: '10px',
+                fontSize: '9px',
+                color: 'rgba(255,255,255,0.5)',
+                letterSpacing: '0.02em',
+              }}>
+                Placeholder — coming soon
+              </div>
+            )}
           </div>
 
           {/* Content area */}
@@ -332,29 +358,57 @@
               {resource.description}
             </div>
 
-            <button
-              disabled
-              style={{
-                marginTop: '8px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '6px',
-                padding: '9px 14px',
-                background: C.trustNavy,
-                color: 'white',
-                border: 'none',
-                borderRadius: '8px',
-                fontSize: '12px',
-                fontWeight: 600,
-                cursor: 'not-allowed',
-                opacity: 0.55,
-                fontFamily: "'Poppins', sans-serif",
-              }}
-            >
-              {getActionIcon(resource.type)}
-              {getActionLabel(resource.type)}
-            </button>
+            {live ? (
+              <a
+                href={resource.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  marginTop: '8px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '6px',
+                  padding: '9px 14px',
+                  background: C.trustNavy,
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '8px',
+                  fontSize: '12px',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  textDecoration: 'none',
+                  fontFamily: "'Poppins', sans-serif",
+                }}
+              >
+                {getActionIcon(resource.type)}
+                {getActionLabel(resource.type)}
+              </a>
+            ) : (
+              <button
+                disabled
+                style={{
+                  marginTop: '8px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '6px',
+                  padding: '9px 14px',
+                  background: C.trustNavy,
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '8px',
+                  fontSize: '12px',
+                  fontWeight: 600,
+                  cursor: 'not-allowed',
+                  opacity: 0.55,
+                  fontFamily: "'Poppins', sans-serif",
+                }}
+              >
+                {getActionIcon(resource.type)}
+                {getActionLabel(resource.type)}
+              </button>
+            )}
           </div>
         </div>
       );
@@ -362,8 +416,13 @@
 
     // ── InteriorView ──────────────────────────────────────────────
     function InteriorView({ onSignOut }) {
-      const [activeSection, setActiveSection] = useState('chw');
+      const [activeSection, setActiveSection] = useState('clinical');
       const section = SECTIONS.find(s => s.id === activeSection);
+
+      const handleBrandGuide = () => {
+        localStorage.setItem('lhc_brand_auth', '1');
+        window.open('brand-guide.html', '_blank');
+      };
 
       return (
         <div style={{ minHeight: '100vh', background: C.softCloud }}>
@@ -468,6 +527,30 @@
                   </button>
                 );
               })}
+              {/* Brand Guide — opens in new tab */}
+              <button
+                onClick={handleBrandGuide}
+                style={{
+                  padding: '9px 20px',
+                  borderRadius: '30px',
+                  fontSize: '13px',
+                  fontWeight: 600,
+                  border: `1.5px solid ${C.trustNavy}55`,
+                  background: 'white',
+                  color: C.trustNavy,
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                  fontFamily: "'Poppins', sans-serif",
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                }}
+              >
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+                </svg>
+                Brand Guide
+              </button>
             </div>
 
             {/* Section heading */}
