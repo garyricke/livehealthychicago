@@ -729,6 +729,286 @@
       );
     }
 
+    // ── Blood Pressure Quiz Component ──
+    function BPQuiz() {
+      const [step, setStep] = React.useState('intro'); // intro | systolic | diastolic | result
+      const [systolic, setSystolic] = React.useState(null);
+      const [diastolic, setDiastolic] = React.useState(null);
+      const [fading, setFading] = React.useState(false);
+
+      const goTo = (nextStep) => {
+        setFading(true);
+        setTimeout(() => { setStep(nextStep); setFading(false); }, 220);
+      };
+
+      const restart = () => { setSystolic(null); setDiastolic(null); goTo('intro'); };
+
+      const getCategory = () => {
+        if (systolic === '180+' || diastolic === '120+') return 'crisis';
+        if (systolic === '140-179' || diastolic === '90-119') return 'stage2';
+        if (systolic === '130-139' || diastolic === '80-89') return 'stage1';
+        if (systolic === '120-129' && diastolic === 'lt80') return 'elevated';
+        return 'normal';
+      };
+
+      const CATEGORIES = {
+        normal: {
+          label: 'Normal Blood Pressure',
+          barColor: colors.neighborhoodTeal,
+          badgeColor: colors.neighborhoodTeal,
+          badgeText: '✓',
+          badgeTextColor: 'white',
+          description: "Great news — your reading is in the healthy range. Keep up the habits that support a strong heart: staying active, eating well, and managing stress.",
+          actions: [
+            { text: 'Follow a heart-healthy eating plan.', href: 'https://www.heart.org/en/healthy-living/healthy-eating/eat-smart' },
+            { text: 'Get regular physical activity.', href: 'https://www.heart.org/en/healthy-living/fitness/getting-active' }
+          ]
+        },
+        elevated: {
+          label: 'Elevated Blood Pressure',
+          barColor: '#F59E0B',
+          badgeColor: '#F59E0B',
+          badgeText: '↑',
+          badgeTextColor: 'white',
+          description: "Your blood pressure is slightly above the normal range. This is a good time to make healthy lifestyle changes before it rises further. Talk to your health care provider.",
+          actions: [
+            { text: 'Work with your health care team to manage your blood pressure.', href: 'https://www.heart.org/en/health-topics/high-blood-pressure/changes-you-can-make-to-manage-high-blood-pressure/your-health-care-team' },
+            { text: 'Make lifestyle changes to lower your blood pressure.', href: 'https://www.heart.org/en/health-topics/high-blood-pressure/changes-you-can-make-to-manage-high-blood-pressure' }
+          ]
+        },
+        stage1: {
+          label: 'High Blood Pressure Stage 1',
+          barColor: colors.vitalityYellow,
+          badgeColor: colors.vitalityYellow,
+          badgeText: '!',
+          badgeTextColor: colors.charcoal,
+          description: "This reading is in the Stage 1 range. Recheck your blood pressure with your health care team. If confirmed, they will recommend lifestyle changes and may add medication based on your heart disease or stroke risk.",
+          actions: [
+            { text: 'Make lifestyle changes to lower your blood pressure.', href: 'https://www.heart.org/en/health-topics/high-blood-pressure/changes-you-can-make-to-manage-high-blood-pressure' },
+            { text: 'Learn about blood pressure-lowering medications.', href: 'https://www.heart.org/en/health-topics/high-blood-pressure/changes-you-can-make-to-manage-high-blood-pressure/types-of-blood-pressure-medications' }
+          ]
+        },
+        stage2: {
+          label: 'High Blood Pressure Stage 2',
+          barColor: colors.starRed,
+          badgeColor: colors.starRed,
+          badgeText: '!',
+          badgeTextColor: 'white',
+          description: "This reading is in the Stage 2 range. Contact your health care team as soon as possible. Lifestyle changes and multiple medications are typically needed at this stage.",
+          actions: [
+            { text: 'Make lifestyle changes to lower your blood pressure.', href: 'https://www.heart.org/en/health-topics/high-blood-pressure/changes-you-can-make-to-manage-high-blood-pressure' },
+            { text: 'Learn about blood pressure-lowering medications.', href: 'https://www.heart.org/en/health-topics/high-blood-pressure/changes-you-can-make-to-manage-high-blood-pressure/types-of-blood-pressure-medications' }
+          ]
+        },
+        crisis: {
+          label: 'Hypertensive Crisis',
+          barColor: '#991B1B',
+          badgeColor: '#991B1B',
+          badgeText: '!!',
+          badgeTextColor: 'white',
+          description: "This reading may indicate a hypertensive crisis. If you have chest pain, shortness of breath, numbness, or vision changes, call 911 immediately. Even without symptoms, contact your health care provider right away.",
+          actions: [
+            { text: 'Call 911 or go to the nearest emergency room', href: 'tel:911' },
+            { text: 'Learn about hypertensive emergency.', href: 'https://www.heart.org/en/health-topics/high-blood-pressure/understanding-blood-pressure-readings/when-to-call-911-for-high-blood-pressure' }
+          ]
+        }
+      };
+
+      const SYSTOLIC_OPTS = [
+        { value: 'lt120',   label: 'Less than 120' },
+        { value: '120-129', label: '120–129' },
+        { value: '130-139', label: '130–139' },
+        { value: '140-179', label: '140–179' },
+        { value: '180+',    label: '180 or higher' }
+      ];
+
+      const DIASTOLIC_OPTS = [
+        { value: 'lt80',  label: 'Less than 80' },
+        { value: '80-89', label: '80–89' },
+        { value: '90-119',label: '90–119' },
+        { value: '120+',  label: '120 or higher' }
+      ];
+
+      const fadeStyle = {
+        opacity: fading ? 0 : 1,
+        transform: fading ? 'translateY(6px)' : 'translateY(0)',
+        transition: 'opacity 0.22s ease, transform 0.22s ease'
+      };
+
+      const RadioOption = ({ value, label, selected, onSelect }) => (
+        <label onClick={() => onSelect(value)}
+               className="flex items-center gap-3 px-4 py-3 rounded-xl cursor-pointer transition-all"
+               style={{
+                 border: `2px solid ${selected ? colors.skyBlue : '#E2E8F0'}`,
+                 backgroundColor: selected ? 'rgba(70,183,229,0.07)' : 'white'
+               }}>
+          <div className="w-5 h-5 rounded-full flex-shrink-0 flex items-center justify-center"
+               style={{ border: `2px solid ${selected ? colors.skyBlue : '#CBD5E0'}` }}>
+            {selected && <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: colors.skyBlue }} />}
+          </div>
+          <span className="text-base" style={{ color: colors.charcoal, fontFamily: "'Open Sans', sans-serif" }}>{label}</span>
+        </label>
+      );
+
+      /* ── INTRO ── */
+      if (step === 'intro') return (
+        <div className="rounded-3xl shadow-lg overflow-hidden" style={{ ...fadeStyle, backgroundColor: 'white' }}>
+          <div className="p-8 text-center" style={{ background: `linear-gradient(135deg, ${colors.trustNavy} 0%, #2a4a80 100%)` }}>
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full mb-4"
+                 style={{ backgroundColor: 'rgba(255,255,255,0.12)', border: '2px solid rgba(255,255,255,0.2)' }}>
+              <HeartIcon className="w-8 h-8" style={{ color: colors.starRed }} fill="true" />
+            </div>
+            <h4 className="text-2xl font-bold text-white mb-1" style={{ fontFamily: "'Montserrat', sans-serif" }}>
+              Take Control of Your Blood Pressure
+            </h4>
+            <p className="text-sm" style={{ color: 'rgba(255,255,255,0.65)' }}>2-question check · takes 30 seconds</p>
+          </div>
+          <div className="p-8">
+            <p className="text-base leading-relaxed mb-3" style={{ color: colors.charcoal }}>
+              Is your blood pressure in a healthy range? The best way to know is to get it checked.
+            </p>
+            <p className="text-base leading-relaxed mb-8" style={{ color: colors.charcoal }}>
+              Then, enter your numbers into this calculator to see which blood pressure category the reading is in.
+            </p>
+            <button onClick={() => goTo('systolic')}
+                    className="w-full py-4 rounded-2xl font-bold text-white text-lg transition-all hover:opacity-90 active:scale-95"
+                    style={{ backgroundColor: colors.starRed, fontFamily: "'Poppins', sans-serif" }}>
+              Get Started
+            </button>
+          </div>
+        </div>
+      );
+
+      /* ── SYSTOLIC ── */
+      if (step === 'systolic') return (
+        <div className="rounded-3xl shadow-lg overflow-hidden" style={{ ...fadeStyle, backgroundColor: 'white' }}>
+          <div style={{ height: '6px', backgroundColor: '#E2E8F0' }}>
+            <div style={{ height: '100%', width: '50%', backgroundColor: colors.skyBlue, transition: 'width 0.4s ease' }} />
+          </div>
+          <div className="p-8">
+            <p className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color: colors.skyBlue }}>
+              Question 1 of 2
+            </p>
+            <h4 className="text-xl font-bold mb-1" style={{ fontFamily: "'Montserrat', sans-serif", color: colors.trustNavy }}>
+              Systolic Pressure
+            </h4>
+            <p className="text-sm mb-6" style={{ color: colors.coolGray }}>
+              Using your most recent blood pressure measurement, what is your systolic (upper) number?
+            </p>
+            <div className="flex flex-col gap-2 mb-8">
+              {SYSTOLIC_OPTS.map(o => (
+                <RadioOption key={o.value} value={o.value} label={o.label} selected={systolic === o.value} onSelect={setSystolic} />
+              ))}
+            </div>
+            <div className="flex gap-3">
+              <button onClick={() => goTo('intro')}
+                      className="flex-1 py-3 rounded-2xl font-semibold transition-all hover:opacity-80"
+                      style={{ backgroundColor: '#F1F5F9', color: colors.charcoal, fontFamily: "'Poppins', sans-serif" }}>
+                Back
+              </button>
+              <button onClick={() => systolic && goTo('diastolic')}
+                      className="flex-1 py-3 rounded-2xl font-semibold text-white transition-all"
+                      style={{
+                        backgroundColor: systolic ? colors.starRed : '#CBD5E0',
+                        fontFamily: "'Poppins', sans-serif",
+                        cursor: systolic ? 'pointer' : 'default',
+                        opacity: systolic ? 1 : 0.6
+                      }}>
+                Next
+              </button>
+            </div>
+          </div>
+        </div>
+      );
+
+      /* ── DIASTOLIC ── */
+      if (step === 'diastolic') return (
+        <div className="rounded-3xl shadow-lg overflow-hidden" style={{ ...fadeStyle, backgroundColor: 'white' }}>
+          <div style={{ height: '6px', backgroundColor: '#E2E8F0' }}>
+            <div style={{ height: '100%', width: '100%', backgroundColor: colors.skyBlue, transition: 'width 0.4s ease' }} />
+          </div>
+          <div className="p-8">
+            <p className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color: colors.skyBlue }}>
+              Question 2 of 2
+            </p>
+            <h4 className="text-xl font-bold mb-1" style={{ fontFamily: "'Montserrat', sans-serif", color: colors.trustNavy }}>
+              Diastolic Pressure
+            </h4>
+            <p className="text-sm mb-6" style={{ color: colors.coolGray }}>
+              Using your most recent blood pressure measurement, what is your diastolic (lower) number?
+            </p>
+            <div className="flex flex-col gap-2 mb-8">
+              {DIASTOLIC_OPTS.map(o => (
+                <RadioOption key={o.value} value={o.value} label={o.label} selected={diastolic === o.value} onSelect={setDiastolic} />
+              ))}
+            </div>
+            <div className="flex gap-3">
+              <button onClick={() => goTo('systolic')}
+                      className="flex-1 py-3 rounded-2xl font-semibold transition-all hover:opacity-80"
+                      style={{ backgroundColor: '#F1F5F9', color: colors.charcoal, fontFamily: "'Poppins', sans-serif" }}>
+                Back
+              </button>
+              <button onClick={() => diastolic && goTo('result')}
+                      className="flex-1 py-3 rounded-2xl font-semibold text-white transition-all"
+                      style={{
+                        backgroundColor: diastolic ? colors.starRed : '#CBD5E0',
+                        fontFamily: "'Poppins', sans-serif",
+                        cursor: diastolic ? 'pointer' : 'default',
+                        opacity: diastolic ? 1 : 0.6
+                      }}>
+                See My Result
+              </button>
+            </div>
+          </div>
+        </div>
+      );
+
+      /* ── RESULT ── */
+      const cat = CATEGORIES[getCategory()];
+      const systolicLabel = SYSTOLIC_OPTS.find(o => o.value === systolic)?.label;
+      const diastolicLabel = DIASTOLIC_OPTS.find(o => o.value === diastolic)?.label;
+      return (
+        <div className="rounded-3xl shadow-lg overflow-hidden" style={{ ...fadeStyle, backgroundColor: 'white' }}>
+          <div style={{ height: '8px', backgroundColor: cat.barColor }} />
+          <div className="p-8">
+            <h4 className="text-xl font-bold mb-5" style={{ fontFamily: "'Montserrat', sans-serif", color: colors.trustNavy }}>
+              {cat.label}
+            </h4>
+            <div className="flex flex-col gap-3 mb-5">
+              {[{ label: systolicLabel + ' Systolic' }, { label: diastolicLabel + ' Diastolic' }].map((item, i) => (
+                <div key={i} className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 font-bold text-sm"
+                       style={{ backgroundColor: cat.badgeColor, color: cat.badgeTextColor }}>
+                    {cat.badgeText}
+                  </div>
+                  <span className="text-base font-medium" style={{ color: colors.charcoal }}>{item.label}</span>
+                </div>
+              ))}
+            </div>
+            <p className="text-sm leading-relaxed mb-5" style={{ color: colors.charcoal }}>
+              {cat.description}
+            </p>
+            <div className="flex flex-col gap-2 mb-6">
+              {cat.actions.map((action, i) => (
+                <a key={i} href={action.href}
+                   target={action.href && !action.href.startsWith('#') && !action.href.startsWith('tel:') ? '_blank' : undefined}
+                   rel={action.href && !action.href.startsWith('#') && !action.href.startsWith('tel:') ? 'noopener noreferrer' : undefined}
+                   className="flex items-center gap-1 text-sm font-bold hover:underline"
+                   style={{ color: colors.starRed, fontFamily: "'Open Sans', sans-serif" }}>
+                  {action.text} <span style={{ fontSize: '16px' }}>›</span>
+                </a>
+              ))}
+            </div>
+            <button onClick={restart}
+                    className="w-full py-3 rounded-2xl text-sm font-semibold transition-all hover:opacity-80"
+                    style={{ backgroundColor: '#F1F5F9', color: colors.trustNavy, fontFamily: "'Poppins', sans-serif" }}>
+              Check Another Reading
+            </button>
+          </div>
+        </div>
+      );
+    }
+
     // ── Main App ──
     // ── Static Events Data ──────────────────────────────────────────────────
     const eventsData = [
@@ -2207,9 +2487,9 @@ And that is how we overcome high blood pressure. They'll tell you about food and
                   </div>
                 </div>
 
-                {/* Life Expectancy Chart */}
+                {/* BP Quiz */}
                 <div ref={chartRef} className={`scale-in ${chartVisible ? 'visible' : ''}`}>
-                  <LifeExpectancyChart isVisible={chartVisible} colors={colors} />
+                  <BPQuiz />
                 </div>
               </div>
 

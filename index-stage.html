@@ -1984,8 +1984,7 @@ let it drop on you`;
       const [systolic, setSystolic] = React.useState(null);
       const [diastolic, setDiastolic] = React.useState(null);
       const [fading, setFading] = React.useState(false);
-      const [showLifestyleModal, setShowLifestyleModal] = React.useState(false);
-      const [showMedicationsModal, setShowMedicationsModal] = React.useState(false);
+
 
       const goTo = (nextStep) => {
         setFading(true);
@@ -2010,7 +2009,10 @@ let it drop on you`;
           badgeText: '✓',
           badgeTextColor: 'white',
           description: "Great news — your reading is in the healthy range. Keep up the habits that support a strong heart: staying active, eating well, and managing stress.",
-          actions: [{ text: 'Tips to keep your blood pressure healthy', modal: 'lifestyle' }]
+          actions: [
+            { text: 'Follow a heart-healthy eating plan.', href: 'https://www.heart.org/en/healthy-living/healthy-eating/eat-smart' },
+            { text: 'Get regular physical activity.', href: 'https://www.heart.org/en/healthy-living/fitness/getting-active' }
+          ]
         },
         elevated: {
           label: 'Elevated Blood Pressure',
@@ -2019,7 +2021,10 @@ let it drop on you`;
           badgeText: '↑',
           badgeTextColor: 'white',
           description: "Your blood pressure is slightly above the normal range. This is a good time to make healthy lifestyle changes before it rises further. Talk to your health care provider.",
-          actions: [{ text: 'Make lifestyle changes to lower your blood pressure', modal: 'lifestyle' }]
+          actions: [
+            { text: 'Work with your health care team to manage your blood pressure.', href: 'https://www.heart.org/en/health-topics/high-blood-pressure/changes-you-can-make-to-manage-high-blood-pressure/your-health-care-team' },
+            { text: 'Make lifestyle changes to lower your blood pressure.', href: 'https://www.heart.org/en/health-topics/high-blood-pressure/changes-you-can-make-to-manage-high-blood-pressure' }
+          ]
         },
         stage1: {
           label: 'High Blood Pressure Stage 1',
@@ -2029,8 +2034,8 @@ let it drop on you`;
           badgeTextColor: colors.charcoal,
           description: "This reading is in the Stage 1 range. Recheck your blood pressure with your health care team. If confirmed, they will recommend lifestyle changes and may add medication based on your heart disease or stroke risk.",
           actions: [
-            { text: 'Make lifestyle changes to lower your blood pressure', modal: 'lifestyle' },
-            { text: 'Learn about blood pressure-lowering medications', modal: 'medications' }
+            { text: 'Make lifestyle changes to lower your blood pressure.', href: 'https://www.heart.org/en/health-topics/high-blood-pressure/changes-you-can-make-to-manage-high-blood-pressure' },
+            { text: 'Learn about blood pressure-lowering medications.', href: 'https://www.heart.org/en/health-topics/high-blood-pressure/changes-you-can-make-to-manage-high-blood-pressure/types-of-blood-pressure-medications' }
           ]
         },
         stage2: {
@@ -2041,8 +2046,8 @@ let it drop on you`;
           badgeTextColor: 'white',
           description: "This reading is in the Stage 2 range. Contact your health care team as soon as possible. Lifestyle changes and multiple medications are typically needed at this stage.",
           actions: [
-            { text: 'Find a Live Healthy Chicago clinic near you', href: '#take-action' },
-            { text: 'Learn about blood pressure-lowering medications', modal: 'medications' }
+            { text: 'Make lifestyle changes to lower your blood pressure.', href: 'https://www.heart.org/en/health-topics/high-blood-pressure/changes-you-can-make-to-manage-high-blood-pressure' },
+            { text: 'Learn about blood pressure-lowering medications.', href: 'https://www.heart.org/en/health-topics/high-blood-pressure/changes-you-can-make-to-manage-high-blood-pressure/types-of-blood-pressure-medications' }
           ]
         },
         crisis: {
@@ -2052,7 +2057,10 @@ let it drop on you`;
           badgeText: '!!',
           badgeTextColor: 'white',
           description: "This reading may indicate a hypertensive crisis. If you have chest pain, shortness of breath, numbness, or vision changes, call 911 immediately. Even without symptoms, contact your health care provider right away.",
-          actions: [{ text: 'Call 911 or go to the nearest emergency room', href: 'tel:911' }]
+          actions: [
+            { text: 'Call 911 or go to the nearest emergency room', href: 'tel:911' },
+            { text: 'Learn about hypertensive emergency.', href: 'https://www.heart.org/en/health-topics/high-blood-pressure/understanding-blood-pressure-readings/when-to-call-911-for-high-blood-pressure' }
+          ]
         }
       };
 
@@ -2233,20 +2241,13 @@ let it drop on you`;
             </p>
             <div className="flex flex-col gap-2 mb-6">
               {cat.actions.map((action, i) => (
-                action.modal ? (
-                  <button key={i}
-                          onClick={() => action.modal === 'lifestyle' ? setShowLifestyleModal(true) : setShowMedicationsModal(true)}
-                          className="flex items-center gap-1 text-sm font-bold hover:underline text-left"
-                          style={{ color: colors.starRed, fontFamily: "'Open Sans', sans-serif", background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}>
-                    {action.text} <span style={{ fontSize: '16px' }}>›</span>
-                  </button>
-                ) : (
-                  <a key={i} href={action.href}
-                     className="flex items-center gap-1 text-sm font-bold hover:underline"
-                     style={{ color: colors.starRed, fontFamily: "'Open Sans', sans-serif" }}>
-                    {action.text} <span style={{ fontSize: '16px' }}>›</span>
-                  </a>
-                )
+                <a key={i} href={action.href}
+                   target={action.href && !action.href.startsWith('#') && !action.href.startsWith('tel:') ? '_blank' : undefined}
+                   rel={action.href && !action.href.startsWith('#') && !action.href.startsWith('tel:') ? 'noopener noreferrer' : undefined}
+                   className="flex items-center gap-1 text-sm font-bold hover:underline"
+                   style={{ color: colors.starRed, fontFamily: "'Open Sans', sans-serif" }}>
+                  {action.text} <span style={{ fontSize: '16px' }}>›</span>
+                </a>
               ))}
             </div>
             <button onClick={restart}
@@ -2256,8 +2257,6 @@ let it drop on you`;
             </button>
           </div>
         </div>
-        {showLifestyleModal && <LifestyleChangesModal onClose={() => setShowLifestyleModal(false)} />}
-        {showMedicationsModal && <MedicationsModal onClose={() => setShowMedicationsModal(false)} />}
       </>
       );
     }
