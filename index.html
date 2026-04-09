@@ -1592,6 +1592,18 @@
       );
     }
 
+    // ── Shared color palette (module scope — used by BPQuiz and LiveHealthyChicago) ──
+    const colors = {
+      starRed: '#E5202F',
+      skyBlue: '#46B7E5',
+      trustNavy: '#1B365D',
+      vitalityYellow: '#FFB81C',
+      neighborhoodTeal: '#48C9B0',
+      charcoal: '#2D2D2D',
+      coolGray: '#A0AEC0',
+      softCloud: '#F7FAFC'
+    };
+
     function LiveHealthyChicago() {
 
       const [scrolled, setScrolled] = React.useState(false);
@@ -1631,17 +1643,6 @@
         document.body.style.overflow = mobileMenuOpen ? 'hidden' : '';
         return () => { document.body.style.overflow = ''; };
       }, [mobileMenuOpen]);
-
-      const colors = {
-        starRed: '#E5202F',
-        skyBlue: '#46B7E5',
-        trustNavy: '#1B365D',
-        vitalityYellow: '#FFB81C',
-        neighborhoodTeal: '#48C9B0',
-        charcoal: '#2D2D2D',
-        coolGray: '#A0AEC0',
-        softCloud: '#F7FAFC'
-      };
 
       const CHICAGO_HTN_AVG = 31.9;
       const neighborhoods = [
