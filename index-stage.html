@@ -2332,6 +2332,46 @@ let it drop on you`;
       },
     ];
 
+    // ── Weekly Screening Sites ───────────────────────────────────────────────
+    const screeningSites = [
+      {
+        id: 'bethel-new-life',
+        name: 'Bethel New Life',
+        day: 'Monday',
+        hours: '10:00 – 12:00 P.M.',
+        address: '4950 W. Thomas St., Chicago, IL 60651',
+        neighborhood: 'West Garfield Park',
+        image: 'news-events/LHC-Mobile-Team/building-Bethel-New-Life-4950-W-Thomas-Chicago.png',
+      },
+      {
+        id: 'healthy-hood',
+        name: 'Healthy Hood',
+        day: 'Tuesday',
+        hours: '1:00 – 3:00 P.M.',
+        address: '2242 S. Damen Ave., Chicago, IL 60608',
+        neighborhood: 'Pilsen',
+        image: 'news-events/LHC-Mobile-Team/building-Healthy-Hood-2242-S-Damen-Chicago.png',
+      },
+      {
+        id: 'taller-de-jose',
+        name: 'Taller de José',
+        day: 'Wednesday',
+        hours: '11:00 A.M. – 1:00 P.M.',
+        address: '5533 S. Sawyer Ave., Chicago, IL 60629',
+        neighborhood: 'Brighton Park',
+        image: 'news-events/LHC-Mobile-Team/building-Taller-de-Jose-5533-S-Sawyer-Ave-Chicago.png',
+      },
+      {
+        id: 'hope-community-church',
+        name: 'Hope Community Church',
+        day: 'Friday',
+        hours: '12:00 – 2:30 P.M.',
+        address: '5900 W. Iowa St., Chicago, IL 60651',
+        neighborhood: 'Austin',
+        image: 'news-events/LHC-Mobile-Team/building-Hope-Community-Church-5900-W-Iowa-St-Chicago.png',
+      },
+    ];
+
     // ── Event components (outside LiveHealthyChicago for stable references) ──
     const EV_NAVY   = '#1B365D';
     const EV_YELLOW = '#F5B400';
@@ -2345,6 +2385,87 @@ let it drop on you`;
         <path d="M24 11c0-1.1.9-2 2-2s2 .9 2 2v1H22v-1c0-1.1.9-2 2-2z" fill="white"/>
       </svg>
     );
+
+    const DAY_COLORS = {
+      Monday:    { bg: '#1B5E20', text: '#A5D6A7' },
+      Tuesday:   { bg: '#0D47A1', text: '#90CAF9' },
+      Wednesday: { bg: '#4A148C', text: '#CE93D8' },
+      Friday:    { bg: '#BF360C', text: '#FFCCBC' },
+    };
+
+    const ScreeningSiteCard = ({ site }) => {
+      const dc = DAY_COLORS[site.day] || { bg: EV_NAVY, text: EV_YELLOW };
+      return (
+        <div className="rounded-3xl overflow-hidden shadow-lg flex flex-col"
+             style={{ backgroundColor: EV_NAVY }}>
+          {/* Photo */}
+          <div className="relative overflow-hidden flex-shrink-0" style={{ height: '200px' }}>
+            <img src={site.image} alt={site.name}
+                 className="w-full h-full object-cover object-center" />
+            <div className="absolute inset-0"
+                 style={{ background: 'linear-gradient(to bottom, rgba(27,54,93,0.08) 40%, rgba(27,54,93,0.82))' }} />
+            {/* Day badge */}
+            <div className="absolute top-4 left-4 px-3 py-1.5 rounded-full"
+                 style={{ backgroundColor: dc.bg }}>
+              <span className="text-xs font-bold tracking-wide"
+                    style={{ color: dc.text, fontFamily: "'Poppins', sans-serif" }}>
+                Every {site.day}
+              </span>
+            </div>
+            {/* Free badge */}
+            <div className="absolute top-4 right-4 px-3 py-1.5 rounded-full"
+                 style={{ backgroundColor: 'rgba(255,255,255,0.15)', backdropFilter: 'blur(6px)' }}>
+              <span className="text-xs font-bold text-white tracking-wide"
+                    style={{ fontFamily: "'Poppins', sans-serif" }}>Free · Walk-in</span>
+            </div>
+          </div>
+
+          {/* Body */}
+          <div className="p-5 flex flex-col gap-3 flex-1">
+            <h3 className="text-lg font-black text-white leading-tight"
+                style={{ fontFamily: "'Montserrat', sans-serif" }}>{site.name}</h3>
+
+            {/* Time row */}
+            <div className="flex items-center gap-2">
+              <div className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0"
+                   style={{ backgroundColor: EV_YELLOW }}>
+                <svg className="w-3.5 h-3.5" fill={EV_NAVY} viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd"/>
+                </svg>
+              </div>
+              <span className="text-sm font-semibold text-white">{site.hours}</span>
+            </div>
+
+            {/* Address row */}
+            <div className="flex items-start gap-2">
+              <div className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"
+                   style={{ backgroundColor: 'rgba(255,255,255,0.1)' }}>
+                <svg className="w-3.5 h-3.5" fill="none" stroke={EV_YELLOW} strokeWidth="2" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z"/>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                </svg>
+              </div>
+              <div>
+                <div className="text-sm text-white leading-snug">{site.address}</div>
+                <div className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.5)' }}>{site.neighborhood}</div>
+              </div>
+            </div>
+
+            {/* BP screening label */}
+            <div className="mt-auto pt-3 border-t" style={{ borderColor: 'rgba(255,255,255,0.1)' }}>
+              <div className="flex items-center gap-2">
+                <svg className="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke={EV_YELLOW} strokeWidth="1.8">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                </svg>
+                <span className="text-xs font-semibold" style={{ color: 'rgba(255,255,255,0.65)', fontFamily: "'Poppins', sans-serif" }}>
+                  Free Blood Pressure Screening · No appointment needed
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    };
 
     const EventCard = ({ event, onOpen }) => (
       <div className="cursor-pointer group rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1"
@@ -3061,6 +3182,8 @@ let it drop on you`;
 
       const [partnerTabIdx, setPartnerTabIdx] = React.useState(0);
       const partnerPaused = React.useRef(false);
+      const partnerContentRef = React.useRef(null);
+      const [partnerMinHeight, setPartnerMinHeight] = React.useState(0);
       React.useEffect(() => {
         const id = setInterval(() => {
           if (!partnerPaused.current) {
@@ -3069,6 +3192,12 @@ let it drop on you`;
         }, 4000);
         return () => clearInterval(id);
       }, []);
+      React.useEffect(() => {
+        if (partnerContentRef.current) {
+          const h = partnerContentRef.current.offsetHeight;
+          setPartnerMinHeight(prev => Math.max(prev, h));
+        }
+      }, [partnerTabIdx]);
 
       React.useEffect(() => {
         const hash = window.location.hash;
@@ -4242,7 +4371,8 @@ And that is how we overcome high blood pressure. They'll tell you about food and
                     </div>
 
                     {/* Tab content */}
-                    <div key={partnerTabIdx}
+                    <div style={{ minHeight: partnerMinHeight > 0 ? `${partnerMinHeight}px` : undefined }}>
+                    <div key={partnerTabIdx} ref={partnerContentRef}
                          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4"
                          style={{ animation: 'fadeIn 0.3s ease-out' }}>
                       {tab.logos.map((logo, i) => (
@@ -4263,6 +4393,7 @@ And that is how we overcome high blood pressure. They'll tell you about food and
                         </div>
                       ))}
                     </div>
+                    </div>{/* end minHeight wrapper */}
 
                     {/* Progress dots */}
                     <div className="flex justify-center gap-2 mt-8">
@@ -4289,15 +4420,125 @@ And that is how we overcome high blood pressure. They'll tell you about food and
               <div ref={eventsRef} className={`text-center mb-14 fade-up ${eventsVisible ? 'visible' : ''}`}>
                 <span className="font-semibold tracking-wide text-sm uppercase mb-4 block"
                       style={{ color: EV_YELLOW, fontFamily: "'Poppins', sans-serif" }}>
-                  Upcoming Events
+                  Events &amp; Screenings
                 </span>
                 <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white"
                     style={{ fontFamily: "'Montserrat', sans-serif" }}>
                   Join Us in the Community
                 </h2>
                 <p className="text-xl max-w-2xl mx-auto" style={{ color: 'rgba(255,255,255,0.72)' }}>
-                  Free events for West Side and South Side families. No appointment needed.
+                  Free events and weekly blood pressure screenings across West Side and South Side neighborhoods. No appointment needed.
                 </p>
+              </div>
+
+              {/* ── Program Overview ── */}
+              <div className={`mb-14 fade-up ${eventsVisible ? 'visible' : ''}`}>
+                <div className="grid sm:grid-cols-2 gap-5">
+
+                  {/* Team */}
+                  <div className="rounded-2xl p-6 flex gap-4"
+                       style={{ backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.09)' }}>
+                    <div className="flex-shrink-0 w-11 h-11 rounded-xl flex items-center justify-center"
+                         style={{ backgroundColor: 'rgba(245,180,0,0.15)' }}>
+                      <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke={EV_YELLOW} strokeWidth="1.8">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+                      </svg>
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-white mb-1.5" style={{ fontFamily: "'Montserrat', sans-serif" }}>A Full Care Team</h4>
+                      <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.65)' }}>
+                        Our mobile team includes a <strong className="text-white">pharmacist, nurse, medical assistant, and community health workers</strong> — all working together to support your blood pressure care, help manage medications, and offer practical lifestyle guidance.
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Services */}
+                  <div className="rounded-2xl p-6 flex gap-4"
+                       style={{ backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.09)' }}>
+                    <div className="flex-shrink-0 w-11 h-11 rounded-xl flex items-center justify-center"
+                         style={{ backgroundColor: 'rgba(229,32,47,0.15)' }}>
+                      <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="#FF6B6B" strokeWidth="1.8">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                      </svg>
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-white mb-1.5" style={{ fontFamily: "'Montserrat', sans-serif" }}>Free Screenings &amp; Support</h4>
+                      <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.65)' }}>
+                        Get a free blood pressure check, medication support, and one-on-one guidance. Community health workers help you navigate insurance, connect to a primary care provider, and take charge of your health — at no cost.
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Food Access */}
+                  <div className="rounded-2xl p-6 flex gap-4"
+                       style={{ backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.09)' }}>
+                    <div className="flex-shrink-0 w-11 h-11 rounded-xl flex items-center justify-center"
+                         style={{ backgroundColor: 'rgba(34,197,94,0.15)' }}>
+                      <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="#4ADE80" strokeWidth="1.8">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+                      </svg>
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-white mb-1.5" style={{ fontFamily: "'Montserrat', sans-serif" }}>Healthy Food, Connected to Care</h4>
+                      <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.65)' }}>
+                        We treat food access as part of health care. Participants can receive <strong className="text-white">monthly food boxes</strong>, get connected to local food pantries and fresh produce, and learn how nutrition directly supports better blood pressure.
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* What to Expect */}
+                  <div className="rounded-2xl p-6 flex gap-4"
+                       style={{ backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.09)' }}>
+                    <div className="flex-shrink-0 w-11 h-11 rounded-xl flex items-center justify-center"
+                         style={{ backgroundColor: 'rgba(99,179,237,0.15)' }}>
+                      <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="#90CDF4" strokeWidth="1.8">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-2 10v-5a1 1 0 00-1-1h-2a1 1 0 00-1 1v5m4 0H9"/>
+                      </svg>
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-white mb-1.5" style={{ fontFamily: "'Montserrat', sans-serif" }}>Care in Familiar Places</h4>
+                      <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.65)' }}>
+                        Services happen in churches, community centers, and spaces you already trust — no appointment, no waiting room. When follow-up care is needed, we connect you to a local health center for ongoing support.
+                      </p>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+              {/* ── Weekly Screenings ── */}
+              <div className={`mb-16 fade-up ${eventsVisible ? 'visible' : ''}`}>
+                <div className="flex items-center gap-4 mb-8">
+                  <div className="h-px flex-1" style={{ backgroundColor: 'rgba(255,255,255,0.12)' }} />
+                  <div className="flex items-center gap-2.5 px-5 py-2 rounded-full"
+                       style={{ backgroundColor: 'rgba(245,180,0,0.12)', border: '1px solid rgba(245,180,0,0.3)' }}>
+                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke={EV_YELLOW} strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                    </svg>
+                    <span className="text-sm font-bold tracking-wide"
+                          style={{ color: EV_YELLOW, fontFamily: "'Poppins', sans-serif" }}>Weekly Mobile Team Schedule</span>
+                  </div>
+                  <div className="h-px flex-1" style={{ backgroundColor: 'rgba(255,255,255,0.12)' }} />
+                </div>
+                <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                  {screeningSites.map(site => (
+                    <ScreeningSiteCard key={site.id} site={site} />
+                  ))}
+                </div>
+              </div>
+
+              {/* ── Upcoming Events divider ── */}
+              <div className={`flex items-center gap-4 mb-8 fade-up ${eventsVisible ? 'visible' : ''}`}>
+                <div className="h-px flex-1" style={{ backgroundColor: 'rgba(255,255,255,0.12)' }} />
+                <div className="flex items-center gap-2.5 px-5 py-2 rounded-full"
+                     style={{ backgroundColor: 'rgba(229,32,47,0.12)', border: '1px solid rgba(229,32,47,0.35)' }}>
+                  <svg className="w-4 h-4" fill={EV_RED} viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd"/>
+                  </svg>
+                  <span className="text-sm font-bold tracking-wide"
+                        style={{ color: '#FF6B6B', fontFamily: "'Poppins', sans-serif" }}>Upcoming Events</span>
+                </div>
+                <div className="h-px flex-1" style={{ backgroundColor: 'rgba(255,255,255,0.12)' }} />
               </div>
 
               {/* Event cards */}
