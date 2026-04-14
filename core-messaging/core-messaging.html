@@ -1,0 +1,1411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LHC Core Messaging Framework</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy:   #1B365D;
+      --red:    #E5202F;
+      --yellow: #F5B400;
+      --teal:   #0A7C86;
+      --green:  #1A6B3A;
+      --cloud:  #F4F6F9;
+      --ink:    #1A1A2E;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'IBM Plex Sans', sans-serif;
+      background: #F4F6F9;
+      color: var(--ink);
+      margin: 0;
+    }
+    .playfair { font-family: 'Playfair Display', serif; }
+    .mono     { font-family: 'IBM Plex Mono', monospace; }
+
+    /* ── Nav ── */
+    .site-nav {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--navy);
+      display: flex; align-items: center; gap: 0;
+      padding: 0 2rem;
+      border-bottom: 3px solid var(--red);
+    }
+    .site-nav .brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.95rem; font-weight: 700;
+      color: white; white-space: nowrap;
+      padding: 1rem 1.5rem 1rem 0;
+      border-right: 1px solid rgba(255,255,255,0.15);
+      margin-right: 1.5rem;
+      letter-spacing: 0.01em;
+    }
+    .site-nav a {
+      color: rgba(255,255,255,0.65);
+      font-size: 0.8rem; font-weight: 500;
+      text-decoration: none; padding: 0.5rem 0.85rem;
+      border-radius: 4px;
+      transition: color 0.15s, background 0.15s;
+      white-space: nowrap;
+    }
+    .site-nav a:hover { color: white; background: rgba(255,255,255,0.08); }
+    .draft-pill {
+      margin-left: auto;
+      background: rgba(245,180,0,0.18);
+      border: 1px solid rgba(245,180,0,0.4);
+      color: var(--yellow);
+      font-size: 0.7rem; font-weight: 600;
+      font-family: 'IBM Plex Mono', monospace;
+      padding: 0.25rem 0.65rem; border-radius: 99px;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      background: var(--navy);
+      padding: 4rem 2rem 3.5rem;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: ''; position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 70% 50%, rgba(229,32,47,0.12), transparent),
+                  radial-gradient(ellipse 50% 80% at 10% 80%, rgba(10,124,134,0.10), transparent);
+      pointer-events: none;
+    }
+    .hero-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.72rem; font-weight: 500;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--yellow); margin-bottom: 1rem;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      font-weight: 900; color: white; line-height: 1.05;
+      max-width: 720px; margin: 0 0 1.25rem;
+    }
+    .hero p {
+      color: rgba(255,255,255,0.68); font-size: 1.05rem;
+      max-width: 620px; line-height: 1.65;
+      font-weight: 300;
+    }
+    .hero-meta {
+      display: flex; gap: 2rem; margin-top: 2.5rem;
+      flex-wrap: wrap;
+    }
+    .hero-meta-item { color: rgba(255,255,255,0.45); font-size: 0.8rem; }
+    .hero-meta-item strong { color: rgba(255,255,255,0.85); font-weight: 600; }
+
+    /* ── Section scaffold ── */
+    .section { padding: 4rem 2rem; max-width: 1200px; margin: 0 auto; }
+    .section-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.7rem; font-weight: 500;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--teal); margin-bottom: 0.75rem;
+    }
+    .section h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.7rem, 3.5vw, 2.6rem);
+      font-weight: 900; color: var(--navy);
+      line-height: 1.1; margin: 0 0 0.75rem;
+    }
+    .section-intro {
+      color: #4A5568; font-size: 1rem; line-height: 1.7;
+      max-width: 680px; font-weight: 300;
+    }
+    hr.section-rule {
+      border: none; border-top: 2px solid #E2E8F0;
+      margin: 0 0 3rem;
+    }
+
+    /* ── 1% Model ── */
+    .model-grid {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 2.5rem; align-items: start;
+      margin-top: 3rem;
+    }
+    @media (max-width: 900px) {
+      .model-grid { grid-template-columns: 1fr; }
+    }
+    .model-center {
+      text-align: center;
+      padding: 2rem 1.5rem;
+      background: var(--navy);
+      border-radius: 1.5rem;
+      position: relative; overflow: hidden;
+    }
+    .model-center::after {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(circle at 50% 60%, rgba(229,32,47,0.2), transparent 70%);
+      pointer-events: none;
+    }
+    .one-pct {
+      font-family: 'Playfair Display', serif;
+      font-size: 6rem; font-weight: 900;
+      line-height: 0.9;
+      background: linear-gradient(135deg, #fff 30%, rgba(245,180,0,0.9));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      display: block;
+    }
+    .model-center .goal-label {
+      color: rgba(255,255,255,0.65); font-size: 0.85rem;
+      font-weight: 400; margin-top: 0.5rem; line-height: 1.5;
+    }
+    .model-center .goal-label strong { color: white; }
+    .model-timeline {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      margin-top: 1.25rem;
+      background: rgba(245,180,0,0.15);
+      border: 1px solid rgba(245,180,0,0.3);
+      border-radius: 99px; padding: 0.35rem 1rem;
+      font-size: 0.78rem; font-weight: 600; color: var(--yellow);
+      font-family: 'IBM Plex Mono', monospace;
+    }
+    .model-card {
+      background: white; border-radius: 1.25rem;
+      padding: 1.75rem; border: 1.5px solid #E8EDF4;
+      box-shadow: 0 2px 12px rgba(27,54,93,0.06);
+    }
+    .model-card h3 {
+      font-size: 0.72rem; font-weight: 600;
+      font-family: 'IBM Plex Mono', monospace;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--teal); margin: 0 0 1.25rem;
+    }
+    .partner-type {
+      display: flex; align-items: flex-start; gap: 0.6rem;
+      padding: 0.55rem 0;
+      border-bottom: 1px solid #EEF1F6;
+    }
+    .partner-type:last-child { border-bottom: none; }
+    .partner-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--navy); flex-shrink: 0; margin-top: 5px;
+    }
+    .partner-type .name { font-size: 0.88rem; font-weight: 600; color: var(--navy); }
+    .partner-type .role { font-size: 0.78rem; color: #6B7A99; line-height: 1.4; }
+    .intervention-item {
+      display: flex; align-items: flex-start; gap: 0.85rem;
+      padding: 0.9rem;
+      border-radius: 0.75rem; margin-bottom: 0.65rem;
+    }
+    .int-icon {
+      width: 40px; height: 40px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .int-icon svg { width: 20px; height: 20px; }
+    .int-title { font-size: 0.9rem; font-weight: 700; color: var(--navy); }
+    .int-desc  { font-size: 0.78rem; color: #6B7A99; line-height: 1.4; margin-top: 0.2rem; }
+
+    /* ── Pathway ── */
+    .pathway-wrap {
+      position: relative; margin-top: 2.5rem; overflow-x: auto;
+      padding-bottom: 1rem;
+    }
+    .pathway-track {
+      display: flex; align-items: flex-start; gap: 0;
+      min-width: 900px;
+    }
+    .pathway-step {
+      flex: 1; display: flex; flex-direction: column; align-items: center;
+      position: relative; padding: 0 0.25rem;
+    }
+    .pathway-step::after {
+      content: ''; position: absolute;
+      top: 28px; left: 50%; width: 100%;
+      height: 2px; background: #CBD5E0;
+      z-index: 0;
+    }
+    .pathway-step:last-child::after { display: none; }
+    .step-node {
+      width: 56px; height: 56px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      background: white;
+      border: 2.5px solid #CBD5E0;
+      position: relative; z-index: 1;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .step-node svg { width: 24px; height: 24px; }
+    .step-node.active { border-color: var(--navy); box-shadow: 0 0 0 4px rgba(27,54,93,0.1); }
+    .step-node.campaign { border-color: var(--red); box-shadow: 0 0 0 4px rgba(229,32,47,0.12); background: #FFF5F5; }
+    .step-node.mobile   { border-color: #D97706;   box-shadow: 0 0 0 4px rgba(245,180,0,0.15); background: #FFFBEB; }
+    .step-node.clinical { border-color: var(--teal); box-shadow: 0 0 0 4px rgba(10,124,134,0.12); background: #F0FDFC; }
+    .step-node.outcome  { border-color: var(--green); box-shadow: 0 0 0 4px rgba(26,107,58,0.12); background: #F0FDF4; }
+    .step-label {
+      margin-top: 0.75rem; text-align: center;
+      font-size: 0.78rem; font-weight: 700; color: var(--navy);
+      line-height: 1.25;
+    }
+    .step-sub {
+      margin-top: 0.3rem; text-align: center;
+      font-size: 0.68rem; color: #6B7A99; line-height: 1.35;
+    }
+    .step-tag {
+      margin-top: 0.5rem;
+      font-size: 0.6rem; font-weight: 600;
+      font-family: 'IBM Plex Mono', monospace;
+      padding: 0.15rem 0.45rem; border-radius: 99px;
+      letter-spacing: 0.06em; text-transform: uppercase;
+    }
+    .tag-campaign { background: rgba(229,32,47,0.1); color: var(--red); }
+    .tag-mobile   { background: rgba(245,180,0,0.15); color: #92400E; }
+    .tag-clinical { background: rgba(10,124,134,0.1); color: var(--teal); }
+    .pathway-legend {
+      display: flex; gap: 1.5rem; flex-wrap: wrap;
+      margin-top: 2rem; justify-content: center;
+    }
+    .legend-item {
+      display: flex; align-items: center; gap: 0.45rem;
+      font-size: 0.78rem; color: #555;
+    }
+    .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+
+    /* ── Messaging Matrix ── */
+    .matrix-tabs {
+      display: flex; overflow-x: auto; gap: 0;
+      border-bottom: 2px solid #E2E8F0;
+      margin-bottom: 0; scrollbar-width: none;
+    }
+    .matrix-tabs::-webkit-scrollbar { display: none; }
+    .mtab {
+      flex-shrink: 0; padding: 0.75rem 1.25rem;
+      font-size: 0.82rem; font-weight: 600;
+      color: #718096; border: none; background: none;
+      cursor: pointer; border-bottom: 3px solid transparent;
+      margin-bottom: -2px; transition: color 0.15s;
+      white-space: nowrap;
+      font-family: 'IBM Plex Sans', sans-serif;
+    }
+    .mtab.active { color: var(--navy); border-bottom-color: var(--red); }
+    .mtab:hover:not(.active) { color: var(--navy); }
+    .matrix-panel { display: none; }
+    .matrix-panel.active { display: block; }
+    .msg-card {
+      background: white; border-radius: 1.25rem;
+      border: 1.5px solid #E8EDF4;
+      box-shadow: 0 2px 16px rgba(27,54,93,0.05);
+      overflow: hidden; margin-top: 1.5rem;
+    }
+    .msg-header {
+      padding: 1.5rem 2rem;
+      border-bottom: 1px solid #EEF1F6;
+      display: flex; align-items: flex-start; gap: 1.25rem;
+    }
+    .audience-badge {
+      flex-shrink: 0; width: 44px; height: 44px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.85rem; font-weight: 700;
+      color: white; background: var(--navy);
+    }
+    .audience-name { font-size: 1.05rem; font-weight: 700; color: var(--navy); }
+    .audience-desc { font-size: 0.82rem; color: #6B7A99; margin-top: 0.2rem; }
+    .msg-body { display: grid; grid-template-columns: 1fr 1fr; }
+    @media (max-width: 760px) { .msg-body { grid-template-columns: 1fr; } }
+    .msg-col { padding: 1.5rem 2rem; }
+    .msg-col:first-child { border-right: 1px solid #EEF1F6; }
+    .msg-col-label {
+      font-size: 0.68rem; font-weight: 600;
+      font-family: 'IBM Plex Mono', monospace;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--teal); margin-bottom: 0.75rem;
+    }
+    .core-msg {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem; font-weight: 700;
+      color: var(--navy); line-height: 1.5;
+      padding: 1rem 1.25rem;
+      background: #F7F9FC;
+      border-left: 3px solid var(--red);
+      border-radius: 0 0.5rem 0.5rem 0;
+      margin-bottom: 1rem;
+    }
+    .support-list { list-style: none; padding: 0; margin: 0; }
+    .support-list li {
+      display: flex; gap: 0.6rem; align-items: flex-start;
+      font-size: 0.85rem; color: #374151; line-height: 1.5;
+      padding: 0.4rem 0; border-bottom: 1px solid #EEF1F6;
+    }
+    .support-list li:last-child { border-bottom: none; }
+    .support-list li::before {
+      content: '→'; color: var(--red); flex-shrink: 0;
+      font-weight: 700; margin-top: 0.05em;
+    }
+    .proof-stat {
+      display: flex; align-items: baseline; gap: 0.5rem;
+      padding: 0.5rem 0; border-bottom: 1px solid #EEF1F6;
+    }
+    .proof-stat:last-child { border-bottom: none; }
+    .stat-val { font-size: 1.35rem; font-weight: 900; color: var(--navy); font-family: 'Playfair Display', serif; }
+    .stat-desc { font-size: 0.8rem; color: #6B7A99; line-height: 1.4; }
+    .cta-row {
+      padding: 1.25rem 2rem;
+      border-top: 1px solid #EEF1F6;
+      display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+    }
+    .cta-label { font-size: 0.72rem; font-weight: 600; font-family: 'IBM Plex Mono', monospace; letter-spacing: 0.1em; text-transform: uppercase; color: #718096; }
+    .cta-btn {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      padding: 0.45rem 1rem; border-radius: 99px;
+      font-size: 0.8rem; font-weight: 600;
+      background: var(--navy); color: white;
+      text-decoration: none; transition: opacity 0.15s;
+    }
+    .cta-btn:hover { opacity: 0.85; }
+    .cta-btn.secondary { background: #EEF1F6; color: var(--navy); }
+    .tone-chip {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      padding: 0.25rem 0.65rem; border-radius: 99px;
+      font-size: 0.7rem; font-weight: 600;
+      background: rgba(10,124,134,0.1); color: var(--teal);
+      font-family: 'IBM Plex Mono', monospace;
+    }
+
+    /* ── CBO Packet ── */
+    .flyer-card {
+      background: white; border-radius: 1.25rem;
+      border: 1.5px solid #E8EDF4;
+      box-shadow: 0 2px 16px rgba(27,54,93,0.05);
+      overflow: hidden; margin-bottom: 2rem;
+    }
+    .flyer-head {
+      padding: 1.25rem 2rem;
+      background: var(--navy);
+      display: flex; align-items: center; gap: 1rem;
+    }
+    .flyer-num {
+      width: 36px; height: 36px; border-radius: 8px;
+      background: rgba(255,255,255,0.15);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.85rem; font-weight: 700; color: var(--yellow);
+      flex-shrink: 0;
+    }
+    .flyer-head h3 { color: white; font-size: 1rem; font-weight: 700; margin: 0; }
+    .flyer-head p  { color: rgba(255,255,255,0.6); font-size: 0.78rem; margin: 0.2rem 0 0; }
+    .flyer-body {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 0;
+    }
+    .flyer-col {
+      padding: 1.5rem 2rem;
+      border-right: 1px solid #EEF1F6;
+    }
+    .flyer-col:last-child { border-right: none; }
+    .flyer-col h4 {
+      font-size: 0.7rem; font-weight: 600;
+      font-family: 'IBM Plex Mono', monospace;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--teal); margin: 0 0 0.85rem;
+    }
+    .flyer-list { list-style: none; padding: 0; margin: 0; }
+    .flyer-list li {
+      font-size: 0.85rem; color: #374151; line-height: 1.5;
+      padding: 0.4rem 0; border-bottom: 1px solid #EEF1F6;
+      display: flex; gap: 0.5rem; align-items: flex-start;
+    }
+    .flyer-list li:last-child { border-bottom: none; }
+    .flyer-list li::before {
+      content: '▸'; color: var(--navy);
+      flex-shrink: 0; font-size: 0.7rem; margin-top: 0.18em;
+    }
+    .benefit-chip {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      padding: 0.3rem 0.7rem; border-radius: 99px;
+      font-size: 0.75rem; font-weight: 600;
+      background: rgba(26,107,58,0.1); color: var(--green);
+      margin: 0.25rem 0.2rem 0 0;
+    }
+    .visit-step {
+      display: flex; gap: 1rem; align-items: flex-start;
+      padding: 0.9rem; border-radius: 0.75rem;
+      background: #F7F9FC; margin-bottom: 0.65rem;
+    }
+    .visit-num {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--navy); color: white;
+      font-size: 0.72rem; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .visit-title { font-size: 0.85rem; font-weight: 700; color: var(--navy); }
+    .visit-items { list-style: none; padding: 0; margin: 0.35rem 0 0; }
+    .visit-items li { font-size: 0.78rem; color: #555; line-height: 1.5; }
+    .visit-items li::before { content: '• '; color: var(--red); }
+
+    /* ── Divider sections ── */
+    .full-bleed {
+      background: var(--navy); padding: 3rem 2rem;
+    }
+    .full-bleed .section { color: white; }
+
+    /* ── Appendix notes ── */
+    .note-box {
+      background: rgba(245,180,0,0.08);
+      border: 1.5px dashed rgba(245,180,0,0.4);
+      border-radius: 0.75rem; padding: 1rem 1.25rem;
+      font-size: 0.82rem; color: #6B5B1E; line-height: 1.6;
+      margin-bottom: 0.75rem;
+    }
+    .note-box strong { color: #92400E; }
+
+    /* ── Scrollbar ── */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #EEF1F6; }
+    ::-webkit-scrollbar-thumb { background: #CBD5E0; border-radius: 99px; }
+
+    @media print {
+      .site-nav { display: none; }
+      .flyer-card, .msg-card { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Navigation ── -->
+<nav class="site-nav">
+  <span class="brand">Live Healthy Chicago</span>
+  <a href="#model">The Model</a>
+  <a href="#pathway">Pathways</a>
+  <a href="#matrix">Messaging Matrix</a>
+  <a href="#cbo">CBO Packet</a>
+  <a href="#notes">Notes</a>
+  <span class="draft-pill">Draft</span>
+</nav>
+
+<!-- ── Hero ── -->
+<div class="hero">
+  <div style="max-width:1200px;margin:0 auto;position:relative;z-index:1;">
+    <div class="hero-label">Internal Working Document · April 2026</div>
+    <h1>Core Messaging<br/>Framework</h1>
+    <p>A strategic guide for communicating Live Healthy Chicago's mission, model, and value to every audience — from West Side residents to national funders. Use this as a living reference: fill in gaps, pressure-test the language, and align the coalition's voice.</p>
+    <div class="hero-meta">
+      <div class="hero-meta-item">Owner: <strong>Alexandra Sontag / Rebecca Dawar</strong></div>
+      <div class="hero-meta-item">Status: <strong>Active Draft</strong></div>
+      <div class="hero-meta-item">Last Updated: <strong>April 2026</strong></div>
+      <div class="hero-meta-item">Target: <strong>1% ASCVD risk reduction by 2029</strong></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── THE MODEL ── -->
+<div id="model" style="background:#F4F6F9;padding:4rem 2rem;">
+  <div style="max-width:1200px;margin:0 auto;">
+    <div class="section-label">Section 01</div>
+    <h2 class="playfair" style="color:var(--navy);font-size:clamp(1.7rem,3vw,2.4rem);font-weight:900;margin:0 0 0.5rem;">The Organizing Model</h2>
+    <p class="section-intro">LHC is not a program — it's a coordination layer. It aligns existing assets, relationships, and energy toward a shared, measurable goal. Understanding the model is the prerequisite for all audience-specific messaging.</p>
+    <hr class="section-rule" style="margin-top:2rem;"/>
+
+    <div class="model-grid">
+
+      <!-- Left: Coalition Structure -->
+      <div class="model-card">
+        <h3>The Coalition</h3>
+        <div class="partner-type">
+          <span class="partner-dot" style="background:#1B365D;"></span>
+          <div>
+            <div class="partner-type name">Anchor Institutions</div>
+            <div class="partner-type role">Rush & U of C Medicine — lead, organize, fundraise, and mobilize resources</div>
+          </div>
+        </div>
+        <div class="partner-type">
+          <span class="partner-dot" style="background:#0A7C86;"></span>
+          <div>
+            <div class="partner-type name">FQHCs & Hospitals</div>
+            <div class="partner-type role">Cook County Health, Sinai Chicago, UI Health, Saint Anthony + 10 community health centers</div>
+          </div>
+        </div>
+        <div class="partner-type">
+          <span class="partner-dot" style="background:#E5202F;"></span>
+          <div>
+            <div class="partner-type name">Healthcare Transformation Collaboratives</div>
+            <div class="partner-type role">SSHCO & Wellness West — network of clinics + CBOs, process improvement infrastructure</div>
+          </div>
+        </div>
+        <div class="partner-type">
+          <span class="partner-dot" style="background:#D97706;"></span>
+          <div>
+            <div class="partner-type name">Data Systems</div>
+            <div class="partner-type role">Northwestern & AllianceChicago — quality improvement dashboard, shared data infrastructure</div>
+          </div>
+        </div>
+        <div class="partner-type">
+          <span class="partner-dot" style="background:#1A6B3A;"></span>
+          <div>
+            <div class="partner-type name">Government & Public Health</div>
+            <div class="partner-type role">CDPH, Chicago Park District — public health campaign co-leadership, community trust</div>
+          </div>
+        </div>
+        <div class="partner-type">
+          <span class="partner-dot" style="background:#553C9A;"></span>
+          <div>
+            <div class="partner-type name">National Experts</div>
+            <div class="partner-type role">AMA, AHA, CDC Foundation — technical expertise, vetted resources, national platform</div>
+          </div>
+        </div>
+        <div class="partner-type" style="border-bottom:none;">
+          <span class="partner-dot" style="background:#718096;"></span>
+          <div>
+            <div class="partner-type name">CBOs & Community Leaders</div>
+            <div class="partner-type role">Faith-based orgs, community centers — trusted access points and CHW employers</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Center: The Goal -->
+      <div class="model-center" style="min-width:240px;">
+        <span class="one-pct">1%</span>
+        <div class="goal-label">
+          <strong>Reduce the risk of heart attack<br/>and stroke across Chicago</strong><br/>
+          starting on the West &amp; South Sides
+        </div>
+        <div class="model-timeline">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          By 2029 · 3 Years
+        </div>
+        <div style="margin-top:1.75rem;padding-top:1.25rem;border-top:1px solid rgba(255,255,255,0.1);">
+          <div style="font-size:0.7rem;color:rgba(255,255,255,0.4);font-family:'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.75rem;">Focus Area</div>
+          <div style="display:flex;gap:0.5rem;flex-wrap:wrap;justify-content:center;">
+            <span style="background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.8);font-size:0.75rem;font-weight:600;padding:0.3rem 0.7rem;border-radius:99px;">27 Neighborhoods</span>
+            <span style="background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.8);font-size:0.75rem;font-weight:600;padding:0.3rem 0.7rem;border-radius:99px;">West Side</span>
+            <span style="background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.8);font-size:0.75rem;font-weight:600;padding:0.3rem 0.7rem;border-radius:99px;">South Side</span>
+          </div>
+          <div style="margin-top:1rem;font-size:0.72rem;color:rgba(255,255,255,0.4);line-height:1.5;">Chicago average hypertension rate:<br/><strong style="color:rgba(255,255,255,0.75);font-size:1rem;">31.9%</strong></div>
+        </div>
+      </div>
+
+      <!-- Right: The 3 Interventions -->
+      <div class="model-card">
+        <h3>Three Interventions</h3>
+
+        <div class="intervention-item" style="background:rgba(229,32,47,0.06);">
+          <div class="int-icon" style="background:rgba(229,32,47,0.12);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#E5202F" stroke-width="1.8">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/>
+            </svg>
+          </div>
+          <div>
+            <div class="int-title">Public Health Campaign</div>
+            <div class="int-desc">Spark conversation, build awareness, motivate blood pressure checks. Led by CDPH + coalition. Audiences 01–03.</div>
+          </div>
+        </div>
+
+        <div class="intervention-item" style="background:rgba(245,180,0,0.08);">
+          <div class="int-icon" style="background:rgba(245,180,0,0.18);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="1.8">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+            </svg>
+          </div>
+          <div>
+            <div class="int-title">Mobile Care in Community</div>
+            <div class="int-desc">Pharmacist + nurse + CHW team deploys to CBOs. Screenings, medication support, food access, and care connection. No appointment.</div>
+          </div>
+        </div>
+
+        <div class="intervention-item" style="background:rgba(10,124,134,0.06);">
+          <div class="int-icon" style="background:rgba(10,124,134,0.12);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#0A7C86" stroke-width="1.8">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
+            </svg>
+          </div>
+          <div>
+            <div class="int-title">Clinical Practice Transformation</div>
+            <div class="int-desc">Evidence-based trainings, shared data dashboard, and QI support so clinicians can measure, manage, and track hypertension better.</div>
+          </div>
+        </div>
+
+        <div style="margin-top:0.5rem;padding:0.85rem;background:#F7F9FC;border-radius:0.75rem;">
+          <div style="font-size:0.7rem;font-family:'IBM Plex Mono',monospace;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--teal);margin-bottom:0.4rem;">How They Reinforce Each Other</div>
+          <p style="font-size:0.78rem;color:#555;line-height:1.5;margin:0;">Campaigns drive people to screenings → mobile care connects them to clinical partners → clinical transformation ensures that connection leads to lasting care. The interventions only work at scale when all three operate together.</p>
+        </div>
+      </div>
+
+    </div><!-- /model-grid -->
+  </div>
+</div>
+
+<!-- ── PATHWAY TO PREVENTION ── -->
+<div id="pathway" style="background:white;padding:4rem 2rem;border-top:1px solid #E2E8F0;border-bottom:1px solid #E2E8F0;">
+  <div style="max-width:1200px;margin:0 auto;">
+    <div class="section-label">Section 02</div>
+    <h2 class="playfair" style="color:var(--navy);font-size:clamp(1.7rem,3vw,2.4rem);font-weight:900;margin:0 0 0.5rem;">Pathways to Prevention &amp; Quality Care</h2>
+    <p class="section-intro">LHC's coordinated approach is built around meeting people where they are and moving them through a pathway — from initial awareness to sustained, controlled blood pressure. Each step has a role, and each intervention catalyzes specific transitions.</p>
+
+    <div class="pathway-wrap">
+      <div class="pathway-track">
+
+        <div class="pathway-step">
+          <div class="step-node">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#4A5568" stroke-width="1.8">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
+          </div>
+          <div class="step-label">Community<br/>Trust</div>
+          <div class="step-sub">Trusted spaces:<br/>churches, CBOs,<br/>community centers</div>
+        </div>
+
+        <div class="pathway-step">
+          <div class="step-node campaign">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#E5202F" stroke-width="1.8">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/>
+            </svg>
+          </div>
+          <div class="step-label">Awareness<br/>&amp; Outreach</div>
+          <div class="step-sub">Campaign reaches<br/>people where<br/>they already are</div>
+          <div class="step-tag tag-campaign">Campaign</div>
+        </div>
+
+        <div class="pathway-step">
+          <div class="step-node mobile">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="1.8">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+            </svg>
+          </div>
+          <div class="step-label">Free BP<br/>Screening</div>
+          <div class="step-sub">No appointment.<br/>Mobile team<br/>comes to you</div>
+          <div class="step-tag tag-mobile">Mobile Care</div>
+        </div>
+
+        <div class="pathway-step">
+          <div class="step-node campaign">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#E5202F" stroke-width="1.8">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+            </svg>
+          </div>
+          <div class="step-label">Know Your<br/>Numbers</div>
+          <div class="step-sub">Understand BP<br/>readings, risk,<br/>what to do next</div>
+          <div class="step-tag tag-campaign">Campaign</div>
+        </div>
+
+        <div class="pathway-step">
+          <div class="step-node mobile">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="1.8">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
+            </svg>
+          </div>
+          <div class="step-label">Connect to<br/>Care &amp; Services</div>
+          <div class="step-sub">CHWs navigate<br/>insurance, PCP,<br/>social services</div>
+          <div class="step-tag tag-mobile">Mobile Care</div>
+        </div>
+
+        <div class="pathway-step">
+          <div class="step-node clinical">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#0A7C86" stroke-width="1.8">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
+            </svg>
+          </div>
+          <div class="step-label">Treatment<br/>&amp; Support</div>
+          <div class="step-sub">Medications,<br/>lifestyle guidance,<br/>food access</div>
+          <div class="step-tag tag-clinical">Clinical</div>
+        </div>
+
+        <div class="pathway-step">
+          <div class="step-node clinical">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#0A7C86" stroke-width="1.8">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+          <div class="step-label">Sustained BP<br/>Control</div>
+          <div class="step-sub">Ongoing monitoring,<br/>follow-up, adherence<br/>support</div>
+          <div class="step-tag tag-clinical">Clinical</div>
+        </div>
+
+        <div class="pathway-step">
+          <div class="step-node outcome">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#1A6B3A" stroke-width="1.8">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+            </svg>
+          </div>
+          <div class="step-label">Reduced<br/>ASCVD Risk</div>
+          <div class="step-sub"><strong style="color:#1A6B3A;font-size:0.85rem;">−1% across Chicago</strong><br/>by 2029</div>
+        </div>
+
+      </div><!-- /pathway-track -->
+    </div><!-- /pathway-wrap -->
+
+    <div class="pathway-legend">
+      <div class="legend-item"><span class="legend-dot" style="background:var(--red);"></span> Public Health Campaign</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#D97706;"></span> Mobile Care in Community</div>
+      <div class="legend-item"><span class="legend-dot" style="background:var(--teal);"></span> Clinical Practice Transformation</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#1A6B3A;"></span> Population Outcome</div>
+    </div>
+
+    <!-- Coordinated Approach callout -->
+    <div style="margin-top:2.5rem;background:var(--navy);border-radius:1.25rem;padding:2rem 2.5rem;display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:center;">
+      <div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--yellow);margin-bottom:0.6rem;">Key Message — The Coordinated Approach</div>
+        <p style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:white;line-height:1.55;margin:0;">"Live Healthy Chicago doesn't add another program on top of an already crowded system. It coordinates what's already here — aligning hospitals, community organizations, public health agencies, and frontline workers so that every step of the pathway reinforces the next."</p>
+      </div>
+      <div style="text-align:center;min-width:120px;">
+        <div style="font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:900;color:var(--yellow);line-height:1;">27</div>
+        <div style="font-size:0.75rem;color:rgba(255,255,255,0.6);font-weight:500;">priority<br/>neighborhoods</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── MESSAGING MATRIX ── -->
+<div id="matrix" style="background:#F4F6F9;padding:4rem 2rem;">
+  <div style="max-width:1200px;margin:0 auto;">
+    <div class="section-label">Section 03</div>
+    <h2 class="playfair" style="color:var(--navy);font-size:clamp(1.7rem,3vw,2.4rem);font-weight:900;margin:0 0 0.5rem;">Messaging Matrix</h2>
+    <p class="section-intro">Each audience needs a different entry point into LHC's story. This matrix maps the core message, supporting proof points, tone guidance, and calls-to-action by segment. Use it as a writing brief — not a script.</p>
+
+    <div style="background:white;border-radius:1.25rem;border:1.5px solid #E8EDF4;box-shadow:0 2px 16px rgba(27,54,93,0.05);overflow:hidden;margin-top:2rem;">
+      <div class="matrix-tabs">
+        <button class="mtab active" onclick="showTab('t01')">01 — General Public</button>
+        <button class="mtab" onclick="showTab('t02')">02 — High BP, No Care</button>
+        <button class="mtab" onclick="showTab('t03')">03 — High BP, In Care</button>
+        <button class="mtab" onclick="showTab('tcbo')">CBO Partners</button>
+        <button class="mtab" onclick="showTab('tcoal')">Coalition Members</button>
+        <button class="mtab" onclick="showTab('tfund')">Funders &amp; Media</button>
+      </div>
+      <div style="padding:0 1.5rem 1.5rem;">
+
+        <!-- 01 General Public -->
+        <div id="t01" class="matrix-panel active">
+          <div class="msg-card" style="border:none;box-shadow:none;background:transparent;">
+            <div class="msg-header" style="padding:1.5rem 0.5rem;border-bottom:1px solid #EEF1F6;">
+              <div class="audience-badge" style="background:var(--red);">01</div>
+              <div>
+                <div class="audience-name">General Public — Blood Pressure Unknown</div>
+                <div class="audience-desc">Chicagoans who have not had a recent BP check and may not know their numbers. Goal: spark curiosity, reduce friction, motivate a first check.</div>
+              </div>
+            </div>
+            <div class="msg-body" style="border-bottom:1px solid #EEF1F6;">
+              <div class="msg-col">
+                <div class="msg-col-label">Core Message</div>
+                <div class="core-msg">"Most people with high blood pressure feel completely fine — it's why checking yours matters. Getting your BP checked is free, fast, and now available right in your neighborhood."</div>
+                <div class="msg-col-label" style="margin-top:1rem;">Supporting Points</div>
+                <ul class="support-list">
+                  <li>Nearly 1 in 3 Chicagoans has high blood pressure — many don't know it</li>
+                  <li>High BP has no symptoms, but quietly damages your heart, brain, and kidneys</li>
+                  <li>LHC makes it easy: no appointment, no parking, no waiting room</li>
+                  <li>Knowing your numbers is the first and most important step</li>
+                  <li>Approved headline: <em>"Stronger Hearts. Healthier Neighborhoods."</em></li>
+                </ul>
+              </div>
+              <div class="msg-col">
+                <div class="msg-col-label">Proof Points</div>
+                <div class="proof-stat"><span class="stat-val">31.9%</span><span class="stat-desc">of Chicago residents have hypertension — many are undiagnosed</span></div>
+                <div class="proof-stat"><span class="stat-val">27</span><span class="stat-desc">priority neighborhoods with the highest cardiovascular disease rates</span></div>
+                <div class="proof-stat"><span class="stat-val">Free</span><span class="stat-desc">All LHC screenings — no insurance, no appointment, no cost</span></div>
+                <div class="msg-col-label" style="margin-top:1rem;">Tone</div>
+                <div style="display:flex;gap:0.4rem;flex-wrap:wrap;">
+                  <span class="tone-chip">Plain language</span>
+                  <span class="tone-chip">Empowering, not alarming</span>
+                  <span class="tone-chip">Warm and direct</span>
+                </div>
+                <div class="note-box" style="margin-top:1rem;">
+                  <strong>Avoid:</strong> "silent killer," "ASCVD," doom-and-gloom statistics, fear-based framing. Focus on empowerment and ease, not risk.
+                </div>
+              </div>
+            </div>
+            <div class="cta-row">
+              <span class="cta-label">CTA</span>
+              <a href="https://livehealthychi.com" class="cta-btn" target="_blank">Find a free screening → livehealthychi.com</a>
+              <a href="https://livehealthychi.com#bp-quiz" class="cta-btn secondary">Check your numbers</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 02 High BP No Care -->
+        <div id="t02" class="matrix-panel">
+          <div class="msg-card" style="border:none;box-shadow:none;background:transparent;">
+            <div class="msg-header" style="padding:1.5rem 0.5rem;border-bottom:1px solid #EEF1F6;">
+              <div class="audience-badge" style="background:#D97706;">02</div>
+              <div>
+                <div class="audience-name">High BP — Not Connected to Clinical Care</div>
+                <div class="audience-desc">People who know (or suspect) they have high blood pressure but aren't regularly seeing a provider. Goal: reduce barriers, build trust, motivate that first connection to ongoing care.</div>
+              </div>
+            </div>
+            <div class="msg-body" style="border-bottom:1px solid #EEF1F6;">
+              <div class="msg-col">
+                <div class="msg-col-label">Core Message</div>
+                <div class="core-msg">"You already know something's off. Live Healthy Chicago connects you to a care team that comes to you — right in your neighborhood — so managing your blood pressure doesn't mean navigating a system alone."</div>
+                <div class="msg-col-label" style="margin-top:1rem;">Supporting Points</div>
+                <ul class="support-list">
+                  <li>No doctor? No insurance? No problem. LHC starts where you are</li>
+                  <li>Community health workers who know your neighborhood and speak your language</li>
+                  <li>Free medication support and lifestyle guidance — no strings attached</li>
+                  <li>LHC connects you to a local health center that takes your insurance (or doesn't require it)</li>
+                  <li>Monthly food boxes and food pantry connections — because nutrition is care</li>
+                </ul>
+              </div>
+              <div class="msg-col">
+                <div class="msg-col-label">Proof Points</div>
+                <div class="proof-stat"><span class="stat-val">50%</span><span class="stat-desc">of people tested at some community screening sites have elevated BP — many for the first time</span></div>
+                <div class="proof-stat"><span class="stat-val">CHWs</span><span class="stat-desc">Community health workers embedded in neighborhoods — they help navigate insurance, PCPs, and social services</span></div>
+                <div class="proof-stat"><span class="stat-val">Same-day</span><span class="stat-desc">Walk in to a screening site and leave with a care plan and follow-up scheduled</span></div>
+                <div class="msg-col-label" style="margin-top:1rem;">Tone</div>
+                <div style="display:flex;gap:0.4rem;flex-wrap:wrap;">
+                  <span class="tone-chip">Non-judgmental</span>
+                  <span class="tone-chip">Action-oriented</span>
+                  <span class="tone-chip">Trust-building</span>
+                </div>
+                <div class="note-box" style="margin-top:1rem;">
+                  <strong>Lead with ease and proximity</strong> — not risk. This audience has likely already experienced barriers. Meet that reality directly.
+                </div>
+              </div>
+            </div>
+            <div class="cta-row">
+              <span class="cta-label">CTA</span>
+              <a href="https://livehealthychi.com#events" class="cta-btn" target="_blank">Find a weekly screening site</a>
+              <a href="https://livehealthychi.com#events" class="cta-btn secondary">See the weekly schedule</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 03 High BP In Care -->
+        <div id="t03" class="matrix-panel">
+          <div class="msg-card" style="border:none;box-shadow:none;background:transparent;">
+            <div class="msg-header" style="padding:1.5rem 0.5rem;border-bottom:1px solid #EEF1F6;">
+              <div class="audience-badge" style="background:var(--teal);">03</div>
+              <div>
+                <div class="audience-name">High BP — In Clinical Care</div>
+                <div class="audience-desc">People actively being treated for hypertension by a healthcare provider. Goal: sustain engagement, support adherence, reinforce that their effort is working and that LHC is behind them.</div>
+              </div>
+            </div>
+            <div class="msg-body" style="border-bottom:1px solid #EEF1F6;">
+              <div class="msg-col">
+                <div class="msg-col-label">Core Message</div>
+                <div class="core-msg">"You're already doing the hardest part. Live Healthy Chicago is here to help you stay on track — with the tools, support, and community to keep your blood pressure where it belongs."</div>
+                <div class="msg-col-label" style="margin-top:1rem;">Supporting Points</div>
+                <ul class="support-list">
+                  <li>Home BP monitoring support so you can track between appointments</li>
+                  <li>Medication adherence resources — what to do when it's hard to stay consistent</li>
+                  <li>Nutrition and lifestyle support that links directly to BP control</li>
+                  <li>Community health workers as an ongoing connection point — not just a one-time visit</li>
+                  <li>Your provider is part of the LHC network — your care team is coordinated</li>
+                </ul>
+              </div>
+              <div class="msg-col">
+                <div class="msg-col-label">Proof Points</div>
+                <div class="proof-stat"><span class="stat-val">AMA MAP™</span><span class="stat-desc">LHC uses the American Medical Association's validated 7-step accurate BP measurement protocol</span></div>
+                <div class="proof-stat"><span class="stat-val">Home BP</span><span class="stat-desc">Home monitoring significantly improves BP control — LHC supports access to devices</span></div>
+                <div class="proof-stat"><span class="stat-val">HEDIS</span><span class="stat-desc">LHC tracks population-level BP control rates across all clinical partners</span></div>
+                <div class="msg-col-label" style="margin-top:1rem;">Tone</div>
+                <div style="display:flex;gap:0.4rem;flex-wrap:wrap;">
+                  <span class="tone-chip">Affirming</span>
+                  <span class="tone-chip">Practical</span>
+                  <span class="tone-chip">Partner-like</span>
+                </div>
+              </div>
+            </div>
+            <div class="cta-row">
+              <span class="cta-label">CTA</span>
+              <a href="https://livehealthychi.com" class="cta-btn" target="_blank">Explore resources → livehealthychi.com</a>
+              <a href="https://livehealthychi.com#bp-quiz" class="cta-btn secondary">Review your BP category</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- CBO Partners -->
+        <div id="tcbo" class="matrix-panel">
+          <div class="msg-card" style="border:none;box-shadow:none;background:transparent;">
+            <div class="msg-header" style="padding:1.5rem 0.5rem;border-bottom:1px solid #EEF1F6;">
+              <div class="audience-badge" style="background:#553C9A;">CBO</div>
+              <div>
+                <div class="audience-name">Community-Based Organization Administrators</div>
+                <div class="audience-desc">Leaders at churches, community centers, and social service organizations who can host the LHC mobile care team. Goal: invite partnership, make the ask clear, remove fear of complexity.</div>
+              </div>
+            </div>
+            <div class="msg-body" style="border-bottom:1px solid #EEF1F6;">
+              <div class="msg-col">
+                <div class="msg-col-label">Core Message</div>
+                <div class="core-msg">"Your organization is already a place your community trusts. Partnering with Live Healthy Chicago means bringing life-saving blood pressure care to the people you already serve — at no cost to you or them."</div>
+                <div class="msg-col-label" style="margin-top:1rem;">LHC's Ask of CBOs</div>
+                <ul class="support-list">
+                  <li>Host the mobile care team for 2-hour sessions tied to your existing programming (~3 months)</li>
+                  <li>Market the screening to your community</li>
+                  <li>Provide a space with tables, chairs, and power outlets</li>
+                  <li>Designate a point person and CHW to coordinate</li>
+                  <li>Debrief with LHC team after each event</li>
+                </ul>
+                <div class="msg-col-label" style="margin-top:1rem;">What LHC Brings</div>
+                <ul class="support-list">
+                  <li>Full care team: pharmacist, nurse, medical assistant</li>
+                  <li>All equipment for blood pressure measurement</li>
+                  <li>Advance communication and coordination support</li>
+                  <li>Monitoring and follow-up for those with high BP</li>
+                  <li>Connection to local health centers for ongoing care</li>
+                </ul>
+              </div>
+              <div class="msg-col">
+                <div class="msg-col-label">Benefits for the CBO</div>
+                <div style="display:flex;flex-wrap:wrap;gap:0.35rem;margin-bottom:1.25rem;">
+                  <span class="benefit-chip">✓ Enhance programming</span>
+                  <span class="benefit-chip">✓ Free BP training for staff</span>
+                  <span class="benefit-chip">✓ Clinical partnerships</span>
+                  <span class="benefit-chip">✓ Access to technical experts</span>
+                  <span class="benefit-chip">✓ On-site medical support</span>
+                  <span class="benefit-chip">✓ No cost to your org</span>
+                </div>
+                <div class="msg-col-label">Tone</div>
+                <div style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:1rem;">
+                  <span class="tone-chip">Respectful of their time</span>
+                  <span class="tone-chip">Clear, low-friction ask</span>
+                  <span class="tone-chip">Mutual benefit</span>
+                </div>
+                <div class="note-box">
+                  <strong>Lead with their community's need</strong>, not LHC's program goals. CBOs will engage when they see this as an enhancement to what they already do — not an external mandate.
+                </div>
+                <div class="note-box">
+                  <strong>📋 See CBO Packet below</strong> for the complete set of print-ready flyers and materials (Flyers 1–5).
+                </div>
+              </div>
+            </div>
+            <div class="cta-row">
+              <span class="cta-label">CTA</span>
+              <span style="font-size:0.85rem;color:#374151;">Email <strong>Porcha Davis</strong> at Rush: <a href="mailto:Porcha_D_Davis@rush.edu" style="color:var(--navy);font-weight:600;">Porcha_D_Davis@rush.edu</a></span>
+              <a href="https://livehealthychi.com" class="cta-btn secondary" target="_blank">Learn more</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Coalition Members -->
+        <div id="tcoal" class="matrix-panel">
+          <div class="msg-card" style="border:none;box-shadow:none;background:transparent;">
+            <div class="msg-header" style="padding:1.5rem 0.5rem;border-bottom:1px solid #EEF1F6;">
+              <div class="audience-badge" style="background:var(--navy);">00</div>
+              <div>
+                <div class="audience-name">Internal Coalition Members</div>
+                <div class="audience-desc">Diverse stakeholders implementing LHC interventions — from hospital administrators to frontline CHWs. Goal: keep everyone motivated, informed, and able to articulate LHC's value to their own networks.</div>
+              </div>
+            </div>
+            <div class="msg-body" style="border-bottom:1px solid #EEF1F6;">
+              <div class="msg-col">
+                <div class="msg-col-label">Core Message</div>
+                <div class="core-msg">"By working together, we can do what none of us can do alone. LHC coordinates our collective resources, relationships, and expertise toward a single, measurable goal — reducing the risk of heart attack and stroke by 1% across Chicago by 2029."</div>
+                <div class="msg-col-label" style="margin-top:1rem;">What Every Partner Needs to Know</div>
+                <ul class="support-list">
+                  <li>What LHC is, why it exists, and what the 1% goal means in practice</li>
+                  <li>How their organization's specific role contributes to the larger model</li>
+                  <li>Upcoming events, meetings, and shared data updates</li>
+                  <li>Emerging learnings and what's working (or not) — shared openly</li>
+                  <li>How to talk about LHC with their own staff, patients, and stakeholders</li>
+                </ul>
+                <div class="note-box" style="margin-top:1rem;">
+                  <strong>Note (placeholder):</strong> Sub-audience briefs needed for: Anchor Institutions, FQHCs/Hospitals, Data leads (Northwestern/Alliance), HTCs (SSHCO/Wellness West), National Experts, CDPH/Gov, and Frontline Providers. Each has distinct messaging needs and unique contributions.
+                </div>
+              </div>
+              <div class="msg-col">
+                <div class="msg-col-label">Why Participation Matters — By Partner Type</div>
+                <div style="font-size:0.78rem;color:#555;margin-bottom:1rem;">
+                  <strong style="color:var(--navy);">Anchor Institutions (Rush, UCM):</strong> Lead and organize. Demonstrate that health systems can convene competitors around shared population goals.
+                </div>
+                <div style="font-size:0.78rem;color:#555;margin-bottom:1rem;">
+                  <strong style="color:var(--navy);">FQHCs &amp; Hospitals:</strong> Share in the clinical transformation. Real-time population-level data they can't get independently.
+                </div>
+                <div style="font-size:0.78rem;color:#555;margin-bottom:1rem;">
+                  <strong style="color:var(--navy);">Data Systems (Northwestern/Alliance):</strong> Apply data capacity to a live use case with measurable outcomes. Builds portfolio.
+                </div>
+                <div style="font-size:0.78rem;color:#555;margin-bottom:1rem;">
+                  <strong style="color:var(--navy);">Government/CDPH:</strong> Amplify the public health campaign through a coordinated, trusted network. Build community trust.
+                </div>
+                <div style="font-size:0.78rem;color:#555;margin-bottom:1rem;">
+                  <strong style="color:var(--navy);">CBOs &amp; CHWs:</strong> Access free training, clinical partnerships, and resources. Enhance existing programming.
+                </div>
+                <div class="msg-col-label">Tone</div>
+                <div style="display:flex;gap:0.4rem;flex-wrap:wrap;">
+                  <span class="tone-chip">Collegial &amp; collaborative</span>
+                  <span class="tone-chip">Data-informed</span>
+                  <span class="tone-chip">Honest about gaps</span>
+                </div>
+              </div>
+            </div>
+            <div class="cta-row">
+              <span class="cta-label">CTA</span>
+              <span style="font-size:0.85rem;color:#374151;">See Zeno's internal partner messaging brief (Audience "00") — <a href="https://docs.google.com/document/d/1GxOT1N0COECOjI6clSbMew5gjHbTzsXA/edit" style="color:var(--navy);font-weight:600;" target="_blank">Google Doc ↗</a></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Funders & Media -->
+        <div id="tfund" class="matrix-panel">
+          <div class="msg-card" style="border:none;box-shadow:none;background:transparent;">
+            <div class="msg-header" style="padding:1.5rem 0.5rem;border-bottom:1px solid #EEF1F6;">
+              <div class="audience-badge" style="background:var(--green);">EXT</div>
+              <div>
+                <div class="audience-name">Funders, Strategic Investors &amp; Media</div>
+                <div class="audience-desc">People who care about the model's replicability and impact — including philanthropic funders, outcome investors (e.g. Nuna), peer cities, and journalists. Goal: elevate the model, surface learnings, attract resources to scale.</div>
+              </div>
+            </div>
+            <div class="msg-body" style="border-bottom:1px solid #EEF1F6;">
+              <div class="msg-col">
+                <div class="msg-col-label">Core Message</div>
+                <div class="core-msg">"Live Healthy Chicago is proving that a coordinated, coalition-driven approach can move the needle on one of the most preventable health crises in America — and building a replicable model that other cities can follow."</div>
+                <div class="msg-col-label" style="margin-top:1rem;">Supporting Points</div>
+                <ul class="support-list">
+                  <li>A 1% reduction in ASCVD risk = ~28,000 fewer high-risk Chicagoans — measurable, meaningful impact</li>
+                  <li>The model coordinates existing assets — it doesn't require building from scratch</li>
+                  <li>Shared data infrastructure produces real-time, population-level outcomes</li>
+                  <li>New payment pathways for prevention being piloted (value-based, outcome-linked)</li>
+                  <li>Emerging learnings documented and available to peer cities and national partners</li>
+                </ul>
+              </div>
+              <div class="msg-col">
+                <div class="msg-col-label">Proof Points &amp; Differentiation</div>
+                <div class="proof-stat"><span class="stat-val">Coalition</span><span class="stat-desc">Hospitals, CBOs, government, national experts — working from the same dashboard toward the same goal</span></div>
+                <div class="proof-stat"><span class="stat-val">HEDIS</span><span class="stat-desc">Tracking BP control rates, medication adherence, and screening coverage in near real-time across 27 neighborhoods</span></div>
+                <div class="proof-stat"><span class="stat-val">Replicable</span><span class="stat-desc">Coalition model designed to be adapted and scaled to other cities facing similar inequities</span></div>
+                <div class="msg-col-label" style="margin-top:1rem;">Tone</div>
+                <div style="display:flex;gap:0.4rem;flex-wrap:wrap;">
+                  <span class="tone-chip">Evidence-forward</span>
+                  <span class="tone-chip">Strategic &amp; systems-level</span>
+                  <span class="tone-chip">Investment mindset</span>
+                </div>
+                <div class="note-box" style="margin-top:1rem;">
+                  <strong>Placeholder:</strong> Funder-specific briefs needed for Nuna (outcomes investment), philanthropy (naming, impact reporting), and media (story angles — the model, the neighborhoods, individual voices).
+                </div>
+              </div>
+            </div>
+            <div class="cta-row">
+              <span class="cta-label">CTA</span>
+              <span style="font-size:0.85rem;color:#374151;">Contact: <strong>[LHC development contact — placeholder]</strong></span>
+              <a href="https://livehealthychi.com" class="cta-btn secondary" target="_blank">livehealthychi.com</a>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /tab panels -->
+    </div><!-- /matrix card -->
+  </div>
+</div>
+
+<!-- ── CBO PACKET ── -->
+<div id="cbo" style="background:white;padding:4rem 2rem;border-top:1px solid #E2E8F0;">
+  <div style="max-width:1200px;margin:0 auto;">
+    <div class="section-label">Section 04</div>
+    <h2 class="playfair" style="color:var(--navy);font-size:clamp(1.7rem,3vw,2.4rem);font-weight:900;margin:0 0 0.5rem;">CBO Partner Packet</h2>
+    <p class="section-intro">Print-ready messaging for community-based organizations — explaining LHC's mobile health team in plain language for administrators, participants, and staff. Content is in progress; use these as draft frames.</p>
+    <hr class="section-rule" style="margin-top:2rem;"/>
+
+    <!-- Flyer 1 -->
+    <div class="flyer-card">
+      <div class="flyer-head">
+        <div class="flyer-num">F1</div>
+        <div>
+          <h3>Overview of Live Healthy Chicago</h3>
+          <p>For CBO administrators, community leaders, and any new partner</p>
+        </div>
+      </div>
+      <div class="flyer-body">
+        <div class="flyer-col">
+          <h4>The Why</h4>
+          <ul class="flyer-list">
+            <li>Preventing early illness and death takes more than one great program — it takes people working together</li>
+            <li>LHC builds on existing efforts and relationships to improve care for Chicagoans</li>
+            <li>Health systems, community agencies, health plans, and government leaders are uniting on common goals</li>
+          </ul>
+        </div>
+        <div class="flyer-col">
+          <h4>The What &amp; How</h4>
+          <ul class="flyer-list">
+            <li>A coalition of community leaders, healthcare experts, government, and frontline caregivers</li>
+            <li>Tests new approaches, shares data, implements evidence-based trainings</li>
+            <li>Makes care easier to access in partnership with CBOs</li>
+            <li>Pilots new ways to pay for prevention</li>
+          </ul>
+        </div>
+        <div class="flyer-col">
+          <h4>First Goal &amp; Approach</h4>
+          <ul class="flyer-list">
+            <li>Reduce the risk of heart attack and stroke across Chicago by <strong>1% in 3 years</strong></li>
+            <li>27 neighborhoods on Chicago's West and South Sides</li>
+            <li>Three interventions: Public Health Campaign, Mobile Care, Clinical Practice Transformation</li>
+          </ul>
+          <div style="margin-top:1rem;">
+            <a href="https://livehealthychi.com" style="display:inline-flex;align-items:center;gap:0.4rem;padding:0.5rem 1rem;border-radius:99px;font-size:0.8rem;font-weight:600;background:var(--navy);color:white;text-decoration:none;" target="_blank">livehealthychi.com →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Flyer 2 -->
+    <div class="flyer-card">
+      <div class="flyer-head" style="background:linear-gradient(135deg, var(--navy), #0A3D62);">
+        <div class="flyer-num" style="color:#4ADE80;">F2</div>
+        <div>
+          <h3>Mobile Care Intervention</h3>
+          <p>For CBO administrators — hosting the mobile team at your site</p>
+        </div>
+      </div>
+      <div class="flyer-body">
+        <div class="flyer-col">
+          <h4>The Why</h4>
+          <ul class="flyer-list">
+            <li>People are more likely to get preventive care in places they already trust — churches, barbershops, community centers</li>
+            <li>Your organization can help make it easier to get a BP check — the first step toward better health</li>
+          </ul>
+          <h4 style="margin-top:1.25rem;">LHC Mobile Team Services</h4>
+          <ul class="flyer-list">
+            <li>Blood pressure screenings</li>
+            <li>Connection to clinical care and social services</li>
+            <li>Medication recommendations (under physician oversight)</li>
+            <li>Nutrition support + food access connections</li>
+          </ul>
+        </div>
+        <div class="flyer-col">
+          <h4>Your CBO's Role</h4>
+          <ul class="flyer-list">
+            <li>Host the team for ~2-hour sessions tied to existing programming (~3 months)</li>
+            <li>Market the screening to your community</li>
+            <li>Provide space: tables, chairs, power outlets</li>
+            <li>Designate a point person and CHW</li>
+            <li>Debrief with LHC team after each session</li>
+          </ul>
+          <h4 style="margin-top:1.25rem;">LHC's Role</h4>
+          <ul class="flyer-list">
+            <li>Project Coordinator, Pharmacist, Nurse, Medical Assistant</li>
+            <li>All necessary equipment</li>
+            <li>Advance coordination and communication</li>
+            <li>Follow-up monitoring for those with high BP</li>
+          </ul>
+        </div>
+        <div class="flyer-col">
+          <h4>Benefits for Your CBO</h4>
+          <div style="display:flex;flex-wrap:wrap;gap:0.35rem;margin-bottom:1.25rem;">
+            <span class="benefit-chip">✓ Holistic care for your community</span>
+            <span class="benefit-chip">✓ Free BP training for staff</span>
+            <span class="benefit-chip">✓ Clinical relationships</span>
+            <span class="benefit-chip">✓ Access to expert resources</span>
+            <span class="benefit-chip">✓ On-site medical support</span>
+          </div>
+          <h4>Contact to Host</h4>
+          <p style="font-size:0.85rem;color:#374151;">
+            <strong>Porcha Davis</strong><br/>
+            Mobile Health Program, Rush University<br/>
+            <a href="mailto:Porcha_D_Davis@rush.edu" style="color:var(--navy);">Porcha_D_Davis@rush.edu</a>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Flyer 3 -->
+    <div class="flyer-card">
+      <div class="flyer-head" style="background:linear-gradient(135deg, #0A3D62, var(--teal));">
+        <div class="flyer-num" style="color:var(--yellow);">F3</div>
+        <div>
+          <h3>Care That Comes to You</h3>
+          <p>For participants — what to expect at a mobile screening event</p>
+        </div>
+      </div>
+      <div class="flyer-body">
+        <div class="flyer-col" style="border-right:1px solid #EEF1F6;">
+          <h4>Headline / Subheadline</h4>
+          <div style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--navy);margin-bottom:0.5rem;">Care That Comes to You</div>
+          <div style="font-size:0.85rem;color:#555;margin-bottom:1.5rem;">[CBO Name] is part of the Live Healthy Chicago coalition, making it easier to get your blood pressure checked — right here.</div>
+          <h4>The Visit Journey</h4>
+
+          <div class="visit-step">
+            <div class="visit-num">1</div>
+            <div>
+              <div class="visit-title">First Visit</div>
+              <ul class="visit-items">
+                <li>Meet the team</li>
+                <li>Get your blood pressure checked</li>
+                <li>Understand your numbers</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="visit-step">
+            <div class="visit-num">2</div>
+            <div>
+              <div class="visit-title">Second Visit (1–2 weeks later)</div>
+              <ul class="visit-items">
+                <li>BP checked again</li>
+                <li>If elevated: may qualify for weekly monitoring &amp; home BP device</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="visit-step">
+            <div class="visit-num" style="background:var(--teal);">+</div>
+            <div>
+              <div class="visit-title">Weekly Visits (up to 3 months)</div>
+              <ul class="visit-items">
+                <li>Learn steps to manage your BP</li>
+                <li>Get connected to quality care near you</li>
+                <li>LHC team coordinates with your doctor</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="flyer-col">
+          <h4>Key Details</h4>
+          <ul class="flyer-list">
+            <li>Free for everyone — no insurance required</li>
+            <li>No appointment needed — walk in during event hours</li>
+            <li>Available in familiar neighborhood settings</li>
+            <li>All services are confidential</li>
+          </ul>
+          <h4 style="margin-top:1.25rem;">Weekly Schedule</h4>
+          <ul class="flyer-list">
+            <li><strong>Mondays 10–12:</strong> Bethel New Life, 4950 W. Thomas St.</li>
+            <li><strong>Tuesdays 1–3:</strong> Healthy Hood, 2242 S. Damen Ave.</li>
+            <li><strong>Wednesdays 11–1:</strong> Taller de José, 5533 S. Sawyer Ave.</li>
+            <li><strong>Fridays 12–2:30:</strong> Hope Community Church, 5900 W. Iowa St.</li>
+          </ul>
+          <div style="margin-top:1.25rem;">
+            <a href="https://livehealthychi.com" style="display:inline-flex;align-items:center;gap:0.4rem;padding:0.5rem 1rem;border-radius:99px;font-size:0.8rem;font-weight:600;background:var(--teal);color:white;text-decoration:none;" target="_blank">livehealthychi.com →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Flyer 4 (placeholder) -->
+    <div class="flyer-card">
+      <div class="flyer-head" style="background:linear-gradient(135deg, #374151, #111827);">
+        <div class="flyer-num" style="color:rgba(255,255,255,0.5);">F4</div>
+        <div>
+          <h3>Who's Who — Your Mobile Team</h3>
+          <p>For participants — pictures and roles of who may show up at your site</p>
+        </div>
+      </div>
+      <div style="padding:1.5rem 2rem;">
+        <div class="note-box">
+          <strong>In Progress:</strong> This flyer will feature photos and brief role descriptions of: <strong>Project Coordinator</strong> (connects with CBO liaison), <strong>Pharmacist</strong> (medication review and recommendations), <strong>Nurse</strong> (BP measurement and clinical assessment), <strong>Medical Assistant</strong> (support and documentation), <strong>Community Health Worker</strong> (navigation, follow-up, and trust-building). Photos and consent forms needed from the mobile team.
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;margin-top:1rem;">
+          <div style="background:#F7F9FC;border-radius:0.75rem;padding:1.25rem;text-align:center;border:1.5px dashed #CBD5E0;">
+            <div style="width:60px;height:60px;border-radius:50%;background:#E2E8F0;margin:0 auto 0.75rem;display:flex;align-items:center;justify-content:center;">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#718096" stroke-width="1.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <div style="font-size:0.82rem;font-weight:700;color:var(--navy);">Project Coordinator</div>
+            <div style="font-size:0.72rem;color:#718096;margin-top:0.25rem;">Your main contact</div>
+          </div>
+          <div style="background:#F7F9FC;border-radius:0.75rem;padding:1.25rem;text-align:center;border:1.5px dashed #CBD5E0;">
+            <div style="width:60px;height:60px;border-radius:50%;background:#E2E8F0;margin:0 auto 0.75rem;display:flex;align-items:center;justify-content:center;">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#718096" stroke-width="1.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <div style="font-size:0.82rem;font-weight:700;color:var(--navy);">Pharmacist</div>
+            <div style="font-size:0.72rem;color:#718096;margin-top:0.25rem;">Medication support</div>
+          </div>
+          <div style="background:#F7F9FC;border-radius:0.75rem;padding:1.25rem;text-align:center;border:1.5px dashed #CBD5E0;">
+            <div style="width:60px;height:60px;border-radius:50%;background:#E2E8F0;margin:0 auto 0.75rem;display:flex;align-items:center;justify-content:center;">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#718096" stroke-width="1.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <div style="font-size:0.82rem;font-weight:700;color:var(--navy);">Nurse</div>
+            <div style="font-size:0.72rem;color:#718096;margin-top:0.25rem;">BP measurement &amp; assessment</div>
+          </div>
+          <div style="background:#F7F9FC;border-radius:0.75rem;padding:1.25rem;text-align:center;border:1.5px dashed #CBD5E0;">
+            <div style="width:60px;height:60px;border-radius:50%;background:#E2E8F0;margin:0 auto 0.75rem;display:flex;align-items:center;justify-content:center;">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#718096" stroke-width="1.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <div style="font-size:0.82rem;font-weight:700;color:var(--navy);">Medical Assistant</div>
+            <div style="font-size:0.72rem;color:#718096;margin-top:0.25rem;">Documentation &amp; support</div>
+          </div>
+          <div style="background:#F7F9FC;border-radius:0.75rem;padding:1.25rem;text-align:center;border:1.5px dashed #CBD5E0;">
+            <div style="width:60px;height:60px;border-radius:50%;background:#E2E8F0;margin:0 auto 0.75rem;display:flex;align-items:center;justify-content:center;">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#718096" stroke-width="1.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <div style="font-size:0.82rem;font-weight:700;color:var(--navy);">CHW</div>
+            <div style="font-size:0.72rem;color:#718096;margin-top:0.25rem;">Navigation &amp; follow-up</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Flyer 5 placeholder -->
+    <div class="flyer-card" style="border:1.5px dashed #CBD5E0;background:#FAFBFD;">
+      <div class="flyer-head" style="background:#EEF1F6;">
+        <div class="flyer-num" style="background:#CBD5E0;color:#718096;">F5</div>
+        <div>
+          <h3 style="color:#718096;">Local Primary Care Clinics Near Each CBO Site</h3>
+          <p style="color:#A0AEC0;">Will depend on the hosting site — coming soon</p>
+        </div>
+      </div>
+      <div style="padding:1.5rem 2rem;">
+        <div class="note-box">
+          <strong>Placeholder:</strong> A tailored list of primary care clinics within reach of each host CBO, including FQHC partners, contact information, and insurance acceptance. To be generated per site once host CBOs are confirmed.
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── NOTES & OPEN QUESTIONS ── -->
+<div id="notes" style="background:#F4F6F9;padding:4rem 2rem;border-top:1px solid #E2E8F0;">
+  <div style="max-width:1200px;margin:0 auto;">
+    <div class="section-label">Section 05</div>
+    <h2 class="playfair" style="color:var(--navy);font-size:clamp(1.7rem,3vw,2.4rem);font-weight:900;margin:0 0 0.5rem;">Open Questions &amp; Next Steps</h2>
+    <p class="section-intro" style="margin-bottom:2rem;">Items that need input, decisions, or content before this doc is ready to share more broadly.</p>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1.25rem;">
+
+      <div class="note-box">
+        <strong>📋 Emerging Learnings</strong><br/>
+        The "So What / Impact" section needs population-level outcome data (ASCVD risk, HEDIS), and 4-level success stories: individual, community, institutional, system/policy. Who owns this? When is first data available?
+      </div>
+
+      <div class="note-box">
+        <strong>🤝 Coalition Partner Sub-Briefs</strong><br/>
+        Each partner type (Anchor Institutions, FQHCs, Data Systems, HTCs, Gov, National Experts) needs a one-pager: unique contribution, benefit of participating, messaging goals in/out. Rebecca or Rachel to draft; align with Zeno's "00" audience doc.
+      </div>
+
+      <div class="note-box">
+        <strong>💡 Core Values</strong><br/>
+        The Core Values section was started in the draft but is incomplete. What are the 3–5 values that define how LHC operates? These should shape tone across all audiences.
+      </div>
+
+      <div class="note-box">
+        <strong>📸 CBO Flyer 4 — Who's Who</strong><br/>
+        Photos of the mobile team members needed, with consent forms. Rebecca to coordinate with mobile team. Gary can enhance and adjust lighting/background with AI tools.
+      </div>
+
+      <div class="note-box">
+        <strong>🏥 Nuna / Philanthropy Story</strong><br/>
+        Article or profile piece needed — positioned in News &amp; Updates on the main site. Rachel's contact Dan available to interview. Rebecca to shape the angle.
+      </div>
+
+      <div class="note-box">
+        <strong>🔗 Contact Placeholders</strong><br/>
+        Replace "[portal support email]" and "[LHC development contact]" with real addresses. Flyer 1 also has "Email XXX" placeholder that needs a real LHC coalition contact.
+      </div>
+
+      <div class="note-box">
+        <strong>📣 QR Code Suite</strong><br/>
+        Three QR codes requested: (1) main site, (2) BP checker / Know Your Numbers, (3) Events/Weekly Screenings. Gary to generate with logo centered. Add to brand guide and CHW training materials.
+      </div>
+
+      <div class="note-box">
+        <strong>👁 Community Advisory Board</strong><br/>
+        David requested a section on community governance and the CAB. Consider using their group photo as logo in Partners tab. Alexandra and Rebecca to discuss prominence/placement.
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ── Footer ── -->
+<div style="background:var(--navy);padding:2rem;text-align:center;">
+  <p style="color:rgba(255,255,255,0.35);font-size:0.78rem;margin:0;font-family:'IBM Plex Mono',monospace;">
+    Live Healthy Chicago · Core Messaging Framework · Internal Draft · April 2026 · <a href="https://livehealthychi.com" style="color:rgba(255,255,255,0.45);" target="_blank">livehealthychi.com</a>
+  </p>
+</div>
+
+<script>
+  function showTab(id) {
+    document.querySelectorAll('.matrix-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.mtab').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    event.target.classList.add('active');
+  }
+</script>
+
+</body>
+</html>
