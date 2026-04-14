@@ -108,12 +108,72 @@
       color: rgba(255,255,255,0.7); font-size: 16px;
       max-width: 620px; line-height: 1.7;
     }
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 3.5rem;
+      align-items: center;
+    }
+    @media (max-width: 860px) {
+      .hero-inner { grid-template-columns: 1fr; }
+      .hero-author-card { order: -1; max-width: 280px; }
+    }
     .hero-meta {
       display: flex; gap: 2rem; margin-top: 2.5rem;
       flex-wrap: wrap;
     }
     .hero-meta-item { color: rgba(255,255,255,0.5); font-size: 12px; font-family: 'Poppins', sans-serif; }
     .hero-meta-item strong { display: block; font-size: 14px; color: rgba(255,255,255,0.9); margin-bottom: 2px; }
+    .hero-author-card {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 1.25rem;
+      padding: 2rem 1.75rem;
+      backdrop-filter: blur(8px);
+      text-align: center;
+    }
+    .hero-author-img {
+      width: 120px; height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: top;
+      border: 3px solid rgba(70,183,229,0.6);
+      margin: 0 auto 1.1rem;
+      display: block;
+      box-shadow: 0 0 0 6px rgba(70,183,229,0.1);
+    }
+    .hero-author-name {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.05rem; font-weight: 800;
+      color: white; margin-bottom: 0.2rem;
+    }
+    .hero-author-role {
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.7rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--sky); margin-bottom: 0.5rem;
+    }
+    .hero-author-org {
+      font-size: 0.8rem; color: rgba(255,255,255,0.55);
+      line-height: 1.4;
+    }
+    .hero-author-divider {
+      width: 40px; height: 2px;
+      background: linear-gradient(90deg, var(--sky), var(--teal));
+      margin: 1rem auto;
+      border-radius: 2px;
+    }
+    .hero-author-tag {
+      display: inline-block;
+      background: rgba(229,32,47,0.15);
+      border: 1px solid rgba(229,32,47,0.3);
+      color: rgba(255,120,120,0.9);
+      font-size: 0.68rem; font-weight: 600;
+      font-family: 'Poppins', sans-serif;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 0.25rem 0.75rem; border-radius: 99px;
+      margin-top: 0.5rem;
+    }
 
     /* ── Section scaffold ── */
     .section { padding: 4rem 2rem; max-width: 1200px; margin: 0 auto; }
@@ -509,14 +569,31 @@
 <!-- ── Hero ── -->
 <div class="hero">
   <div style="max-width:1200px;margin:0 auto;position:relative;z-index:1;">
-    <div class="hero-label">Internal Working Document · April 2026</div>
-    <h1>Core Messaging<br/>Framework</h1>
-    <p>A strategic guide for communicating Live Healthy Chicago's mission, model, and value to every audience — from West Side residents to national funders. Use this as a living reference: fill in gaps, pressure-test the language, and align the coalition's voice.</p>
-    <div class="hero-meta">
-      <div class="hero-meta-item">Owner: <strong>Alexandra Sontag / Rebecca Dawar</strong></div>
-      <div class="hero-meta-item">Status: <strong>Active Draft</strong></div>
-      <div class="hero-meta-item">Last Updated: <strong>April 2026</strong></div>
-      <div class="hero-meta-item">Target: <strong>1% ASCVD risk reduction by 2029</strong></div>
+    <div class="hero-inner">
+
+      <!-- Left: Title + description + meta -->
+      <div>
+        <div class="hero-label">Internal Working Document · April 2026</div>
+        <h1>Core Messaging<br/>Framework</h1>
+        <p>A strategic guide for communicating Live Healthy Chicago's mission, model, and value to every audience — from West Side residents to national funders. Use this as a living reference: fill in gaps, pressure-test the language, and align the coalition's voice.</p>
+        <div class="hero-meta">
+          <div class="hero-meta-item">Status: <strong>Active Draft</strong></div>
+          <div class="hero-meta-item">Last Updated: <strong>April 2026</strong></div>
+          <div class="hero-meta-item">Coalition Lead: <strong>Alexandra Sontag / Rebecca Dawar</strong></div>
+          <div class="hero-meta-item">Target: <strong>−1% ASCVD risk by 2029</strong></div>
+        </div>
+      </div>
+
+      <!-- Right: Author card -->
+      <div class="hero-author-card">
+        <img src="headshot-rachel-reichlin.png" alt="Rachel Reichlin" class="hero-author-img">
+        <div class="hero-author-name">Rachel Reichlin</div>
+        <div class="hero-author-role">Author · Core Messaging</div>
+        <div class="hero-author-divider"></div>
+        <div class="hero-author-org">Health Justice Partners<br/>Chicago, IL</div>
+        <div class="hero-author-tag">Document Author</div>
+      </div>
+
     </div>
   </div>
 </div>
