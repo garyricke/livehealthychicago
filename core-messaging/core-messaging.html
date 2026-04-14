@@ -7,26 +7,29 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Poppins:wght@400;500;600;700&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
   <style>
     :root {
       --navy:   #1B365D;
       --red:    #E5202F;
-      --yellow: #F5B400;
-      --teal:   #0A7C86;
+      --yellow: #FFB81C;
+      --teal:   #48C9B0;
+      --sky:    #46B7E5;
       --green:  #1A6B3A;
-      --cloud:  #F4F6F9;
-      --ink:    #1A1A2E;
+      --cloud:  #F7FAFC;
+      --charcoal: #2D2D2D;
+      --cool-gray: #A0AEC0;
     }
     * { box-sizing: border-box; }
     body {
-      font-family: 'IBM Plex Sans', sans-serif;
-      background: #F4F6F9;
-      color: var(--ink);
+      font-family: 'Open Sans', sans-serif;
+      background: #F0F4F8;
+      color: var(--charcoal);
       margin: 0;
+      line-height: 1.6;
     }
-    .playfair { font-family: 'Playfair Display', serif; }
-    .mono     { font-family: 'IBM Plex Mono', monospace; }
+    .montserrat { font-family: 'Montserrat', sans-serif; }
+    .poppins    { font-family: 'Poppins', sans-serif; }
 
     /* ── Nav ── */
     .site-nav {
@@ -37,17 +40,18 @@
       border-bottom: 3px solid var(--red);
     }
     .site-nav .brand {
-      font-family: 'Playfair Display', serif;
-      font-size: 0.95rem; font-weight: 700;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 14px; font-weight: 800;
       color: white; white-space: nowrap;
       padding: 1rem 1.5rem 1rem 0;
       border-right: 1px solid rgba(255,255,255,0.15);
       margin-right: 1.5rem;
-      letter-spacing: 0.01em;
+      letter-spacing: 0.02em;
     }
     .site-nav a {
       color: rgba(255,255,255,0.65);
-      font-size: 0.8rem; font-weight: 500;
+      font-family: 'Poppins', sans-serif;
+      font-size: 13px; font-weight: 500;
       text-decoration: none; padding: 0.5rem 0.85rem;
       border-radius: 4px;
       transition: color 0.15s, background 0.15s;
@@ -56,70 +60,84 @@
     .site-nav a:hover { color: white; background: rgba(255,255,255,0.08); }
     .draft-pill {
       margin-left: auto;
-      background: rgba(245,180,0,0.18);
-      border: 1px solid rgba(245,180,0,0.4);
+      background: rgba(255,184,28,0.18);
+      border: 1px solid rgba(255,184,28,0.4);
       color: var(--yellow);
-      font-size: 0.7rem; font-weight: 600;
-      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px; font-weight: 600;
+      font-family: 'Poppins', sans-serif;
       padding: 0.25rem 0.65rem; border-radius: 99px;
-      letter-spacing: 0.06em; text-transform: uppercase;
+      letter-spacing: 0.1em; text-transform: uppercase;
       white-space: nowrap;
     }
 
     /* ── Hero ── */
     .hero {
-      background: var(--navy);
-      padding: 4rem 2rem 3.5rem;
+      background: linear-gradient(135deg, var(--navy) 0%, #0e2040 60%, #1a3a6e 100%);
+      padding: 5rem 2rem 4rem;
       position: relative; overflow: hidden;
     }
     .hero::before {
       content: ''; position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse 80% 60% at 70% 50%, rgba(229,32,47,0.12), transparent),
-                  radial-gradient(ellipse 50% 80% at 10% 80%, rgba(10,124,134,0.10), transparent);
+      top: -80px; right: -80px;
+      width: 400px; height: 400px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(70,183,229,0.18) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero::after {
+      content: ''; position: absolute;
+      bottom: -60px; left: 200px;
+      width: 300px; height: 300px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(229,32,47,0.12) 0%, transparent 70%);
       pointer-events: none;
     }
     .hero-label {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.72rem; font-weight: 500;
-      letter-spacing: 0.14em; text-transform: uppercase;
-      color: var(--yellow); margin-bottom: 1rem;
+      font-family: 'Poppins', sans-serif;
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--sky); margin-bottom: 12px;
+      display: flex; align-items: center; gap: 8px;
     }
+    .hero-label::before { content: ''; width: 28px; height: 2px; background: var(--sky); }
     .hero h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2.2rem, 5vw, 4rem);
-      font-weight: 900; color: white; line-height: 1.05;
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 900; color: white; line-height: 1.1;
       max-width: 720px; margin: 0 0 1.25rem;
     }
     .hero p {
-      color: rgba(255,255,255,0.68); font-size: 1.05rem;
-      max-width: 620px; line-height: 1.65;
-      font-weight: 300;
+      color: rgba(255,255,255,0.7); font-size: 16px;
+      max-width: 620px; line-height: 1.7;
     }
     .hero-meta {
       display: flex; gap: 2rem; margin-top: 2.5rem;
       flex-wrap: wrap;
     }
-    .hero-meta-item { color: rgba(255,255,255,0.45); font-size: 0.8rem; }
-    .hero-meta-item strong { color: rgba(255,255,255,0.85); font-weight: 600; }
+    .hero-meta-item { color: rgba(255,255,255,0.5); font-size: 12px; font-family: 'Poppins', sans-serif; }
+    .hero-meta-item strong { display: block; font-size: 14px; color: rgba(255,255,255,0.9); margin-bottom: 2px; }
 
     /* ── Section scaffold ── */
     .section { padding: 4rem 2rem; max-width: 1200px; margin: 0 auto; }
     .section-label {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.7rem; font-weight: 500;
-      letter-spacing: 0.14em; text-transform: uppercase;
-      color: var(--teal); margin-bottom: 0.75rem;
+      font-family: 'Poppins', sans-serif;
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--sky); margin-bottom: 12px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .section-label::before {
+      content: ''; display: inline-block;
+      width: 28px; height: 2px; background: var(--sky);
+      flex-shrink: 0;
     }
     .section h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(1.7rem, 3.5vw, 2.6rem);
-      font-weight: 900; color: var(--navy);
-      line-height: 1.1; margin: 0 0 0.75rem;
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(1.6rem, 3vw, 2.25rem);
+      font-weight: 800; color: var(--navy);
+      line-height: 1.15; margin: 0 0 0.75rem;
     }
     .section-intro {
-      color: #4A5568; font-size: 1rem; line-height: 1.7;
-      max-width: 680px; font-weight: 300;
+      color: #5A6A7A; font-size: 16px; line-height: 1.7;
+      max-width: 680px;
     }
     hr.section-rule {
       border: none; border-top: 2px solid #E2E8F0;
@@ -149,7 +167,7 @@
       pointer-events: none;
     }
     .one-pct {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Montserrat', sans-serif;
       font-size: 6rem; font-weight: 900;
       line-height: 0.9;
       background: linear-gradient(135deg, #fff 30%, rgba(245,180,0,0.9));
@@ -168,7 +186,7 @@
       border: 1px solid rgba(245,180,0,0.3);
       border-radius: 99px; padding: 0.35rem 1rem;
       font-size: 0.78rem; font-weight: 600; color: var(--yellow);
-      font-family: 'IBM Plex Mono', monospace;
+      font-family: 'Poppins', sans-serif;
     }
     .model-card {
       background: white; border-radius: 1.25rem;
@@ -176,10 +194,14 @@
       box-shadow: 0 2px 12px rgba(27,54,93,0.06);
     }
     .model-card h3 {
-      font-size: 0.72rem; font-weight: 600;
-      font-family: 'IBM Plex Mono', monospace;
-      letter-spacing: 0.1em; text-transform: uppercase;
-      color: var(--teal); margin: 0 0 1.25rem;
+      font-size: 11px; font-weight: 700;
+      font-family: 'Poppins', sans-serif;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--sky); margin: 0 0 1.25rem;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .model-card h3::before {
+      content: ''; width: 20px; height: 2px; background: var(--sky);
     }
     .partner-type {
       display: flex; align-items: flex-start; gap: 0.6rem;
@@ -239,7 +261,7 @@
     .step-node.active { border-color: var(--navy); box-shadow: 0 0 0 4px rgba(27,54,93,0.1); }
     .step-node.campaign { border-color: var(--red); box-shadow: 0 0 0 4px rgba(229,32,47,0.12); background: #FFF5F5; }
     .step-node.mobile   { border-color: #D97706;   box-shadow: 0 0 0 4px rgba(245,180,0,0.15); background: #FFFBEB; }
-    .step-node.clinical { border-color: var(--teal); box-shadow: 0 0 0 4px rgba(10,124,134,0.12); background: #F0FDFC; }
+    .step-node.clinical { border-color: var(--teal); box-shadow: 0 0 0 4px rgba(72,201,176,0.15); background: #F0FDFC; }
     .step-node.outcome  { border-color: var(--green); box-shadow: 0 0 0 4px rgba(26,107,58,0.12); background: #F0FDF4; }
     .step-label {
       margin-top: 0.75rem; text-align: center;
@@ -253,13 +275,13 @@
     .step-tag {
       margin-top: 0.5rem;
       font-size: 0.6rem; font-weight: 600;
-      font-family: 'IBM Plex Mono', monospace;
+      font-family: 'Poppins', sans-serif;
       padding: 0.15rem 0.45rem; border-radius: 99px;
       letter-spacing: 0.06em; text-transform: uppercase;
     }
     .tag-campaign { background: rgba(229,32,47,0.1); color: var(--red); }
     .tag-mobile   { background: rgba(245,180,0,0.15); color: #92400E; }
-    .tag-clinical { background: rgba(10,124,134,0.1); color: var(--teal); }
+    .tag-clinical { background: rgba(72,201,176,0.12); color: var(--teal); }
     .pathway-legend {
       display: flex; gap: 1.5rem; flex-wrap: wrap;
       margin-top: 2rem; justify-content: center;
@@ -284,7 +306,7 @@
       cursor: pointer; border-bottom: 3px solid transparent;
       margin-bottom: -2px; transition: color 0.15s;
       white-space: nowrap;
-      font-family: 'IBM Plex Sans', sans-serif;
+      font-family: 'Open Sans', sans-serif;
     }
     .mtab.active { color: var(--navy); border-bottom-color: var(--red); }
     .mtab:hover:not(.active) { color: var(--navy); }
@@ -305,7 +327,7 @@
       flex-shrink: 0; width: 44px; height: 44px;
       border-radius: 10px;
       display: flex; align-items: center; justify-content: center;
-      font-family: 'IBM Plex Mono', monospace;
+      font-family: 'Poppins', sans-serif;
       font-size: 0.85rem; font-weight: 700;
       color: white; background: var(--navy);
     }
@@ -317,18 +339,18 @@
     .msg-col:first-child { border-right: 1px solid #EEF1F6; }
     .msg-col-label {
       font-size: 0.68rem; font-weight: 600;
-      font-family: 'IBM Plex Mono', monospace;
+      font-family: 'Poppins', sans-serif;
       letter-spacing: 0.1em; text-transform: uppercase;
       color: var(--teal); margin-bottom: 0.75rem;
     }
     .core-msg {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.05rem; font-weight: 700;
-      color: var(--navy); line-height: 1.5;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 15px; font-weight: 700;
+      color: var(--navy); line-height: 1.6;
       padding: 1rem 1.25rem;
-      background: #F7F9FC;
-      border-left: 3px solid var(--red);
-      border-radius: 0 0.5rem 0.5rem 0;
+      background: var(--cloud);
+      border-left: 4px solid var(--red);
+      border-radius: 0 8px 8px 0;
       margin-bottom: 1rem;
     }
     .support-list { list-style: none; padding: 0; margin: 0; }
@@ -347,14 +369,14 @@
       padding: 0.5rem 0; border-bottom: 1px solid #EEF1F6;
     }
     .proof-stat:last-child { border-bottom: none; }
-    .stat-val { font-size: 1.35rem; font-weight: 900; color: var(--navy); font-family: 'Playfair Display', serif; }
+    .stat-val { font-size: 1.35rem; font-weight: 900; color: var(--navy); font-family: 'Montserrat', sans-serif; }
     .stat-desc { font-size: 0.8rem; color: #6B7A99; line-height: 1.4; }
     .cta-row {
       padding: 1.25rem 2rem;
       border-top: 1px solid #EEF1F6;
       display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
     }
-    .cta-label { font-size: 0.72rem; font-weight: 600; font-family: 'IBM Plex Mono', monospace; letter-spacing: 0.1em; text-transform: uppercase; color: #718096; }
+    .cta-label { font-size: 0.72rem; font-weight: 600; font-family: 'Poppins', sans-serif; letter-spacing: 0.1em; text-transform: uppercase; color: #718096; }
     .cta-btn {
       display: inline-flex; align-items: center; gap: 0.4rem;
       padding: 0.45rem 1rem; border-radius: 99px;
@@ -368,8 +390,8 @@
       display: inline-flex; align-items: center; gap: 0.35rem;
       padding: 0.25rem 0.65rem; border-radius: 99px;
       font-size: 0.7rem; font-weight: 600;
-      background: rgba(10,124,134,0.1); color: var(--teal);
-      font-family: 'IBM Plex Mono', monospace;
+      background: rgba(72,201,176,0.12); color: var(--teal);
+      font-family: 'Poppins', sans-serif;
     }
 
     /* ── CBO Packet ── */
@@ -388,7 +410,7 @@
       width: 36px; height: 36px; border-radius: 8px;
       background: rgba(255,255,255,0.15);
       display: flex; align-items: center; justify-content: center;
-      font-family: 'IBM Plex Mono', monospace;
+      font-family: 'Poppins', sans-serif;
       font-size: 0.85rem; font-weight: 700; color: var(--yellow);
       flex-shrink: 0;
     }
@@ -405,7 +427,7 @@
     .flyer-col:last-child { border-right: none; }
     .flyer-col h4 {
       font-size: 0.7rem; font-weight: 600;
-      font-family: 'IBM Plex Mono', monospace;
+      font-family: 'Poppins', sans-serif;
       letter-spacing: 0.1em; text-transform: uppercase;
       color: var(--teal); margin: 0 0 0.85rem;
     }
@@ -500,10 +522,10 @@
 </div>
 
 <!-- ── THE MODEL ── -->
-<div id="model" style="background:#F4F6F9;padding:4rem 2rem;">
+<div id="model" style="background:#F0F4F8;padding:4rem 2rem;">
   <div style="max-width:1200px;margin:0 auto;">
     <div class="section-label">Section 01</div>
-    <h2 class="playfair" style="color:var(--navy);font-size:clamp(1.7rem,3vw,2.4rem);font-weight:900;margin:0 0 0.5rem;">The Organizing Model</h2>
+    <h2 class="montserrat" style="color:var(--navy);font-size:clamp(1.6rem,3vw,2.25rem);font-weight:800;margin:0 0 0.5rem;">The Organizing Model</h2>
     <p class="section-intro">LHC is not a program — it's a coordination layer. It aligns existing assets, relationships, and energy toward a shared, measurable goal. Understanding the model is the prerequisite for all audience-specific messaging.</p>
     <hr class="section-rule" style="margin-top:2rem;"/>
 
@@ -520,7 +542,7 @@
           </div>
         </div>
         <div class="partner-type">
-          <span class="partner-dot" style="background:#0A7C86;"></span>
+          <span class="partner-dot" style="background:#46B7E5;"></span>
           <div>
             <div class="partner-type name">FQHCs & Hospitals</div>
             <div class="partner-type role">Cook County Health, Sinai Chicago, UI Health, Saint Anthony + 10 community health centers</div>
@@ -575,7 +597,7 @@
           By 2029 · 3 Years
         </div>
         <div style="margin-top:1.75rem;padding-top:1.25rem;border-top:1px solid rgba(255,255,255,0.1);">
-          <div style="font-size:0.7rem;color:rgba(255,255,255,0.4);font-family:'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.75rem;">Focus Area</div>
+          <div style="font-size:0.7rem;color:rgba(255,255,255,0.4);font-family:'Poppins',sans-serif;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.75rem;">Focus Area</div>
           <div style="display:flex;gap:0.5rem;flex-wrap:wrap;justify-content:center;">
             <span style="background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.8);font-size:0.75rem;font-weight:600;padding:0.3rem 0.7rem;border-radius:99px;">27 Neighborhoods</span>
             <span style="background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.8);font-size:0.75rem;font-weight:600;padding:0.3rem 0.7rem;border-radius:99px;">West Side</span>
@@ -614,8 +636,8 @@
         </div>
 
         <div class="intervention-item" style="background:rgba(10,124,134,0.06);">
-          <div class="int-icon" style="background:rgba(10,124,134,0.12);">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#0A7C86" stroke-width="1.8">
+          <div class="int-icon" style="background:rgba(72,201,176,0.15);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#46B7E5" stroke-width="1.8">
               <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
             </svg>
           </div>
@@ -626,7 +648,7 @@
         </div>
 
         <div style="margin-top:0.5rem;padding:0.85rem;background:#F7F9FC;border-radius:0.75rem;">
-          <div style="font-size:0.7rem;font-family:'IBM Plex Mono',monospace;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--teal);margin-bottom:0.4rem;">How They Reinforce Each Other</div>
+          <div style="font-size:0.7rem;font-family:'Poppins',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--teal);margin-bottom:0.4rem;">How They Reinforce Each Other</div>
           <p style="font-size:0.78rem;color:#555;line-height:1.5;margin:0;">Campaigns drive people to screenings → mobile care connects them to clinical partners → clinical transformation ensures that connection leads to lasting care. The interventions only work at scale when all three operate together.</p>
         </div>
       </div>
@@ -639,7 +661,7 @@
 <div id="pathway" style="background:white;padding:4rem 2rem;border-top:1px solid #E2E8F0;border-bottom:1px solid #E2E8F0;">
   <div style="max-width:1200px;margin:0 auto;">
     <div class="section-label">Section 02</div>
-    <h2 class="playfair" style="color:var(--navy);font-size:clamp(1.7rem,3vw,2.4rem);font-weight:900;margin:0 0 0.5rem;">Pathways to Prevention &amp; Quality Care</h2>
+    <h2 class="montserrat" style="color:var(--navy);font-size:clamp(1.6rem,3vw,2.25rem);font-weight:800;margin:0 0 0.5rem;">Pathways to Prevention &amp; Quality Care</h2>
     <p class="section-intro">LHC's coordinated approach is built around meeting people where they are and moving them through a pathway — from initial awareness to sustained, controlled blood pressure. Each step has a role, and each intervention catalyzes specific transitions.</p>
 
     <div class="pathway-wrap">
@@ -647,7 +669,7 @@
 
         <div class="pathway-step">
           <div class="step-node">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#4A5568" stroke-width="1.8">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#A0AEC0" stroke-width="1.8">
               <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
             </svg>
           </div>
@@ -701,7 +723,7 @@
 
         <div class="pathway-step">
           <div class="step-node clinical">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#0A7C86" stroke-width="1.8">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#48C9B0" stroke-width="1.8">
               <path stroke-linecap="round" stroke-linejoin="round" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
             </svg>
           </div>
@@ -712,7 +734,7 @@
 
         <div class="pathway-step">
           <div class="step-node clinical">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#0A7C86" stroke-width="1.8">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#48C9B0" stroke-width="1.8">
               <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
             </svg>
           </div>
@@ -744,11 +766,11 @@
     <!-- Coordinated Approach callout -->
     <div style="margin-top:2.5rem;background:var(--navy);border-radius:1.25rem;padding:2rem 2.5rem;display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:center;">
       <div>
-        <div style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--yellow);margin-bottom:0.6rem;">Key Message — The Coordinated Approach</div>
-        <p style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:white;line-height:1.55;margin:0;">"Live Healthy Chicago doesn't add another program on top of an already crowded system. It coordinates what's already here — aligning hospitals, community organizations, public health agencies, and frontline workers so that every step of the pathway reinforces the next."</p>
+        <div style="font-family:'Poppins',sans-serif;font-size:0.7rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--yellow);margin-bottom:0.6rem;">Key Message — The Coordinated Approach</div>
+        <p style="font-family:'Montserrat',sans-serif;font-size:1.1rem;font-weight:700;color:white;line-height:1.55;margin:0;">"Live Healthy Chicago doesn't add another program on top of an already crowded system. It coordinates what's already here — aligning hospitals, community organizations, public health agencies, and frontline workers so that every step of the pathway reinforces the next."</p>
       </div>
       <div style="text-align:center;min-width:120px;">
-        <div style="font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:900;color:var(--yellow);line-height:1;">27</div>
+        <div style="font-family:'Montserrat',sans-serif;font-size:2.8rem;font-weight:900;color:var(--yellow);line-height:1;">27</div>
         <div style="font-size:0.75rem;color:rgba(255,255,255,0.6);font-weight:500;">priority<br/>neighborhoods</div>
       </div>
     </div>
@@ -756,10 +778,10 @@
 </div>
 
 <!-- ── MESSAGING MATRIX ── -->
-<div id="matrix" style="background:#F4F6F9;padding:4rem 2rem;">
+<div id="matrix" style="background:#F0F4F8;padding:4rem 2rem;">
   <div style="max-width:1200px;margin:0 auto;">
     <div class="section-label">Section 03</div>
-    <h2 class="playfair" style="color:var(--navy);font-size:clamp(1.7rem,3vw,2.4rem);font-weight:900;margin:0 0 0.5rem;">Messaging Matrix</h2>
+    <h2 class="montserrat" style="color:var(--navy);font-size:clamp(1.6rem,3vw,2.25rem);font-weight:800;margin:0 0 0.5rem;">Messaging Matrix</h2>
     <p class="section-intro">Each audience needs a different entry point into LHC's story. This matrix maps the core message, supporting proof points, tone guidance, and calls-to-action by segment. Use it as a writing brief — not a script.</p>
 
     <div style="background:white;border-radius:1.25rem;border:1.5px solid #E8EDF4;box-shadow:0 2px 16px rgba(27,54,93,0.05);overflow:hidden;margin-top:2rem;">
@@ -1088,7 +1110,7 @@
 <div id="cbo" style="background:white;padding:4rem 2rem;border-top:1px solid #E2E8F0;">
   <div style="max-width:1200px;margin:0 auto;">
     <div class="section-label">Section 04</div>
-    <h2 class="playfair" style="color:var(--navy);font-size:clamp(1.7rem,3vw,2.4rem);font-weight:900;margin:0 0 0.5rem;">CBO Partner Packet</h2>
+    <h2 class="montserrat" style="color:var(--navy);font-size:clamp(1.6rem,3vw,2.25rem);font-weight:800;margin:0 0 0.5rem;">CBO Partner Packet</h2>
     <p class="section-intro">Print-ready messaging for community-based organizations — explaining LHC's mobile health team in plain language for administrators, participants, and staff. Content is in progress; use these as draft frames.</p>
     <hr class="section-rule" style="margin-top:2rem;"/>
 
@@ -1205,7 +1227,7 @@
       <div class="flyer-body">
         <div class="flyer-col" style="border-right:1px solid #EEF1F6;">
           <h4>Headline / Subheadline</h4>
-          <div style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--navy);margin-bottom:0.5rem;">Care That Comes to You</div>
+          <div style="font-family:'Montserrat',sans-serif;font-size:1.1rem;font-weight:700;color:var(--navy);margin-bottom:0.5rem;">Care That Comes to You</div>
           <div style="font-size:0.85rem;color:#555;margin-bottom:1.5rem;">[CBO Name] is part of the Live Healthy Chicago coalition, making it easier to get your blood pressure checked — right here.</div>
           <h4>The Visit Journey</h4>
 
@@ -1339,10 +1361,10 @@
 </div>
 
 <!-- ── NOTES & OPEN QUESTIONS ── -->
-<div id="notes" style="background:#F4F6F9;padding:4rem 2rem;border-top:1px solid #E2E8F0;">
+<div id="notes" style="background:#F0F4F8;padding:4rem 2rem;border-top:1px solid #E2E8F0;">
   <div style="max-width:1200px;margin:0 auto;">
     <div class="section-label">Section 05</div>
-    <h2 class="playfair" style="color:var(--navy);font-size:clamp(1.7rem,3vw,2.4rem);font-weight:900;margin:0 0 0.5rem;">Open Questions &amp; Next Steps</h2>
+    <h2 class="montserrat" style="color:var(--navy);font-size:clamp(1.6rem,3vw,2.25rem);font-weight:800;margin:0 0 0.5rem;">Open Questions &amp; Next Steps</h2>
     <p class="section-intro" style="margin-bottom:2rem;">Items that need input, decisions, or content before this doc is ready to share more broadly.</p>
 
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1.25rem;">
@@ -1393,7 +1415,7 @@
 
 <!-- ── Footer ── -->
 <div style="background:var(--navy);padding:2rem;text-align:center;">
-  <p style="color:rgba(255,255,255,0.35);font-size:0.78rem;margin:0;font-family:'IBM Plex Mono',monospace;">
+  <p style="color:rgba(255,255,255,0.35);font-size:0.78rem;margin:0;font-family:'Poppins',sans-serif;">
     Live Healthy Chicago · Core Messaging Framework · Internal Draft · April 2026 · <a href="https://livehealthychi.com" style="color:rgba(255,255,255,0.45);" target="_blank">livehealthychi.com</a>
   </p>
 </div>
