@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Celebrate the Check — Live Healthy Chicago</title>
+  <meta name="description" content="You just took a step toward a healthier Chicago. Celebrate the check." />
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/dsbllwpbh/image/upload/v1771612857/favicon-live-healthy-chicago_e7o6el.png" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800;900&family=Open+Sans:wght@400;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { overflow-x: hidden; max-width: 100vw; }
+    body {
+      font-family: 'Open Sans', system-ui, sans-serif;
+      background: #0F1E35;
+      color: #fff;
+      min-height: 100vh;
+      min-height: 100dvh;
+    }
+    .font-heading { font-family: 'Montserrat', sans-serif; }
+    .font-label { font-family: 'Poppins', sans-serif; }
+
+    .view-enter { animation: fadeUp 0.5s ease-out both; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .pop-in { animation: pop 0.6s cubic-bezier(.2,1.4,.5,1) both; }
+    @keyframes pop {
+      0%   { opacity: 0; transform: scale(0.6); }
+      60%  { opacity: 1; transform: scale(1.08); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    .flag-bar {
+      opacity: 0;
+      animation: flagIn 0.6s ease-out forwards;
+    }
+    @keyframes flagIn {
+      from { opacity: 0; transform: scaleX(0); }
+      to   { opacity: 0.9; transform: scaleX(1); }
+    }
+
+    .star {
+      opacity: 0;
+      transform: scale(0);
+      animation: starIn 0.5s cubic-bezier(.2,1.6,.4,1) forwards;
+    }
+    @keyframes starIn {
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .progress-fill {
+      transition: width 1.8s cubic-bezier(.3,.8,.3,1);
+    }
+
+    input[type="text"], input[type="email"] {
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .view-enter, .pop-in, .flag-bar, .star { animation: none !important; opacity: 1 !important; transform: none !important; }
+      .progress-fill { transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Hidden static forms for Netlify crawler detection -->
+  <form name="celebrate-survey" data-netlify="true" netlify-honeypot="bot-field" hidden>
+    <input type="text" name="first_name" />
+    <input type="text" name="location" />
+    <input type="text" name="q1_experience" />
+    <input type="text" name="q2_neighborhood" />
+    <input type="text" name="q3_reflection" />
+    <input type="text" name="bot-field" />
+  </form>
+  <form name="celebrate-drawing" data-netlify="true" netlify-honeypot="bot-field" hidden>
+    <input type="text" name="first_name" />
+    <input type="text" name="location" />
+    <input type="email" name="email" />
+    <input type="text" name="bot-field" />
+  </form>
+
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect, useRef, useMemo, useCallback } = React;
+
+    // ── Palette (Chicago flag + LHC navy) ─────────────────────────────
+    const C = {
+      navy:    '#0F1E35',
+      navy2:   '#1A2D4E',
+      blue:    '#418FDE',
+      blueLt:  '#7BB5E8',
+      red:     '#DA291C',
+      redLt:   '#FF6B6B',
+      white:   '#FFFFFF',
+      yellow:  '#F5B400',
+      muted:   'rgba(255,255,255,0.65)',
+      faint:   'rgba(255,255,255,0.10)',
+    };
+
+    const COUNTER_KEY  = 'celebrate_counter';
+    const COUNTER_BASE = 12847;
+    const MONTH_BASE   = 248;
+    const GOAL         = 25000;
+    const LOGO_URL     = 'https://assets.codepen.io/3457845/logo-Live-Healthy-Chicago.png';
+
+    // ── Counter (faked via localStorage) ──────────────────────────────
+    const getCount = () => {
+      const stored = parseInt(localStorage.getItem(COUNTER_KEY) || '0', 10) || 0;
+      return { total: COUNTER_BASE + stored, month: MONTH_BASE + stored };
+    };
+    const bumpCount = () => {
+      const stored = parseInt(localStorage.getItem(COUNTER_KEY) || '0', 10) || 0;
+      localStorage.setItem(COUNTER_KEY, String(stored + 1));
+      return { total: COUNTER_BASE + stored + 1, month: MONTH_BASE + stored + 1 };
+    };
+
+    // ── Web Audio fanfare (royalty-free: synthesized here) ────────────
+    let audioCtx = null;
+    const getCtx = () => {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      return audioCtx;
+    };
+
+    const playFanfare = (muted) => {
+      if (muted) return;
+      try {
+        const ctx = getCtx();
+        const now = ctx.currentTime;
+        // Ascending party-horn pattern: G4 C5 E5 G5 ... with slight overlap
+        const notes = [392, 523, 659, 784];
+        notes.forEach((freq, i) => {
+          const t = now + i * 0.13;
+          // Horn = sawtooth + square mixed for bright tone
+          [['sawtooth', 0.22], ['square', 0.08]].forEach(([type, amp]) => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = type;
+            osc.frequency.value = freq;
+            gain.gain.setValueAtTime(0, t);
+            gain.gain.linearRampToValueAtTime(amp, t + 0.02);
+            gain.gain.exponentialRampToValueAtTime(0.001, t + 0.38);
+            osc.connect(gain); gain.connect(ctx.destination);
+            osc.start(t); osc.stop(t + 0.42);
+          });
+        });
+        // Final shimmer chord
+        const shimmer = now + 0.55;
+        [784, 988, 1175].forEach((freq, i) => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.value = freq;
+          gain.gain.setValueAtTime(0, shimmer);
+          gain.gain.linearRampToValueAtTime(0.14, shimmer + 0.04);
+          gain.gain.exponentialRampToValueAtTime(0.001, shimmer + 0.9);
+          osc.connect(gain); gain.connect(ctx.destination);
+          osc.start(shimmer); osc.stop(shimmer + 1.0);
+        });
+      } catch (e) { /* noop */ }
+    };
+
+    const playPing = (muted) => {
+      if (muted) return;
+      try {
+        const ctx = getCtx();
+        const now = ctx.currentTime;
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.value = 1046;
+        gain.gain.setValueAtTime(0, now);
+        gain.gain.linearRampToValueAtTime(0.15, now + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
+        osc.connect(gain); gain.connect(ctx.destination);
+        osc.start(now); osc.stop(now + 0.45);
+      } catch (e) { /* noop */ }
+    };
+
+    // ── Confetti ──────────────────────────────────────────────────────
+    const reducedMotion = () => window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const fireConfetti = (intensity = 'big') => {
+      if (!window.confetti || reducedMotion()) return;
+      const colors = [C.blue, C.red, C.white, C.blueLt];
+      const base = { spread: 80, ticks: 240, gravity: 0.9, scalar: 1.05, colors };
+      if (intensity === 'small') {
+        window.confetti({ ...base, particleCount: 80, origin: { x: 0.5, y: 0.6 } });
+        return;
+      }
+      window.confetti({ ...base, particleCount: 140, angle: 60,  origin: { x: 0, y: 0.9 } });
+      window.confetti({ ...base, particleCount: 140, angle: 120, origin: { x: 1, y: 0.9 } });
+      setTimeout(() => {
+        window.confetti({ ...base, particleCount: 110, angle: 90, origin: { x: 0.5, y: 0.2 }, startVelocity: 35 });
+      }, 350);
+    };
+
+    // ── Query param for location tracking ─────────────────────────────
+    const getLoc = () => {
+      try {
+        const p = new URLSearchParams(window.location.search);
+        return (p.get('loc') || '').slice(0, 40);
+      } catch (e) { return ''; }
+    };
+
+    // ── Netlify form submit ───────────────────────────────────────────
+    const submitNetlify = (formName, data) => {
+      return fetch('/celebrate.html', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({ 'form-name': formName, 'bot-field': '', ...data }).toString(),
+      });
+    };
+
+    const nf = (n) => new Intl.NumberFormat('en-US').format(n);
+
+    // ── Chicago flag background (decorative) ──────────────────────────
+    const FlagBackdrop = ({ intense }) => (
+      <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
+        <div className="absolute inset-0"
+             style={{ background: `radial-gradient(ellipse at 50% 0%, ${C.navy2} 0%, ${C.navy} 70%)` }} />
+        {intense && (
+          <>
+            <div className="flag-bar absolute left-0 right-0"
+                 style={{ top: '28%', height: '7%', background: C.blue, transformOrigin: 'left', animationDelay: '0.05s' }} />
+            <div className="flag-bar absolute left-0 right-0"
+                 style={{ top: '65%', height: '7%', background: C.blue, transformOrigin: 'right', animationDelay: '0.2s' }} />
+            <div className="absolute inset-0 flex items-center justify-around px-8" style={{ top: '42%', height: '16%' }}>
+              {[0,1,2,3].map(i => (
+                <Star key={i} delay={0.45 + i * 0.1} />
+              ))}
+            </div>
+          </>
+        )}
+      </div>
+    );
+
+    const Star = ({ delay }) => (
+      <svg viewBox="0 0 100 100" className="star"
+           style={{ width: '14%', maxWidth: 72, minWidth: 28, animationDelay: `${delay}s`, filter: `drop-shadow(0 2px 6px rgba(218,41,28,0.4))` }}>
+        <polygon points="50,5 61,39 96,39 68,60 79,94 50,73 21,94 32,60 4,39 39,39"
+                 fill={C.red} />
+      </svg>
+    );
+
+    // ── Mute toggle ───────────────────────────────────────────────────
+    const MuteButton = ({ muted, setMuted }) => (
+      <button onClick={() => setMuted(m => !m)}
+              aria-label={muted ? 'Unmute' : 'Mute'}
+              className="fixed top-4 right-4 z-50 w-11 h-11 rounded-full flex items-center justify-center transition-colors"
+              style={{ background: 'rgba(0,0,0,0.35)', border: `1px solid ${C.faint}`, color: C.white }}>
+        {muted ? (
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707A1 1 0 0112 5v14a1 1 0 01-1.707.707L5.586 15zM17 9l4 6m0-6l-4 6"/>
+          </svg>
+        ) : (
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707A1 1 0 0112 5v14a1 1 0 01-1.707.707L5.586 15zM15.536 8.464a5 5 0 010 7.072M18.364 5.636a9 9 0 010 12.728"/>
+          </svg>
+        )}
+      </button>
+    );
+
+    // ── Screens ───────────────────────────────────────────────────────
+
+    const EntryView = ({ name, setName, onGo, locLabel }) => {
+      const canGo = name.trim().length > 0;
+      return (
+        <div className="view-enter relative min-h-[100dvh] flex flex-col items-center justify-center px-6 py-10">
+          <FlagBackdrop />
+          <div className="relative z-10 w-full max-w-md text-center">
+            <img src={LOGO_URL} alt="Live Healthy Chicago"
+                 className="mx-auto mb-8 opacity-90" style={{ height: 56 }} />
+            {locLabel && (
+              <div className="inline-block text-xs font-label tracking-wider uppercase px-3 py-1 rounded-full mb-6"
+                   style={{ background: 'rgba(245,180,0,0.14)', border: `1px solid ${C.yellow}40`, color: C.yellow }}>
+                checking in from {locLabel}
+              </div>
+            )}
+            <h1 className="font-heading font-black text-5xl sm:text-6xl leading-tight mb-4"
+                style={{ letterSpacing: '-0.02em' }}>
+              Celebrate<br/>the Check!
+            </h1>
+            <p className="text-lg mb-10" style={{ color: C.muted }}>
+              You just took a step toward a healthier Chicago. Tell us your first name — we want to cheer you on.
+            </p>
+
+            <form onSubmit={(e) => { e.preventDefault(); if (canGo) onGo(); }}>
+              <input type="text"
+                     value={name}
+                     onChange={e => setName(e.target.value.slice(0, 24))}
+                     placeholder="First name"
+                     autoFocus
+                     autoComplete="given-name"
+                     className="w-full px-5 py-4 rounded-2xl text-center text-lg font-label font-semibold mb-4 focus:outline-none transition-all"
+                     style={{
+                       background: 'rgba(255,255,255,0.06)',
+                       border: `1px solid ${canGo ? C.blue : C.faint}`,
+                       color: C.white,
+                     }} />
+              <button type="submit"
+                      disabled={!canGo}
+                      className="w-full py-4 rounded-2xl font-heading font-extrabold text-lg tracking-wide transition-all"
+                      style={{
+                        background: canGo ? `linear-gradient(135deg, ${C.red} 0%, #B01E15 100%)` : 'rgba(255,255,255,0.08)',
+                        color: canGo ? C.white : 'rgba(255,255,255,0.4)',
+                        boxShadow: canGo ? '0 10px 30px rgba(218,41,28,0.35)' : 'none',
+                        cursor: canGo ? 'pointer' : 'not-allowed',
+                      }}>
+                LET'S GO →
+              </button>
+            </form>
+
+            <p className="text-xs mt-8" style={{ color: 'rgba(255,255,255,0.45)' }}>
+              We only keep your first name — nothing else.
+            </p>
+          </div>
+        </div>
+      );
+    };
+
+    const CelebrateView = ({ name, onNext }) => {
+      useEffect(() => {
+        const t = setTimeout(onNext, 4200);
+        return () => clearTimeout(t);
+      }, [onNext]);
+      return (
+        <div className="view-enter relative min-h-[100dvh] flex flex-col items-center justify-center px-6 py-10 overflow-hidden">
+          <FlagBackdrop intense />
+          <div className="relative z-10 text-center">
+            <div className="pop-in" style={{ animationDelay: '0.25s' }}>
+              <div className="font-label uppercase tracking-[0.3em] text-sm mb-5" style={{ color: C.yellow }}>
+                Thanks,
+              </div>
+              <h1 className="font-heading font-black leading-none mb-6"
+                  style={{
+                    fontSize: 'clamp(3rem, 14vw, 7rem)',
+                    color: C.white,
+                    textShadow: '0 4px 30px rgba(65,143,222,0.5)',
+                    letterSpacing: '-0.03em',
+                  }}>
+                {name}!
+              </h1>
+              <p className="text-2xl sm:text-3xl font-heading font-bold mb-3">
+                You did it. 🎉
+              </p>
+              <p className="text-lg" style={{ color: C.muted }}>
+                You're helping make Chicago healthier.
+              </p>
+            </div>
+          </div>
+        </div>
+      );
+    };
+
+    const ImpactView = ({ name, count, onSurvey, onDone }) => {
+      const [shown, setShown] = useState(count.total - 120); // start below, count up
+      useEffect(() => {
+        let raf, start;
+        const from = count.total - 120;
+        const to = count.total;
+        const dur = 1600;
+        const step = (ts) => {
+          if (!start) start = ts;
+          const p = Math.min(1, (ts - start) / dur);
+          const eased = 1 - Math.pow(1 - p, 3);
+          setShown(Math.round(from + (to - from) * eased));
+          if (p < 1) raf = requestAnimationFrame(step);
+        };
+        raf = requestAnimationFrame(step);
+        return () => cancelAnimationFrame(raf);
+      }, [count.total]);
+
+      const pct = Math.min(100, (count.total / GOAL) * 100);
+
+      return (
+        <div className="view-enter relative min-h-[100dvh] flex flex-col items-center justify-center px-6 py-10">
+          <FlagBackdrop />
+          <div className="relative z-10 w-full max-w-md text-center">
+            <p className="font-label uppercase tracking-[0.25em] text-xs mb-4" style={{ color: C.yellow }}>
+              Every check counts
+            </p>
+            <h2 className="font-heading font-black text-3xl sm:text-4xl leading-tight mb-8"
+                style={{ letterSpacing: '-0.02em' }}>
+              Healthier Chicago,<br/>
+              <span style={{ color: C.blueLt }}>one blood pressure at a time.</span>
+            </h2>
+
+            <div className="rounded-3xl px-6 py-8 mb-6"
+                 style={{ background: 'rgba(255,255,255,0.05)', border: `1px solid ${C.faint}` }}>
+              <div className="font-heading font-black leading-none mb-2"
+                   style={{ fontSize: 'clamp(3rem, 12vw, 5rem)', color: C.white }}>
+                {nf(shown)}
+              </div>
+              <div className="font-label text-sm tracking-wide mb-6" style={{ color: C.muted }}>
+                checks and counting
+              </div>
+
+              <div className="h-2 rounded-full overflow-hidden mb-2" style={{ background: 'rgba(255,255,255,0.08)' }}>
+                <div className="progress-fill h-full rounded-full"
+                     style={{ width: `${pct}%`, background: `linear-gradient(90deg, ${C.blue}, ${C.red})` }} />
+              </div>
+              <div className="flex justify-between text-xs font-label" style={{ color: 'rgba(255,255,255,0.55)' }}>
+                <span>{nf(count.month)} this month</span>
+                <span>goal: {nf(GOAL)}</span>
+              </div>
+            </div>
+
+            <button onClick={onSurvey}
+                    className="w-full py-4 rounded-2xl font-heading font-extrabold text-base tracking-wide mb-3 transition-all"
+                    style={{
+                      background: `linear-gradient(135deg, ${C.red} 0%, #B01E15 100%)`,
+                      color: C.white,
+                      boxShadow: '0 10px 30px rgba(218,41,28,0.3)',
+                    }}>
+              GIVE A LITTLE MORE →
+            </button>
+            <p className="text-xs mb-4" style={{ color: 'rgba(255,255,255,0.5)' }}>
+              3 quick questions · enter to win a $50 gift card
+            </p>
+            <button onClick={onDone}
+                    className="text-sm underline"
+                    style={{ color: 'rgba(255,255,255,0.55)' }}>
+              No thanks, I'm done
+            </button>
+          </div>
+        </div>
+      );
+    };
+
+    const SurveyView = ({ name, onSubmit, onSkip }) => {
+      const [q1, setQ1] = useState('');
+      const [q2, setQ2] = useState('');
+      const [q3, setQ3] = useState('');
+      const [busy, setBusy] = useState(false);
+
+      const scale = [
+        { val: 'Great',    emoji: '🎉' },
+        { val: 'Good',     emoji: '🙂' },
+        { val: 'OK',       emoji: '😐' },
+        { val: 'Not great', emoji: '😞' },
+      ];
+
+      const canSubmit = q1 && !busy;
+
+      const handle = async (e) => {
+        e.preventDefault();
+        if (!canSubmit) return;
+        setBusy(true);
+        try {
+          await submitNetlify('celebrate-survey', {
+            first_name: name,
+            location: getLoc(),
+            q1_experience: q1,
+            q2_neighborhood: q2,
+            q3_reflection: q3,
+          });
+        } catch (err) { /* continue anyway */ }
+        onSubmit();
+      };
+
+      return (
+        <div className="view-enter relative min-h-[100dvh] flex flex-col px-6 py-10">
+          <FlagBackdrop />
+          <div className="relative z-10 w-full max-w-md mx-auto flex-1 flex flex-col justify-center">
+            <p className="font-label uppercase tracking-[0.25em] text-xs mb-3" style={{ color: C.yellow }}>
+              Three quick ones
+            </p>
+            <h2 className="font-heading font-black text-3xl mb-8" style={{ letterSpacing: '-0.02em' }}>
+              Tell us about your day, {name}.
+            </h2>
+
+            <form onSubmit={handle} className="space-y-7">
+              <div>
+                <label className="block font-label font-semibold mb-3 text-sm">
+                  1. How was your screening today?
+                </label>
+                <div className="grid grid-cols-4 gap-2">
+                  {scale.map(s => {
+                    const on = q1 === s.val;
+                    return (
+                      <button type="button" key={s.val}
+                              onClick={() => setQ1(s.val)}
+                              className="py-3 rounded-xl text-center transition-all"
+                              style={{
+                                background: on ? 'rgba(65,143,222,0.18)' : 'rgba(255,255,255,0.05)',
+                                border: `1px solid ${on ? C.blue : C.faint}`,
+                              }}>
+                        <div className="text-2xl leading-none mb-1">{s.emoji}</div>
+                        <div className="text-[10px] font-label font-semibold uppercase tracking-wide"
+                             style={{ color: on ? C.white : C.muted }}>{s.val}</div>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div>
+                <label className="block font-label font-semibold mb-3 text-sm">
+                  2. What's one thing you love about your neighborhood?
+                </label>
+                <input type="text" value={q2} onChange={e => setQ2(e.target.value.slice(0, 140))}
+                       placeholder="(optional)"
+                       className="w-full px-4 py-3 rounded-xl text-base focus:outline-none"
+                       style={{ background: 'rgba(255,255,255,0.06)', border: `1px solid ${C.faint}`, color: C.white }} />
+              </div>
+
+              <div>
+                <label className="block font-label font-semibold mb-3 text-sm">
+                  3. What does "living healthy" mean to you?
+                </label>
+                <input type="text" value={q3} onChange={e => setQ3(e.target.value.slice(0, 140))}
+                       placeholder="(optional)"
+                       className="w-full px-4 py-3 rounded-xl text-base focus:outline-none"
+                       style={{ background: 'rgba(255,255,255,0.06)', border: `1px solid ${C.faint}`, color: C.white }} />
+              </div>
+
+              <button type="submit"
+                      disabled={!canSubmit}
+                      className="w-full py-4 rounded-2xl font-heading font-extrabold text-base tracking-wide transition-all"
+                      style={{
+                        background: canSubmit ? `linear-gradient(135deg, ${C.red} 0%, #B01E15 100%)` : 'rgba(255,255,255,0.08)',
+                        color: canSubmit ? C.white : 'rgba(255,255,255,0.4)',
+                        boxShadow: canSubmit ? '0 10px 30px rgba(218,41,28,0.3)' : 'none',
+                        cursor: canSubmit ? 'pointer' : 'not-allowed',
+                      }}>
+                {busy ? 'SENDING…' : 'CONTINUE →'}
+              </button>
+
+              <button type="button" onClick={onSkip}
+                      className="w-full text-sm underline"
+                      style={{ color: 'rgba(255,255,255,0.55)' }}>
+                Skip for now
+              </button>
+            </form>
+          </div>
+        </div>
+      );
+    };
+
+    const EmailView = ({ name, onSubmit, onSkip }) => {
+      const [email, setEmail] = useState('');
+      const [busy, setBusy] = useState(false);
+      const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+      const handle = async (e) => {
+        e.preventDefault();
+        if (!ok || busy) return;
+        setBusy(true);
+        try {
+          await submitNetlify('celebrate-drawing', {
+            first_name: name,
+            location: getLoc(),
+            email,
+          });
+        } catch (err) { /* continue anyway */ }
+        onSubmit();
+      };
+
+      return (
+        <div className="view-enter relative min-h-[100dvh] flex flex-col items-center justify-center px-6 py-10">
+          <FlagBackdrop />
+          <div className="relative z-10 w-full max-w-md text-center">
+            <div className="inline-block mb-6 pop-in">
+              <svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke={C.yellow} strokeWidth="1.5">
+                <path strokeLinecap="round" strokeLinejoin="round"
+                      d="M12 8v4l3 2m6-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <h2 className="font-heading font-black text-3xl sm:text-4xl mb-3" style={{ letterSpacing: '-0.02em' }}>
+              Enter the drawing
+            </h2>
+            <p className="text-base mb-8" style={{ color: C.muted }}>
+              Drop your email for a chance to win a <strong style={{ color: C.white }}>$50 gift card</strong>. We draw a winner every month.
+            </p>
+
+            <form onSubmit={handle}>
+              <input type="email" value={email} onChange={e => setEmail(e.target.value)}
+                     placeholder="you@email.com"
+                     autoComplete="email"
+                     className="w-full px-5 py-4 rounded-2xl text-center text-base font-label mb-4 focus:outline-none"
+                     style={{
+                       background: 'rgba(255,255,255,0.06)',
+                       border: `1px solid ${ok ? C.blue : C.faint}`,
+                       color: C.white,
+                     }} />
+              <button type="submit"
+                      disabled={!ok || busy}
+                      className="w-full py-4 rounded-2xl font-heading font-extrabold text-base tracking-wide mb-3 transition-all"
+                      style={{
+                        background: (ok && !busy) ? `linear-gradient(135deg, ${C.red} 0%, #B01E15 100%)` : 'rgba(255,255,255,0.08)',
+                        color: (ok && !busy) ? C.white : 'rgba(255,255,255,0.4)',
+                        boxShadow: (ok && !busy) ? '0 10px 30px rgba(218,41,28,0.3)' : 'none',
+                        cursor: (ok && !busy) ? 'pointer' : 'not-allowed',
+                      }}>
+                {busy ? 'ENTERING…' : 'ENTER ME →'}
+              </button>
+              <button type="button" onClick={onSkip}
+                      className="text-sm underline"
+                      style={{ color: 'rgba(255,255,255,0.55)' }}>
+                No thanks, skip
+              </button>
+            </form>
+
+            <p className="text-xs mt-6" style={{ color: 'rgba(255,255,255,0.4)' }}>
+              We'll only email you about the drawing.
+            </p>
+          </div>
+        </div>
+      );
+    };
+
+    const ThanksView = ({ name, onReset }) => {
+      const canShare = typeof navigator !== 'undefined' && !!navigator.share;
+      const share = () => {
+        if (!canShare) return;
+        navigator.share({
+          title: 'Live Healthy Chicago',
+          text: `I just celebrated my blood pressure check — one more step toward a healthier Chicago.`,
+          url: 'https://livehealthychi.com',
+        }).catch(() => {});
+      };
+      return (
+        <div className="view-enter relative min-h-[100dvh] flex flex-col items-center justify-center px-6 py-10">
+          <FlagBackdrop />
+          <div className="relative z-10 w-full max-w-md text-center">
+            <div className="pop-in">
+              <div className="text-6xl mb-6">🏙️</div>
+              <h2 className="font-heading font-black text-4xl sm:text-5xl mb-4" style={{ letterSpacing: '-0.02em' }}>
+                You're in, {name}.
+              </h2>
+              <p className="text-lg mb-10" style={{ color: C.muted }}>
+                Keep Chicago moving. Tell a friend to check their blood pressure this month.
+              </p>
+            </div>
+
+            <div className="space-y-3">
+              {canShare && (
+                <button onClick={share}
+                        className="w-full py-4 rounded-2xl font-heading font-extrabold text-base tracking-wide"
+                        style={{ background: C.blue, color: C.white }}>
+                  SHARE WITH A FRIEND
+                </button>
+              )}
+              <a href="https://livehealthychi.com"
+                 className="block w-full py-4 rounded-2xl font-heading font-extrabold text-base tracking-wide"
+                 style={{ background: 'rgba(255,255,255,0.08)', border: `1px solid ${C.faint}`, color: C.white }}>
+                LEARN MORE ABOUT THE COALITION
+              </a>
+              <button onClick={onReset}
+                      className="text-sm underline mt-4"
+                      style={{ color: 'rgba(255,255,255,0.55)' }}>
+                Start over
+              </button>
+            </div>
+          </div>
+        </div>
+      );
+    };
+
+    // ── App ───────────────────────────────────────────────────────────
+    const App = () => {
+      const [view, setView] = useState('entry'); // entry | celebrate | impact | survey | email | thanks
+      const [name, setName] = useState('');
+      const [count, setCount] = useState(getCount());
+      const [muted, setMuted] = useState(false);
+      const loc = useMemo(getLoc, []);
+      const locLabel = loc ? loc.replace(/[-_]/g, ' ') : '';
+
+      const go = () => {
+        const nm = name.trim();
+        if (!nm) return;
+        setName(nm);
+        setCount(bumpCount());
+        setView('celebrate');
+        playFanfare(muted);
+        fireConfetti('big');
+      };
+
+      const toImpact = useCallback(() => {
+        setView('impact');
+        playPing(muted);
+      }, [muted]);
+
+      const reset = () => {
+        setName('');
+        setView('entry');
+      };
+
+      return (
+        <>
+          <MuteButton muted={muted} setMuted={setMuted} />
+          {view === 'entry'     && <EntryView     name={name} setName={setName} onGo={go} locLabel={locLabel} />}
+          {view === 'celebrate' && <CelebrateView name={name} onNext={toImpact} />}
+          {view === 'impact'    && <ImpactView    name={name} count={count}
+                                                  onSurvey={() => setView('survey')}
+                                                  onDone={() => setView('thanks')} />}
+          {view === 'survey'    && <SurveyView    name={name}
+                                                  onSubmit={() => setView('email')}
+                                                  onSkip={() => setView('thanks')} />}
+          {view === 'email'     && <EmailView     name={name}
+                                                  onSubmit={() => { fireConfetti('small'); setView('thanks'); }}
+                                                  onSkip={() => setView('thanks')} />}
+          {view === 'thanks'    && <ThanksView    name={name} onReset={reset} />}
+        </>
+      );
+    };
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
