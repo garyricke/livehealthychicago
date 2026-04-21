@@ -424,6 +424,23 @@
             <li class="tl-item">Generated <strong>three QR codes</strong> (600×600px, LHC navy, H error correction) with LHC favicon composited in center</li>
             <li class="tl-item">Saved to <code>assets/qr-codes/</code> — downloadable from this page</li>
           </ul>
+          <div class="tl-section-title">Celebrate the Check — New Concept Page</div>
+          <ul class="tl-items">
+            <li class="tl-item">Created <strong><a href="/celebrate.html">celebrate.html</a></strong> — QR-triggered post-screening celebration flow for provider locations</li>
+            <li class="tl-item">6-screen journey: name entry → celebration → impact counter → 3-question survey → $50 gift card drawing → thanks</li>
+            <li class="tl-item"><strong>Chicago flag theme</strong> — confetti in flag colors (<code>#418FDE</code> / <code>#DA291C</code>), animated flag motif (two blue bars + four red six-pointed stars) behind the name</li>
+            <li class="tl-item"><strong>Synthesized horn fanfare</strong> via Web Audio API (ascending G-C-E-G on sawtooth+square with triangle shimmer chord) — no hosted audio files, fully royalty-free</li>
+            <li class="tl-item"><strong>Impact counter</strong> with animated count-up + goal progress bar (faked via <code>localStorage</code> for the demo; swappable to Supabase later)</li>
+            <li class="tl-item"><strong>Location tracking</strong> via <code>?loc=rush</code> query param — tagged onto all Netlify form submissions to measure which provider site generated the scan</li>
+            <li class="tl-item">Netlify Forms: <code>celebrate-survey</code> + <code>celebrate-drawing</code>; privacy: first names only, no last names or phone</li>
+            <li class="tl-item">Mute toggle + <code>prefers-reduced-motion</code> fallback; mobile-first at 375px</li>
+            <li class="tl-item">Footer link added to <code>index-stage.html</code> (staging only — not public <code>index.html</code>)</li>
+          </ul>
+          <div class="tl-section-title">Events Section Polish</div>
+          <ul class="tl-items">
+            <li class="tl-item">Renamed <strong>"Weekly Mobile Team Schedule" → "Mobile Team Schedule"</strong> to avoid committing to a fixed weekly cadence</li>
+            <li class="tl-item">Wrapped <strong>Upcoming Events</strong> block in a rounded translucent card to visually separate it from the Mobile Team Schedule bracket above</li>
+          </ul>
           <div class="tl-section-title">This Page</div>
           <ul class="tl-items">
             <li class="tl-item">Created <strong>status.html</strong> — internal project log with QR downloads and full change timeline; linked in footer</li>
