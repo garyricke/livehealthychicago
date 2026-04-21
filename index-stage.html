@@ -1301,7 +1301,7 @@ let it drop on you`;
         body:"A full bladder increases pressure, adding up to 10 mm Hg.",
         impact:"+10 mm Hg",
         color: LHC.blue,
-        anchor:{ x:59, y:44.77 },
+        anchor:{ x:61, y:42.2 },
         bubble:{ x:62, y:42 },
         side:'right'
       },
@@ -2890,10 +2890,10 @@ let it drop on you`;
         ),
         color: colors.skyBlue,
         label: 'Community',
-        title: 'Community Outreach',
+        title: 'Community Partnerships',
         text: 'We work with community partners to increase access to blood pressure screenings, connect people at risk with the support they need, and help them take charge of their health.',
         detail: 'From faith communities to barbershops, we meet people where they are — building trust and awareness neighborhood by neighborhood.',
-        img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1775584722/lhc-model/pillar-community-outreach.jpg',
+        img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/lhc-model/pillar-community-outreach-banner.jpg',
       },
       {
         num: '3',
@@ -3299,6 +3299,16 @@ let it drop on you`;
       const [showTranscript, setShowTranscript] = React.useState(false);
 
       const newsItems = [
+        {
+          date: 'Mar 25, 2026',
+          category: 'Feature',
+          title: 'Going Into the Community to Bring Down High BP',
+          excerpt: 'The AMA spotlights Live Healthy Chicago — examining how a 31-partner coalition is taking free screenings, trusted health workers, and evidence-based care directly into the neighborhoods that need it most.',
+          image: 'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/lhc-news/ama-community-bp-hero.jpg',
+          author: 'Georgia Garvey / AMA',
+          pageUrl: '/news/ama-going-into-community.html',
+          featured: true,
+        },
         {
           date: 'Apr 7, 2026',
           category: 'Feature',
@@ -4469,23 +4479,6 @@ And that is how we overcome high blood pressure. They'll tell you about food and
                     </div>
                   </div>
 
-                  {/* Food Access */}
-                  <div className="rounded-2xl p-6 flex gap-4"
-                       style={{ backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.09)' }}>
-                    <div className="flex-shrink-0 w-11 h-11 rounded-xl flex items-center justify-center"
-                         style={{ backgroundColor: 'rgba(34,197,94,0.15)' }}>
-                      <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="#4ADE80" strokeWidth="1.8">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
-                      </svg>
-                    </div>
-                    <div>
-                      <h4 className="font-bold text-white mb-1.5" style={{ fontFamily: "'Montserrat', sans-serif" }}>Healthy Food, Connected to Care</h4>
-                      <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.65)' }}>
-                        We treat food access as part of health care. Participants can receive <strong className="text-white">monthly food boxes</strong>, get connected to local food pantries and fresh produce, and learn how nutrition directly supports better blood pressure.
-                      </p>
-                    </div>
-                  </div>
-
                   {/* What to Expect */}
                   <div className="rounded-2xl p-6 flex gap-4"
                        style={{ backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.09)' }}>
@@ -4507,7 +4500,7 @@ And that is how we overcome high blood pressure. They'll tell you about food and
               </div>
 
               {/* ── Weekly Screenings ── */}
-              <div className={`mb-16 fade-up ${eventsVisible ? 'visible' : ''}`}>
+              <div id="mobile-screenings" className={`mb-16 fade-up ${eventsVisible ? 'visible' : ''}`}>
                 <div className="flex items-center gap-4 mb-8">
                   <div className="h-px flex-1" style={{ backgroundColor: 'rgba(255,255,255,0.12)' }} />
                   <div className="flex items-center gap-2.5 px-5 py-2 rounded-full"
@@ -4516,7 +4509,7 @@ And that is how we overcome high blood pressure. They'll tell you about food and
                       <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
                     </svg>
                     <span className="text-sm font-bold tracking-wide"
-                          style={{ color: EV_YELLOW, fontFamily: "'Poppins', sans-serif" }}>Weekly Mobile Team Schedule</span>
+                          style={{ color: EV_YELLOW, fontFamily: "'Poppins', sans-serif" }}>Mobile Team Schedule</span>
                   </div>
                   <div className="h-px flex-1" style={{ backgroundColor: 'rgba(255,255,255,0.12)' }} />
                 </div>
@@ -4533,7 +4526,8 @@ And that is how we overcome high blood pressure. They'll tell you about food and
                 const upcoming = eventsData.filter(evt => new Date(evt.date) >= today);
                 if (!upcoming.length) return null;
                 return (
-                  <>
+                  <div id="community-events" className="rounded-3xl mt-6 px-8 py-10"
+                       style={{ backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}>
                     <div className={`flex items-center gap-4 mb-8 fade-up ${eventsVisible ? 'visible' : ''}`}>
                       <div className="h-px flex-1" style={{ backgroundColor: 'rgba(255,255,255,0.12)' }} />
                       <div className="flex items-center gap-2.5 px-5 py-2 rounded-full"
@@ -4551,7 +4545,7 @@ And that is how we overcome high blood pressure. They'll tell you about food and
                         <EventCard key={evt.id} event={evt} onOpen={() => setSelectedEvent(evt)} />
                       ))}
                     </div>
-                  </>
+                  </div>
                 );
               })()}
 
@@ -4582,7 +4576,7 @@ And that is how we overcome high blood pressure. They'll tell you about food and
               {newsItems.filter(n => n.featured).map((article, i) => (
                 <div key={i}
                      className={`mb-12 cursor-pointer fade-up ${newsVisible ? 'visible' : ''}`}
-                     onClick={() => setSelectedArticle(article)}>
+                     onClick={() => article.pageUrl ? window.location.href = article.pageUrl : setSelectedArticle(article)}>
                   <div className="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all group">
                     <div className="grid md:grid-cols-2">
                       <div className="aspect-video md:aspect-auto overflow-hidden relative">
@@ -4653,7 +4647,7 @@ And that is how we overcome high blood pressure. They'll tell you about food and
                   <div key={i}
                        className={`bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all hover:-translate-y-1 cursor-pointer group fade-up ${newsVisible ? 'visible' : ''}`}
                        style={{ transitionDelay: `${0.1 + i * 0.08}s` }}
-                       onClick={() => setSelectedArticle(article)}>
+                       onClick={() => article.pageUrl ? window.location.href = article.pageUrl : setSelectedArticle(article)}>
                     <div className="aspect-video overflow-hidden">
                       <img src={article.image} alt={article.title}
                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
@@ -4908,6 +4902,7 @@ And that is how we overcome high blood pressure. They'll tell you about food and
                   <a href="#" className="hover:text-white transition-colors">Portal Access</a>
                   <a href="/brand-guide.html" className="hover:text-white transition-colors">Brand Guide</a>
                   <a href="/core-messaging/core-messaging.html" className="hover:text-white transition-colors">Core Messaging</a>
+                  <a href="/status.html" className="hover:text-white transition-colors">Status</a>
                 </div>
               </div>
               <div className="mt-8 pt-8 border-t text-center text-sm" style={{ borderColor: 'rgba(255,255,255,0.1)', color: colors.coolGray }}>

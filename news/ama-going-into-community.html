@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Going Into the Community to Bring Down High BP — Live Healthy Chicago</title>
+  <meta name="description" content="The AMA spotlights Live Healthy Chicago — a 31-partner coalition taking free screenings and evidence-based care directly into Chicago's South and West Side neighborhoods where hypertension rates are highest.">
+  <meta property="og:title" content="Going Into the Community to Bring Down High BP">
+  <meta property="og:description" content="How Rush University, the AMA, and 31 community partners are tackling hypertension where it hits hardest — on the South and West Sides of Chicago.">
+  <meta property="og:image" content="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/lhc-news/ama-community-bp-hero.jpg">
+  <meta property="og:type" content="article">
+  <meta name="article:published_time" content="2026-03-25">
+  <meta name="article:author" content="Georgia Garvey, AMA">
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/dsbllwpbh/image/upload/v1771612857/favicon-live-healthy-chicago_e7o6el.png">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700&family=Open+Sans:ital,wght@0,400;0,600;1,400&family=Poppins:wght@600&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --navy:    #1B365D;
+      --blue:    #46B7E5;
+      --teal:    #48C9B0;
+      --red:     #E5202F;
+      --yellow:  #FFB81C;
+      --charcoal:#2D2D2D;
+      --gray:    #64748b;
+      --bg:      #F0F4F8;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Open Sans', sans-serif; background: var(--bg); color: var(--charcoal); -webkit-font-smoothing: antialiased; }
+    h1, h2, h3, h4, h5 { font-family: 'Montserrat', sans-serif; }
+
+    /* ── Password Gate ───────────────────────────────── */
+    #gate {
+      position: fixed; inset: 0; z-index: 9999;
+      display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(135deg, #0f1f3d 0%, #1B365D 60%, #0d2847 100%);
+    }
+    #gate.fade-out { opacity: 0; transition: opacity 0.5s ease; pointer-events: none; }
+    .gate-card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      backdrop-filter: blur(16px);
+      border-radius: 20px;
+      padding: 48px 40px;
+      width: 100%; max-width: 400px;
+      text-align: center;
+    }
+    .gate-logo { height: 48px; margin: 0 auto 28px; }
+    .gate-card h2 { color: #fff; font-size: 1.25rem; font-weight: 700; margin-bottom: 8px; }
+    .gate-card p  { color: rgba(255,255,255,0.55); font-size: 0.875rem; margin-bottom: 28px; font-family: 'Open Sans', sans-serif; }
+    .gate-input {
+      width: 100%; padding: 14px 16px; border-radius: 12px;
+      background: rgba(255,255,255,0.09); border: 1px solid rgba(255,255,255,0.18);
+      color: #fff; font-size: 1rem; font-family: 'Open Sans', sans-serif;
+      outline: none; margin-bottom: 14px; letter-spacing: 0.05em;
+      transition: border-color 0.2s;
+    }
+    .gate-input:focus { border-color: var(--blue); }
+    .gate-input::placeholder { color: rgba(255,255,255,0.35); }
+    .gate-btn {
+      width: 100%; padding: 14px; border-radius: 12px; border: none;
+      background: linear-gradient(90deg, var(--blue), var(--teal));
+      color: #fff; font-weight: 700; font-size: 1rem; cursor: pointer;
+      font-family: 'Montserrat', sans-serif; letter-spacing: 0.03em;
+      transition: opacity 0.2s;
+    }
+    .gate-btn:hover { opacity: 0.88; }
+    .gate-error { color: #fc8181; font-size: 0.8rem; margin-top: 10px; min-height: 20px; font-family: 'Open Sans', sans-serif; }
+
+    /* ── Nav ─────────────────────────────────────────── */
+    .site-nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(27,54,93,0.08);
+      padding: 0 24px;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px;
+    }
+    .nav-logo { height: 36px; }
+    .back-link {
+      display: flex; align-items: center; gap: 6px;
+      color: var(--gray); font-size: 0.875rem; font-weight: 600;
+      text-decoration: none; font-family: 'Montserrat', sans-serif;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--navy); }
+    .back-link svg { flex-shrink: 0; }
+
+    /* ── Hero ────────────────────────────────────────── */
+    .hero-wrap { position: relative; width: 100%; max-height: 520px; overflow: hidden; }
+    .hero-img { width: 100%; height: 520px; object-fit: cover; object-position: center 30%; display: block; }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(10,24,54,0.82) 0%, rgba(10,24,54,0.25) 55%, transparent 100%);
+    }
+    .hero-content {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 40px max(24px, calc((100% - 760px) / 2));
+    }
+
+    /* ── Article Body ────────────────────────────────── */
+    .article-outer { background: #fff; }
+    .article-inner {
+      max-width: 760px; margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+
+    .meta-row {
+      display: flex; align-items: center; flex-wrap: wrap; gap: 16px;
+      padding-bottom: 28px; border-bottom: 1px solid #e2e8f0;
+      margin-bottom: 36px;
+    }
+    .category-pill {
+      font-family: 'Poppins', sans-serif; font-size: 0.7rem; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 4px 12px; border-radius: 99px;
+      background: rgba(70,183,229,0.12); color: var(--blue);
+    }
+    .meta-item { font-size: 0.875rem; color: var(--gray); display: flex; align-items: center; gap: 6px; }
+    .meta-dot { width: 3px; height: 3px; border-radius: 50%; background: #cbd5e1; flex-shrink: 0; }
+
+    .lede {
+      font-size: 1.25rem; line-height: 1.7; color: #334155;
+      font-style: italic; margin-bottom: 40px;
+      padding-left: 20px; border-left: 3px solid var(--blue);
+    }
+
+    .body-p { font-size: 1.0625rem; line-height: 1.8; color: #334155; margin-bottom: 24px; }
+    .body-p strong { color: var(--navy); font-weight: 600; }
+
+    .section-heading {
+      font-size: 1.375rem; font-weight: 800; color: var(--navy);
+      margin: 48px 0 16px; letter-spacing: -0.02em;
+    }
+
+    .blockquote {
+      margin: 36px 0; padding: 28px 32px;
+      background: linear-gradient(135deg, rgba(27,54,93,0.04), rgba(70,183,229,0.06));
+      border-left: 4px solid var(--blue);
+      border-radius: 0 12px 12px 0;
+    }
+    .blockquote p {
+      font-size: 1.125rem; line-height: 1.75; color: var(--navy);
+      font-style: italic; font-weight: 500;
+    }
+    .blockquote cite {
+      display: block; margin-top: 12px;
+      font-size: 0.875rem; color: var(--gray);
+      font-style: normal; font-weight: 600;
+    }
+
+    /* Stat cards */
+    .stat-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin: 36px 0; }
+    @media (max-width: 600px) { .stat-row { grid-template-columns: 1fr; } }
+    .stat-card {
+      background: linear-gradient(135deg, rgba(27,54,93,0.04), rgba(70,183,229,0.05));
+      border: 1px solid rgba(27,54,93,0.08);
+      border-radius: 16px; padding: 24px 20px; text-align: center;
+    }
+    .stat-value {
+      font-family: 'Montserrat', sans-serif; font-size: 2rem; font-weight: 900;
+      color: var(--navy); line-height: 1; margin-bottom: 6px;
+    }
+    .stat-value span { color: var(--blue); }
+    .stat-label { font-size: 0.8rem; font-weight: 700; color: var(--navy); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
+    .stat-context { font-size: 0.78rem; color: var(--gray); line-height: 1.5; }
+
+    /* MAP accordion */
+    .map-grid { display: grid; gap: 12px; margin: 24px 0 36px; }
+    .map-item {
+      border: 1px solid rgba(27,54,93,0.1);
+      border-radius: 14px; overflow: hidden;
+    }
+    .map-header {
+      display: flex; align-items: center; gap: 14px;
+      padding: 18px 20px; cursor: pointer;
+      background: #fff; user-select: none;
+    }
+    .map-header:hover { background: rgba(70,183,229,0.04); }
+    .map-letter {
+      flex-shrink: 0; width: 40px; height: 40px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Montserrat', sans-serif; font-size: 1.25rem; font-weight: 900; color: #fff;
+    }
+    .map-title { font-family: 'Montserrat', sans-serif; font-weight: 700; color: var(--navy); font-size: 1rem; }
+    .map-chevron { margin-left: auto; transition: transform 0.25s; color: var(--gray); flex-shrink: 0; }
+    .map-item.open .map-chevron { transform: rotate(180deg); }
+    .map-body { display: none; padding: 0 20px 20px 74px; }
+    .map-item.open .map-body { display: block; }
+    .map-body p { font-size: 0.9375rem; line-height: 1.75; color: #475569; }
+
+    /* Partner list */
+    .partner-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 24px 0; }
+    @media (max-width: 480px) { .partner-grid { grid-template-columns: 1fr; } }
+    .partner-card {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 16px; background: rgba(70,183,229,0.05);
+      border: 1px solid rgba(70,183,229,0.15); border-radius: 12px;
+    }
+    .partner-dot { flex-shrink: 0; width: 8px; height: 8px; border-radius: 50%; background: var(--blue); margin-top: 6px; }
+    .partner-name { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.875rem; color: var(--navy); margin-bottom: 2px; }
+    .partner-desc { font-size: 0.8rem; color: var(--gray); line-height: 1.5; }
+
+    /* CTA */
+    .cta-block {
+      margin: 56px 0 0;
+      padding: 40px;
+      background: linear-gradient(135deg, var(--navy) 0%, #0d2847 100%);
+      border-radius: 20px; text-align: center;
+    }
+    .cta-block h3 { color: #fff; font-size: 1.375rem; font-weight: 800; margin-bottom: 10px; }
+    .cta-block p { color: rgba(255,255,255,0.65); font-size: 0.9375rem; margin-bottom: 28px; line-height: 1.6; }
+    .cta-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 14px 28px; border-radius: 12px;
+      background: linear-gradient(90deg, var(--blue), var(--teal));
+      color: #fff; font-family: 'Montserrat', sans-serif; font-weight: 700;
+      font-size: 0.9375rem; text-decoration: none;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .cta-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+
+    /* Audio Player */
+    .audio-player {
+      margin-bottom: 36px;
+      border-radius: 20px;
+      overflow: hidden;
+      background: linear-gradient(135deg, var(--navy) 0%, #2a4a7f 100%);
+      box-shadow: 0 4px 24px rgba(27,54,93,0.18);
+    }
+    .audio-player-inner { padding: 24px 28px; }
+    .audio-label {
+      display: flex; align-items: center; gap: 10px; margin-bottom: 14px;
+    }
+    .audio-icon-wrap {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: rgba(70,183,229,0.22);
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .audio-label-text {
+      font-family: 'Poppins', sans-serif; font-size: 0.7rem; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase; color: var(--blue);
+    }
+    .audio-title {
+      font-family: 'Montserrat', sans-serif; font-size: 1.0625rem; font-weight: 700;
+      color: #fff; margin-bottom: 4px; line-height: 1.3;
+    }
+    .audio-subtitle { font-size: 0.8125rem; color: rgba(255,255,255,0.5); margin-bottom: 20px; }
+    .audio-progress-wrap {
+      position: relative; height: 6px; border-radius: 99px;
+      background: rgba(255,255,255,0.15); cursor: pointer; margin-bottom: 10px;
+    }
+    .audio-progress-fill {
+      position: absolute; top: 0; left: 0; height: 100%;
+      border-radius: 99px; background: var(--blue);
+      transition: width 0.1s linear; pointer-events: none;
+    }
+    .audio-progress-thumb {
+      position: absolute; top: 50%; transform: translate(-50%, -50%);
+      width: 14px; height: 14px; border-radius: 50%; background: #fff;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.3); opacity: 0;
+      transition: opacity 0.15s; pointer-events: none;
+    }
+    .audio-progress-wrap:hover .audio-progress-thumb { opacity: 1; }
+    .audio-times {
+      display: flex; justify-content: space-between;
+      font-size: 0.75rem; color: rgba(255,255,255,0.45);
+      font-variant-numeric: tabular-nums; margin-bottom: 20px;
+    }
+    .audio-controls { display: flex; align-items: center; justify-content: center; gap: 16px; }
+    .audio-ctrl-btn {
+      width: 40px; height: 40px; border-radius: 50%; border: none;
+      background: rgba(255,255,255,0.1); cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: transform 0.15s, background 0.15s; color: rgba(255,255,255,0.75);
+      font-family: 'Montserrat', sans-serif; font-size: 0.7rem; font-weight: 700;
+    }
+    .audio-ctrl-btn:hover { transform: scale(1.1); background: rgba(255,255,255,0.18); }
+    .audio-play-btn {
+      width: 52px; height: 52px; border-radius: 50%; border: none;
+      background: var(--blue); cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 16px rgba(70,183,229,0.45);
+      transition: transform 0.15s, opacity 0.15s;
+    }
+    .audio-play-btn:hover { transform: scale(1.08); opacity: 0.9; }
+
+    /* Divider */
+    .divider { border: none; border-top: 1px solid #e2e8f0; margin: 40px 0; }
+
+    /* Footer */
+    .article-footer {
+      background: var(--navy); padding: 36px 24px; text-align: center;
+    }
+    .article-footer img { height: 36px; margin: 0 auto 16px; }
+    .article-footer p { color: rgba(255,255,255,0.45); font-size: 0.8rem; }
+    .article-footer a { color: rgba(255,255,255,0.55); text-decoration: none; }
+    .article-footer a:hover { color: var(--blue); }
+  </style>
+</head>
+<body>
+
+<!-- ── Password Gate ──────────────────────────────────────── -->
+<div id="gate">
+  <div class="gate-card">
+    <img class="gate-logo" src="https://assets.codepen.io/3457845/logo-Live-Healthy-Chicago.png" alt="Live Healthy Chicago">
+    <h2>Preview Access</h2>
+    <p>Enter the password to view this page.</p>
+    <input id="pw-input" class="gate-input" type="password" placeholder="Password" autocomplete="current-password">
+    <button class="gate-btn" onclick="checkPassword()">Enter</button>
+    <p class="gate-error" id="gate-error"></p>
+  </div>
+</div>
+
+<!-- ── Main Content ───────────────────────────────────────── -->
+<div id="app" style="display:none">
+
+  <!-- Nav -->
+  <nav class="site-nav">
+    <a href="../index-stage.html">
+      <img class="nav-logo" src="https://assets.codepen.io/3457845/logo-Live-Healthy-Chicago.png" alt="Live Healthy Chicago">
+    </a>
+    <a href="../index-stage.html#news" class="back-link">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"/>
+      </svg>
+      Back to News
+    </a>
+  </nav>
+
+  <!-- Hero -->
+  <div class="hero-wrap">
+    <img class="hero-img"
+         src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/lhc-news/ama-community-bp-hero.jpg"
+         alt="Community health workers conducting a free blood pressure screening under a Chicago elevated train">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+        <span style="background:rgba(70,183,229,0.25);border:1px solid rgba(70,183,229,0.4);color:#fff;font-family:'Poppins',sans-serif;font-size:0.7rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;padding:4px 12px;border-radius:99px;">Feature</span>
+        <span style="color:rgba(255,255,255,0.6);font-size:0.875rem;">Mar 25, 2026</span>
+      </div>
+      <h1 style="font-family:'Montserrat',sans-serif;font-size:clamp(1.75rem,4vw,2.75rem);font-weight:900;color:#fff;line-height:1.15;max-width:640px;letter-spacing:-0.02em;">
+        Going Into the Community to Bring Down High BP
+      </h1>
+    </div>
+  </div>
+
+  <!-- Article -->
+  <div class="article-outer">
+    <div class="article-inner">
+
+      <!-- Audio Player -->
+      <div class="audio-player">
+        <audio id="article-audio"
+               src="https://res.cloudinary.com/dsbllwpbh/video/upload/v1776785732/News-ama-article-Going-Into-the-Community-to-Bring-Down-High-BP_mttjgd.mp3"
+               preload="metadata"></audio>
+        <div class="audio-player-inner">
+          <div class="audio-label">
+            <div class="audio-icon-wrap">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#46B7E5" stroke-width="2.2" stroke-linecap="round">
+                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+                <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                <line x1="12" y1="19" x2="12" y2="22"/>
+              </svg>
+            </div>
+            <span class="audio-label-text">Audio Summary</span>
+          </div>
+          <div class="audio-title">Going Into the Community to Bring Down High BP</div>
+          <div class="audio-subtitle">~90 sec · AMA Feature · Live Healthy Chicago</div>
+
+          <div class="audio-progress-wrap" id="audio-progress" onclick="audioSeek(event)">
+            <div class="audio-progress-fill" id="audio-fill" style="width:0%"></div>
+            <div class="audio-progress-thumb" id="audio-thumb" style="left:0%"></div>
+          </div>
+          <div class="audio-times">
+            <span id="audio-current">0:00</span>
+            <span id="audio-duration">--:--</span>
+          </div>
+
+          <div class="audio-controls">
+            <button class="audio-ctrl-btn" id="audio-speed" onclick="audioCycleSpeed()" title="Playback speed">1x</button>
+            <button class="audio-ctrl-btn" onclick="audioSkip(-15)" title="Rewind 15 seconds">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/>
+              </svg>
+            </button>
+            <button class="audio-play-btn" id="audio-play-btn" onclick="audioToggle()">
+              <svg id="audio-play-icon" width="22" height="22" viewBox="0 0 24 24" fill="white">
+                <polygon points="6,3 20,12 6,21"/>
+              </svg>
+            </button>
+            <button class="audio-ctrl-btn" onclick="audioSkip(15)" title="Forward 15 seconds">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <path d="M23 4v6h-6"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+              </svg>
+            </button>
+            <button class="audio-ctrl-btn" style="opacity:0;pointer-events:none">·</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Meta row -->
+      <div class="meta-row">
+        <span class="category-pill">American Medical Association</span>
+        <span class="meta-dot"></span>
+        <span class="meta-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Georgia Garvey, Senior News Writer, AMA
+        </span>
+        <span class="meta-dot"></span>
+        <span class="meta-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          March 25, 2026 · 7 min read
+        </span>
+      </div>
+
+      <!-- Lede -->
+      <p class="lede">
+        When half the people who show up to a community health table are found to have high blood pressure — many for the first time — it tells you something important: the system isn't coming to them. Live Healthy Chicago is changing that.
+      </p>
+
+      <!-- Body -->
+      <p class="body-p">
+        The American Medical Association recently published a major feature on <strong>Live Healthy Chicago</strong>, examining how a 31-partner coalition is doing something most health systems have never attempted at scale: going to the community first. Written by senior news writer Georgia Garvey, the piece captures both the data behind Chicago's stark health disparities and the daily human effort to close them.
+      </p>
+
+      <p class="body-p">
+        The approach is direct: bring free blood pressure screenings, community health workers, and evidence-based care into the neighborhoods on Chicago's South and West Sides where hypertension rates are highest — and the existing health system has historically been hardest to reach.
+      </p>
+
+      <h2 class="section-heading">The Numbers Behind the Urgency</h2>
+
+      <div class="stat-row">
+        <div class="stat-card">
+          <div class="stat-value">71.8</div>
+          <div class="stat-label">Years — Black Chicagoans</div>
+          <div class="stat-context">Average life expectancy, compared to 81.3 years for white residents (CDPH, 2023)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" style="color:var(--red)">37.1<span style="font-size:1.25rem">%</span></div>
+          <div class="stat-label">Englewood Hypertension Rate</div>
+          <div class="stat-context">5.2 percentage points above Chicago's city average of 31.9%</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">~<span>50</span><span style="font-size:1.25rem">%</span></div>
+          <div class="stat-label">Test Positive at Screenings</div>
+          <div class="stat-context">Approximately half of those screened at community events have high blood pressure</div>
+        </div>
+      </div>
+
+      <p class="body-p">
+        These aren't just statistics. Each number represents a person who, under the traditional system, might have gone years without knowing their blood pressure was dangerous — without a primary care provider, without medication, without support. Live Healthy Chicago exists to interrupt that pattern.
+      </p>
+
+      <h2 class="section-heading">The Partnership Behind the Work</h2>
+
+      <p class="body-p">
+        Live Healthy Chicago brings together 31 organizations under a shared framework. At the center are two anchor clinical partnerships — each pairing a major health system with a trusted community organization rooted in the neighborhoods they serve:
+      </p>
+
+      <div class="partner-grid">
+        <div class="partner-card">
+          <div class="partner-dot"></div>
+          <div>
+            <div class="partner-name">Rush University Medical Center</div>
+            <div class="partner-desc">Partnered with Wellness West to serve Chicago's West Side communities</div>
+          </div>
+        </div>
+        <div class="partner-card">
+          <div class="partner-dot"></div>
+          <div>
+            <div class="partner-name">University of Chicago Medicine</div>
+            <div class="partner-desc">Partnered with South Side Healthy Community Organization for South Side reach</div>
+          </div>
+        </div>
+        <div class="partner-card">
+          <div class="partner-dot"></div>
+          <div>
+            <div class="partner-name">American Medical Association</div>
+            <div class="partner-desc">Invested $5 million since 2020; provides the MAP™ clinical framework</div>
+          </div>
+        </div>
+        <div class="partner-card">
+          <div class="partner-dot"></div>
+          <div>
+            <div class="partner-name">West Side United</div>
+            <div class="partner-desc">Rush is a founding member; anchors the coalition's West Side presence</div>
+          </div>
+        </div>
+      </div>
+
+      <p class="body-p">
+        These aren't transactional relationships. The AMA's investment and the dual health-system partnerships reflect a shared conviction that hypertension on Chicago's South and West Sides is not a clinical problem with a clinical solution — it requires the entire community working together.
+      </p>
+
+      <h2 class="section-heading">Evidence-Based Care: The AMA MAP™ Framework</h2>
+
+      <p class="body-p">
+        Live Healthy Chicago's clinical foundation is the <strong>AMA MAP™ Hypertension Program</strong> — a three-step framework embedded directly into Rush's electronic health records and community workflows. In 2025, updated guidelines from the AMA and American Heart Association raised the urgency further, calling for earlier treatment and wider use of automated measurement.
+      </p>
+
+      <div class="map-grid">
+        <div class="map-item open">
+          <div class="map-header" onclick="toggleMap(this)">
+            <div class="map-letter" style="background:var(--blue)">M</div>
+            <span class="map-title">Measure Accurately</span>
+            <svg class="map-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="map-body">
+            <p>Use a validated, automated blood pressure cuff — not the traditional wall-mounted version. Have the patient sit quietly for five minutes, feet flat, arm at heart level, and take multiple readings. Accurate measurement is the foundation of everything else: without it, treatments are calibrated to the wrong target.</p>
+          </div>
+        </div>
+        <div class="map-item">
+          <div class="map-header" onclick="toggleMap(this)">
+            <div class="map-letter" style="background:var(--teal)">A</div>
+            <span class="map-title">Act Rapidly</span>
+            <svg class="map-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="map-body">
+            <p>When blood pressure is elevated, don't wait. Updated 2025 guidelines call for earlier initiation of treatment — including combination medications — rather than the older "watch and wait" approach. The longer blood pressure stays elevated, the greater the cumulative risk of stroke, heart attack, and kidney damage.</p>
+          </div>
+        </div>
+        <div class="map-item">
+          <div class="map-header" onclick="toggleMap(this)">
+            <div class="map-letter" style="background:var(--navy)">P</div>
+            <span class="map-title">Partner with Patients</span>
+            <svg class="map-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="map-body">
+            <p>Patients are partners, not passengers. The program emphasizes home blood pressure monitoring, shared decision-making, and building a daily routine — checking twice a day, just like brushing your teeth. Community health workers play a key role in teaching home monitoring and ensuring patients feel supported between visits.</p>
+          </div>
+        </div>
+      </div>
+
+      <h2 class="section-heading">Meeting People Where They Are</h2>
+
+      <p class="body-p">
+        The most powerful insight from the AMA feature is simple: <strong>the existing system isn't designed to reach the people who need it most</strong>. Clinic appointments require time, transportation, insurance, and trust — barriers that compound for working families in underserved neighborhoods. Live Healthy Chicago removes them.
+      </p>
+
+      <p class="body-p">
+        Community health workers — trained partners embedded in neighborhoods — bring screenings into faith communities, barbershops, community centers, and sidewalks people already use. No appointment. No waiting room. No parking fee. And when a reading comes back high, they don't just hand over a brochure. They help connect that person to a provider, navigate insurance, and follow up.
+      </p>
+
+      <div class="blockquote">
+        <p>"Imagine you're a working person. You have parents who are elderly, kids. You're back and forth commuting. Your blood pressure's up. You don't have that much money. You have to pay $30 for parking. You go in, of course your blood pressure's up in the office, and then they say: 'Come back in a month.' That's no way to treat something like this."</p>
+        <cite>— David Ansell, MD, MPH · Senior VP, Community Health Equity, Rush University Medical System</cite>
+      </div>
+
+      <p class="body-p">
+        Dr. Ansell has built his career around one question: why do people in some Chicago neighborhoods live so many fewer years than those just miles away? His answer — and the answer Live Healthy Chicago embeds into every screening and clinic visit — is that physicians must address the social conditions shaping their patients' lives, not just the numbers on a cuff.
+      </p>
+
+      <h2 class="section-heading">Why Every Millimeter Counts</h2>
+
+      <p class="body-p">
+        The science is precise about what's at stake. A <strong>5 mm Hg reduction in systolic blood pressure</strong> is associated with a <strong>10% reduction in cardiovascular risk</strong>. That's not a rounding error — that's a life. Multiplied across 27 priority neighborhoods, consistent blood pressure control has the potential to fundamentally shift how long Chicagoans live.
+      </p>
+
+      <p class="body-p">
+        Patients with hypertension should be checking their blood pressure twice a day, Dr. Ansell notes — and thinking of it as a daily form of health maintenance, like toothbrushing. The goal is to make that possible: to give people the tools, the knowledge, and the support to manage their own health — on their own terms, in their own neighborhood.
+      </p>
+
+      <hr class="divider">
+
+      <!-- CTA -->
+      <div class="cta-block">
+        <h3>Read the Full Feature</h3>
+        <p>Georgia Garvey's complete reporting on Live Healthy Chicago is available on the AMA website — including additional perspectives from physicians and a deeper look at the coalition's clinical framework.</p>
+        <a href="https://www.ama-assn.org/public-health/prevention-wellness/going-community-bring-down-high-bp"
+           target="_blank" rel="noopener noreferrer" class="cta-btn">
+          Read on AMA.org
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/>
+          </svg>
+        </a>
+      </div>
+
+    </div><!-- /article-inner -->
+  </div><!-- /article-outer -->
+
+  <!-- Footer -->
+  <footer class="article-footer">
+    <img src="https://assets.codepen.io/3457845/logo-Live-Healthy-Chicago.png" alt="Live Healthy Chicago">
+    <p style="margin-bottom:10px;">
+      <a href="../index-stage.html">Home</a>
+      &nbsp;·&nbsp;
+      <a href="../index-stage.html#news">News &amp; Stories</a>
+      &nbsp;·&nbsp;
+      <a href="../index-stage.html#events">Events</a>
+      &nbsp;·&nbsp;
+      <a href="../index-stage.html#contact">Contact</a>
+    </p>
+    <p>© 2026 Live Healthy Chicago. All rights reserved.</p>
+  </footer>
+
+</div><!-- /app -->
+
+<script>
+  const HASH = '4973303f9a14715775d80d65bfafc89f7ba96b0dd6993391147b9bd7013bb882';
+
+  async function sha256(message) {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(message));
+    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+  }
+
+  async function checkPassword() {
+    const val = document.getElementById('pw-input').value;
+    const hash = await sha256(val);
+    if (hash === HASH) {
+      sessionStorage.setItem('lhc_auth', '1');
+      const gate = document.getElementById('gate');
+      gate.classList.add('fade-out');
+      setTimeout(() => { gate.style.display = 'none'; document.getElementById('app').style.display = ''; }, 500);
+    } else {
+      document.getElementById('gate-error').textContent = 'Incorrect password. Try again.';
+    }
+  }
+
+  document.getElementById('pw-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') checkPassword();
+  });
+
+  // Auto-unlock if already authenticated
+  if (sessionStorage.getItem('lhc_auth') === '1') {
+    document.getElementById('gate').style.display = 'none';
+    document.getElementById('app').style.display = '';
+  }
+
+  // MAP accordion toggle
+  function toggleMap(header) {
+    const item = header.closest('.map-item');
+    item.classList.toggle('open');
+  }
+
+  // ── Audio Player ──────────────────────────────────────
+  const audio       = document.getElementById('article-audio');
+  const fillEl      = document.getElementById('audio-fill');
+  const thumbEl     = document.getElementById('audio-thumb');
+  const currentEl   = document.getElementById('audio-current');
+  const durationEl  = document.getElementById('audio-duration');
+  const playIconEl  = document.getElementById('audio-play-icon');
+  const speedBtn    = document.getElementById('audio-speed');
+
+  const SPEEDS = [1, 1.25, 1.5, 2];
+  let speedIdx = 0;
+
+  const fmt = s => {
+    const m = Math.floor(s / 60), sec = Math.floor(s % 60);
+    return `${m}:${sec < 10 ? '0' : ''}${sec}`;
+  };
+
+  audio.addEventListener('loadedmetadata', () => {
+    durationEl.textContent = fmt(audio.duration);
+  });
+
+  audio.addEventListener('timeupdate', () => {
+    const pct = audio.duration ? (audio.currentTime / audio.duration) * 100 : 0;
+    fillEl.style.width  = pct + '%';
+    thumbEl.style.left  = pct + '%';
+    currentEl.textContent = fmt(audio.currentTime);
+  });
+
+  audio.addEventListener('ended', () => {
+    playIconEl.innerHTML = '<polygon points="6,3 20,12 6,21"/>';
+  });
+
+  function audioToggle() {
+    if (audio.paused) {
+      audio.play();
+      playIconEl.innerHTML = '<rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/>';
+    } else {
+      audio.pause();
+      playIconEl.innerHTML = '<polygon points="6,3 20,12 6,21"/>';
+    }
+  }
+
+  function audioSkip(sec) {
+    audio.currentTime = Math.max(0, Math.min(audio.duration || 0, audio.currentTime + sec));
+  }
+
+  function audioCycleSpeed() {
+    speedIdx = (speedIdx + 1) % SPEEDS.length;
+    audio.playbackRate = SPEEDS[speedIdx];
+    speedBtn.textContent = SPEEDS[speedIdx] + 'x';
+  }
+
+  function audioSeek(e) {
+    const bar = document.getElementById('audio-progress');
+    const rect = bar.getBoundingClientRect();
+    const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+    if (audio.duration) audio.currentTime = pct * audio.duration;
+  }
+</script>
+</body>
+</html>

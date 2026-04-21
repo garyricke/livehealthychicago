@@ -1,0 +1,6 @@
+# Live Healthy Chicago — Short URL Redirects
+# Update targets to /index.html when approved for public launch
+
+/bp       /index-stage.html#blood-pressure       302
+/mobile   /index-stage.html#mobile-screenings    302
+/events   /index-stage.html#community-events     302
