@@ -232,12 +232,13 @@
 
     .tl-items { list-style: none; display: flex; flex-direction: column; gap: 8px; }
     .tl-item {
-      display: flex; align-items: flex-start; gap: 10px;
+      position: relative; padding-left: 15px;
       font-size: 0.875rem; line-height: 1.55; color: #334155;
     }
     .tl-item::before {
-      content: ''; flex-shrink: 0; width: 5px; height: 5px; border-radius: 50%;
-      background: var(--blue); margin-top: 7px;
+      content: ''; position: absolute; left: 0; top: 7px;
+      width: 5px; height: 5px; border-radius: 50%;
+      background: var(--blue);
     }
     .tl-item strong { color: var(--navy); font-weight: 600; }
     .tl-item a { color: var(--blue); text-decoration: none; }
