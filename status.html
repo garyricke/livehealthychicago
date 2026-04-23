@@ -292,7 +292,7 @@
       <h1>Project Status</h1>
       <p>A running log of every update, build, and content change to the Live Healthy Chicago site.</p>
       <div class="header-meta">
-        <div class="header-badge"><span class="badge-dot" style="background:var(--green)"></span> Last updated Apr 21, 2026</div>
+        <div class="header-badge"><span class="badge-dot" style="background:var(--green)"></span> Last updated Apr 23, 2026</div>
         <div class="header-badge"><span class="badge-dot" style="background:var(--blue)"></span> livehealthychi.com</div>
         <div class="header-badge"><span class="badge-dot" style="background:var(--yellow)"></span> Staging: index-stage.html</div>
       </div>
@@ -306,12 +306,12 @@
     <span class="section-label">QR Codes</span>
     <h2 class="section-title">Scannable Short Links</h2>
 
-    <div class="staging-warning">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+    <div class="staging-warning" style="background:rgba(16,185,129,0.08); border-color:rgba(16,185,129,0.35)">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
       </svg>
       <div class="staging-warning-body">
-        <strong>Staging only — do not distribute yet.</strong> The BP Checker, Mobile Events, and Community Events codes currently resolve to <code>index-stage.html</code>, which is password-protected. Before sharing publicly, update <code>_redirects</code> to point to <code>index.html</code> and regenerate these three codes. The <strong>Home Page</strong> code links directly to the live public site and is safe to use now.
+        <strong>All four codes are live.</strong> As of Apr 23, 2026, <code>_redirects</code> points <code>/bp</code>, <code>/mobile</code>, and <code>/events</code> to the public <code>index.html</code>. All sections referenced by the QR codes (Know Your Numbers, Mobile Team Schedule, Upcoming Events) are now on the public site. Safe to distribute.
       </div>
     </div>
 
@@ -338,10 +338,10 @@
           <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1776795060/lhc-qr/bp-checker.png" alt="BP Checker QR Code">
         </div>
         <div class="qr-card-body">
-          <span class="qr-env-badge badge-staging"><span class="badge-dot-sm" style="background:#d97706"></span> Staging</span>
+          <span class="qr-env-badge badge-live"><span class="badge-dot-sm" style="background:#10b981"></span> Live</span>
           <div class="qr-card-title">BP Checker</div>
           <div class="qr-card-url">livehealthychi.com/bp</div>
-          <div class="qr-card-desc">Know Your Numbers section — BP quiz. Currently routes to <code style="font-size:0.75rem;background:rgba(0,0,0,0.06);padding:1px 5px;border-radius:3px">index-stage.html</code>.</div>
+          <div class="qr-card-desc">Know Your Numbers section — BP quiz. Routes to the public <code style="font-size:0.75rem;background:rgba(0,0,0,0.06);padding:1px 5px;border-radius:3px">index.html</code>.</div>
           <a class="qr-download-btn" href="https://res.cloudinary.com/dsbllwpbh/image/upload/fl_attachment:LHC-QR-BP-Checker/lhc-qr/bp-checker.png" download="LHC-QR-BP-Checker.png">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
             Download PNG
@@ -354,10 +354,10 @@
           <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1776795060/lhc-qr/mobile-screenings.png" alt="Mobile Screenings QR Code">
         </div>
         <div class="qr-card-body">
-          <span class="qr-env-badge badge-staging"><span class="badge-dot-sm" style="background:#d97706"></span> Staging</span>
+          <span class="qr-env-badge badge-live"><span class="badge-dot-sm" style="background:#10b981"></span> Live</span>
           <div class="qr-card-title">Mobile Events</div>
           <div class="qr-card-url">livehealthychi.com/mobile</div>
-          <div class="qr-card-desc">Mobile Team Schedule — weekly recurring sites. Currently routes to <code style="font-size:0.75rem;background:rgba(0,0,0,0.06);padding:1px 5px;border-radius:3px">index-stage.html</code>.</div>
+          <div class="qr-card-desc">Mobile Team Schedule — weekly recurring sites. Routes to the public <code style="font-size:0.75rem;background:rgba(0,0,0,0.06);padding:1px 5px;border-radius:3px">index.html</code>.</div>
           <a class="qr-download-btn" href="https://res.cloudinary.com/dsbllwpbh/image/upload/fl_attachment:LHC-QR-Mobile-Screenings/lhc-qr/mobile-screenings.png" download="LHC-QR-Mobile-Screenings.png">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
             Download PNG
@@ -370,10 +370,10 @@
           <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1776795060/lhc-qr/community-events.png" alt="Community Events QR Code">
         </div>
         <div class="qr-card-body">
-          <span class="qr-env-badge badge-staging"><span class="badge-dot-sm" style="background:#d97706"></span> Staging</span>
+          <span class="qr-env-badge badge-live"><span class="badge-dot-sm" style="background:#10b981"></span> Live</span>
           <div class="qr-card-title">Community Events</div>
           <div class="qr-card-url">livehealthychi.com/events</div>
-          <div class="qr-card-desc">Upcoming one-time events calendar. Currently routes to <code style="font-size:0.75rem;background:rgba(0,0,0,0.06);padding:1px 5px;border-radius:3px">index-stage.html</code>.</div>
+          <div class="qr-card-desc">Upcoming one-time events calendar. Routes to the public <code style="font-size:0.75rem;background:rgba(0,0,0,0.06);padding:1px 5px;border-radius:3px">index.html</code>.</div>
           <a class="qr-download-btn" href="https://res.cloudinary.com/dsbllwpbh/image/upload/fl_attachment:LHC-QR-Community-Events/lhc-qr/community-events.png" download="LHC-QR-Community-Events.png">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
             Download PNG
@@ -389,16 +389,50 @@
 
     <div class="timeline">
 
-      <!-- Apr 21 2026 — TODAY -->
+      <!-- Apr 23 2026 — TODAY -->
       <div class="tl-entry">
         <div class="tl-date-col">
-          <div class="tl-date"><span class="month">Apr</span>21, 2026</div>
+          <div class="tl-date"><span class="month">Apr</span>23, 2026</div>
         </div>
         <div class="tl-connector"><div class="tl-dot today"></div></div>
         <div class="tl-card today-card">
           <div class="tl-card-header">
-            <span class="tl-card-date-mobile">Apr 21, 2026</span>
+            <span class="tl-card-date-mobile">Apr 23, 2026</span>
             <span class="tl-tag tag-today">Today</span>
+            <span class="tl-tag tag-content">Content</span>
+            <span class="tl-tag tag-design">Design</span>
+            <span class="tl-tag tag-dev">Dev</span>
+          </div>
+          <div class="tl-section-title">Public Launch of Staging Sections → <code>index.html</code></div>
+          <ul class="tl-items">
+            <li class="tl-item">Synced <strong><code>index.html</code></strong> with <code>index-stage.html</code> — four sections promoted from staging to the public site</li>
+            <li class="tl-item"><strong>Events &amp; Screenings</strong> — expanded from "Upcoming Events" to full section with 3-card program overview, <strong>Mobile Team Schedule</strong> (Bethel New Life · Healthy Hood · Taller de José · Hope Community Church), and date-filtered Upcoming Events card</li>
+            <li class="tl-item"><strong>7 Steps to an Accurate BP Reading</strong> — interactive scrubber section added between Know Your Numbers and Our Model; auto-plays on scroll, drag/tap any step, SVG anchors on the illustration</li>
+            <li class="tl-item"><strong>How Live Healthy Chicago Works</strong> — replaced the old 2-column static layout with the auto-advancing 3-pillar <code>ModelV2</code> tabs (Public Health Campaign · Mobile Care in Community · Clinical Practice Transformation)</li>
+            <li class="tl-item"><strong>News — "Going Into the Community to Bring Down High BP"</strong> — AMA feature (Mar 25, 2026, Georgia Garvey) added as top featured story; news cards now navigate to the standalone page via <code>pageUrl</code></li>
+          </ul>
+          <div class="tl-section-title">Mobile Care Pillar Image</div>
+          <ul class="tl-items">
+            <li class="tl-item">Uploaded <strong><code>lhc-mobile-smile-3-5-to-1-ar.png</code></strong> (2056×765, 2.69:1) to Cloudinary → <code>lhc-model/pillar-lhc-mobile-smile-3-5-1</code></li>
+            <li class="tl-item">Delivered with <code>f_auto,q_auto</code> — AVIF/WebP in supported browsers, auto quality</li>
+          </ul>
+          <div class="tl-section-title">QR Codes → Production</div>
+          <ul class="tl-items">
+            <li class="tl-item">Updated <code>_redirects</code>: <code>/bp</code>, <code>/mobile</code>, <code>/events</code> now point to <strong><code>/index.html</code></strong> (no longer <code>index-stage.html</code>)</li>
+            <li class="tl-item">All four QR codes promoted from <strong>Staging → Live</strong>. Existing QR images are reused (they encode the short URLs, not the target paths — no regeneration needed)</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Apr 21 2026 -->
+      <div class="tl-entry">
+        <div class="tl-date-col">
+          <div class="tl-date"><span class="month">Apr</span>21, 2026</div>
+        </div>
+        <div class="tl-connector"><div class="tl-dot"></div></div>
+        <div class="tl-card">
+          <div class="tl-card-header">
+            <span class="tl-card-date-mobile">Apr 21, 2026</span>
             <span class="tl-tag tag-content">Content</span>
             <span class="tl-tag tag-design">Design</span>
             <span class="tl-tag tag-dev">Dev</span>
