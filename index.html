@@ -207,6 +207,18 @@
       filter: grayscale(0%);
       opacity: 1;
     }
+
+    /* BP Reading Section — mobile layout */
+    @media (max-width: 700px) {
+      .bp-tips-grid {
+        display: flex !important;
+        flex-direction: column;
+        gap: 24px;
+      }
+      .bp-tips-grid > div:first-child { order: 2; }  /* left tips */
+      .bp-tips-grid > div:nth-child(2) { order: 1; width: 100% !important; max-width: 100% !important; } /* illustration */
+      .bp-tips-grid > div:last-child { order: 3; }   /* right tips */
+    }
   </style>
 </head>
 <body>
