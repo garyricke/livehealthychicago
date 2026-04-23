@@ -1009,6 +1009,404 @@
       );
     }
 
+    // ── LHC palette (used by BPReadingSection / BP_TIPS) ──
+    const LHC = { red:'#E5202F', blue:'#46B7E5', navy:'#1B365D', teal:'#48C9B0', yellow:'#FFB81C', charcoal:'#2D2D2D', gray:'#A0AEC0' };
+
+    // ── 7 Steps to an Accurate BP Reading ──
+    const BP_TIPS = [
+      {
+        id:1, triggerAt:5,
+        title:"Don't Have a Conversation",
+        body:"Talking or actively listening during your reading adds up to 10 mm Hg.",
+        impact:"+10 mm Hg",
+        color: LHC.red,
+        anchor:{ x:53, y:9 },
+        bubble:{ x:57, y:1 },
+        side:'right'
+      },
+      {
+        id:2, triggerAt:20,
+        title:"Empty Bladder First",
+        body:"A full bladder increases pressure, adding up to 10 mm Hg.",
+        impact:"+10 mm Hg",
+        color: LHC.blue,
+        anchor:{ x:61, y:42.2 },
+        bubble:{ x:62, y:42 },
+        side:'right'
+      },
+      {
+        id:3, triggerAt:35,
+        title:"Use Correct Cuff Size",
+        body:"A cuff that's too small can add 2–10 mm Hg to your reading.",
+        impact:"+2–10 mm Hg",
+        color: LHC.yellow,
+        anchor:{ x:36, y:33 },
+        bubble:{ x:1, y:22 },
+        side:'left'
+      },
+      {
+        id:4, triggerAt:50,
+        title:"Put Cuff on Bare Arm",
+        body:"Measuring over clothing can add 5–50 mm Hg.",
+        impact:"+5–50 mm Hg",
+        color: LHC.teal,
+        anchor:{ x:33, y:40 },
+        bubble:{ x:1, y:37 },
+        side:'left'
+      },
+      {
+        id:5, triggerAt:63,
+        title:"Support Arm at Heart Level",
+        body:"An unsupported arm dangling at your side adds 10 mm Hg.",
+        impact:"+10 mm Hg",
+        color: LHC.red,
+        anchor:{ x:38, y:48 },
+        bubble:{ x:1, y:53 },
+        side:'left'
+      },
+      {
+        id:6, triggerAt:78,
+        title:"Support Back & Feet",
+        body:"Unsupported back and feet flat on the floor — adds 6 mm Hg if missing.",
+        impact:"+6 mm Hg",
+        color: LHC.blue,
+        anchor:{ x:60, y:72 },
+        bubble:{ x:63, y:62 },
+        side:'right'
+      },
+      {
+        id:7, triggerAt:91,
+        title:"Keep Legs Uncrossed",
+        body:"Crossed legs restrict circulation, adding 2–8 mm Hg.",
+        impact:"+2–8 mm Hg",
+        color: LHC.teal,
+        anchor:{ x:50, y:80 },
+        bubble:{ x:1, y:74 },
+        side:'left'
+      },
+    ];
+
+    const BPReadingSection = () => {
+      const [progress, setProgress]   = React.useState(0);
+      const [isPlaying, setIsPlaying] = React.useState(false);
+      const [isDragging, setIsDragging] = React.useState(false);
+      const [hasStarted, setHasStarted] = React.useState(false);
+      const rafRef     = React.useRef(null);
+      const lastTRef   = React.useRef(null);
+      const trackRef   = React.useRef(null);
+      const sectionRef = React.useRef(null);
+      const progRef    = React.useRef(0);
+
+      const DURATION = 14000;
+
+      const tick = React.useCallback((ts) => {
+        if (!lastTRef.current) lastTRef.current = ts;
+        const dt = ts - lastTRef.current;
+        lastTRef.current = ts;
+        const inc = (dt / DURATION) * 100;
+        progRef.current = Math.min(100, progRef.current + inc);
+        setProgress(progRef.current);
+        if (progRef.current < 100) {
+          rafRef.current = requestAnimationFrame(tick);
+        } else {
+          setIsPlaying(false);
+        }
+      }, []);
+
+      const play = React.useCallback(() => {
+        if (progRef.current >= 100) { progRef.current = 0; setProgress(0); }
+        lastTRef.current = null;
+        setIsPlaying(true);
+        rafRef.current = requestAnimationFrame(tick);
+      }, [tick]);
+
+      const pause = React.useCallback(() => {
+        setIsPlaying(false);
+        if (rafRef.current) cancelAnimationFrame(rafRef.current);
+        lastTRef.current = null;
+      }, []);
+
+      React.useEffect(() => {
+        if (!sectionRef.current || hasStarted) return;
+        const obs = new IntersectionObserver(([entry]) => {
+          if (entry.isIntersecting) { setHasStarted(true); play(); obs.disconnect(); }
+        }, { threshold: 0.3 });
+        obs.observe(sectionRef.current);
+        return () => obs.disconnect();
+      }, [hasStarted, play]);
+
+      React.useEffect(() => () => { if (rafRef.current) cancelAnimationFrame(rafRef.current); }, []);
+
+      const getProgFromEvent = (e) => {
+        if (!trackRef.current) return 0;
+        const rect = trackRef.current.getBoundingClientRect();
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        return Math.max(0, Math.min(100, ((clientX - rect.left) / rect.width) * 100));
+      };
+
+      const onTrackDown = (e) => {
+        e.preventDefault();
+        pause();
+        setIsDragging(true);
+        const p = getProgFromEvent(e);
+        progRef.current = p;
+        setProgress(p);
+      };
+
+      React.useEffect(() => {
+        if (!isDragging) return;
+        const onMove = (e) => {
+          const p = getProgFromEvent(e);
+          progRef.current = p;
+          setProgress(p);
+        };
+        const onUp = () => { setIsDragging(false); };
+        window.addEventListener('mousemove', onMove);
+        window.addEventListener('mouseup', onUp);
+        window.addEventListener('touchmove', onMove, { passive: false });
+        window.addEventListener('touchend', onUp);
+        return () => {
+          window.removeEventListener('mousemove', onMove);
+          window.removeEventListener('mouseup', onUp);
+          window.removeEventListener('touchmove', onMove);
+          window.removeEventListener('touchend', onUp);
+        };
+      }, [isDragging]);
+
+      const togglePlay = () => { isPlaying ? pause() : play(); };
+      const visibleTips = BP_TIPS.filter(t => progress >= t.triggerAt);
+
+      return (
+        <section ref={sectionRef} id="accurate-reading"
+          style={{ background: `linear-gradient(160deg, ${LHC.navy} 0%, #0e2040 55%, #162d50 100%)`, padding:'80px 0 64px' }}>
+          <div style={{ maxWidth:'1100px', margin:'0 auto', padding:'0 24px' }}>
+
+            {/* Header */}
+            <div style={{ textAlign:'center', marginBottom:'52px' }}>
+              <span style={{ fontFamily:"'Poppins',sans-serif", fontSize:'11px', fontWeight:700,
+                letterSpacing:'0.18em', textTransform:'uppercase', color: LHC.blue,
+                display:'flex', alignItems:'center', justifyContent:'center', gap:'8px', marginBottom:'12px' }}>
+                <span style={{ display:'inline-block', width:'28px', height:'2px', background: LHC.blue }}/>
+                Accurate Measurement
+              </span>
+              <h2 style={{ fontFamily:"'Montserrat',sans-serif", fontWeight:800, fontSize:'clamp(28px,4vw,42px)',
+                color:'#fff', lineHeight:1.15, marginBottom:'16px' }}>
+                7 Steps to an Accurate<br/>
+                <span style={{ color: LHC.blue }}>Blood Pressure Reading</span>
+              </h2>
+              <p style={{ fontFamily:"'Open Sans',sans-serif", fontSize:'16px', color:'rgba(255,255,255,0.65)',
+                maxWidth:'580px', margin:'0 auto', lineHeight:1.7 }}>
+                Small positioning errors can significantly skew your results. Scrub through each step or press play to see how it works.
+              </p>
+            </div>
+
+            {/* Main interactive area */}
+            <div className="bp-tips-grid" style={{ display:'grid', gridTemplateColumns:'1fr auto 1fr', gap:'0', alignItems:'center', position:'relative' }}>
+
+              {/* Left tip column */}
+              <div style={{ display:'flex', flexDirection:'column', gap:'10px', paddingRight:'20px' }}>
+                {BP_TIPS.filter(t => t.side === 'left').map(tip => {
+                  const visible = progress >= tip.triggerAt;
+                  return (
+                    <div key={tip.id}
+                      style={{
+                        background:'rgba(255,255,255,0.05)', borderRadius:'12px',
+                        padding:'14px 16px', border:`1px solid ${visible ? tip.color : 'rgba(255,255,255,0.06)'}`,
+                        borderLeft:`4px solid ${visible ? tip.color : 'rgba(255,255,255,0.1)'}`,
+                        opacity: visible ? 1 : 0.25,
+                        transform: visible ? 'translateX(0)' : 'translateX(-12px)',
+                        transition:'all 0.5s cubic-bezier(0.34,1.56,0.64,1)',
+                        backdropFilter:'blur(8px)',
+                      }}>
+                      <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', gap:'8px' }}>
+                        <span style={{ fontFamily:"'Poppins',sans-serif", fontWeight:700, fontSize:'13px',
+                          color: visible ? '#fff' : 'rgba(255,255,255,0.4)', lineHeight:1.3 }}>
+                          {tip.title}
+                        </span>
+                        <span style={{
+                          fontFamily:"'Montserrat',sans-serif", fontWeight:800, fontSize:'11px', whiteSpace:'nowrap',
+                          background: visible ? tip.color : 'rgba(255,255,255,0.1)',
+                          color:'#fff', padding:'2px 8px', borderRadius:'20px', flexShrink:0,
+                          transition:'background 0.4s'
+                        }}>{tip.impact}</span>
+                      </div>
+                      <p style={{ fontFamily:"'Open Sans',sans-serif", fontSize:'11.5px',
+                        color: visible ? 'rgba(255,255,255,0.65)' : 'rgba(255,255,255,0.2)',
+                        margin:'6px 0 0', lineHeight:1.5, transition:'color 0.4s' }}>
+                        {tip.body}
+                      </p>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Illustration */}
+              <div style={{ width:'clamp(260px,28vw,400px)', flexShrink:0, position:'relative' }}>
+                <div style={{
+                  position:'absolute', inset:'-20px',
+                  background:`radial-gradient(ellipse at 50% 40%, ${LHC.blue}18 0%, transparent 70%)`,
+                  pointerEvents:'none', borderRadius:'50%'
+                }}/>
+                <img
+                  src="blood-pressure-illustation-c-opt.svg"
+                  alt="Proper blood pressure measurement technique"
+                  style={{ width:'100%', display:'block', position:'relative', zIndex:1 }}
+                />
+                <svg style={{ position:'absolute', inset:0, width:'100%', height:'100%', pointerEvents:'none', zIndex:2 }}
+                     viewBox="0 0 100 116.7" preserveAspectRatio="none">
+                  {visibleTips.map(tip => (
+                    <circle key={`dot-${tip.id}`}
+                      cx={tip.anchor.x} cy={tip.anchor.y * 1.167} r="1.8"
+                      fill={tip.color} opacity="0.95"
+                    />
+                  ))}
+                </svg>
+              </div>
+
+              {/* Right tip column */}
+              <div style={{ display:'flex', flexDirection:'column', gap:'10px', paddingLeft:'20px' }}>
+                {BP_TIPS.filter(t => t.side === 'right').map(tip => {
+                  const visible = progress >= tip.triggerAt;
+                  return (
+                    <div key={tip.id}
+                      style={{
+                        background:'rgba(255,255,255,0.05)', borderRadius:'12px',
+                        padding:'14px 16px', border:`1px solid ${visible ? tip.color : 'rgba(255,255,255,0.06)'}`,
+                        borderRight:`4px solid ${visible ? tip.color : 'rgba(255,255,255,0.1)'}`,
+                        opacity: visible ? 1 : 0.25,
+                        transform: visible ? 'translateX(0)' : 'translateX(12px)',
+                        transition:'all 0.5s cubic-bezier(0.34,1.56,0.64,1)',
+                        backdropFilter:'blur(8px)',
+                      }}>
+                      <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', gap:'8px' }}>
+                        <span style={{ fontFamily:"'Poppins',sans-serif", fontWeight:700, fontSize:'13px',
+                          color: visible ? '#fff' : 'rgba(255,255,255,0.4)', lineHeight:1.3 }}>
+                          {tip.title}
+                        </span>
+                        <span style={{
+                          fontFamily:"'Montserrat',sans-serif", fontWeight:800, fontSize:'11px', whiteSpace:'nowrap',
+                          background: visible ? tip.color : 'rgba(255,255,255,0.1)',
+                          color:'#fff', padding:'2px 8px', borderRadius:'20px', flexShrink:0,
+                          transition:'background 0.4s'
+                        }}>{tip.impact}</span>
+                      </div>
+                      <p style={{ fontFamily:"'Open Sans',sans-serif", fontSize:'11.5px',
+                        color: visible ? 'rgba(255,255,255,0.65)' : 'rgba(255,255,255,0.2)',
+                        margin:'6px 0 0', lineHeight:1.5, transition:'color 0.4s' }}>
+                        {tip.body}
+                      </p>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Scrubber */}
+            <div style={{ marginTop:'48px', padding:'28px 32px', background:'rgba(255,255,255,0.05)',
+              borderRadius:'16px', backdropFilter:'blur(8px)', border:'1px solid rgba(255,255,255,0.08)' }}>
+
+              {/* Step indicators */}
+              <div style={{ display:'flex', justifyContent:'space-between', marginBottom:'12px' }}>
+                {BP_TIPS.map(tip => {
+                  const active = progress >= tip.triggerAt;
+                  return (
+                    <div key={tip.id} style={{ display:'flex', flexDirection:'column', alignItems:'center', gap:'4px', cursor:'pointer' }}
+                         onClick={() => { pause(); progRef.current = tip.triggerAt; setProgress(tip.triggerAt); }}>
+                      <div style={{
+                        width:'28px', height:'28px', borderRadius:'50%', display:'flex', alignItems:'center', justifyContent:'center',
+                        background: active ? tip.color : 'rgba(255,255,255,0.1)',
+                        border: active ? `2px solid ${tip.color}` : '2px solid rgba(255,255,255,0.2)',
+                        transition:'all 0.4s',
+                        fontFamily:"'Montserrat',sans-serif", fontWeight:800, fontSize:'11px',
+                        color: active ? '#fff' : 'rgba(255,255,255,0.3)',
+                      }}>{tip.id}</div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Track */}
+              <div style={{ display:'flex', alignItems:'center', gap:'16px' }}>
+                <button onClick={togglePlay}
+                  style={{
+                    width:'44px', height:'44px', borderRadius:'50%', border:'none', cursor:'pointer', flexShrink:0,
+                    background: LHC.red, display:'flex', alignItems:'center', justifyContent:'center',
+                    boxShadow:`0 0 20px ${LHC.red}60`, transition:'transform 0.15s',
+                  }}
+                  onMouseEnter={e => { e.currentTarget.style.transform='scale(1.1)'; }}
+                  onMouseLeave={e => { e.currentTarget.style.transform='scale(1)'; }}>
+                  {isPlaying ? (
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="white">
+                      <rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/>
+                    </svg>
+                  ) : (
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="white">
+                      <polygon points="6,4 20,12 6,20"/>
+                    </svg>
+                  )}
+                </button>
+
+                <div ref={trackRef}
+                  style={{ flex:1, height:'8px', borderRadius:'4px', background:'rgba(255,255,255,0.12)',
+                    position:'relative', cursor:'pointer', userSelect:'none' }}
+                  onMouseDown={onTrackDown}
+                  onTouchStart={onTrackDown}>
+                  <div style={{ height:'100%', borderRadius:'4px', width:`${progress}%`,
+                    background:`linear-gradient(90deg, ${LHC.blue}, ${LHC.red})`,
+                    transition: isDragging ? 'none' : 'width 0.05s', pointerEvents:'none' }}/>
+                  {BP_TIPS.map(tip => (
+                    <div key={tip.id} style={{
+                      position:'absolute', top:'50%', left:`${tip.triggerAt}%`,
+                      transform:'translate(-50%,-50%)',
+                      width:'4px', height:'12px', borderRadius:'2px',
+                      background: progress >= tip.triggerAt ? tip.color : 'rgba(255,255,255,0.25)',
+                      pointerEvents:'none', transition:'background 0.3s'
+                    }}/>
+                  ))}
+                  <div style={{
+                    position:'absolute', top:'50%', left:`${progress}%`,
+                    transform:'translate(-50%,-50%)',
+                    width:'22px', height:'22px', borderRadius:'50%',
+                    background:'#fff', boxShadow:`0 0 0 3px ${LHC.red}, 0 2px 8px rgba(0,0,0,0.4)`,
+                    cursor: isDragging ? 'grabbing' : 'grab',
+                    pointerEvents:'none', transition: isDragging ? 'none' : 'left 0.05s',
+                    zIndex:3,
+                  }}/>
+                </div>
+
+                <button onClick={() => { pause(); progRef.current=0; setProgress(0); setTimeout(play,50); }}
+                  style={{ background:'none', border:'none', cursor:'pointer', color:'rgba(255,255,255,0.4)',
+                    padding:'4px', borderRadius:'6px', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}
+                  title="Restart">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.5"/>
+                  </svg>
+                </button>
+              </div>
+
+              <div style={{ marginTop:'10px', textAlign:'center',
+                fontFamily:"'Poppins',sans-serif", fontSize:'12px', color:'rgba(255,255,255,0.4)' }}>
+                {(() => {
+                  const cur = [...BP_TIPS].reverse().find(t => progress >= t.triggerAt);
+                  if (!cur) return 'Press play or drag the scrubber to begin';
+                  const next = BP_TIPS.find(t => t.triggerAt > progress);
+                  return next
+                    ? `Step ${cur.id} of 7 — ${cur.title}`
+                    : "All 7 steps complete — you're ready for an accurate reading!";
+                })()}
+              </div>
+            </div>
+
+            <p style={{ textAlign:'center', marginTop:'20px', fontFamily:"'Open Sans',sans-serif",
+              fontSize:'11px', color:'rgba(255,255,255,0.25)', lineHeight:1.6 }}>
+              Adapted from AMA MAP™ Hypertension / AMA–Johns Hopkins Blood Pressure Resources with permission.
+              Figures are estimates of how improper positioning impacts readings.
+            </p>
+          </div>
+        </section>
+      );
+    };
+
     // ── Main App ──
     // ── Static Events Data ──────────────────────────────────────────────────
     const eventsData = [
@@ -1080,6 +1478,46 @@
       },
     ];
 
+    // ── Weekly Screening Sites ───────────────────────────────────────────────
+    const screeningSites = [
+      {
+        id: 'bethel-new-life',
+        name: 'Bethel New Life',
+        day: 'Monday',
+        hours: '10:00 – 12:00 P.M.',
+        address: '4950 W. Thomas St., Chicago, IL 60651',
+        neighborhood: 'West Garfield Park',
+        image: 'news-events/LHC-Mobile-Team/building-Bethel-New-Life-4950-W-Thomas-Chicago.png',
+      },
+      {
+        id: 'healthy-hood',
+        name: 'Healthy Hood',
+        day: 'Tuesday',
+        hours: '1:00 – 3:00 P.M.',
+        address: '2242 S. Damen Ave., Chicago, IL 60608',
+        neighborhood: 'Pilsen',
+        image: 'news-events/LHC-Mobile-Team/building-Healthy-Hood-2242-S-Damen-Chicago.png',
+      },
+      {
+        id: 'taller-de-jose',
+        name: 'Taller de José',
+        day: 'Wednesday',
+        hours: '11:00 A.M. – 1:00 P.M.',
+        address: '5533 S. Sawyer Ave., Chicago, IL 60629',
+        neighborhood: 'Brighton Park',
+        image: 'news-events/LHC-Mobile-Team/building-Taller-de-Jose-5533-S-Sawyer-Ave-Chicago.png',
+      },
+      {
+        id: 'hope-community-church',
+        name: 'Hope Community Church',
+        day: 'Friday',
+        hours: '12:00 – 2:30 P.M.',
+        address: '5900 W. Iowa St., Chicago, IL 60651',
+        neighborhood: 'Austin',
+        image: 'news-events/LHC-Mobile-Team/building-Hope-Community-Church-5900-W-Iowa-St-Chicago.png',
+      },
+    ];
+
     // ── Event components (outside LiveHealthyChicago for stable references) ──
     const EV_NAVY   = '#1B365D';
     const EV_YELLOW = '#F5B400';
@@ -1093,6 +1531,87 @@
         <path d="M24 11c0-1.1.9-2 2-2s2 .9 2 2v1H22v-1c0-1.1.9-2 2-2z" fill="white"/>
       </svg>
     );
+
+    const DAY_COLORS = {
+      Monday:    { bg: '#1B5E20', text: '#A5D6A7' },
+      Tuesday:   { bg: '#0D47A1', text: '#90CAF9' },
+      Wednesday: { bg: '#4A148C', text: '#CE93D8' },
+      Friday:    { bg: '#BF360C', text: '#FFCCBC' },
+    };
+
+    const ScreeningSiteCard = ({ site }) => {
+      const dc = DAY_COLORS[site.day] || { bg: EV_NAVY, text: EV_YELLOW };
+      return (
+        <div className="rounded-3xl overflow-hidden shadow-lg flex flex-col"
+             style={{ backgroundColor: EV_NAVY }}>
+          {/* Photo */}
+          <div className="relative overflow-hidden flex-shrink-0" style={{ height: '200px' }}>
+            <img src={site.image} alt={site.name}
+                 className="w-full h-full object-cover object-center" />
+            <div className="absolute inset-0"
+                 style={{ background: 'linear-gradient(to bottom, rgba(27,54,93,0.08) 40%, rgba(27,54,93,0.82))' }} />
+            {/* Day badge */}
+            <div className="absolute top-4 left-4 px-3 py-1.5 rounded-full"
+                 style={{ backgroundColor: dc.bg }}>
+              <span className="text-xs font-bold tracking-wide"
+                    style={{ color: dc.text, fontFamily: "'Poppins', sans-serif" }}>
+                Every {site.day}
+              </span>
+            </div>
+            {/* Free badge */}
+            <div className="absolute top-4 right-4 px-3 py-1.5 rounded-full"
+                 style={{ backgroundColor: 'rgba(255,255,255,0.15)', backdropFilter: 'blur(6px)' }}>
+              <span className="text-xs font-bold text-white tracking-wide"
+                    style={{ fontFamily: "'Poppins', sans-serif" }}>Free · Walk-in</span>
+            </div>
+          </div>
+
+          {/* Body */}
+          <div className="p-5 flex flex-col gap-3 flex-1">
+            <h3 className="text-lg font-black text-white leading-tight"
+                style={{ fontFamily: "'Montserrat', sans-serif" }}>{site.name}</h3>
+
+            {/* Time row */}
+            <div className="flex items-center gap-2">
+              <div className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0"
+                   style={{ backgroundColor: EV_YELLOW }}>
+                <svg className="w-3.5 h-3.5" fill={EV_NAVY} viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd"/>
+                </svg>
+              </div>
+              <span className="text-sm font-semibold text-white">{site.hours}</span>
+            </div>
+
+            {/* Address row */}
+            <div className="flex items-start gap-2">
+              <div className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"
+                   style={{ backgroundColor: 'rgba(255,255,255,0.1)' }}>
+                <svg className="w-3.5 h-3.5" fill="none" stroke={EV_YELLOW} strokeWidth="2" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z"/>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                </svg>
+              </div>
+              <div>
+                <div className="text-sm text-white leading-snug">{site.address}</div>
+                <div className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.5)' }}>{site.neighborhood}</div>
+              </div>
+            </div>
+
+            {/* BP screening label */}
+            <div className="mt-auto pt-3 border-t" style={{ borderColor: 'rgba(255,255,255,0.1)' }}>
+              <div className="flex items-center gap-2">
+                <svg className="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke={EV_YELLOW} strokeWidth="1.8">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                </svg>
+                <span className="text-xs font-semibold" style={{ color: 'rgba(255,255,255,0.65)', fontFamily: "'Poppins', sans-serif" }}>
+                  Free Blood Pressure Screening · No appointment needed
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    };
 
     const EventCard = ({ event, onOpen }) => (
       <div className="cursor-pointer group rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1"
@@ -1619,6 +2138,231 @@
       softCloud: '#F7FAFC'
     };
 
+    // ── Our Model pillars ──
+    const MODEL_PILLARS = [
+      {
+        num: '1',
+        icon: (
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{width:'28px',height:'28px'}}>
+            <path d="M2 9h4v6H2z"/>
+            <path d="M6 9l12-6v18L6 15z"/>
+            <line x1="3" y1="15" x2="3" y2="19"/>
+            <path d="M19 8a6 6 0 010 8"/>
+          </svg>
+        ),
+        color: '#6B8DD6',
+        label: 'Public Health',
+        title: 'Public Health Campaign',
+        text: 'We work with health centers to improve how blood pressure is measured, monitored, and managed — including pharmacist support and home monitoring tools.',
+        detail: 'Partner clinics receive tools, training, and pharmacist support to catch and control high blood pressure before it becomes a crisis.',
+        img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1775584721/lhc-model/pillar-clinic-care.jpg',
+      },
+      {
+        num: '2',
+        icon: (
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{width:'28px',height:'28px'}}>
+            <rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>
+          </svg>
+        ),
+        color: colors.neighborhoodTeal,
+        label: 'Mobile Care',
+        title: 'Mobile Care in Community',
+        text: 'Mobile teams bring screenings and support directly into neighborhoods — so getting checked is simple, close to home, and free.',
+        detail: 'No appointment, no barrier. Our mobile pharmacists and health workers show up in the places you already go.',
+        img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1776956003/lhc-model/pillar-lhc-mobile-smile-3-5-1.png',
+      },
+      {
+        num: '3',
+        icon: (
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{width:'28px',height:'28px'}}>
+            <path d="M3 21h18"/>
+            <path d="M5 21V5a1 1 0 011-1h12a1 1 0 011 1v16"/>
+            <path d="M9 21v-5h6v5"/>
+            <path d="M9 8h2m2 0h2M9 13h2m2 0h2"/>
+          </svg>
+        ),
+        color: colors.skyBlue,
+        label: 'Clinical',
+        title: 'Clinical Practice Transformation',
+        text: 'We work with community partners to increase access to blood pressure screenings, connect people at risk with the support they need, and help them take charge of their health.',
+        detail: 'From faith communities to barbershops, we meet people where they are — building trust and awareness neighborhood by neighborhood.',
+        img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/lhc-model/pillar-community-outreach-banner.jpg',
+      },
+    ];
+
+    function ModelV2() {
+      const [active, setActive] = React.useState(0);
+      const userStoppedRef = React.useRef(false);
+      const pill = MODEL_PILLARS[active];
+
+      // Auto-advance every 4s; stops permanently on any user interaction
+      React.useEffect(() => {
+        const id = setInterval(() => {
+          if (userStoppedRef.current) { clearInterval(id); return; }
+          setActive(a => (a + 1) % MODEL_PILLARS.length);
+        }, 4000);
+        return () => clearInterval(id);
+      }, []);
+
+      const handleSelect = (i) => {
+        userStoppedRef.current = true;
+        setActive(i);
+      };
+
+      return (
+        <section style={{ backgroundColor: '#F0F4F8', padding: '96px 0' }} id="model">
+          <div style={{ maxWidth: '900px', margin: '0 auto', padding: '0 24px' }}>
+
+            {/* Header */}
+            <div style={{ textAlign: 'center', marginBottom: '56px' }}>
+              <span style={{ fontFamily: "'Poppins',sans-serif", fontSize: '11px', fontWeight: 700,
+                letterSpacing: '0.18em', textTransform: 'uppercase', color: colors.skyBlue,
+                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginBottom: '12px' }}>
+                <span style={{ display: 'inline-block', width: '28px', height: '2px', background: colors.skyBlue }}/>
+                How It Works
+              </span>
+              <h2 style={{ fontFamily: "'Montserrat',sans-serif", fontWeight: 800,
+                fontSize: 'clamp(26px,4vw,40px)', color: colors.trustNavy, marginBottom: '14px' }}>
+                How Live Healthy Chicago Works
+              </h2>
+              <p style={{ fontFamily: "'Open Sans',sans-serif", fontSize: '17px',
+                color: colors.charcoal, maxWidth: '560px', margin: '0 auto', lineHeight: 1.7 }}>
+                Three interconnected pillars — all wrapped in community insight and mobilization.
+              </p>
+            </div>
+
+            {/* Tab strip */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px', marginBottom: '24px' }}>
+              {MODEL_PILLARS.map((p, i) => (
+                <button key={i} onClick={() => handleSelect(i)}
+                  style={{
+                    border: 'none', cursor: 'pointer', borderRadius: '16px', padding: '20px 16px',
+                    display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px',
+                    backgroundColor: active === i ? p.color : 'white',
+                    color: active === i ? 'white' : colors.trustNavy,
+                    boxShadow: active === i ? `0 8px 32px ${p.color}50` : '0 2px 8px rgba(0,0,0,0.07)',
+                    transform: active === i ? 'translateY(-4px)' : 'translateY(0)',
+                    transition: 'all 0.3s cubic-bezier(0.34,1.56,0.64,1)',
+                    outline: 'none',
+                  }}>
+                  <div style={{
+                    width: '52px', height: '52px', borderRadius: '50%',
+                    backgroundColor: active === i ? 'rgba(255,255,255,0.2)' : p.color + '18',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    color: active === i ? 'white' : p.color,
+                    transition: 'all 0.3s',
+                  }}>
+                    {p.icon}
+                  </div>
+                  <div>
+                    <div style={{ fontFamily: "'Poppins',sans-serif", fontWeight: 700,
+                      fontSize: '13px', marginBottom: '2px',
+                      color: active === i ? 'white' : colors.trustNavy }}>
+                      {p.title}
+                    </div>
+                    <div style={{ fontFamily: "'Open Sans',sans-serif", fontSize: '11px',
+                      color: active === i ? 'rgba(255,255,255,0.7)' : colors.coolGray }}>
+                      Pillar {p.num}
+                    </div>
+                  </div>
+                </button>
+              ))}
+            </div>
+
+            {/* Detail panel */}
+            <div style={{ borderRadius: '20px', backgroundColor: 'white', overflow: 'hidden', boxShadow: '0 4px 24px rgba(0,0,0,0.08)' }}>
+              {/* Photo */}
+              <div style={{ position: 'relative', height: '240px', overflow: 'hidden' }}>
+                <img key={pill.img} src={pill.img} alt={pill.title}
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center', display: 'block', transition: 'opacity 0.4s ease' }} />
+                <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(to bottom, transparent 40%, ${pill.color}CC 100%)` }} />
+                <div style={{ position: 'absolute', bottom: '20px', left: '24px', display: 'flex', alignItems: 'center', gap: '12px' }}>
+                  <div style={{ width: '44px', height: '44px', borderRadius: '12px', flexShrink: 0,
+                    backgroundColor: 'rgba(255,255,255,0.2)', backdropFilter: 'blur(8px)',
+                    border: '1.5px solid rgba(255,255,255,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}>
+                    {pill.icon}
+                  </div>
+                  <div>
+                    <p style={{ fontFamily: "'Poppins',sans-serif", fontSize: '10px', fontWeight: 700,
+                      textTransform: 'uppercase', letterSpacing: '0.12em', color: 'rgba(255,255,255,0.7)', margin: '0 0 2px' }}>
+                      Pillar {pill.num} of 3
+                    </p>
+                    <h3 style={{ fontFamily: "'Montserrat',sans-serif", fontWeight: 800, fontSize: '18px',
+                      color: 'white', margin: 0, textShadow: '0 1px 4px rgba(0,0,0,0.3)' }}>
+                      {pill.title}
+                    </h3>
+                  </div>
+                </div>
+              </div>
+              <div style={{ padding: '28px 32px' }}>
+                <p style={{ fontFamily: "'Open Sans',sans-serif", fontSize: '15px',
+                  color: colors.charcoal, lineHeight: 1.75, marginBottom: '14px' }}>
+                  {pill.text}
+                </p>
+                <p style={{ fontFamily: "'Open Sans',sans-serif", fontSize: '14px',
+                  color: colors.coolGray, lineHeight: 1.65, borderLeft: `3px solid ${pill.color}`,
+                  paddingLeft: '14px', margin: 0 }}>
+                  {pill.detail}
+                </p>
+              </div>
+              {/* Prev / Next nav */}
+              <div style={{ borderTop: '1px solid #EEF0F4', padding: '16px 32px',
+                display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <button onClick={() => handleSelect(Math.max(0, active - 1))}
+                  disabled={active === 0}
+                  style={{ background: 'none', border: 'none', cursor: active === 0 ? 'default' : 'pointer',
+                    fontFamily: "'Poppins',sans-serif", fontWeight: 600, fontSize: '13px',
+                    color: active === 0 ? colors.coolGray : colors.trustNavy,
+                    display: 'flex', alignItems: 'center', gap: '6px', opacity: active === 0 ? 0.4 : 1,
+                    transition: 'opacity 0.2s', padding: 0 }}>
+                  ← Previous
+                </button>
+                <div style={{ display: 'flex', gap: '8px' }}>
+                  {MODEL_PILLARS.map((p, i) => (
+                    <div key={i} onClick={() => handleSelect(i)}
+                      style={{ width: active === i ? '24px' : '8px', height: '8px',
+                        borderRadius: '4px', backgroundColor: active === i ? pill.color : '#D1D5DB',
+                        cursor: 'pointer', transition: 'all 0.3s' }} />
+                  ))}
+                </div>
+                <button onClick={() => handleSelect(Math.min(MODEL_PILLARS.length - 1, active + 1))}
+                  disabled={active === MODEL_PILLARS.length - 1}
+                  style={{ background: 'none', border: 'none', cursor: active === MODEL_PILLARS.length - 1 ? 'default' : 'pointer',
+                    fontFamily: "'Poppins',sans-serif", fontWeight: 600, fontSize: '13px',
+                    color: active === MODEL_PILLARS.length - 1 ? colors.coolGray : colors.trustNavy,
+                    display: 'flex', alignItems: 'center', gap: '6px',
+                    opacity: active === MODEL_PILLARS.length - 1 ? 0.4 : 1,
+                    transition: 'opacity 0.2s', padding: 0 }}>
+                  Next →
+                </button>
+              </div>
+            </div>
+
+            {/* Community wrap note */}
+            <div style={{ marginTop: '28px', padding: '16px 24px', borderRadius: '12px',
+              border: `1.5px dashed ${colors.skyBlue}60`,
+              display: 'flex', alignItems: 'center', gap: '12px', backgroundColor: 'rgba(70,183,229,0.05)' }}>
+              <svg viewBox="0 0 24 24" fill="none" stroke={colors.skyBlue} strokeWidth="2"
+                   strokeLinecap="round" strokeLinejoin="round" style={{width:'20px',height:'20px',flexShrink:0}}>
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+              </svg>
+              <p style={{ fontFamily: "'Open Sans',sans-serif", fontSize: '13px',
+                color: colors.charcoal, lineHeight: 1.6, margin: 0 }}>
+                <strong style={{ color: colors.trustNavy }}>Community Insight & Mobilization</strong> — all three pillars are powered by trusted community relationships, local data, and grassroots partnership.
+              </p>
+            </div>
+
+            {/* Closing quote */}
+            <p style={{ textAlign: 'center', marginTop: '40px', fontFamily: "'Open Sans',sans-serif",
+              fontSize: '16px', color: colors.charcoal, fontStyle: 'italic', lineHeight: 1.7 }}>
+              The result: meaningful, authentic, and community-driven impact across all levels of care.
+            </p>
+          </div>
+        </section>
+      );
+    }
+
     function LiveHealthyChicago() {
 
       const [scrolled, setScrolled] = React.useState(false);
@@ -1791,7 +2535,6 @@
       const [aboutRef, aboutVisible] = useInView();
       const [whyRef, whyVisible] = useInView();
       const [bpRef, bpVisible] = useInView();
-      const [modelRef, modelVisible] = useInView();
       const [hoodRef, hoodVisible] = useInView();
       const [partnerRef, partnerVisible] = useInView();
       const [actionRef, actionVisible] = useInView();
@@ -1805,6 +2548,16 @@
       const [showTranscript, setShowTranscript] = React.useState(false);
 
       const newsItems = [
+        {
+          date: 'Mar 25, 2026',
+          category: 'Feature',
+          title: 'Going Into the Community to Bring Down High BP',
+          excerpt: 'The AMA spotlights Live Healthy Chicago \u2014 examining how a 31-partner coalition is taking free screenings, trusted health workers, and evidence-based care directly into the neighborhoods that need it most.',
+          image: 'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/lhc-news/ama-community-bp-hero.jpg',
+          author: 'Georgia Garvey / AMA',
+          pageUrl: '/news/ama-going-into-community.html',
+          featured: true,
+        },
         {
           date: 'Apr 7, 2026',
           category: 'Feature',
@@ -2552,73 +3305,11 @@ And that is how we overcome high blood pressure. They'll tell you about food and
             </div>
           </section>
 
+          {/* ── 7 Steps to an Accurate BP Reading ── */}
+          <BPReadingSection />
+
           {/* ── Our Model ── */}
-          <section className="py-24 bg-white" id="model">
-            <div className="max-w-7xl mx-auto px-6">
-              <div ref={modelRef} className={`text-center mb-16 fade-up ${modelVisible ? 'visible' : ''}`}>
-                <span className="font-semibold tracking-wide text-sm uppercase mb-4 block"
-                      style={{ color: colors.skyBlue, fontFamily: "'Poppins', sans-serif" }}>
-                  How It Works
-                </span>
-                <h2 className="text-4xl md:text-5xl font-bold mb-6"
-                    style={{ fontFamily: "'Montserrat', sans-serif", color: colors.trustNavy }}>
-                  How Live Healthy Chicago Works
-                </h2>
-                <p className="text-xl max-w-3xl mx-auto" style={{ color: colors.charcoal }}>
-                  Live Healthy Chicago helps people across the city stay well by making it easier to understand and manage blood pressure.
-                </p>
-              </div>
-
-              <div className="grid lg:grid-cols-2 gap-16 items-center">
-                <div className={`flex justify-center fade-left ${modelVisible ? 'visible' : ''}`}>
-                  <img
-                    src="https://assets.codepen.io/3457845/LHC%2BModel.webp"
-                    alt="Live Healthy Chicago Model - Three pillars: Clinical Practice Transformation, Public Health Campaign, and Mobile Care in Community, all surrounding the goal of 1% Reduction in ASCVD Risk"
-                    className="max-w-full h-auto"
-                    style={{ maxWidth: '500px' }}
-                  />
-                </div>
-
-                <div className={`fade-right ${modelVisible ? 'visible' : ''}`} style={{ transitionDelay: '0.2s' }}>
-                  <div className="space-y-6">
-                    {[
-                      { num: '1', color: '#6B8DD6', title: 'Stronger Clinic Care', text: 'We work with health centers to improve how blood pressure is measured, monitored, and managed — including pharmacist support and home monitoring tools.' },
-                      { num: '2', color: colors.skyBlue, title: 'Community Outreach', text: 'We work with community partners to increase access to blood pressure screenings, connect people at risk with the support they need, and help them take charge of their health.' },
-                      { num: '3', color: colors.trustNavy, title: 'Care That Comes to You', text: 'Mobile teams bring screenings and support directly into neighborhoods — so getting checked is simple, close to home, and free.' }
-                    ].map((step) => (
-                      <div key={step.num} className="flex gap-4 group">
-                        <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 transition-transform group-hover:scale-110"
-                             style={{ backgroundColor: step.color }}>
-                          <span className="text-white font-bold text-lg">{step.num}</span>
-                        </div>
-                        <div>
-                          <h3 className="text-xl font-bold mb-2" style={{ fontFamily: "'Montserrat', sans-serif", color: colors.trustNavy }}>
-                            {step.title}
-                          </h3>
-                          <p style={{ color: colors.charcoal }}>{step.text}</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className="mt-8 p-6 rounded-2xl" style={{ backgroundColor: colors.softCloud }}>
-                    <h4 className="font-bold mb-3" style={{ fontFamily: "'Montserrat', sans-serif", color: colors.trustNavy }}>
-                      Staying healthy is more reachable for everyone.
-                    </h4>
-                    <p className="text-sm" style={{ color: colors.charcoal }}>
-                      By using proven programs that include pharmacist guidance and home monitoring, we make it easier for people to manage their blood pressure — wherever they start.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-16 text-center">
-                <p className="text-lg italic" style={{ color: colors.charcoal }}>
-                  The result: meaningful, authentic, and community-driven impact across all levels of care.
-                </p>
-              </div>
-            </div>
-          </section>
+          <ModelV2 />
 
           {/* ── Neighborhoods ── */}
           <section className="py-24" id="neighborhoods" style={{ backgroundColor: colors.softCloud }}>
@@ -2929,23 +3620,124 @@ And that is how we overcome high blood pressure. They'll tell you about food and
               <div ref={eventsRef} className={`text-center mb-14 fade-up ${eventsVisible ? 'visible' : ''}`}>
                 <span className="font-semibold tracking-wide text-sm uppercase mb-4 block"
                       style={{ color: EV_YELLOW, fontFamily: "'Poppins', sans-serif" }}>
-                  Upcoming Events
+                  Events &amp; Screenings
                 </span>
                 <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white"
                     style={{ fontFamily: "'Montserrat', sans-serif" }}>
                   Join Us in the Community
                 </h2>
                 <p className="text-xl max-w-2xl mx-auto" style={{ color: 'rgba(255,255,255,0.72)' }}>
-                  Free events for West Side and South Side families. No appointment needed.
+                  Free events and weekly blood pressure screenings across West Side and South Side neighborhoods. No appointment needed.
                 </p>
               </div>
 
-              {/* Event cards */}
-              <div className={`grid md:grid-cols-2 lg:grid-cols-3 gap-8 fade-up ${eventsVisible ? 'visible' : ''}`}>
-                {eventsData.map(evt => (
-                  <EventCard key={evt.id} event={evt} onOpen={() => setSelectedEvent(evt)} />
-                ))}
+              {/* ── Program Overview ── */}
+              <div className={`mb-14 fade-up ${eventsVisible ? 'visible' : ''}`}>
+                <div className="grid sm:grid-cols-2 gap-5">
+
+                  {/* Team */}
+                  <div className="rounded-2xl p-6 flex gap-4"
+                       style={{ backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.09)' }}>
+                    <div className="flex-shrink-0 w-11 h-11 rounded-xl flex items-center justify-center"
+                         style={{ backgroundColor: 'rgba(245,180,0,0.15)' }}>
+                      <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke={EV_YELLOW} strokeWidth="1.8">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+                      </svg>
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-white mb-1.5" style={{ fontFamily: "'Montserrat', sans-serif" }}>A Full Care Team</h4>
+                      <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.65)' }}>
+                        Our mobile team includes a <strong className="text-white">pharmacist, nurse, medical assistant, and community health workers</strong> — all working together to support your blood pressure care, help manage medications, and offer practical lifestyle guidance.
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Services */}
+                  <div className="rounded-2xl p-6 flex gap-4"
+                       style={{ backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.09)' }}>
+                    <div className="flex-shrink-0 w-11 h-11 rounded-xl flex items-center justify-center"
+                         style={{ backgroundColor: 'rgba(229,32,47,0.15)' }}>
+                      <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="#FF6B6B" strokeWidth="1.8">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                      </svg>
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-white mb-1.5" style={{ fontFamily: "'Montserrat', sans-serif" }}>Free Screenings &amp; Support</h4>
+                      <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.65)' }}>
+                        Get a free blood pressure check, medication support, and one-on-one guidance. Community health workers help you navigate insurance, connect to a primary care provider, and take charge of your health — at no cost.
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* What to Expect */}
+                  <div className="rounded-2xl p-6 flex gap-4"
+                       style={{ backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.09)' }}>
+                    <div className="flex-shrink-0 w-11 h-11 rounded-xl flex items-center justify-center"
+                         style={{ backgroundColor: 'rgba(99,179,237,0.15)' }}>
+                      <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="#90CDF4" strokeWidth="1.8">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-2 10v-5a1 1 0 00-1-1h-2a1 1 0 00-1 1v5m4 0H9"/>
+                      </svg>
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-white mb-1.5" style={{ fontFamily: "'Montserrat', sans-serif" }}>Care in Familiar Places</h4>
+                      <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.65)' }}>
+                        Services happen in churches, community centers, and spaces you already trust — no appointment, no waiting room. When follow-up care is needed, we connect you to a local health center for ongoing support.
+                      </p>
+                    </div>
+                  </div>
+
+                </div>
               </div>
+
+              {/* ── Weekly Screenings ── */}
+              <div id="mobile-screenings" className={`mb-16 fade-up ${eventsVisible ? 'visible' : ''}`}>
+                <div className="flex items-center gap-4 mb-8">
+                  <div className="h-px flex-1" style={{ backgroundColor: 'rgba(255,255,255,0.12)' }} />
+                  <div className="flex items-center gap-2.5 px-5 py-2 rounded-full"
+                       style={{ backgroundColor: 'rgba(245,180,0,0.12)', border: '1px solid rgba(245,180,0,0.3)' }}>
+                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke={EV_YELLOW} strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                    </svg>
+                    <span className="text-sm font-bold tracking-wide"
+                          style={{ color: EV_YELLOW, fontFamily: "'Poppins', sans-serif" }}>Mobile Team Schedule</span>
+                  </div>
+                  <div className="h-px flex-1" style={{ backgroundColor: 'rgba(255,255,255,0.12)' }} />
+                </div>
+                <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                  {screeningSites.map(site => (
+                    <ScreeningSiteCard key={site.id} site={site} />
+                  ))}
+                </div>
+              </div>
+
+              {/* ── Upcoming Events ── */}
+              {(() => {
+                const today = new Date(new Date().toDateString());
+                const upcoming = eventsData.filter(evt => new Date(evt.date) >= today);
+                if (!upcoming.length) return null;
+                return (
+                  <div id="community-events" className="rounded-3xl mt-6 px-8 py-10"
+                       style={{ backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}>
+                    <div className={`flex items-center gap-4 mb-8 fade-up ${eventsVisible ? 'visible' : ''}`}>
+                      <div className="h-px flex-1" style={{ backgroundColor: 'rgba(255,255,255,0.12)' }} />
+                      <div className="flex items-center gap-2.5 px-5 py-2 rounded-full"
+                           style={{ backgroundColor: 'rgba(229,32,47,0.12)', border: '1px solid rgba(229,32,47,0.35)' }}>
+                        <svg className="w-4 h-4" fill={EV_RED} viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd"/>
+                        </svg>
+                        <span className="text-sm font-bold tracking-wide"
+                              style={{ color: '#FF6B6B', fontFamily: "'Poppins', sans-serif" }}>Upcoming Events</span>
+                      </div>
+                      <div className="h-px flex-1" style={{ backgroundColor: 'rgba(255,255,255,0.12)' }} />
+                    </div>
+                    <div className={`grid md:grid-cols-2 lg:grid-cols-3 gap-8 fade-up ${eventsVisible ? 'visible' : ''}`}>
+                      {upcoming.map(evt => (
+                        <EventCard key={evt.id} event={evt} onOpen={() => setSelectedEvent(evt)} />
+                      ))}
+                    </div>
+                  </div>
+                );
+              })()}
 
             </div>
           </section>
@@ -2974,7 +3766,7 @@ And that is how we overcome high blood pressure. They'll tell you about food and
               {newsItems.filter(n => n.featured).map((article, i) => (
                 <div key={i}
                      className={`mb-12 cursor-pointer fade-up ${newsVisible ? 'visible' : ''}`}
-                     onClick={() => setSelectedArticle(article)}>
+                     onClick={() => article.pageUrl ? window.location.href = article.pageUrl : setSelectedArticle(article)}>
                   <div className="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all group">
                     <div className="grid md:grid-cols-2">
                       <div className="aspect-video md:aspect-auto overflow-hidden relative">
@@ -3045,7 +3837,7 @@ And that is how we overcome high blood pressure. They'll tell you about food and
                   <div key={i}
                        className={`bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all hover:-translate-y-1 cursor-pointer group fade-up ${newsVisible ? 'visible' : ''}`}
                        style={{ transitionDelay: `${0.1 + i * 0.08}s` }}
-                       onClick={() => setSelectedArticle(article)}>
+                       onClick={() => article.pageUrl ? window.location.href = article.pageUrl : setSelectedArticle(article)}>
                     <div className="aspect-video overflow-hidden">
                       <img src={article.image} alt={article.title}
                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
