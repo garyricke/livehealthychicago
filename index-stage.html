@@ -2897,6 +2897,7 @@ let it drop on you`;
         text: 'Mobile teams bring screenings and support directly into neighborhoods — so getting checked is simple, close to home, and free.',
         detail: 'No appointment, no barrier. Our mobile pharmacists and health workers show up in the places you already go.',
         img: 'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1776956003/lhc-model/pillar-lhc-mobile-smile-3-5-1.png',
+        link: { href: '#mobile-screenings', label: 'See the Mobile Team Schedule' },
       },
       {
         num: '3',
@@ -3031,6 +3032,18 @@ let it drop on you`;
                   paddingLeft: '14px', margin: 0 }}>
                   {pill.detail}
                 </p>
+                {pill.link && (
+                  <a href={pill.link.href}
+                     style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', marginTop: '18px',
+                       fontFamily: "'Poppins',sans-serif", fontWeight: 600, fontSize: '13px',
+                       color: pill.color, textDecoration: 'none' }}>
+                    {pill.link.label}
+                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2"
+                         strokeLinecap="round" strokeLinejoin="round" style={{ width: '14px', height: '14px' }}>
+                      <path d="M8 3v10M3 8l5 5 5-5"/>
+                    </svg>
+                  </a>
+                )}
               </div>
               {/* Prev / Next nav */}
               <div style={{ borderTop: '1px solid #EEF0F4', padding: '16px 32px',
