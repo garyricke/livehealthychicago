@@ -292,7 +292,7 @@
       <h1>Project Status</h1>
       <p>A running log of every update, build, and content change to the Live Healthy Chicago site.</p>
       <div class="header-meta">
-        <div class="header-badge"><span class="badge-dot" style="background:var(--green)"></span> Last updated Apr 23, 2026</div>
+        <div class="header-badge"><span class="badge-dot" style="background:var(--green)"></span> Last updated Apr 28, 2026</div>
         <div class="header-badge"><span class="badge-dot" style="background:var(--blue)"></span> livehealthychi.com</div>
         <div class="header-badge"><span class="badge-dot" style="background:var(--yellow)"></span> Staging: index-stage.html</div>
       </div>
@@ -389,16 +389,57 @@
 
     <div class="timeline">
 
-      <!-- Apr 23 2026 — TODAY -->
+      <!-- Apr 28 2026 — TODAY -->
       <div class="tl-entry">
         <div class="tl-date-col">
-          <div class="tl-date"><span class="month">Apr</span>23, 2026</div>
+          <div class="tl-date"><span class="month">Apr</span>28, 2026</div>
         </div>
         <div class="tl-connector"><div class="tl-dot today"></div></div>
         <div class="tl-card today-card">
           <div class="tl-card-header">
-            <span class="tl-card-date-mobile">Apr 23, 2026</span>
+            <span class="tl-card-date-mobile">Apr 28, 2026</span>
             <span class="tl-tag tag-today">Today</span>
+            <span class="tl-tag tag-design">Design</span>
+            <span class="tl-tag tag-content">Content</span>
+            <span class="tl-tag tag-dev">Dev</span>
+          </div>
+          <div class="tl-section-title">Partner Logos — Community Health Centers</div>
+          <ul class="tl-items">
+            <li class="tl-item">Added <strong>Alivio Medical Center</strong>, <strong>Esperanza Health Centers</strong>, and <strong>TCA Health</strong> to the Community Health Centers tab per Rebecca Dawar's email — three CHCs participating in LHC but not previously on the site</li>
+            <li class="tl-item">Updated <strong>Chicago Family Health Center</strong> logo with clean redrawn version (SVG-quality PNG, CFHC mark)</li>
+            <li class="tl-item">All four logos uploaded to Cloudinary under <code>lhc-partners/</code> with <code>f_auto,q_auto</code> delivery</li>
+            <li class="tl-item">Fixed tiny logo rendering: all redrawn PNGs (2400×2400 square canvases) trimmed via Cloudinary <code>e_trim</code> to strip transparent padding before delivery</li>
+            <li class="tl-item">Community Health Centers tab now shows <strong>13 logos</strong> (was 10), sorted alphabetically</li>
+          </ul>
+          <div class="tl-section-title">Partner Logos — All Text-Only Partners</div>
+          <ul class="tl-items">
+            <li class="tl-item">Searched official sources + websites for the 9 remaining text-only partners; downloaded highest-quality available assets</li>
+            <li class="tl-item"><strong>Rebuilt with OpenAI gpt-image-2:</strong> Northwestern University (clean horizontal lockup, transparent bg), South Side Healthy Community Organization (tightened text mark, transparent bg), Wellness West (tagline "Partnering for Health Equity" removed)</li>
+            <li class="tl-item">Uploaded 7 new logos to Cloudinary <code>lhc-partners/</code>: ACCESS Community Health Network · Chicago Dept of Public Health · Northwestern University · Rush University Medical Center · South Side Healthy Community Org · University of Chicago Medicine · Wellness West</li>
+            <li class="tl-item">West Side United already had a logo — promoted from text-only to logo card in Other Organizations tab</li>
+            <li class="tl-item">All tabs now fully logo-populated; <strong>Community Advisory Board</strong> remains text-only (LHC-internal group, no standalone brand)</li>
+            <li class="tl-item">Added <strong>green dot badge</strong> (top-right corner of card) to all newly installed logos so reviewers can identify additions at a glance</li>
+          </ul>
+          <div class="tl-section-title">How It Works — Mobile Care Pillar</div>
+          <ul class="tl-items">
+            <li class="tl-item">Added <strong>"See the Mobile Team Schedule ↓"</strong> link to the Mobile Care in Community pillar detail panel — smooth-scrolls to <code>#mobile-screenings</code> in the Events section</li>
+          </ul>
+          <div class="tl-section-title">Hero</div>
+          <ul class="tl-items">
+            <li class="tl-item">Removed <strong>"Launching February 2026"</strong> pill badge from hero section in both <code>index.html</code> and <code>index-stage.html</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Apr 23 2026 -->
+      <div class="tl-entry">
+        <div class="tl-date-col">
+          <div class="tl-date"><span class="month">Apr</span>23, 2026</div>
+        </div>
+        <div class="tl-connector"><div class="tl-dot"></div></div>
+        <div class="tl-card">
+          <div class="tl-card-header">
+            <span class="tl-card-date-mobile">Apr 23, 2026</span>
             <span class="tl-tag tag-content">Content</span>
             <span class="tl-tag tag-design">Design</span>
             <span class="tl-tag tag-dev">Dev</span>
