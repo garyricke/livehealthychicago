@@ -3103,6 +3103,98 @@ let it drop on you`;
       );
     }
 
+    // ── Admin Menu (discrete "A" badge → admin pages popover) ──────────
+    const ADMIN_PAGES = [
+      { label: 'Project Status', desc: 'Change log',          href: '/status.html' },
+      { label: 'Scope & SOW',    desc: 'SOW mapping',         href: '/scope.html' },
+      { label: 'Brand Guide',    desc: 'Identity system',     href: '/brand-guide.html' },
+      { label: 'Core Messaging', desc: 'Audience playbook',   href: '/core-messaging/core-messaging.html' },
+      { label: 'Portal',         desc: 'Provider resources',  href: '/portal.html' },
+      { label: 'Celebrate',      desc: 'Post-screening flow', href: '/celebrate.html' },
+    ];
+
+    function AdminMenu() {
+      const [open, setOpen] = React.useState(false);
+      const wrapRef = React.useRef(null);
+
+      React.useEffect(() => {
+        if (!open) return;
+        const onDown = e => { if (wrapRef.current && !wrapRef.current.contains(e.target)) setOpen(false); };
+        const onEsc  = e => { if (e.key === 'Escape') setOpen(false); };
+        document.addEventListener('mousedown', onDown);
+        document.addEventListener('keydown', onEsc);
+        return () => {
+          document.removeEventListener('mousedown', onDown);
+          document.removeEventListener('keydown', onEsc);
+        };
+      }, [open]);
+
+      return (
+        <div ref={wrapRef} style={{ position: 'absolute', bottom: 14, right: 18, zIndex: 10 }}>
+          {open && (
+            <div role="menu" style={{
+              position: 'absolute', bottom: 'calc(100% + 12px)', right: 0,
+              minWidth: 260, padding: 6, borderRadius: 14,
+              background: 'rgba(15,30,60,0.97)',
+              border: '1px solid rgba(255,255,255,0.12)',
+              boxShadow: '0 12px 40px rgba(0,0,0,0.45), 0 2px 8px rgba(0,0,0,0.25)',
+              backdropFilter: 'blur(14px)',
+            }}>
+              <div style={{
+                fontFamily: "'Poppins', sans-serif", fontSize: 10, fontWeight: 700,
+                letterSpacing: '0.12em', textTransform: 'uppercase',
+                color: 'rgba(255,255,255,0.4)', padding: '10px 14px 8px'
+              }}>Admin Pages</div>
+              {ADMIN_PAGES.map(p => (
+                <a key={p.href} href={p.href} role="menuitem"
+                   style={{
+                     display: 'flex', alignItems: 'center', gap: 12,
+                     padding: '9px 12px', borderRadius: 9,
+                     color: '#fff', textDecoration: 'none',
+                     fontFamily: "'Open Sans', sans-serif",
+                     transition: 'background 0.15s'
+                   }}
+                   onMouseEnter={e => e.currentTarget.style.background = 'rgba(70,183,229,0.14)'}
+                   onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
+                  <div style={{
+                    width: 26, height: 26, borderRadius: 7,
+                    background: 'rgba(70,183,229,0.18)',
+                    color: '#46B7E5',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    fontFamily: "'Montserrat', sans-serif",
+                    fontSize: 12, fontWeight: 800, flexShrink: 0
+                  }}>{p.label[0]}</div>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontSize: 13, fontWeight: 600, lineHeight: 1.25 }}>{p.label}</div>
+                    <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.5)', marginTop: 1 }}>{p.desc}</div>
+                  </div>
+                </a>
+              ))}
+            </div>
+          )}
+          <button
+            type="button"
+            aria-label={open ? 'Close admin menu' : 'Open admin menu'}
+            aria-expanded={open}
+            onClick={() => setOpen(o => !o)}
+            style={{
+              width: 34, height: 34, borderRadius: '50%',
+              background: open ? 'rgba(70,183,229,0.28)' : 'rgba(255,255,255,0.10)',
+              border: open ? '1.5px solid rgba(70,183,229,0.75)' : '1.5px solid rgba(255,255,255,0.4)',
+              color: '#fff',
+              fontFamily: "'Montserrat', sans-serif",
+              fontWeight: 800, fontSize: 13,
+              cursor: 'pointer',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              transition: 'all 0.2s', padding: 0, lineHeight: 1,
+            }}
+            onMouseEnter={e => { if (!open) { e.currentTarget.style.background = 'rgba(255,255,255,0.2)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.65)'; } }}
+            onMouseLeave={e => { if (!open) { e.currentTarget.style.background = 'rgba(255,255,255,0.10)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.4)'; } }}
+          >A</button>
+        </div>
+      );
+    }
+
     function LiveHealthyChicago() {
       const [scrolled, setScrolled] = React.useState(false);
       const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
@@ -4910,7 +5002,7 @@ And that is how we overcome high blood pressure. They'll tell you about food and
           <PressureDropPlayer colors={colors} />
 
           {/* ── Footer ── */}
-          <footer className="py-12 text-white" style={{ backgroundColor: colors.trustNavy }}>
+          <footer className="py-12 text-white" style={{ backgroundColor: colors.trustNavy, position: 'relative' }}>
             <div className="max-w-7xl mx-auto px-6">
               <div className="flex flex-col md:flex-row justify-between items-center gap-8">
                 <div className="flex items-center gap-3">
@@ -4926,10 +5018,6 @@ And that is how we overcome high blood pressure. They'll tell you about food and
                   <a href="#" className="hover:text-white transition-colors">Events</a>
                   <button onClick={() => setContactOpen(true)} className="hover:text-white transition-colors">Contact</button>
                   <a href="#" className="hover:text-white transition-colors">Portal Access</a>
-                  <a href="/brand-guide.html" className="hover:text-white transition-colors">Brand Guide</a>
-                  <a href="/core-messaging/core-messaging.html" className="hover:text-white transition-colors">Core Messaging</a>
-                  <a href="/celebrate.html" className="hover:text-white transition-colors">Celebrate the Check</a>
-                  <a href="/status.html" className="hover:text-white transition-colors">Status</a>
                 </div>
               </div>
               <div className="mt-8 pt-8 border-t text-center text-sm" style={{ borderColor: 'rgba(255,255,255,0.1)', color: colors.coolGray }}>
@@ -4937,6 +5025,7 @@ And that is how we overcome high blood pressure. They'll tell you about food and
                 <p className="mt-2">livehealthychi.com</p>
               </div>
             </div>
+            <AdminMenu />
           </footer>
 
           {/* ── Contact Modal ── */}
