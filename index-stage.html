@@ -3104,13 +3104,16 @@ let it drop on you`;
     }
 
     // ── Admin Menu (discrete "A" badge → admin pages popover) ──────────
+    // All pages listed here are password-protected (sessionStorage 'lhc_auth'
+    // or localStorage 'lhc_brand_auth'). celebrate.html is intentionally
+    // excluded — it's patient-facing (QR-triggered with ?loc=).
     const ADMIN_PAGES = [
-      { label: 'Project Status', desc: 'Change log',          href: '/status.html' },
-      { label: 'Scope & SOW',    desc: 'SOW mapping',         href: '/scope.html' },
-      { label: 'Brand Guide',    desc: 'Identity system',     href: '/brand-guide.html' },
-      { label: 'Core Messaging', desc: 'Audience playbook',   href: '/core-messaging/core-messaging.html' },
-      { label: 'Portal',         desc: 'Provider resources',  href: '/portal.html' },
-      { label: 'Celebrate',      desc: 'Post-screening flow', href: '/celebrate.html' },
+      { label: 'Staging Site',   desc: 'index-stage.html',  href: '/index-stage.html' },
+      { label: 'Project Status', desc: 'Change log',        href: '/status.html' },
+      { label: 'Scope & SOW',    desc: 'SOW mapping',       href: '/scope.html' },
+      { label: 'Brand Guide',    desc: 'Identity system',   href: '/brand-guide.html' },
+      { label: 'Core Messaging', desc: 'Audience playbook', href: '/core-messaging/core-messaging.html' },
+      { label: 'Portal',         desc: 'Provider resources',href: '/portal.html' },
     ];
 
     function AdminMenu() {
@@ -3178,18 +3181,18 @@ let it drop on you`;
             aria-expanded={open}
             onClick={() => setOpen(o => !o)}
             style={{
-              width: 34, height: 34, borderRadius: '50%',
-              background: open ? 'rgba(70,183,229,0.28)' : 'rgba(255,255,255,0.10)',
-              border: open ? '1.5px solid rgba(70,183,229,0.75)' : '1.5px solid rgba(255,255,255,0.4)',
-              color: '#fff',
+              width: 30, height: 30, borderRadius: '50%',
+              background: open ? 'rgba(70,183,229,0.22)' : 'rgba(255,255,255,0.04)',
+              border: open ? '1px solid rgba(70,183,229,0.55)' : '1px solid rgba(255,255,255,0.18)',
+              color: open ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.5)',
               fontFamily: "'Montserrat', sans-serif",
-              fontWeight: 800, fontSize: 13,
+              fontWeight: 700, fontSize: 12,
               cursor: 'pointer',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               transition: 'all 0.2s', padding: 0, lineHeight: 1,
             }}
-            onMouseEnter={e => { if (!open) { e.currentTarget.style.background = 'rgba(255,255,255,0.2)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.65)'; } }}
-            onMouseLeave={e => { if (!open) { e.currentTarget.style.background = 'rgba(255,255,255,0.10)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.4)'; } }}
+            onMouseEnter={e => { if (!open) { e.currentTarget.style.background = 'rgba(255,255,255,0.10)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.35)'; e.currentTarget.style.color = 'rgba(255,255,255,0.85)'; } }}
+            onMouseLeave={e => { if (!open) { e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.18)'; e.currentTarget.style.color = 'rgba(255,255,255,0.5)'; } }}
           >A</button>
         </div>
       );
