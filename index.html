@@ -3654,8 +3654,31 @@ And that is how we overcome high blood pressure. They'll tell you about food and
                        onMouseEnter={() => { partnerPaused.current = true; }}
                        onMouseLeave={() => { partnerPaused.current = false; }}>
 
-                    {/* Tab bar */}
-                    <div className="flex overflow-x-auto mb-8 border-b" style={{ borderColor: '#E2E8F0', scrollbarWidth: 'none' }}>
+                    {/* Mobile: dropdown picker */}
+                    <div className="sm:hidden mb-6">
+                      <select
+                        value={partnerTabIdx}
+                        onChange={(e) => { setPartnerTabIdx(parseInt(e.target.value, 10)); partnerPaused.current = true; }}
+                        className="w-full px-4 py-3 text-base font-semibold rounded-xl appearance-none cursor-pointer"
+                        style={{
+                          color: colors.trustNavy,
+                          border: `2px solid ${colors.skyBlue}`,
+                          fontFamily: "'Poppins', sans-serif",
+                          backgroundColor: 'white',
+                          backgroundImage: `url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231B365D' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e")`,
+                          backgroundRepeat: 'no-repeat',
+                          backgroundPosition: 'right 1rem center',
+                          backgroundSize: '1.25rem',
+                          paddingRight: '3rem',
+                        }}>
+                        {allTabs.map((t, i) => (
+                          <option key={t.title} value={i}>{t.title}</option>
+                        ))}
+                      </select>
+                    </div>
+
+                    {/* Desktop: tab bar */}
+                    <div className="hidden sm:flex overflow-x-auto mb-8 border-b" style={{ borderColor: '#E2E8F0', scrollbarWidth: 'none' }}>
                       {allTabs.map((t, i) => (
                         <button key={t.title}
                                 onClick={() => { setPartnerTabIdx(i); partnerPaused.current = true; }}
