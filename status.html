@@ -292,7 +292,7 @@
       <h1>Project Status</h1>
       <p>A running log of every update, build, and content change to the Live Healthy Chicago site.</p>
       <div class="header-meta">
-        <div class="header-badge"><span class="badge-dot" style="background:var(--green)"></span> Last updated Apr 28, 2026</div>
+        <div class="header-badge"><span class="badge-dot" style="background:var(--green)"></span> Last updated May 14, 2026</div>
         <div class="header-badge"><span class="badge-dot" style="background:var(--blue)"></span> livehealthychi.com</div>
         <div class="header-badge"><span class="badge-dot" style="background:var(--yellow)"></span> Staging: index-stage.html</div>
         <a href="/scope.html" style="display:inline-flex; align-items:center; gap:7px; padding:6px 14px; border-radius:99px; background:rgba(70,183,229,0.18); border:1px solid rgba(70,183,229,0.4); color:#fff; font-size:0.8rem; font-family:'Poppins',sans-serif; font-weight:600; text-decoration:none; transition:background 0.2s, border-color 0.2s;" onmouseover="this.style.background='rgba(70,183,229,0.3)'; this.style.borderColor='rgba(70,183,229,0.6)';" onmouseout="this.style.background='rgba(70,183,229,0.18)'; this.style.borderColor='rgba(70,183,229,0.4)';">
@@ -394,16 +394,63 @@
 
     <div class="timeline">
 
-      <!-- Apr 28 2026 — TODAY -->
+      <!-- May 14 2026 — TODAY -->
       <div class="tl-entry">
         <div class="tl-date-col">
-          <div class="tl-date"><span class="month">Apr</span>28, 2026</div>
+          <div class="tl-date"><span class="month">May</span>14, 2026</div>
         </div>
         <div class="tl-connector"><div class="tl-dot today"></div></div>
         <div class="tl-card today-card">
           <div class="tl-card-header">
-            <span class="tl-card-date-mobile">Apr 28, 2026</span>
+            <span class="tl-card-date-mobile">May 14, 2026</span>
             <span class="tl-tag tag-today">Today</span>
+            <span class="tl-tag tag-design">Design</span>
+            <span class="tl-tag tag-dev">Dev</span>
+          </div>
+          <div class="tl-section-title">Partners — New Category</div>
+          <ul class="tl-items">
+            <li class="tl-item">Added <strong>"Community-Based Organizations"</strong> as a 6th partner category in the Coalition section (7th tab with Leadership)</li>
+            <li class="tl-item">Uploaded <strong>UBL Chicago</strong> (United for Better Living) logo to Cloudinary as <code>lhc-partners/ubl-chicago</code>, delivered with <code>f_auto,q_auto,e_trim</code>; tagged with the green "new" dot</li>
+          </ul>
+          <div class="tl-section-title">Performance — Cloudinary Image Optimization</div>
+          <ul class="tl-items">
+            <li class="tl-item">User reported slow partner-logo loading on mobile. Audit found <strong>10 logos at 4–5 MB each</strong> (~50 MB just on the partners section) — they were uploaded with raw <code>/upload/v.../foo.png</code> URLs, so Cloudinary was serving original PNG instead of optimized WebP</li>
+            <li class="tl-item">Rewrote every raw versioned Cloudinary URL across <code>index-stage.html</code> (111 URLs) and <code>index.html</code> (98 URLs) from <code>/upload/v...</code> to <strong><code>/upload/f_auto,q_auto/v...</code></strong></li>
+            <li class="tl-item">Sample results: <strong>Near North Health 5.5 MB → 85 KB</strong> WebP, <strong>Erie Family Health 5.6 MB → 44 KB</strong>, <strong>Cook County Health 5.1 MB → 200 KB</strong>. Partners section payload roughly <strong>~50 MB → ~2 MB</strong> on mobile</li>
+            <li class="tl-item">Same delivery win applies to news, event, neighborhood, and headshot imagery across both files</li>
+          </ul>
+          <div class="tl-section-title">Coalition Tabs — Mobile UX Redesign</div>
+          <ul class="tl-items">
+            <li class="tl-item">User flagged that mobile tabs required horizontal scroll with a hidden scrollbar — users couldn't tell more categories existed off-screen</li>
+            <li class="tl-item">Below the <code>sm</code> breakpoint, replaced the tab strip with a <strong>styled native <code>&lt;select&gt;</code> picker</strong> — uses the system picker on tap, fully keyboard/screen-reader accessible, shows the current category with a chevron affordance</li>
+            <li class="tl-item">Desktop tab strip preserved unchanged</li>
+          </ul>
+          <div class="tl-section-title">Coalition Tabs — Desktop Padding</div>
+          <ul class="tl-items">
+            <li class="tl-item">After adding the 7th category, "Community-Based Organizations" was getting cut off on the right. Reduced tab horizontal padding from <code>px-5</code> to <strong><code>px-2.5</code></strong> (<code>px-3.5</code> at <code>lg</code>) so all 7 categories fit on a standard desktop without overflow</li>
+          </ul>
+          <div class="tl-section-title">Partner Logos — White-Background Blend</div>
+          <ul class="tl-items">
+            <li class="tl-item">Several source logos (Cook County Health, CDPH, Northwestern, West Side United) have white rectangle backgrounds baked into the asset, which clashed visibly with the light-gray Leadership-tab card</li>
+            <li class="tl-item">Added <code>mix-blend-mode: multiply</code> to the logo <code>&lt;img&gt;</code> style — white pixels now render as the card background while dark/colored pixels are preserved. No re-uploads, no-op against white card backgrounds on the other tabs</li>
+          </ul>
+          <div class="tl-section-title">Admin Menu — Iconography</div>
+          <ul class="tl-items">
+            <li class="tl-item">Replaced the single-letter initial chips in the admin "A" popover with <strong>flat outline SVG icons</strong> per <code>iconography-rules.md</code>: browser window (Staging Site), bar chart (Project Status), clipboard with check (Scope &amp; SOW), palette (Brand Guide), speech bubble (Core Messaging), key (Portal)</li>
+            <li class="tl-item">All icons use <code>currentColor</code> so they inherit the existing teal accent</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Apr 28 2026 -->
+      <div class="tl-entry">
+        <div class="tl-date-col">
+          <div class="tl-date"><span class="month">Apr</span>28, 2026</div>
+        </div>
+        <div class="tl-connector"><div class="tl-dot"></div></div>
+        <div class="tl-card">
+          <div class="tl-card-header">
+            <span class="tl-card-date-mobile">Apr 28, 2026</span>
             <span class="tl-tag tag-design">Design</span>
             <span class="tl-tag tag-content">Content</span>
             <span class="tl-tag tag-dev">Dev</span>
