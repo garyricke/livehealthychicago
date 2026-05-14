@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Community Voice — Design Options · Live Healthy Chicago</title>
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/dsbllwpbh/image/upload/v1771612857/favicon-live-healthy-chicago_e7o6el.png">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Open+Sans:wght@400;600;700&family=Poppins:wght@500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy:    #1B365D;
+      --navy-2:  #0d2847;
+      --blue:    #46B7E5;
+      --teal:    #48C9B0;
+      --red:     #E5202F;
+      --yellow:  #FFB81C;
+      --green:   #48BB78;
+      --charcoal:#2D2D2D;
+      --gray:    #64748b;
+      --muted:   #94a3b8;
+      --bg:      #F0F4F8;
+      --surface: #fff;
+      --soft:    #f7fafc;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Open Sans', sans-serif; background: var(--bg); color: var(--charcoal); -webkit-font-smoothing: antialiased; line-height: 1.5; }
+    h1,h2,h3,h4,h5 { font-family: 'Montserrat', sans-serif; }
+
+    /* ── Gate ─────────────────────────────────────────── */
+    #gate {
+      position: fixed; inset: 0; z-index: 9999;
+      display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(135deg, #0f1f3d 0%, #1B365D 60%, #0d2847 100%);
+    }
+    #gate.fade-out { opacity: 0; transition: opacity 0.45s ease; pointer-events: none; }
+    .gate-card {
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+      backdrop-filter: blur(16px); border-radius: 20px;
+      padding: 48px 40px; width: 100%; max-width: 380px; text-align: center;
+    }
+    .gate-logo { height: 44px; margin: 0 auto 28px; }
+    .gate-card h2 { color: #fff; font-size: 1.2rem; font-weight: 800; margin-bottom: 6px; }
+    .gate-card p  { color: rgba(255,255,255,0.5); font-size: 0.85rem; margin-bottom: 26px; font-family: 'Open Sans', sans-serif; }
+    .gate-input {
+      width: 100%; padding: 13px 16px; border-radius: 12px;
+      background: rgba(255,255,255,0.09); border: 1px solid rgba(255,255,255,0.18);
+      color: #fff; font-size: 1rem; font-family: 'Open Sans', sans-serif;
+      outline: none; margin-bottom: 12px; letter-spacing: 0.05em; transition: border-color 0.2s;
+    }
+    .gate-input:focus { border-color: var(--blue); }
+    .gate-input::placeholder { color: rgba(255,255,255,0.3); }
+    .gate-btn {
+      width: 100%; padding: 13px; border-radius: 12px; border: none;
+      background: linear-gradient(90deg, var(--blue), var(--teal));
+      color: #fff; font-weight: 700; font-size: 0.95rem; cursor: pointer;
+      font-family: 'Montserrat', sans-serif; transition: opacity 0.2s;
+    }
+    .gate-btn:hover { opacity: 0.88; }
+    .gate-error { color: #fc8181; font-size: 0.8rem; margin-top: 10px; min-height: 18px; }
+
+    /* ── Nav ──────────────────────────────────────────── */
+    .site-nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255,255,255,0.95); backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(27,54,93,0.08);
+      padding: 0 32px; height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo { height: 34px; }
+    .nav-pill {
+      font-family: 'Poppins', sans-serif; font-size: 0.7rem; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      background: rgba(27,54,93,0.08); color: var(--navy);
+      padding: 5px 14px; border-radius: 99px;
+    }
+    .nav-home {
+      display: flex; align-items: center; gap: 6px;
+      color: var(--gray); font-size: 0.85rem; font-weight: 600;
+      text-decoration: none; font-family: 'Montserrat', sans-serif; transition: color 0.2s;
+    }
+    .nav-home:hover { color: var(--navy); }
+
+    /* ── Page Header ──────────────────────────────────── */
+    .page-header {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-2) 100%);
+      padding: 56px 32px 56px;
+    }
+    .page-header-inner { max-width: 1180px; margin: 0 auto; }
+    .header-tag {
+      display: inline-block; font-family: 'Poppins', sans-serif;
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--blue);
+      margin-bottom: 14px;
+    }
+    .page-header h1 {
+      font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 900; color: #fff;
+      letter-spacing: -0.03em; margin-bottom: 12px; line-height: 1.15;
+    }
+    .page-header p.lede { color: rgba(255,255,255,0.65); font-size: 1.05rem; max-width: 760px; line-height: 1.55; }
+    .header-meta {
+      display: flex; align-items: center; gap: 14px; margin-top: 26px; flex-wrap: wrap;
+    }
+    .header-badge {
+      display: flex; align-items: center; gap: 7px;
+      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.14);
+      padding: 6px 14px; border-radius: 99px;
+      font-size: 0.78rem; color: rgba(255,255,255,0.78); font-family: 'Poppins', sans-serif;
+    }
+    .badge-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+
+    /* ── Main ─────────────────────────────────────────── */
+    .main-inner { max-width: 1180px; margin: 0 auto; padding: 56px 32px 64px; }
+
+    .section-label {
+      font-family: 'Poppins', sans-serif; font-size: 0.7rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase; color: var(--blue);
+      margin-bottom: 8px; display: block;
+    }
+    .section-title {
+      font-size: 1.6rem; font-weight: 800; color: var(--navy);
+      letter-spacing: -0.02em; margin-bottom: 20px;
+    }
+    .section-intro {
+      font-size: 0.95rem; color: var(--gray); line-height: 1.7;
+      margin-bottom: 28px; max-width: 780px;
+    }
+    .section-intro strong { color: var(--charcoal); }
+
+    section.block { margin-bottom: 64px; }
+
+    /* ── Quote / Email card ───────────────────────────── */
+    .email-card {
+      background: var(--surface); border-radius: 18px;
+      padding: 32px 36px;
+      box-shadow: 0 1px 3px rgba(27,54,93,0.06), 0 4px 16px rgba(27,54,93,0.05);
+      border: 1px solid rgba(27,54,93,0.06);
+      border-left: 4px solid var(--blue);
+    }
+    .email-meta {
+      display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+      padding-bottom: 18px; margin-bottom: 22px; border-bottom: 1px solid rgba(27,54,93,0.07);
+    }
+    .email-avatar {
+      width: 42px; height: 42px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--blue), var(--teal));
+      color: #fff; display: flex; align-items: center; justify-content: center;
+      font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 0.95rem;
+      flex-shrink: 0;
+    }
+    .email-from { font-family: 'Montserrat', sans-serif; font-weight: 700; color: var(--navy); font-size: 0.95rem; }
+    .email-role { font-size: 0.78rem; color: var(--gray); font-family: 'Poppins', sans-serif; }
+    .email-date {
+      margin-left: auto; font-size: 0.78rem; color: var(--muted);
+      font-family: 'Poppins', sans-serif;
+    }
+    .email-subj {
+      font-family: 'Montserrat', sans-serif; font-weight: 700; color: var(--navy);
+      font-size: 1.05rem; margin-bottom: 18px;
+    }
+    .email-body p { font-size: 0.95rem; line-height: 1.7; color: #334155; margin-bottom: 14px; }
+    .email-body ul { margin: 0 0 14px 22px; }
+    .email-body li { font-size: 0.92rem; line-height: 1.7; color: #334155; margin-bottom: 3px; }
+    .email-body em { color: var(--gray); }
+
+    /* ── Current state callout ────────────────────────── */
+    .current-box-wrap {
+      background: var(--surface); border-radius: 18px; padding: 32px 36px;
+      box-shadow: 0 1px 3px rgba(27,54,93,0.06), 0 4px 16px rgba(27,54,93,0.05);
+      border: 1px solid rgba(27,54,93,0.06);
+    }
+    .current-box-label {
+      font-family: 'Poppins', sans-serif; font-size: 0.7rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray);
+      margin-bottom: 14px;
+    }
+    /* Replicate the exact existing "Community Insight & Mobilization" box */
+    .current-box {
+      padding: 16px 24px; border-radius: 12px;
+      border: 1.5px dashed rgba(70,183,229,0.6);
+      display: flex; align-items: center; gap: 12px;
+      background-color: rgba(70,183,229,0.05);
+      max-width: 720px;
+    }
+    .current-box svg { width: 20px; height: 20px; flex-shrink: 0; color: var(--blue); }
+    .current-box p { font-size: 13px; color: var(--charcoal); line-height: 1.6; margin: 0; }
+    .current-box strong { color: var(--navy); }
+    .current-box-where {
+      margin-top: 18px; font-size: 0.82rem; color: var(--gray); font-family: 'Poppins', sans-serif;
+    }
+    .current-box-where code {
+      background: rgba(27,54,93,0.07); padding: 1px 7px; border-radius: 4px;
+      color: var(--navy); font-size: 0.78rem;
+    }
+
+    /* ── CAB responsibilities grid ────────────────────── */
+    .cab-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px;
+    }
+    @media (max-width: 900px) { .cab-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 600px) { .cab-grid { grid-template-columns: 1fr; } }
+    .cab-card {
+      background: var(--surface); border-radius: 14px;
+      padding: 22px 22px;
+      box-shadow: 0 1px 3px rgba(27,54,93,0.05);
+      border: 1px solid rgba(27,54,93,0.07);
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .cab-icon {
+      width: 36px; height: 36px; border-radius: 10px;
+      background: rgba(70,183,229,0.12); color: var(--blue);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .cab-card p {
+      font-size: 0.9rem; line-height: 1.55; color: #334155;
+    }
+
+    /* ── Option cards ─────────────────────────────────── */
+    .opt-card {
+      background: var(--surface); border-radius: 20px; overflow: hidden;
+      box-shadow: 0 1px 3px rgba(27,54,93,0.06), 0 4px 20px rgba(27,54,93,0.06);
+      border: 1px solid rgba(27,54,93,0.06);
+      margin-bottom: 36px;
+    }
+    .opt-card.recommended { border: 2px solid var(--teal); }
+    .opt-head {
+      padding: 28px 36px 22px;
+      border-bottom: 1px solid rgba(27,54,93,0.07);
+      display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; flex-wrap: wrap;
+    }
+    .opt-num {
+      font-family: 'Montserrat', sans-serif; font-size: 0.7rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray);
+      margin-bottom: 6px; display: flex; align-items: center; gap: 10px;
+    }
+    .opt-num .recommend-pill {
+      background: linear-gradient(90deg, var(--teal), var(--green));
+      color: #fff; padding: 3px 10px; border-radius: 99px;
+      font-size: 0.65rem; letter-spacing: 0.06em;
+    }
+    .opt-title {
+      font-size: 1.4rem; font-weight: 800; color: var(--navy);
+      letter-spacing: -0.02em; line-height: 1.25; margin-bottom: 6px;
+    }
+    .opt-tagline { font-size: 0.92rem; color: var(--gray); line-height: 1.6; max-width: 560px; }
+    .opt-meta {
+      display: flex; flex-direction: column; gap: 8px; min-width: 180px;
+      font-family: 'Poppins', sans-serif;
+    }
+    .opt-meta-row { display: flex; justify-content: space-between; font-size: 0.78rem; gap: 12px; }
+    .opt-meta-row span:first-child { color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; font-size: 0.7rem; }
+    .opt-meta-row span:last-child { color: var(--navy); font-weight: 700; }
+    .effort-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 4px; vertical-align: middle; }
+    .effort-low { background: var(--green); }
+    .effort-med { background: var(--yellow); }
+    .effort-high { background: var(--red); }
+
+    .opt-body {
+      display: grid; grid-template-columns: 1fr 1.05fr; gap: 0;
+    }
+    @media (max-width: 900px) { .opt-body { grid-template-columns: 1fr; } }
+    .opt-mockup {
+      padding: 32px; background: var(--bg);
+      border-right: 1px solid rgba(27,54,93,0.07);
+      display: flex; align-items: center; justify-content: center;
+    }
+    @media (max-width: 900px) { .opt-mockup { border-right: none; border-bottom: 1px solid rgba(27,54,93,0.07); } }
+    .opt-detail { padding: 28px 32px; }
+    .opt-detail h4 {
+      font-size: 0.8rem; font-weight: 700; color: var(--navy);
+      text-transform: uppercase; letter-spacing: 0.08em;
+      margin-bottom: 10px; margin-top: 20px;
+      font-family: 'Poppins', sans-serif;
+    }
+    .opt-detail h4:first-child { margin-top: 0; }
+    .opt-detail ul { list-style: none; }
+    .opt-detail li {
+      position: relative; padding-left: 22px;
+      font-size: 0.88rem; line-height: 1.6; color: #334155;
+      margin-bottom: 8px;
+    }
+    .opt-detail li.pro::before { content: '+'; position: absolute; left: 0; top: -1px; color: var(--green); font-weight: 800; font-size: 1.1rem; line-height: 1; }
+    .opt-detail li.con::before { content: '−'; position: absolute; left: 0; top: -2px; color: var(--red); font-weight: 800; font-size: 1.3rem; line-height: 1; }
+    .opt-detail li.note::before { content: '•'; position: absolute; left: 4px; top: -3px; color: var(--blue); font-weight: 800; font-size: 1.4rem; line-height: 1; }
+    .opt-detail strong { color: var(--navy); font-weight: 700; }
+
+    /* ── Mockup shared visual language ────────────────── */
+    .mockup-frame {
+      width: 100%; max-width: 460px;
+      background: #fff; border-radius: 12px;
+      box-shadow: 0 4px 24px rgba(27,54,93,0.10);
+      overflow: hidden;
+    }
+    .mockup-bar {
+      height: 28px; background: #f3f5f8;
+      display: flex; align-items: center; padding: 0 12px; gap: 5px;
+      border-bottom: 1px solid rgba(27,54,93,0.07);
+    }
+    .mockup-bar i {
+      width: 9px; height: 9px; border-radius: 50%; background: #d4dae3;
+    }
+    .mockup-inner { padding: 18px; }
+    .mock-h {
+      font-family: 'Montserrat', sans-serif; font-weight: 800; color: var(--navy);
+      font-size: 0.78rem; letter-spacing: -0.01em; margin-bottom: 8px;
+    }
+    .mock-sub {
+      font-family: 'Poppins', sans-serif; font-size: 0.62rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase; color: var(--blue);
+      margin-bottom: 4px;
+    }
+    .mock-p { font-size: 0.7rem; color: var(--gray); line-height: 1.5; margin-bottom: 10px; }
+
+    /* Mockup — Option 1: pillars */
+    .mock-pillars { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 10px; }
+    .mock-pillar {
+      padding: 10px 6px 8px; border-radius: 7px; text-align: center; min-height: 78px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+      border: 1px solid rgba(27,54,93,0.1);
+    }
+    .mock-pillar .ico {
+      width: 22px; height: 22px; border-radius: 6px;
+      display: flex; align-items: center; justify-content: center; color: #fff;
+    }
+    .mock-pillar .t { font-size: 0.55rem; font-weight: 800; line-height: 1.15; font-family: 'Montserrat', sans-serif; color: var(--navy); }
+    .mock-pillar.p1 .ico { background: var(--blue); }
+    .mock-pillar.p2 .ico { background: var(--teal); }
+    .mock-pillar.p3 .ico { background: var(--yellow); }
+    .mock-pillar.p4 { border: 1.5px solid var(--green); background: rgba(72,187,120,0.08); }
+    .mock-pillar.p4 .ico { background: var(--green); }
+    .mock-pillar.p4 .t { color: #226c40; }
+
+    /* Mockup — Option 2: full section */
+    .mock-photo {
+      height: 90px; border-radius: 8px; overflow: hidden;
+      background: linear-gradient(135deg, var(--navy), var(--teal));
+      position: relative; margin-bottom: 10px;
+    }
+    .mock-photo::after {
+      content: 'CAB GROUP PHOTO'; position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Poppins', sans-serif; font-size: 0.55rem; font-weight: 700;
+      letter-spacing: 0.15em; color: rgba(255,255,255,0.7);
+    }
+    .mock-resp-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px; margin-bottom: 10px; }
+    .mock-resp {
+      padding: 6px; border-radius: 5px; background: var(--soft);
+      display: flex; align-items: center; gap: 4px;
+      border: 1px solid rgba(27,54,93,0.06);
+    }
+    .mock-resp .dot { width: 12px; height: 12px; border-radius: 3px; background: var(--blue); flex-shrink: 0; }
+    .mock-resp .lab { font-size: 0.52rem; color: var(--charcoal); line-height: 1.1; font-weight: 600; }
+    .mock-quote {
+      padding: 8px 10px; border-radius: 6px;
+      background: var(--soft); border-left: 2px solid var(--teal);
+      display: flex; gap: 6px; align-items: flex-start;
+    }
+    .mock-quote .av {
+      width: 18px; height: 18px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--blue), var(--teal)); flex-shrink: 0;
+    }
+    .mock-quote .qt { font-size: 0.6rem; color: var(--charcoal); line-height: 1.35; font-style: italic; }
+    .mock-quote .at { font-size: 0.55rem; color: var(--gray); margin-top: 2px; font-family: 'Poppins', sans-serif; font-weight: 600; }
+    .mock-dots { display: flex; justify-content: center; gap: 4px; margin-top: 8px; }
+    .mock-dots i { width: 5px; height: 5px; border-radius: 50%; background: rgba(27,54,93,0.18); }
+    .mock-dots i.active { background: var(--teal); width: 14px; border-radius: 99px; }
+
+    /* Mockup — Option 3: coalition tabs */
+    .mock-tabs { display: flex; gap: 4px; border-bottom: 1px solid rgba(27,54,93,0.1); margin-bottom: 10px; flex-wrap: nowrap; overflow: hidden; }
+    .mock-tab {
+      font-size: 0.5rem; font-weight: 700; padding: 6px 5px; color: var(--gray);
+      border-bottom: 2px solid transparent; white-space: nowrap;
+      font-family: 'Montserrat', sans-serif;
+    }
+    .mock-tab.active { color: var(--navy); border-bottom-color: var(--blue); }
+    .mock-tab.cab { color: var(--green); border-bottom-color: var(--green); background: rgba(72,187,120,0.06); }
+    .mock-logos { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }
+    .mock-logo {
+      aspect-ratio: 1; background: var(--soft); border: 1px solid rgba(27,54,93,0.07);
+      border-radius: 6px; display: flex; align-items: center; justify-content: center;
+      font-size: 0.5rem; color: var(--muted); font-family: 'Poppins', sans-serif; font-weight: 600;
+    }
+    .mock-logo.headshot { background: linear-gradient(135deg, var(--blue), var(--teal)); color: rgba(255,255,255,0.85); }
+
+    /* ── Recommendation card ──────────────────────────── */
+    .reco-card {
+      background: linear-gradient(135deg, var(--navy), var(--navy-2));
+      border-radius: 20px; padding: 36px 40px;
+      color: #fff; margin-bottom: 60px;
+      position: relative; overflow: hidden;
+    }
+    .reco-card::before {
+      content: ''; position: absolute; top: -40px; right: -40px;
+      width: 200px; height: 200px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(72,201,176,0.25), transparent 70%);
+    }
+    .reco-tag {
+      display: inline-block; font-family: 'Poppins', sans-serif;
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--teal);
+      margin-bottom: 12px;
+      position: relative;
+    }
+    .reco-card h3 {
+      font-size: 1.5rem; font-weight: 800; letter-spacing: -0.02em;
+      margin-bottom: 14px; line-height: 1.25;
+      position: relative;
+    }
+    .reco-card p {
+      font-size: 0.95rem; line-height: 1.7; color: rgba(255,255,255,0.78);
+      margin-bottom: 12px; position: relative; max-width: 760px;
+    }
+    .reco-card strong { color: #fff; font-weight: 700; }
+
+    /* ── Practical notes ──────────────────────────────── */
+    .notes-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 18px;
+    }
+    @media (max-width: 800px) { .notes-grid { grid-template-columns: 1fr; } }
+    .note-card {
+      background: var(--surface); border-radius: 14px;
+      padding: 22px 24px;
+      box-shadow: 0 1px 3px rgba(27,54,93,0.05);
+      border: 1px solid rgba(27,54,93,0.07);
+      border-top: 3px solid var(--blue);
+    }
+    .note-card.warn { border-top-color: var(--yellow); }
+    .note-card h4 {
+      font-size: 0.95rem; font-weight: 800; color: var(--navy);
+      margin-bottom: 10px;
+    }
+    .note-card p, .note-card li { font-size: 0.88rem; line-height: 1.65; color: #334155; }
+    .note-card ul { margin: 8px 0 0 20px; }
+    .note-card li { margin-bottom: 4px; }
+    .note-card strong { color: var(--navy); }
+
+    /* ── Footer ───────────────────────────────────────── */
+    .page-footer {
+      background: var(--navy); padding: 32px 24px; text-align: center;
+    }
+    .page-footer img { height: 32px; margin: 0 auto 14px; }
+    .page-footer p { color: rgba(255,255,255,0.45); font-size: 0.78rem; line-height: 1.7; }
+    .page-footer a { color: rgba(255,255,255,0.65); text-decoration: none; margin: 0 6px; }
+    .page-footer a:hover { color: var(--blue); }
+
+    /* Small util */
+    .hr-soft { border: none; border-top: 1px solid rgba(27,54,93,0.08); margin: 28px 0; }
+  </style>
+</head>
+<body>
+
+<!-- Gate -->
+<div id="gate">
+  <div class="gate-card">
+    <img class="gate-logo" src="https://assets.codepen.io/3457845/logo-Live-Healthy-Chicago.png" alt="Live Healthy Chicago">
+    <h2>Internal Access</h2>
+    <p>Community voice design options — team only.</p>
+    <input id="pw-input" class="gate-input" type="password" placeholder="Password" autocomplete="current-password">
+    <button class="gate-btn" onclick="checkPassword()">Enter</button>
+    <p class="gate-error" id="gate-error"></p>
+  </div>
+</div>
+
+<!-- App -->
+<div id="app" style="display:none">
+
+  <nav class="site-nav">
+    <a href="/index-stage.html"><img class="nav-logo" src="https://assets.codepen.io/3457845/logo-Live-Healthy-Chicago.png" alt="Live Healthy Chicago"></a>
+    <span class="nav-pill">Community Voice — Options</span>
+    <a href="/index-stage.html" class="nav-home">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      Back to Staging
+    </a>
+  </nav>
+
+  <div class="page-header">
+    <div class="page-header-inner">
+      <span class="header-tag">Design Review · For Rachel + LHC Team</span>
+      <h1>Centering Community Voice on the LHC Website</h1>
+      <p class="lede">Three concrete options for how we might more strongly depict the Community Advisory Board (CAB) and the co-governance model on the public site — plus the ask, the existing state, and a recommendation.</p>
+      <div class="header-meta">
+        <div class="header-badge"><span class="badge-dot" style="background:var(--blue)"></span> Prepared for Rachel Reichlin</div>
+        <div class="header-badge"><span class="badge-dot" style="background:var(--teal)"></span> Discussion draft · May 14, 2026</div>
+        <div class="header-badge"><span class="badge-dot" style="background:var(--yellow)"></span> CAB meeting 5/21</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="background:var(--bg)">
+  <div class="main-inner">
+
+    <!-- ════════════════════════════════════════════════
+         1. THE ASK
+         ════════════════════════════════════════════════ -->
+    <section class="block">
+      <span class="section-label">1 · The Ask</span>
+      <h2 class="section-title">Rachel's request</h2>
+      <p class="section-intro">Excerpted from Rachel Reichlin's email of <strong>May 14, 2026</strong> — subject line <em>"LHC Website: Emphasizing Community Co-Governance."</em></p>
+
+      <div class="email-card">
+        <div class="email-meta">
+          <div class="email-avatar">RR</div>
+          <div>
+            <div class="email-from">Rachel Reichlin</div>
+            <div class="email-role">Founding Principal · Health Justice Partners</div>
+          </div>
+          <div class="email-date">May 14, 2026 · 12:22 PM CT</div>
+        </div>
+
+        <div class="email-subj">LHC Website: Emphasizing Community Co-Governance</div>
+
+        <div class="email-body">
+          <p>I'm reaching out to see if you can help the website more strongly depict how community voice is centered in LHC's governance.</p>
+
+          <p>Is there something we can highlight in the "how we work" section? Or add a section about our "approach"? Or even Testimonials?</p>
+
+          <p>Is it possible to feature the role of the <strong>Community Advisory Board</strong> in some way (outside of a story on it)? CAB members serve as ambassadors, advisors, and advocates. Their key responsibilities include:</p>
+
+          <ul>
+            <li>Offering feedback on LHC initiatives, strategies, and engagement efforts</li>
+            <li>Sharing community strengths, concerns, and priorities to guide LHC's work</li>
+            <li>Facilitating communication between LHC and neighborhood stakeholders</li>
+            <li>Participating in planning, evaluation, and outreach activities</li>
+            <li>Upholding principles of equity, transparency, and inclusion</li>
+            <li>Supporting the work of the LHC CAB Subcommittees and providing input for Executive and Steering Committee meetings</li>
+          </ul>
+
+          <p>We have a picture of the CAB and will be having an in-person meeting next week, <strong>5/21 in the morning</strong>. During this meeting, we can get more pics and/or testimonials from CAB members about why they participate and the value they offer or receive. Maybe including a little carousel of testimonials from CAB members would be more meaningful and demonstrative than a list of their responsibilities.</p>
+
+          <p><em>— Welcome your ideas and input. Cc'ing Lisa for awareness; Lisa convenes and facilitates the CAB group.</em></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════════════════════
+         2. WHAT'S ON THE SITE TODAY
+         ════════════════════════════════════════════════ -->
+    <section class="block">
+      <span class="section-label">2 · The Current State</span>
+      <h2 class="section-title">What's on the site today</h2>
+      <p class="section-intro">A single small note at the bottom of the <strong>"How Live Healthy Chicago Works"</strong> section is the only acknowledgement of community voice. It's the box Rachel screenshotted in her email.</p>
+
+      <div class="current-box-wrap">
+        <div class="current-box-label">Currently rendered on index-stage.html · index.html</div>
+        <div class="current-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+          <p><strong>Community Insight &amp; Mobilization</strong> — all three pillars are powered by trusted community relationships, local data, and grassroots partnership.</p>
+        </div>
+        <div class="current-box-where">
+          Lives at the bottom of <code>OurModel</code> section, after the 3 pillars · ~18px font · easy to miss.
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════════════════════
+         3. CAB RESPONSIBILITIES (FROM RACHEL)
+         ════════════════════════════════════════════════ -->
+    <section class="block">
+      <span class="section-label">3 · Background</span>
+      <h2 class="section-title">CAB responsibilities — what we'd be representing</h2>
+      <p class="section-intro">The six responsibilities Rachel listed, reformatted as a visual grid. This is the raw content available to us today (before any 5/21 testimonials).</p>
+
+      <div class="cab-grid">
+        <div class="cab-card">
+          <div class="cab-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <p>Offering <strong>feedback</strong> on LHC initiatives, strategies, and engagement efforts.</p>
+        </div>
+        <div class="cab-card">
+          <div class="cab-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <p>Sharing community <strong>strengths, concerns, and priorities</strong> to guide LHC's work.</p>
+        </div>
+        <div class="cab-card">
+          <div class="cab-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>
+          </div>
+          <p>Facilitating <strong>communication</strong> between LHC and neighborhood stakeholders.</p>
+        </div>
+        <div class="cab-card">
+          <div class="cab-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          </div>
+          <p>Participating in <strong>planning, evaluation, and outreach</strong> activities.</p>
+        </div>
+        <div class="cab-card">
+          <div class="cab-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l2-2 4 4 8-8 4 4"/></svg>
+          </div>
+          <p>Upholding principles of <strong>equity, transparency, and inclusion</strong>.</p>
+        </div>
+        <div class="cab-card">
+          <div class="cab-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+          </div>
+          <p>Supporting <strong>CAB Subcommittees</strong> + input for Executive &amp; Steering Committees.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════════════════════
+         4. THE OPTIONS
+         ════════════════════════════════════════════════ -->
+    <section class="block">
+      <span class="section-label">4 · The Options</span>
+      <h2 class="section-title">Three ways we could address this</h2>
+      <p class="section-intro">Each option includes a quick mockup of how it would feel on the page, what it costs us in effort, and the main tradeoffs. Options are ordered roughly by ascending effort and ascending impact.</p>
+
+      <!-- ─── OPTION 1 ────────────────────────────────── -->
+      <div class="opt-card">
+        <div class="opt-head">
+          <div>
+            <div class="opt-num">Option 01</div>
+            <div class="opt-title">Promote CAB to a 4th "Pillar" of the Model</div>
+            <div class="opt-tagline">Add "Community Co-Governance" alongside Public Health Campaign, Mobile Care, and Clinical Transformation in the auto-advancing pillar tabs.</div>
+          </div>
+          <div class="opt-meta">
+            <div class="opt-meta-row"><span>Effort</span><span><i class="effort-dot effort-med"></i> Medium</span></div>
+            <div class="opt-meta-row"><span>Visibility</span><span>High</span></div>
+            <div class="opt-meta-row"><span>Location</span><span>"Our Model"</span></div>
+          </div>
+        </div>
+
+        <div class="opt-body">
+          <div class="opt-mockup">
+            <div class="mockup-frame">
+              <div class="mockup-bar"><i></i><i></i><i></i></div>
+              <div class="mockup-inner">
+                <div class="mock-sub">How LHC Works</div>
+                <div class="mock-h">Four pillars, one mission.</div>
+                <div class="mock-p">Built on the lived experience of the neighborhoods we serve.</div>
+                <div class="mock-pillars">
+                  <div class="mock-pillar p1"><div class="ico">📣</div><div class="t">Public Health Campaign</div></div>
+                  <div class="mock-pillar p2"><div class="ico">🚐</div><div class="t">Mobile Care</div></div>
+                  <div class="mock-pillar p3"><div class="ico">🏥</div><div class="t">Clinical Transformation</div></div>
+                  <div class="mock-pillar p4"><div class="ico">👥</div><div class="t">Community Co-Gov</div></div>
+                </div>
+                <div class="mock-dots"><i></i><i></i><i></i><i class="active"></i></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="opt-detail">
+            <h4>What changes</h4>
+            <p style="font-size: 0.88rem; line-height: 1.6; color: #334155;">A fourth pillar — <em>"Community Co-Governance"</em> — joins the existing 3-pillar tab strip. Same auto-advance pattern; same card layout. Click into it to see the CAB photo, responsibilities, and a quote.</p>
+
+            <h4>Pros</h4>
+            <ul>
+              <li class="pro">Makes governance <strong>structurally equal</strong> to clinical and public health work — not a footnote.</li>
+              <li class="pro">No new section to design; reuses an already-polished component.</li>
+              <li class="pro">Visible on every visit because the pillars are central to the homepage narrative.</li>
+            </ul>
+
+            <h4>Cons</h4>
+            <ul>
+              <li class="con">Breaks the existing <strong>"3 pillars"</strong> mental model the team has been using in other materials.</li>
+              <li class="con">4 tabs is tighter on mobile (already had to add a dropdown for the Coalition tabs).</li>
+              <li class="con">Doesn't naturally fit a testimonials carousel — would need a secondary surface.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── OPTION 2 ────────────────────────────────── -->
+      <div class="opt-card recommended">
+        <div class="opt-head">
+          <div>
+            <div class="opt-num">Option 02 <span class="recommend-pill">Recommended</span></div>
+            <div class="opt-title">New section: "Our Approach — Community at the Center"</div>
+            <div class="opt-tagline">A dedicated section between <em>Our Model</em> and <em>27 Priority Neighborhoods</em> with a CAB photo, the 6 responsibilities as a visual grid, and a testimonials carousel.</div>
+          </div>
+          <div class="opt-meta">
+            <div class="opt-meta-row"><span>Effort</span><span><i class="effort-dot effort-med"></i> Medium</span></div>
+            <div class="opt-meta-row"><span>Visibility</span><span>High</span></div>
+            <div class="opt-meta-row"><span>Location</span><span>New section</span></div>
+          </div>
+        </div>
+
+        <div class="opt-body">
+          <div class="opt-mockup">
+            <div class="mockup-frame">
+              <div class="mockup-bar"><i></i><i></i><i></i></div>
+              <div class="mockup-inner">
+                <div class="mock-sub">Our Approach</div>
+                <div class="mock-h">Community at the center.</div>
+                <div class="mock-p">Every LHC decision is co-designed with the people it serves.</div>
+                <div class="mock-photo"></div>
+                <div class="mock-resp-grid">
+                  <div class="mock-resp"><span class="dot"></span><span class="lab">Feedback on initiatives</span></div>
+                  <div class="mock-resp"><span class="dot"></span><span class="lab">Sharing priorities</span></div>
+                  <div class="mock-resp"><span class="dot"></span><span class="lab">Facilitating comms</span></div>
+                  <div class="mock-resp"><span class="dot"></span><span class="lab">Planning &amp; eval</span></div>
+                  <div class="mock-resp"><span class="dot"></span><span class="lab">Equity &amp; inclusion</span></div>
+                  <div class="mock-resp"><span class="dot"></span><span class="lab">Subcommittees</span></div>
+                </div>
+                <div class="mock-quote">
+                  <div class="av"></div>
+                  <div>
+                    <div class="qt">"I sit on the CAB because my block deserves a seat at the table — not just a survey."</div>
+                    <div class="at">— CAB Member, North Lawndale</div>
+                  </div>
+                </div>
+                <div class="mock-dots"><i class="active"></i><i></i><i></i><i></i><i></i></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="opt-detail">
+            <h4>What changes</h4>
+            <p style="font-size: 0.88rem; line-height: 1.6; color: #334155;">A new full-width section is added with four content blocks: framing copy, CAB group photo, 6-icon responsibilities grid, and an auto-advancing testimonials carousel (same pattern as our Coalition tabs).</p>
+
+            <h4>Pros</h4>
+            <ul>
+              <li class="pro"><strong>Highest narrative impact</strong> — community voice gets its own dedicated moment instead of being a sub-element.</li>
+              <li class="pro">Testimonials carousel is the format Rachel specifically suggested.</li>
+              <li class="pro">Rhetorically bridges <em>what we do</em> (Our Model) with <em>where we work</em> (Neighborhoods).</li>
+              <li class="pro">Can <strong>ship in two phases</strong> — section shell with photo+responsibilities before 5/21, testimonials after.</li>
+            </ul>
+
+            <h4>Cons</h4>
+            <ul>
+              <li class="con">Lengthens the homepage; need to be careful section doesn't feel padded.</li>
+              <li class="con">Needs <strong>real content</strong> from the 5/21 CAB meeting to feel authentic (otherwise it's responsibilities-as-decoration).</li>
+              <li class="con">Consent forms required for any CAB members whose names/photos appear.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── OPTION 3 ────────────────────────────────── -->
+      <div class="opt-card">
+        <div class="opt-head">
+          <div>
+            <div class="opt-num">Option 03</div>
+            <div class="opt-title">Add a CAB tab to the Coalition section</div>
+            <div class="opt-tagline">Slot the CAB in as an 8th tab in the existing Coalition tab strip, alongside Leadership and the 6 partner-org categories.</div>
+          </div>
+          <div class="opt-meta">
+            <div class="opt-meta-row"><span>Effort</span><span><i class="effort-dot effort-low"></i> Low</span></div>
+            <div class="opt-meta-row"><span>Visibility</span><span>Medium</span></div>
+            <div class="opt-meta-row"><span>Location</span><span>"The Coalition"</span></div>
+          </div>
+        </div>
+
+        <div class="opt-body">
+          <div class="opt-mockup">
+            <div class="mockup-frame">
+              <div class="mockup-bar"><i></i><i></i><i></i></div>
+              <div class="mockup-inner">
+                <div class="mock-sub">The Coalition</div>
+                <div class="mock-h">Who's behind LHC.</div>
+                <div class="mock-tabs">
+                  <div class="mock-tab">Leader…</div>
+                  <div class="mock-tab">CHCs</div>
+                  <div class="mock-tab">Hosp…</div>
+                  <div class="mock-tab">Pharm…</div>
+                  <div class="mock-tab">Govt</div>
+                  <div class="mock-tab">Other</div>
+                  <div class="mock-tab">CBOs</div>
+                  <div class="mock-tab cab">CAB</div>
+                </div>
+                <div class="mock-logos">
+                  <div class="mock-logo headshot">👤</div>
+                  <div class="mock-logo headshot">👤</div>
+                  <div class="mock-logo headshot">👤</div>
+                  <div class="mock-logo headshot">👤</div>
+                  <div class="mock-logo headshot">👤</div>
+                  <div class="mock-logo headshot">👤</div>
+                  <div class="mock-logo headshot">👤</div>
+                  <div class="mock-logo headshot">👤</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="opt-detail">
+            <h4>What changes</h4>
+            <p style="font-size: 0.88rem; line-height: 1.6; color: #334155;">The Coalition section gains an 8th tab. The tab content displays CAB member headshots in the same grid we use for partner logos, with a short intro paragraph above.</p>
+
+            <h4>Pros</h4>
+            <ul>
+              <li class="pro"><strong>Cheapest to build</strong> — the tab strip and mobile dropdown are already in place.</li>
+              <li class="pro">Headshots-as-tiles already works visually in the Leadership tab.</li>
+              <li class="pro">Tab UI handles "more content added later" gracefully (post-5/21 quotes can drop in).</li>
+            </ul>
+
+            <h4>Cons</h4>
+            <ul>
+              <li class="con">Conflates <strong>partner orgs</strong> (institutions) with <strong>community members</strong> (individuals) — a category error.</li>
+              <li class="con">Buries CAB inside a section that reads as "our institutional partners."</li>
+              <li class="con">Doesn't strengthen the <em>governance</em> message Rachel asked for — it just adds members to a list.</li>
+              <li class="con">Tab strip is already at 7 categories; an 8th makes the desktop overflow we just fixed worse.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════════════════════
+         5. RECOMMENDATION
+         ════════════════════════════════════════════════ -->
+    <div class="reco-card">
+      <div class="reco-tag">Recommendation</div>
+      <h3>Build Option 2 in two phases — ship the shell now, add testimonials after 5/21.</h3>
+      <p><strong>Phase 1 (this week)</strong> — section shell, framing copy, CAB group photo, 6-icon responsibilities grid, testimonials carousel placeholder reading <em>"Voices from our CAB — coming soon."</em> Rachel sees something concrete in staging before the in-person meeting.</p>
+      <p><strong>Phase 2 (after 5/21)</strong> — drop in 5–8 real testimonials, member headshots, and any newer group photos captured during Lisa's session. Existing carousel component handles the swap cleanly.</p>
+      <p style="margin-bottom:0">This sequencing means Rachel walks into the 5/21 CAB meeting with a tangible canvas to point at when she's asking members for quotes and photos — instead of describing it abstractly.</p>
+    </div>
+
+    <!-- ════════════════════════════════════════════════
+         6. PRACTICAL NOTES
+         ════════════════════════════════════════════════ -->
+    <section class="block">
+      <span class="section-label">5 · Practical Notes</span>
+      <h2 class="section-title">Things to nail down before we build</h2>
+
+      <div class="notes-grid">
+        <div class="note-card warn">
+          <h4>What to capture at the 5/21 meeting</h4>
+          <ul>
+            <li>A clean <strong>landscape group photo</strong> — natural light if possible, no fluorescent overhead glare</li>
+            <li><strong>5–8 short quotes</strong>, ~15–25 words each, on themes like <em>"why I participate," "what I bring,"</em> or <em>"what I get back"</em></li>
+            <li>Individual <strong>headshots or candid portraits</strong> for each quoted member (1:1 crop, even lighting)</li>
+            <li>Signed <strong>consent forms</strong> for any member whose name, photo, or quote appears publicly — same issue we have with the mobile-team headshots in core-messaging.html</li>
+          </ul>
+        </div>
+
+        <div class="note-card">
+          <h4>How this connects to the current site</h4>
+          <ul>
+            <li>The existing <em>"Community Insight &amp; Mobilization"</em> dashed-border box at the bottom of <strong>Our Model</strong> becomes a short teaser that anchor-links down to the new section</li>
+            <li>The new section lives between <strong>Our Model</strong> and <strong>27 Priority Neighborhoods</strong> — rhetorically bridges <em>what we do</em> with <em>where we work</em></li>
+            <li>Auto-advancing testimonials reuse the same React pattern as the Coalition tabs (already in the codebase)</li>
+            <li>Mobile: stacks vertically, photo full-width on top, then responsibilities, then carousel — matches existing section patterns</li>
+          </ul>
+        </div>
+
+        <div class="note-card">
+          <h4>Budget &amp; scope impact</h4>
+          <p>Estimated <strong>~6–8 hours</strong> of build time across phases (shell + content integration). Falls inside the remaining <strong>~$6,250 / ~67 hours</strong> of pre-maintenance budget. No scope-change conversation needed — this is in line with the kind of content evolution we've been doing since launch.</p>
+          <p style="margin-top:10px;font-size:0.82rem;color:var(--muted);">See <a href="/scope.html" style="color:var(--blue);text-decoration:none;">scope.html</a> for budget context.</p>
+        </div>
+
+        <div class="note-card">
+          <h4>Open questions for Rachel</h4>
+          <ul>
+            <li>Should the section be titled <em>"Our Approach,"</em> <em>"Community at the Center,"</em> <em>"Community Co-Governance,"</em> or something else?</li>
+            <li>How prominently should CAB <strong>subcommittees</strong> be named — by function (Outreach, Evaluation, etc.) or kept abstract?</li>
+            <li>Any sensitivity about naming individual CAB members publicly, or is the consent question the only gate?</li>
+            <li>Is there a one-line framing statement Lisa or the CAB itself would like to author for the section intro?</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+  </div>
+  </div><!-- bg wrapper -->
+
+  <footer class="page-footer">
+    <img src="https://assets.codepen.io/3457845/logo-Live-Healthy-Chicago.png" alt="Live Healthy Chicago">
+    <p>
+      <a href="/index-stage.html">Staging Site</a> ·
+      <a href="/status.html">Project Status</a> ·
+      <a href="/scope.html">Scope &amp; SOW</a> ·
+      <a href="/brand-guide.html">Brand Guide</a> ·
+      <a href="/core-messaging/core-messaging.html">Core Messaging</a>
+    </p>
+    <p style="margin-top:8px">© 2026 Live Healthy Chicago — Internal Use Only · Discussion draft, May 14, 2026</p>
+  </footer>
+
+</div><!-- /app -->
+
+<script>
+  const HASH = '4973303f9a14715775d80d65bfafc89f7ba96b0dd6993391147b9bd7013bb882';
+
+  async function sha256(msg) {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(msg));
+    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+  }
+
+  async function checkPassword() {
+    const hash = await sha256(document.getElementById('pw-input').value);
+    if (hash === HASH) {
+      sessionStorage.setItem('lhc_auth', '1');
+      const gate = document.getElementById('gate');
+      gate.classList.add('fade-out');
+      setTimeout(() => { gate.style.display = 'none'; document.getElementById('app').style.display = ''; }, 450);
+    } else {
+      document.getElementById('gate-error').textContent = 'Incorrect password.';
+    }
+  }
+
+  document.getElementById('pw-input').addEventListener('keydown', e => { if (e.key === 'Enter') checkPassword(); });
+
+  if (sessionStorage.getItem('lhc_auth') === '1') {
+    document.getElementById('gate').style.display = 'none';
+    document.getElementById('app').style.display = '';
+  }
+</script>
+</body>
+</html>
