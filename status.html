@@ -292,7 +292,7 @@
       <h1>Project Status</h1>
       <p>A running log of every update, build, and content change to the Live Healthy Chicago site.</p>
       <div class="header-meta">
-        <div class="header-badge"><span class="badge-dot" style="background:var(--green)"></span> Last updated May 14, 2026</div>
+        <div class="header-badge"><span class="badge-dot" style="background:var(--green)"></span> Last updated May 19, 2026</div>
         <div class="header-badge"><span class="badge-dot" style="background:var(--blue)"></span> livehealthychi.com</div>
         <div class="header-badge"><span class="badge-dot" style="background:var(--yellow)"></span> Staging: index-stage.html</div>
         <a href="/scope.html" style="display:inline-flex; align-items:center; gap:7px; padding:6px 14px; border-radius:99px; background:rgba(70,183,229,0.18); border:1px solid rgba(70,183,229,0.4); color:#fff; font-size:0.8rem; font-family:'Poppins',sans-serif; font-weight:600; text-decoration:none; transition:background 0.2s, border-color 0.2s;" onmouseover="this.style.background='rgba(70,183,229,0.3)'; this.style.borderColor='rgba(70,183,229,0.6)';" onmouseout="this.style.background='rgba(70,183,229,0.18)'; this.style.borderColor='rgba(70,183,229,0.4)';">
@@ -394,16 +394,50 @@
 
     <div class="timeline">
 
-      <!-- May 14 2026 — TODAY -->
+      <!-- May 19 2026 — TODAY -->
       <div class="tl-entry">
         <div class="tl-date-col">
-          <div class="tl-date"><span class="month">May</span>14, 2026</div>
+          <div class="tl-date"><span class="month">May</span>19, 2026</div>
         </div>
         <div class="tl-connector"><div class="tl-dot today"></div></div>
         <div class="tl-card today-card">
           <div class="tl-card-header">
-            <span class="tl-card-date-mobile">May 14, 2026</span>
+            <span class="tl-card-date-mobile">May 19, 2026</span>
             <span class="tl-tag tag-today">Today</span>
+            <span class="tl-tag tag-design">Design</span>
+            <span class="tl-tag tag-dev">Dev</span>
+            <span class="tl-tag tag-fix">Fix</span>
+          </div>
+          <div class="tl-section-title">Coalition Partners — 5 New CBO Logos</div>
+          <ul class="tl-items">
+            <li class="tl-item">Added <strong>Bethel New Life</strong>, <strong>Healthy Hood Chicago</strong>, <strong>Hope Community Church</strong>, <strong>Taller de José</strong>, and <strong>West Side Health Authority</strong> to the Community-Based Organizations tab. CBO tab now shows <strong>6 logos</strong> (5 new + UBL Chicago), sorted alphabetically</li>
+            <li class="tl-item">All five uploaded to Cloudinary under <code>lhc-partners/</code>; PNG/webp use <code>f_auto,q_auto,e_trim</code>, WSHA SVG uses <code>fl_sanitize/.svg</code></li>
+            <li class="tl-item"><strong>WSHA SVG recolor</strong> — provided file was the on-dark variant with <code>fill="white"</code> text, which would have been invisible on the white card under <code>mix-blend-mode: multiply</code>. Recolored all 23 fills to LHC trust navy (<code>#1B365D</code>) before upload</li>
+            <li class="tl-item"><strong>Bethel PNG retrim</strong> — source file (861×861) had a giant opaque-white block around a small centered logo, so Cloudinary <code>e_trim</code> couldn't crop. Stripped near-white pixels to transparent in PIL, tight-cropped to 471×663, re-uploaded with cache invalidation</li>
+          </ul>
+          <div class="tl-section-title">Live Site Parity — index.html Catch-Up</div>
+          <ul class="tl-items">
+            <li class="tl-item">Mirrored every post-Apr-28 logo addition from staging into the public <code>index.html</code>: 6th CBO tab with all 6 logos, Alivio / Esperanza / TCA / ACCESS in Community Health Centers, Rush + UChicago Medicine SVGs in Hospitals, CDPH in Public Health Institutions, SSHCO / Wellness West / West Side United in Other Organizations</li>
+            <li class="tl-item">Synced 6 Leadership-tab logo sources (CDPH, Northwestern, Rush, SSHCO, UChicago Medicine, Wellness West) so the Leadership grid renders the same on the public site</li>
+          </ul>
+          <div class="tl-section-title">Coalition Cards — Visual Refinements</div>
+          <ul class="tl-items">
+            <li class="tl-item">Removed the small green "new" dot from every partner card in both index files (rendering span + all <code>isNew: true</code> data flags stripped). Newness was useful while logos were being added in waves; now noise</li>
+            <li class="tl-item">Bumped logo <code>maxHeight</code> from <strong>64px → 96px</strong> on the partner-card <code>&lt;img&gt;</code>. Portrait-aspect logos (Bethel: 471×663) were rendering at only 43×64 inside a ~228×152 card. All Coalition tabs now show logos noticeably larger</li>
+            <li class="tl-item"><strong>Auto-advance cycle fix</strong>: tabs were rotating <code>(i + 1) % 6</code> but <code>allTabs</code> has 7 entries (Leadership + 6 partner groups), so the CBO tab never appeared during the 4s rotation. Changed to <code>% 7</code> in both files</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- May 14 2026 -->
+      <div class="tl-entry">
+        <div class="tl-date-col">
+          <div class="tl-date"><span class="month">May</span>14, 2026</div>
+        </div>
+        <div class="tl-connector"><div class="tl-dot"></div></div>
+        <div class="tl-card">
+          <div class="tl-card-header">
+            <span class="tl-card-date-mobile">May 14, 2026</span>
             <span class="tl-tag tag-design">Design</span>
             <span class="tl-tag tag-content">Content</span>
             <span class="tl-tag tag-dev">Dev</span>
