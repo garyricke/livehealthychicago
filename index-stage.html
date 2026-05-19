@@ -3103,10 +3103,8 @@ let it drop on you`;
       );
     }
 
-    // ── Admin Menu (discrete "A" badge → admin pages popover) ──────────
-    // All pages listed here are password-protected (sessionStorage 'lhc_auth'
-    // or localStorage 'lhc_brand_auth'). celebrate.html is intentionally
-    // excluded — it's patient-facing (QR-triggered with ?loc=).
+    // ── Admin Menu (discrete "A" badge → internal pages popover) ──────────
+    // Internal/admin pages plus the patient-facing celebrate.html flow.
     const ADMIN_ICON_SVG = { viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: '1.75', strokeLinecap: 'round', strokeLinejoin: 'round', width: '16', height: '16' };
     const ADMIN_PAGES = [
       {
@@ -3178,6 +3176,15 @@ let it drop on you`;
             <path d="M10.85 12.15 21 2"/>
             <path d="M18 5l3 3"/>
             <path d="M15 8l3 3"/>
+          </svg>
+        ),
+      },
+      {
+        label: 'Celebrate the Check', desc: 'Post-screening flow', href: '/celebrate.html',
+        icon: (
+          <svg {...ADMIN_ICON_SVG}>
+            <circle cx="12" cy="8" r="6"/>
+            <path d="M8.21 13.89L7 22l5-3 5 3-1.21-8.11"/>
           </svg>
         ),
       },
@@ -3390,7 +3397,6 @@ let it drop on you`;
         { name: 'AllianceChicago',                     src: 'assets/logo-alliance-chicago-redrawn.png' },
         { name: 'Cook County Health',                   src: 'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770748053/cook-county-health_o4hlzw.png' },
         { name: 'Chicago Department of Public Health',  src: 'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/lhc-partners/chicago-dept-public-health' },
-        { name: 'Community Advisory Board' },
         { name: 'Northwestern University',              src: 'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,e_trim/lhc-partners/northwestern-university' },
         { name: 'Rush University Medical Center',       src: 'https://res.cloudinary.com/dsbllwpbh/image/upload/fl_sanitize/lhc-partners/rush-university-medical-center.svg' },
         { name: 'South Side Healthy Community Organization', src: 'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,e_trim/lhc-partners/south-side-healthy-community-org' },
