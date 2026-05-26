@@ -251,6 +251,63 @@
     .status-approved    { background: rgba(72,201,176,0.16); color: #1a6b5a; border-color: rgba(72,201,176,0.55); }
     .status-approved::before    { background: var(--teal); }
 
+    /* ── Accordion sections ──────────────────────────── */
+    .acc { margin-bottom: 48px; }
+    .acc-summary {
+      list-style: none;
+      cursor: pointer;
+      display: flex; align-items: center; gap: 14px;
+      padding: 18px 22px;
+      background: var(--surface);
+      border: 1px solid rgba(27,54,93,0.08);
+      border-radius: 14px;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 1px 3px rgba(27,54,93,0.04);
+    }
+    .acc-summary::-webkit-details-marker { display: none; }
+    .acc-summary:hover {
+      border-color: rgba(70,183,229,0.4);
+      box-shadow: 0 1px 3px rgba(27,54,93,0.06), 0 6px 16px rgba(27,54,93,0.07);
+    }
+    .acc[open] .acc-summary {
+      border-color: rgba(70,183,229,0.5);
+      border-bottom-left-radius: 0; border-bottom-right-radius: 0;
+      margin-bottom: 0;
+    }
+    .acc-summary-text { flex: 1; min-width: 0; }
+    .acc-summary-text .section-label { margin-bottom: 4px; }
+    .acc-summary-text .section-title { margin-bottom: 0; font-size: 1.3rem; }
+    .acc-meta {
+      font-family: 'Poppins', sans-serif; font-size: 0.7rem; font-weight: 600;
+      letter-spacing: 0.07em; text-transform: uppercase;
+      color: var(--gray);
+      padding: 4px 12px; border-radius: 99px;
+      background: rgba(27,54,93,0.06);
+      white-space: nowrap;
+    }
+    .acc-chev {
+      flex-shrink: 0;
+      width: 28px; height: 28px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--gray);
+      transition: transform 0.25s ease, color 0.2s ease;
+    }
+    .acc[open] .acc-chev { transform: rotate(90deg); color: var(--blue); }
+    .acc-body {
+      background: var(--surface);
+      border: 1px solid rgba(70,183,229,0.5); border-top: none;
+      border-bottom-left-radius: 14px; border-bottom-right-radius: 14px;
+      padding: 8px 22px 22px;
+    }
+    /* Cancel inner card margins inside an open acc — the acc owns the spacing */
+    .acc-body .todos-card { margin-bottom: 0; box-shadow: none; border: none; padding: 12px 0 4px; }
+    .acc-body .qr-grid { margin-bottom: 8px; }
+    .acc-body .staging-warning { margin-bottom: 18px; }
+    @media (max-width: 540px) {
+      .acc-summary { flex-wrap: wrap; padding: 16px 18px; }
+      .acc-summary-text .section-title { font-size: 1.15rem; }
+    }
+
     /* ── Budget bar (mirrors scope.html style, tighter) ─ */
     .budget-bar {
       background: var(--surface); border-radius: 18px;
@@ -596,8 +653,18 @@
     </div>
 
     <!-- Open Items -->
-    <span class="section-label">Tracking</span>
-    <h2 class="section-title">Open Items</h2>
+    <details class="acc">
+      <summary class="acc-summary">
+        <div class="acc-summary-text">
+          <span class="section-label">Tracking</span>
+          <h2 class="section-title">Open Items</h2>
+        </div>
+        <span class="acc-meta">14 open</span>
+        <span class="acc-chev">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </span>
+      </summary>
+      <div class="acc-body">
 
     <div class="todos-card">
       <div class="todos-head">
@@ -726,9 +793,22 @@
 
     </div>
 
+      </div><!-- /acc-body -->
+    </details>
+
     <!-- QR Codes -->
-    <span class="section-label">QR Codes</span>
-    <h2 class="section-title">Scannable Short Links</h2>
+    <details class="acc">
+      <summary class="acc-summary">
+        <div class="acc-summary-text">
+          <span class="section-label">QR Codes</span>
+          <h2 class="section-title">Scannable Short Links</h2>
+        </div>
+        <span class="acc-meta">5 codes · all live</span>
+        <span class="acc-chev">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </span>
+      </summary>
+      <div class="acc-body">
 
     <div class="staging-warning" style="background:rgba(16,185,129,0.08); border-color:rgba(16,185,129,0.35)">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -822,6 +902,9 @@
       </div>
 
     </div>
+
+      </div><!-- /acc-body -->
+    </details>
 
     <!-- Timeline -->
     <span class="section-label">Change Log</span>
