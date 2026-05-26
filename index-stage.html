@@ -3103,6 +3103,326 @@ let it drop on you`;
       );
     }
 
+    // ── Community Voice ──
+    // Soft, principle-led framing for the Community Advisory Board's role in LHC.
+    // Carousel is seeded with approach principles (Rachel Reichlin, 5/14); real CAB
+    // testimonials from the 5/21 in-person meeting drop into COMMUNITY_VOICES as they
+    // arrive (add kind: 'testimonial' with name + attribution + optional avatar).
+    const CAB_RESPONSIBILITIES = [
+      {
+        label: 'Feedback',
+        text: 'Offering feedback on LHC initiatives, strategies, and engagement efforts.',
+        icon: (
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" style={{width:'20px',height:'20px'}}>
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          </svg>
+        ),
+      },
+      {
+        label: 'Priorities',
+        text: 'Sharing community strengths, concerns, and priorities to guide our work.',
+        icon: (
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" style={{width:'20px',height:'20px'}}>
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        ),
+      },
+      {
+        label: 'Communication',
+        text: 'Facilitating communication between LHC and neighborhood stakeholders.',
+        icon: (
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" style={{width:'20px',height:'20px'}}>
+            <path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/>
+          </svg>
+        ),
+      },
+      {
+        label: 'Planning & Evaluation',
+        text: 'Participating in planning, evaluation, and outreach activities.',
+        icon: (
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" style={{width:'20px',height:'20px'}}>
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+            <line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/>
+            <line x1="3" y1="10" x2="21" y2="10"/>
+          </svg>
+        ),
+      },
+      {
+        label: 'Equity & Inclusion',
+        text: 'Upholding principles of equity, transparency, and inclusion.',
+        icon: (
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" style={{width:'20px',height:'20px'}}>
+            <path d="M3 12l2-2 4 4 8-8 4 4"/>
+          </svg>
+        ),
+      },
+      {
+        label: 'Subcommittees',
+        text: 'Supporting CAB Subcommittees and shaping input for Executive & Steering Committees.',
+        icon: (
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" style={{width:'20px',height:'20px'}}>
+            <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/>
+          </svg>
+        ),
+      },
+    ];
+
+    const COMMUNITY_VOICES = [
+      {
+        kind: 'principle',
+        quote: 'We build with leaders who are trusted communicators in their communities.',
+        attribution: 'Our approach',
+      },
+      {
+        kind: 'principle',
+        quote: 'We make space to be guided by — and make meaning with — people who hold deep relationships in our priority neighborhoods.',
+        attribution: 'Our approach',
+      },
+    ];
+
+    function CommunityVoice() {
+      const [active, setActive] = React.useState(0);
+      const userStoppedRef = React.useRef(false);
+
+      React.useEffect(() => {
+        if (COMMUNITY_VOICES.length < 2) return;
+        const id = setInterval(() => {
+          if (userStoppedRef.current) { clearInterval(id); return; }
+          setActive(a => (a + 1) % COMMUNITY_VOICES.length);
+        }, 6000);
+        return () => clearInterval(id);
+      }, []);
+
+      const handleSelect = (i) => {
+        userStoppedRef.current = true;
+        setActive(i);
+      };
+
+      const current = COMMUNITY_VOICES[active];
+
+      return (
+        <section id="community-voice" style={{ backgroundColor: '#fff', padding: '96px 0' }}>
+          <div style={{ maxWidth: '880px', margin: '0 auto', padding: '0 24px' }}>
+
+            {/* Header */}
+            <div style={{ textAlign: 'center', marginBottom: '48px' }}>
+              <span style={{ fontFamily: "'Poppins',sans-serif", fontSize: '11px', fontWeight: 700,
+                letterSpacing: '0.18em', textTransform: 'uppercase', color: colors.vitalityYellow,
+                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginBottom: '12px' }}>
+                <span style={{ display: 'inline-block', width: '28px', height: '2px', background: colors.vitalityYellow }}/>
+                Our Approach
+              </span>
+              <h2 style={{ fontFamily: "'Montserrat',sans-serif", fontWeight: 800,
+                fontSize: 'clamp(26px,4vw,40px)', color: colors.trustNavy, marginBottom: '14px',
+                letterSpacing: '-0.02em' }}>
+                Community at the center.
+              </h2>
+              <p style={{ fontFamily: "'Open Sans',sans-serif", fontSize: '17px',
+                color: colors.charcoal, maxWidth: '620px', margin: '0 auto', lineHeight: 1.7 }}>
+                Live Healthy Chicago is shaped alongside the people we serve. Our work is guided by
+                a Community Advisory Board of leaders, neighbors, and trusted communicators from
+                the neighborhoods where we show up.
+              </p>
+            </div>
+
+            {/* CAB photo */}
+            <figure style={{ margin: '0 0 36px', position: 'relative' }}>
+              <div style={{
+                borderRadius: '20px',
+                overflow: 'hidden',
+                boxShadow: '0 12px 36px rgba(27,54,93,0.12)',
+                position: 'relative',
+                aspectRatio: '21 / 9',
+              }}>
+                <img
+                  src="assets/community-voice/cab-placeholder.jpg"
+                  alt="Community Advisory Board working session — placeholder illustration."
+                  style={{
+                    width: '100%', height: '100%', display: 'block', objectFit: 'cover',
+                  }}
+                />
+                <span style={{
+                  position: 'absolute', top: '14px', right: '14px',
+                  fontFamily: "'Poppins',sans-serif",
+                  fontSize: '10px', fontWeight: 700,
+                  letterSpacing: '0.12em', textTransform: 'uppercase',
+                  padding: '5px 12px', borderRadius: '99px',
+                  backgroundColor: 'rgba(255,255,255,0.92)',
+                  color: colors.charcoal,
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+                }}>
+                  Placeholder
+                </span>
+              </div>
+              <figcaption style={{
+                marginTop: '10px',
+                fontFamily: "'Open Sans',sans-serif",
+                fontSize: '12px',
+                color: colors.charcoal, opacity: 0.6,
+                textAlign: 'center', lineHeight: 1.5,
+              }}>
+                Illustrative — real photos from our May 21 in-person CAB meeting coming soon.
+              </figcaption>
+            </figure>
+
+            {/* Responsibilities grid */}
+            <div style={{ marginBottom: '40px' }}>
+              <p style={{
+                fontFamily: "'Poppins',sans-serif",
+                fontSize: '11px', fontWeight: 700,
+                letterSpacing: '0.14em', textTransform: 'uppercase',
+                color: colors.charcoal, opacity: 0.55,
+                textAlign: 'center', marginBottom: '20px',
+              }}>
+                How the CAB shapes our work
+              </p>
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+                gap: '14px',
+              }}>
+                {CAB_RESPONSIBILITIES.map((r, i) => (
+                  <div key={i} style={{
+                    display: 'flex', gap: '12px', alignItems: 'flex-start',
+                    padding: '16px 18px',
+                    background: '#fff',
+                    border: `1px solid rgba(27,54,93,0.08)`,
+                    borderRadius: '12px',
+                  }}>
+                    <div style={{
+                      flexShrink: 0,
+                      width: '36px', height: '36px',
+                      borderRadius: '10px',
+                      background: `${colors.vitalityYellow}22`,
+                      color: colors.trustNavy,
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    }}>
+                      {r.icon}
+                    </div>
+                    <div>
+                      <p style={{
+                        fontFamily: "'Montserrat',sans-serif",
+                        fontWeight: 700, fontSize: '13px',
+                        color: colors.trustNavy, marginBottom: '4px',
+                        letterSpacing: '-0.005em',
+                      }}>
+                        {r.label}
+                      </p>
+                      <p style={{
+                        fontFamily: "'Open Sans',sans-serif",
+                        fontSize: '12.5px', lineHeight: 1.55,
+                        color: colors.charcoal, opacity: 0.78,
+                        margin: 0,
+                      }}>
+                        {r.text}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Quote card */}
+            <div style={{
+              position: 'relative',
+              background: `linear-gradient(135deg, #FFFBEE 0%, #FFF8E1 100%)`,
+              border: `1px solid ${colors.vitalityYellow}55`,
+              borderRadius: '24px',
+              padding: '48px 40px',
+              boxShadow: '0 8px 32px rgba(27,54,93,0.06)',
+              overflow: 'hidden',
+            }}>
+
+              {/* Decorative quote glyph */}
+              <svg viewBox="0 0 24 24" fill={colors.vitalityYellow} aria-hidden="true"
+                style={{
+                  position: 'absolute', top: '20px', left: '24px',
+                  width: '40px', height: '40px', opacity: 0.35,
+                }}>
+                <path d="M6.5 17h-3a1 1 0 01-1-1v-5a6 6 0 016-6V9a3 3 0 00-3 3v.5h2.5a1 1 0 011 1V16a1 1 0 01-1 1zm10 0h-3a1 1 0 01-1-1v-5a6 6 0 016-6V9a3 3 0 00-3 3v.5h2.5a1 1 0 011 1V16a1 1 0 01-1 1z"/>
+              </svg>
+
+              {/* Slide */}
+              <div key={active} style={{
+                animation: 'fadeIn 0.55s ease-out both',
+                minHeight: '180px',
+                display: 'flex', flexDirection: 'column', justifyContent: 'center',
+                padding: '8px 8px 0',
+              }}>
+                <p style={{
+                  fontFamily: "'Montserrat',sans-serif",
+                  fontWeight: 600,
+                  fontSize: 'clamp(20px,2.6vw,26px)',
+                  lineHeight: 1.45,
+                  color: colors.trustNavy,
+                  letterSpacing: '-0.01em',
+                  marginBottom: '20px',
+                  textAlign: 'center',
+                }}>
+                  &ldquo;{current.quote}&rdquo;
+                </p>
+                <p style={{
+                  fontFamily: "'Poppins',sans-serif",
+                  fontSize: '12px',
+                  fontWeight: 600,
+                  letterSpacing: '0.14em',
+                  textTransform: 'uppercase',
+                  color: colors.charcoal,
+                  opacity: 0.65,
+                  textAlign: 'center',
+                }}>
+                  — {current.attribution}
+                </p>
+              </div>
+
+              {/* Dots */}
+              {COMMUNITY_VOICES.length > 1 && (
+                <div style={{
+                  display: 'flex', justifyContent: 'center', gap: '8px',
+                  marginTop: '24px',
+                }}>
+                  {COMMUNITY_VOICES.map((_, i) => (
+                    <button key={i} onClick={() => handleSelect(i)}
+                      aria-label={`Show voice ${i + 1} of ${COMMUNITY_VOICES.length}`}
+                      style={{
+                        width: i === active ? '24px' : '8px',
+                        height: '8px',
+                        borderRadius: '99px',
+                        border: 'none',
+                        cursor: 'pointer',
+                        background: i === active ? colors.trustNavy : colors.coolGray,
+                        opacity: i === active ? 1 : 0.5,
+                        padding: 0,
+                        transition: 'all 0.3s ease',
+                      }}/>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Listening note — signals that real CAB stories are inbound */}
+            <p style={{
+              marginTop: '32px',
+              textAlign: 'center',
+              fontFamily: "'Open Sans',sans-serif",
+              fontSize: '14px',
+              color: colors.charcoal,
+              opacity: 0.7,
+              lineHeight: 1.7,
+              maxWidth: '560px',
+              marginLeft: 'auto',
+              marginRight: 'auto',
+            }}>
+              We&rsquo;re weaving in voices from our Community Advisory Board — captured at our
+              in&#8209;person meeting on May&nbsp;21. Stories landing here over the coming weeks.
+            </p>
+
+          </div>
+        </section>
+      );
+    }
+
     // ── Admin Menu (discrete "A" badge → internal pages popover) ──────────
     // Internal/admin pages plus the patient-facing celebrate.html flow.
     const ADMIN_ICON_SVG = { viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: '1.75', strokeLinecap: 'round', strokeLinejoin: 'round', width: '16', height: '16' };
@@ -4265,6 +4585,9 @@ And that is how we overcome high blood pressure. They'll tell you about food and
 
           {/* ── Our Model ── */}
           <ModelV2 />
+
+          {/* ── Community Voice (CAB approach + testimonials) ── */}
+          <CommunityVoice />
 
           {/* ── Neighborhoods ── */}
           <section className="py-24" id="neighborhoods" style={{ backgroundColor: colors.softCloud }}>
