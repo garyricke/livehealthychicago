@@ -82,12 +82,6 @@
     <input type="text" name="q3_reflection" />
     <input type="text" name="bot-field" />
   </form>
-  <form name="celebrate-drawing" data-netlify="true" netlify-honeypot="bot-field" hidden>
-    <input type="text" name="first_name" />
-    <input type="text" name="location" />
-    <input type="email" name="email" />
-    <input type="text" name="bot-field" />
-  </form>
 
   <div id="root"></div>
 
@@ -108,22 +102,15 @@
       faint:   'rgba(255,255,255,0.10)',
     };
 
-    const COUNTER_KEY  = 'celebrate_counter';
-    const COUNTER_BASE = 12847;
-    const MONTH_BASE   = 248;
+    const COUNTER_BASE = 500;
+    const MONTH_BASE   = 87;
     const GOAL         = 25000;
     const LOGO_URL     = 'https://assets.codepen.io/3457845/logo-Live-Healthy-Chicago.png';
 
-    // ── Counter (faked via localStorage) ──────────────────────────────
-    const getCount = () => {
-      const stored = parseInt(localStorage.getItem(COUNTER_KEY) || '0', 10) || 0;
-      return { total: COUNTER_BASE + stored, month: MONTH_BASE + stored };
-    };
-    const bumpCount = () => {
-      const stored = parseInt(localStorage.getItem(COUNTER_KEY) || '0', 10) || 0;
-      localStorage.setItem(COUNTER_KEY, String(stored + 1));
-      return { total: COUNTER_BASE + stored + 1, month: MONTH_BASE + stored + 1 };
-    };
+    // Counter is paused while the comms committee trials the flow.
+    // Real start date + starting number land here once we go live.
+    const getCount  = () => ({ total: COUNTER_BASE, month: MONTH_BASE });
+    const bumpCount = () => ({ total: COUNTER_BASE, month: MONTH_BASE });
 
     // ── Web Audio fanfare (royalty-free: synthesized here) ────────────
     let audioCtx = null;
@@ -424,10 +411,10 @@
                       color: C.white,
                       boxShadow: '0 10px 30px rgba(218,41,28,0.3)',
                     }}>
-              GIVE A LITTLE MORE →
+              SHARE A QUICK THOUGHT →
             </button>
             <p className="text-xs mb-4" style={{ color: 'rgba(255,255,255,0.5)' }}>
-              3 quick questions · enter to win a $50 gift card
+              3 quick questions about your day
             </p>
             <button onClick={onDone}
                     className="text-sm underline"
@@ -549,78 +536,6 @@
       );
     };
 
-    const EmailView = ({ name, onSubmit, onSkip }) => {
-      const [email, setEmail] = useState('');
-      const [busy, setBusy] = useState(false);
-      const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-
-      const handle = async (e) => {
-        e.preventDefault();
-        if (!ok || busy) return;
-        setBusy(true);
-        try {
-          await submitNetlify('celebrate-drawing', {
-            first_name: name,
-            location: getLoc(),
-            email,
-          });
-        } catch (err) { /* continue anyway */ }
-        onSubmit();
-      };
-
-      return (
-        <div className="view-enter relative min-h-[100dvh] flex flex-col items-center justify-center px-6 py-10">
-          <FlagBackdrop />
-          <div className="relative z-10 w-full max-w-md text-center">
-            <div className="inline-block mb-6 pop-in">
-              <svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke={C.yellow} strokeWidth="1.5">
-                <path strokeLinecap="round" strokeLinejoin="round"
-                      d="M12 8v4l3 2m6-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            </div>
-            <h2 className="font-heading font-black text-3xl sm:text-4xl mb-3" style={{ letterSpacing: '-0.02em' }}>
-              Enter the drawing
-            </h2>
-            <p className="text-base mb-8" style={{ color: C.muted }}>
-              Drop your email for a chance to win a <strong style={{ color: C.white }}>$50 gift card</strong>. We draw a winner every month.
-            </p>
-
-            <form onSubmit={handle}>
-              <input type="email" value={email} onChange={e => setEmail(e.target.value)}
-                     placeholder="you@email.com"
-                     autoComplete="email"
-                     className="w-full px-5 py-4 rounded-2xl text-center text-base font-label mb-4 focus:outline-none"
-                     style={{
-                       background: 'rgba(255,255,255,0.06)',
-                       border: `1px solid ${ok ? C.blue : C.faint}`,
-                       color: C.white,
-                     }} />
-              <button type="submit"
-                      disabled={!ok || busy}
-                      className="w-full py-4 rounded-2xl font-heading font-extrabold text-base tracking-wide mb-3 transition-all"
-                      style={{
-                        background: (ok && !busy) ? `linear-gradient(135deg, ${C.red} 0%, #B01E15 100%)` : 'rgba(255,255,255,0.08)',
-                        color: (ok && !busy) ? C.white : 'rgba(255,255,255,0.4)',
-                        boxShadow: (ok && !busy) ? '0 10px 30px rgba(218,41,28,0.3)' : 'none',
-                        cursor: (ok && !busy) ? 'pointer' : 'not-allowed',
-                      }}>
-                {busy ? 'ENTERING…' : 'ENTER ME →'}
-              </button>
-              <button type="button" onClick={onSkip}
-                      className="text-sm underline"
-                      style={{ color: 'rgba(255,255,255,0.55)' }}>
-                No thanks, skip
-              </button>
-            </form>
-
-            <p className="text-xs mt-6" style={{ color: 'rgba(255,255,255,0.4)' }}>
-              We'll only email you about the drawing.
-            </p>
-          </div>
-        </div>
-      );
-    };
-
     const ThanksView = ({ name, onReset }) => {
       const canShare = typeof navigator !== 'undefined' && !!navigator.share;
       const share = () => {
@@ -671,7 +586,7 @@
 
     // ── App ───────────────────────────────────────────────────────────
     const App = () => {
-      const [view, setView] = useState('entry'); // entry | celebrate | impact | survey | email | thanks
+      const [view, setView] = useState('entry'); // entry | celebrate | impact | survey | thanks
       const [name, setName] = useState('');
       const [count, setCount] = useState(getCount());
       const [muted, setMuted] = useState(false);
@@ -707,9 +622,6 @@
                                                   onSurvey={() => setView('survey')}
                                                   onDone={() => setView('thanks')} />}
           {view === 'survey'    && <SurveyView    name={name}
-                                                  onSubmit={() => setView('email')}
-                                                  onSkip={() => setView('thanks')} />}
-          {view === 'email'     && <EmailView     name={name}
                                                   onSubmit={() => { fireConfetti('small'); setView('thanks'); }}
                                                   onSkip={() => setView('thanks')} />}
           {view === 'thanks'    && <ThanksView    name={name} onReset={reset} />}

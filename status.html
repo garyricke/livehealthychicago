@@ -230,6 +230,139 @@
     .tag-fix      { background: rgba(27,54,93,0.09);   color: var(--navy); }
     .tag-feature  { background: rgba(229,32,47,0.1);   color: #9b1010; }
 
+    /* ── Status pills (state of an entry) ─────────────── */
+    .tl-status {
+      font-family: 'Poppins', sans-serif; font-size: 0.65rem; font-weight: 700;
+      letter-spacing: 0.07em; text-transform: uppercase;
+      padding: 3px 10px 3px 9px; border-radius: 99px;
+      display: inline-flex; align-items: center; gap: 6px;
+      border: 1px solid transparent;
+    }
+    .tl-status::before {
+      content: ''; width: 6px; height: 6px; border-radius: 50%;
+      display: inline-block; flex-shrink: 0;
+    }
+    .status-completed   { background: #d1fae5; color: #155e3a; border-color: #6ee7b7; }
+    .status-completed::before   { background: #10b981; }
+    .status-in-progress { background: rgba(70,183,229,0.14); color: #0e6d99; border-color: rgba(70,183,229,0.45); }
+    .status-in-progress::before { background: var(--blue); }
+    .status-waiting     { background: #fffbeb; color: #7a5000; border-color: #f6c23e; }
+    .status-waiting::before     { background: #d97706; }
+    .status-approved    { background: rgba(72,201,176,0.16); color: #1a6b5a; border-color: rgba(72,201,176,0.55); }
+    .status-approved::before    { background: var(--teal); }
+
+    /* ── Budget bar (mirrors scope.html style, tighter) ─ */
+    .budget-bar {
+      background: var(--surface); border-radius: 18px;
+      padding: 22px 26px; margin-bottom: 36px;
+      box-shadow: 0 1px 3px rgba(27,54,93,0.06), 0 4px 16px rgba(27,54,93,0.05);
+      border: 1px solid rgba(27,54,93,0.06);
+      display: block; text-decoration: none; color: inherit;
+      transition: transform 0.15s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+    .budget-bar:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 1px 3px rgba(27,54,93,0.08), 0 8px 24px rgba(27,54,93,0.09);
+      border-color: rgba(70,183,229,0.4);
+    }
+    .budget-bar-row {
+      display: flex; justify-content: space-between; align-items: baseline;
+      gap: 18px; flex-wrap: wrap; margin-bottom: 12px;
+    }
+    .budget-bar-title {
+      font-family: 'Montserrat', sans-serif; font-weight: 800;
+      color: var(--navy); font-size: 0.98rem; letter-spacing: -0.01em;
+    }
+    .budget-bar-stats {
+      display: flex; gap: 18px; font-size: 0.82rem; color: var(--gray); flex-wrap: wrap;
+    }
+    .budget-bar-stats strong { color: var(--navy); font-weight: 700; }
+    .budget-bar-track {
+      height: 9px; background: rgba(27,54,93,0.07);
+      border-radius: 99px; overflow: hidden; margin-bottom: 10px;
+    }
+    .budget-bar-fill {
+      height: 100%; background: linear-gradient(90deg, var(--blue), var(--teal));
+      border-radius: 99px;
+    }
+    .budget-bar-foot {
+      display: flex; justify-content: space-between; align-items: center;
+      font-family: 'Poppins', sans-serif; font-size: 0.74rem;
+      color: var(--muted); letter-spacing: 0.04em;
+    }
+    .budget-bar-link {
+      display: inline-flex; align-items: center; gap: 5px;
+      color: var(--blue); font-weight: 700; font-size: 0.78rem;
+      text-transform: none; letter-spacing: 0;
+    }
+
+    /* ── Pending Approvals card ───────────────────────── */
+    .approvals-card {
+      background: var(--surface); border-radius: 20px;
+      padding: 24px 28px;
+      margin-bottom: 36px;
+      box-shadow: 0 1px 3px rgba(27,54,93,0.08), 0 8px 24px rgba(27,54,93,0.08);
+      border: 1.5px solid #f6c23e;
+      position: relative; overflow: hidden;
+    }
+    .approvals-card::before {
+      content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+      width: 5px; background: linear-gradient(180deg, #f6c23e, #d97706);
+    }
+    .approvals-head {
+      display: flex; align-items: center; gap: 12px; margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .approvals-head h3 {
+      font-family: 'Montserrat', sans-serif; font-size: 1.05rem; font-weight: 800;
+      color: var(--navy); letter-spacing: -0.01em;
+    }
+    .approvals-count {
+      font-family: 'Poppins', sans-serif; font-size: 0.65rem; font-weight: 700;
+      letter-spacing: 0.07em; text-transform: uppercase;
+      background: #7a5000; color: #fff;
+      padding: 3px 10px; border-radius: 99px;
+    }
+    .approvals-sub {
+      font-size: 0.83rem; color: var(--gray); margin-bottom: 18px; line-height: 1.55;
+    }
+    .approvals-list {
+      list-style: none; display: flex; flex-direction: column; gap: 12px;
+    }
+    .approvals-item {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px 16px;
+      padding: 14px 16px;
+      background: #fcfaf3;
+      border: 1px solid rgba(246,194,62,0.35);
+      border-radius: 12px;
+      align-items: start;
+    }
+    .approvals-item-title {
+      font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.92rem;
+      color: var(--navy); line-height: 1.35;
+    }
+    .approvals-item-meta {
+      font-family: 'Poppins', sans-serif; font-size: 0.7rem; font-weight: 600;
+      letter-spacing: 0.04em; text-transform: uppercase;
+      color: #7a5000;
+      align-self: start; white-space: nowrap;
+    }
+    .approvals-item-detail {
+      grid-column: 1 / -1;
+      font-size: 0.85rem; line-height: 1.55; color: #475569;
+    }
+    .approvals-item-detail strong { color: var(--navy); font-weight: 600; }
+    .approvals-item-detail code {
+      background: rgba(0,0,0,0.06); padding: 1px 6px; border-radius: 4px;
+      font-size: 0.78rem;
+    }
+    @media (max-width: 540px) {
+      .approvals-item { grid-template-columns: 1fr; }
+      .approvals-item-meta { justify-self: start; }
+    }
+
     .tl-items { list-style: none; display: flex; flex-direction: column; gap: 8px; }
     .tl-item {
       position: relative; padding-left: 15px;
@@ -292,7 +425,7 @@
       <h1>Project Status</h1>
       <p>A running log of every update, build, and content change to the Live Healthy Chicago site.</p>
       <div class="header-meta">
-        <div class="header-badge"><span class="badge-dot" style="background:var(--green)"></span> Last updated May 19, 2026</div>
+        <div class="header-badge"><span class="badge-dot" style="background:var(--green)"></span> Last updated May 26, 2026</div>
         <div class="header-badge"><span class="badge-dot" style="background:var(--blue)"></span> livehealthychi.com</div>
         <div class="header-badge"><span class="badge-dot" style="background:var(--yellow)"></span> Staging: index-stage.html</div>
         <a href="/scope.html" style="display:inline-flex; align-items:center; gap:7px; padding:6px 14px; border-radius:99px; background:rgba(70,183,229,0.18); border:1px solid rgba(70,183,229,0.4); color:#fff; font-size:0.8rem; font-family:'Poppins',sans-serif; font-weight:600; text-decoration:none; transition:background 0.2s, border-color 0.2s;" onmouseover="this.style.background='rgba(70,183,229,0.3)'; this.style.borderColor='rgba(70,183,229,0.6)';" onmouseout="this.style.background='rgba(70,183,229,0.18)'; this.style.borderColor='rgba(70,183,229,0.4)';">
@@ -306,6 +439,82 @@
 
   <div style="background:var(--bg)">
   <div class="main-inner">
+
+    <!-- Budget snapshot -->
+    <span class="section-label">SOW Snapshot</span>
+    <h2 class="section-title">Budget &amp; Contract</h2>
+
+    <a class="budget-bar" href="/scope.html">
+      <div class="budget-bar-row">
+        <div class="budget-bar-title">Initial SOW — $25,000 fixed fee</div>
+        <div class="budget-bar-stats">
+          <div>Spent ≈ <strong>$19,750</strong> (79%)</div>
+          <div>Remaining ≈ <strong>$5,250</strong></div>
+          <div>Status: <strong>Pre-maintenance</strong></div>
+        </div>
+      </div>
+      <div class="budget-bar-track">
+        <div class="budget-bar-fill" style="width: 79%;"></div>
+      </div>
+      <div class="budget-bar-foot">
+        <span>0%</span>
+        <span class="budget-bar-link">
+          Full Scope &amp; SOW breakdown
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </span>
+        <span>SOW exhausted</span>
+      </div>
+    </a>
+
+    <!-- Pending Approvals -->
+    <span class="section-label">Async Review</span>
+    <h2 class="section-title">Pending Decisions</h2>
+
+    <div class="approvals-card">
+      <div class="approvals-head">
+        <h3>Items waiting on a yes / no</h3>
+        <span class="approvals-count">4 open</span>
+      </div>
+      <p class="approvals-sub">
+        These items can move forward as soon as we get a thumbs-up. Drop a note here, in Slack, or reply
+        to the latest email thread — whatever's easiest.
+      </p>
+      <ul class="approvals-list">
+
+        <li class="approvals-item">
+          <div class="approvals-item-title">Community Voice — Phase 2 content</div>
+          <div class="approvals-item-meta">Alexandra</div>
+          <div class="approvals-item-detail">
+            <strong>Phase 1 is live in staging</strong> — new "Our Approach — Community at the center" section between Our Model and Neighborhoods. Includes softened framing copy (per Rachel 5/14), a placeholder CAB group photo, a 6-icon responsibilities grid, and a rotating quote card seeded with Rachel's two approach principles. Now waiting on <strong>video, headshots, and the real group photo</strong> Alexandra captured at the <strong>5/21 in-person CAB meeting</strong> to swap in real testimonials and the real photo.
+          </div>
+        </li>
+
+        <li class="approvals-item">
+          <div class="approvals-item-title">Nuna interview — slot pick</div>
+          <div class="approvals-item-meta">Alexandra · Rachel</div>
+          <div class="approvals-item-detail">
+            Rescheduled to <strong>Monday 6/1</strong>. Two options on offer: <strong>2:30–3:00 PM</strong> or <strong>4:00–4:30 PM</strong>. Need a pick so we can confirm with the Nuna exec director. Previously paused for Katine's medical leave (she's back in June).
+          </div>
+        </li>
+
+        <li class="approvals-item">
+          <div class="approvals-item-title">Celebrate the Check — raffle copy</div>
+          <div class="approvals-item-meta">Law Rush Law</div>
+          <div class="approvals-item-detail">
+            Raffle / $50 gift card / drawing language has been <strong>stripped</strong> from <code>/celebrate.html</code> for the Comms Committee trial. Once Law Rush Law clears the legal framing (Alexandra suggested the same "double indemnification" pattern Michelle at CDPH used for ScholarshipOwl), they'll send approved copy and we put it back behind a re-enable toggle.
+          </div>
+        </li>
+
+        <li class="approvals-item">
+          <div class="approvals-item-title">Celebrate the Check — live counter</div>
+          <div class="approvals-item-meta">Alexandra</div>
+          <div class="approvals-item-detail">
+            Counter is set to <strong>500 BP screenings</strong> (placeholder) and <strong>not logging</strong> while the Comms Committee shops the flow around. Need the real <strong>starting count</strong> and <strong>start date</strong> to flip on live increments.
+          </div>
+        </li>
+
+      </ul>
+    </div>
 
     <!-- QR Codes -->
     <span class="section-label">QR Codes</span>
@@ -386,6 +595,22 @@
         </div>
       </div>
 
+      <div class="qr-card">
+        <div class="qr-image-wrap">
+          <img src="assets/qr-codes/celebrate-check.png" alt="Celebrate the Check QR Code">
+        </div>
+        <div class="qr-card-body">
+          <span class="qr-env-badge badge-live"><span class="badge-dot-sm" style="background:#10b981"></span> Live</span>
+          <div class="qr-card-title">Celebrate the Check</div>
+          <div class="qr-card-url">livehealthychi.com/check</div>
+          <div class="qr-card-desc">Post-screening celebration flow for provider locations. Routes to <code style="font-size:0.75rem;background:rgba(0,0,0,0.06);padding:1px 5px;border-radius:3px">/celebrate.html</code>. Comms-Committee trial — raffle copy stripped pending Law Rush Law review.</div>
+          <a class="qr-download-btn" href="assets/qr-codes/celebrate-check.png" download="LHC-QR-Celebrate-Check.png">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download PNG
+          </a>
+        </div>
+      </div>
+
     </div>
 
     <!-- Timeline -->
@@ -394,19 +619,61 @@
 
     <div class="timeline">
 
-      <!-- May 19 2026 — TODAY -->
+      <!-- May 26 2026 — TODAY -->
       <div class="tl-entry">
         <div class="tl-date-col">
-          <div class="tl-date"><span class="month">May</span>19, 2026</div>
+          <div class="tl-date"><span class="month">May</span>26, 2026</div>
         </div>
         <div class="tl-connector"><div class="tl-dot today"></div></div>
         <div class="tl-card today-card">
           <div class="tl-card-header">
-            <span class="tl-card-date-mobile">May 19, 2026</span>
+            <span class="tl-card-date-mobile">May 26, 2026</span>
             <span class="tl-tag tag-today">Today</span>
+            <span class="tl-tag tag-content">Content</span>
+            <span class="tl-tag tag-design">Design</span>
+            <span class="tl-tag tag-dev">Dev</span>
+            <span class="tl-status status-completed">Completed</span>
+          </div>
+          <div class="tl-section-title">Community Voice — Phase 1 Section Live (Staging)</div>
+          <ul class="tl-items">
+            <li class="tl-item">Rachel Reichlin (5/14) and Alexandra (5/14 follow-up) both greenlit <strong>Option 2</strong> from <a href="/community-voice-options.html">community-voice-options.html</a>. Built with all four content blocks from the mockup — framing copy, placeholder CAB photo, 6-icon responsibilities grid, rotating quote card — and language softened per Rachel's note (no "every LHC decision")</li>
+            <li class="tl-item">Built a new section <code>#community-voice</code> in <code>index-stage.html</code>, slotted <strong>between Our Model and 27 Priority Neighborhoods</strong>. Section title: <em>"Community at the center."</em> with section label "Our Approach"</li>
+            <li class="tl-item">Lede paragraph uses Rachel's softer framing: <em>"Live Healthy Chicago is shaped alongside the people we serve. Our work is guided by a Community Advisory Board of leaders, neighbors, and trusted communicators from the neighborhoods where we show up."</em></li>
+            <li class="tl-item">Below the lede: a <strong>rotating quote card</strong> seeded with Rachel's two principle statements (<em>"We build with leaders who are trusted communicators in their communities"</em> · <em>"We make space to be guided by — and make meaning with — people who hold deep relationships in our priority neighborhoods"</em>). Auto-advances every 6s, paused on user dot-tap (same pattern as ModelV2 / Coalition tabs)</li>
+            <li class="tl-item">Background: vitality-yellow gradient with subtle border + decorative quote glyph; attribution reads "Our approach" (not a fake testimonial)</li>
+            <li class="tl-item">Closing note explicitly signals what's coming: <em>"We're weaving in voices from our Community Advisory Board — captured at our in-person meeting on May 21. Stories landing here over the coming weeks."</em></li>
+            <li class="tl-item"><strong>Phase 2</strong> swap-in: when Alexandra's 5/21 CAB captures land (video, headshots, group photo), drop new <code>{ kind: 'testimonial', quote, name, attribution, avatar }</code> entries into the <code>COMMUNITY_VOICES</code> array. The carousel handles the new shape without further structural work</li>
+          </ul>
+
+          <div class="tl-section-title">Status Page — Async Approval Workflow</div>
+          <ul class="tl-items">
+            <li class="tl-item">Per Alexandra's 5/19 ask, added a <strong>Pending Decisions</strong> card pinned at the top of this page so she, Rebecca, or Rachel can scan what's waiting on a yes/no and resolve async — no meeting required</li>
+            <li class="tl-item">Tagged every timeline entry with a <strong>status pill</strong> (Completed · In Progress · Waiting on Approval · Approved) alongside the existing category tags</li>
+            <li class="tl-item">Four open items surfaced: Community Voice Phase 1 build (Rachel) · Nuna interview slot pick — <strong>Monday 6/1, 2:30 or 4:00 PM</strong> · Celebrate the Check raffle copy (Law Rush Law) · Celebrate the Check live counter start (Alexandra)</li>
+          </ul>
+          <div class="tl-section-title">Celebrate the Check — Comms Committee Trial Prep</div>
+          <ul class="tl-items">
+            <li class="tl-item">Generated <strong>QR code for <code>/check</code></strong> (800×800, LHC-gray modules with heart-star logo) and added to <code>_redirects</code> → <code>/celebrate.html</code>. Card live in the QR Codes section above</li>
+            <li class="tl-item"><strong>Stripped raffle / $50 gift card / drawing language</strong> from the flow per Alexandra's ask — keeps survey questions and celebration intact. Comms Committee can shop it around without legal exposure; Law Rush Law will clear copy before raffle goes back in</li>
+            <li class="tl-item">Counter <strong>12,000 → 500</strong> (Alexandra's "we know we've done 500 BP screenings" number); real logging is <strong>disabled</strong> — passive display only until the real start date + starting number land</li>
+            <li class="tl-item">Removed the <code>celebrate-drawing</code> Netlify form and the <code>EmailView</code> screen entirely (was the email-collection step for the raffle); flow now goes Entry → Celebrate → Impact → (optional Survey) → Thanks</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- May 19 2026 -->
+      <div class="tl-entry">
+        <div class="tl-date-col">
+          <div class="tl-date"><span class="month">May</span>19, 2026</div>
+        </div>
+        <div class="tl-connector"><div class="tl-dot"></div></div>
+        <div class="tl-card">
+          <div class="tl-card-header">
+            <span class="tl-card-date-mobile">May 19, 2026</span>
             <span class="tl-tag tag-design">Design</span>
             <span class="tl-tag tag-dev">Dev</span>
             <span class="tl-tag tag-fix">Fix</span>
+            <span class="tl-status status-completed">Completed</span>
           </div>
           <div class="tl-section-title">Coalition Partners — 5 New CBO Logos</div>
           <ul class="tl-items">
@@ -441,6 +708,7 @@
             <span class="tl-tag tag-design">Design</span>
             <span class="tl-tag tag-content">Content</span>
             <span class="tl-tag tag-dev">Dev</span>
+            <span class="tl-status status-waiting">Waiting on Approval</span>
           </div>
           <div class="tl-section-title">Community Voice — Design Options Page</div>
           <ul class="tl-items">
@@ -497,6 +765,7 @@
             <span class="tl-tag tag-design">Design</span>
             <span class="tl-tag tag-content">Content</span>
             <span class="tl-tag tag-dev">Dev</span>
+            <span class="tl-status status-completed">Completed</span>
           </div>
           <div class="tl-section-title">Partner Logos — Community Health Centers</div>
           <ul class="tl-items">
@@ -538,6 +807,7 @@
             <span class="tl-tag tag-content">Content</span>
             <span class="tl-tag tag-design">Design</span>
             <span class="tl-tag tag-dev">Dev</span>
+            <span class="tl-status status-completed">Completed</span>
           </div>
           <div class="tl-section-title">Public Launch of Staging Sections → <code>index.html</code></div>
           <ul class="tl-items">
@@ -572,6 +842,7 @@
             <span class="tl-tag tag-content">Content</span>
             <span class="tl-tag tag-design">Design</span>
             <span class="tl-tag tag-dev">Dev</span>
+            <span class="tl-status status-completed">Completed</span>
           </div>
           <div class="tl-section-title">How Live Healthy Chicago Works — Pillar 2</div>
           <ul class="tl-items">
@@ -629,6 +900,7 @@
           <div class="tl-card-header">
             <span class="tl-card-date-mobile">Apr 16, 2026</span>
             <span class="tl-tag tag-design">Design</span>
+            <span class="tl-status status-completed">Completed</span>
           </div>
           <ul class="tl-items">
             <li class="tl-item">Replaced Alliance Chicago Gemini-generated placeholder with <strong>official redrawn vector logo</strong> (<code>assets/logo-alliance-chicago-redrawn.png</code>); updated both <code>index.html</code> and <code>index-stage.html</code></li>
@@ -647,6 +919,7 @@
             <span class="tl-card-date-mobile">Apr 14–15, 2026</span>
             <span class="tl-tag tag-content">Content</span>
             <span class="tl-tag tag-dev">Dev</span>
+            <span class="tl-status status-completed">Completed</span>
           </div>
           <div class="tl-section-title">core-messaging.html</div>
           <ul class="tl-items">
@@ -679,6 +952,7 @@
             <span class="tl-card-date-mobile">Apr 9, 2026</span>
             <span class="tl-tag tag-content">Content</span>
             <span class="tl-tag tag-fix">Fix</span>
+            <span class="tl-status status-completed">Completed</span>
           </div>
           <ul class="tl-items">
             <li class="tl-item">Added <strong>Seven Stops, Sixteen Years</strong> (Novartis) feature article to <code>index.html</code> news section</li>
@@ -701,6 +975,7 @@
             <span class="tl-card-date-mobile">Apr 7, 2026</span>
             <span class="tl-tag tag-feature">Feature</span>
             <span class="tl-tag tag-dev">Dev</span>
+            <span class="tl-status status-completed">Completed</span>
           </div>
           <ul class="tl-items">
             <li class="tl-item">Replaced static circle model diagram with <strong>interactive 3-pillar card section</strong> (How Live Healthy Chicago Works) with photo, text, and nav arrows</li>
@@ -725,6 +1000,7 @@
           <div class="tl-card-header">
             <span class="tl-card-date-mobile">Mar 31, 2026</span>
             <span class="tl-tag tag-feature">Feature</span>
+            <span class="tl-status status-completed">Completed</span>
           </div>
           <ul class="tl-items">
             <li class="tl-item">Added interactive <strong>7 Steps to an Accurate BP Reading</strong> section (<code>BPReadingSection</code>) — scrubber animation, SVG overlay, anchor dots, pop-up tip cards</li>
@@ -744,6 +1020,7 @@
           <div class="tl-card-header">
             <span class="tl-card-date-mobile">Mar 27, 2026</span>
             <span class="tl-tag tag-dev">Dev</span>
+            <span class="tl-status status-completed">Completed</span>
           </div>
           <ul class="tl-items">
             <li class="tl-item">Ported <strong>Watch Their Stories</strong> 4-video grid + updated news items to <code>index.html</code></li>
@@ -765,6 +1042,7 @@
             <span class="tl-card-date-mobile">Mar 24, 2026</span>
             <span class="tl-tag tag-feature">Feature</span>
             <span class="tl-tag tag-content">Content</span>
+            <span class="tl-status status-completed">Completed</span>
           </div>
           <ul class="tl-items">
             <li class="tl-item">Replaced Google Sheets live feed with <strong>static data-driven events system</strong></li>
@@ -789,6 +1067,7 @@
             <span class="tl-card-date-mobile">Mar 17, 2026</span>
             <span class="tl-tag tag-feature">Feature</span>
             <span class="tl-tag tag-content">Content</span>
+            <span class="tl-status status-completed">Completed</span>
           </div>
           <ul class="tl-items">
             <li class="tl-item">Launched <strong><a href="/portal.html">portal.html</a></strong> — 5-view CHW resource portal (Landing, SignUp, Confirm, Login, Interior) with resource card sections</li>
@@ -811,6 +1090,7 @@
             <span class="tl-card-date-mobile">Mar 10–12, 2026</span>
             <span class="tl-tag tag-dev">Dev</span>
             <span class="tl-tag tag-fix">Fix</span>
+            <span class="tl-status status-completed">Completed</span>
           </div>
           <ul class="tl-items">
             <li class="tl-item">Promoted <code>index-stage.html</code> → <strong>public <code>index.html</code></strong> (password gate removed)</li>
@@ -831,6 +1111,7 @@
           <div class="tl-card-header">
             <span class="tl-card-date-mobile">Feb 27, 2026</span>
             <span class="tl-tag tag-dev">Dev</span>
+            <span class="tl-status status-completed">Completed</span>
           </div>
           <ul class="tl-items">
             <li class="tl-item">Added strong SHA-256 password gate to staging site</li>
@@ -849,6 +1130,7 @@
           <div class="tl-card-header">
             <span class="tl-card-date-mobile">Feb 21, 2026</span>
             <span class="tl-tag tag-feature">Feature</span>
+            <span class="tl-status status-completed">Completed</span>
           </div>
           <ul class="tl-items">
             <li class="tl-item"><strong>Initial site launch</strong> — Live Healthy Chicago staging site deployed to Netlify at livehealthychi.com</li>
