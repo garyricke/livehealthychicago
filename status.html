@@ -296,6 +296,85 @@
       text-transform: none; letter-spacing: 0;
     }
 
+    /* ── Open Items card (Awaiting / Decisions / TODOs) ─ */
+    .todos-card {
+      background: var(--surface); border-radius: 20px;
+      padding: 24px 28px; margin-bottom: 48px;
+      box-shadow: 0 1px 3px rgba(27,54,93,0.08), 0 8px 24px rgba(27,54,93,0.08);
+      border: 1px solid rgba(27,54,93,0.1);
+    }
+    .todos-head {
+      display: flex; align-items: center; gap: 12px; margin-bottom: 8px;
+      flex-wrap: wrap;
+    }
+    .todos-head h3 {
+      font-family: 'Montserrat', sans-serif; font-size: 1.05rem; font-weight: 800;
+      color: var(--navy); letter-spacing: -0.01em;
+    }
+    .todos-count {
+      font-family: 'Poppins', sans-serif; font-size: 0.65rem; font-weight: 700;
+      letter-spacing: 0.07em; text-transform: uppercase;
+      background: rgba(27,54,93,0.1); color: var(--navy);
+      padding: 3px 10px; border-radius: 99px;
+    }
+    .todos-sub {
+      font-size: 0.83rem; color: var(--gray); line-height: 1.55; margin-bottom: 6px;
+    }
+    .todos-sub a { color: var(--blue); text-decoration: none; font-weight: 600; }
+    .todos-sub a:hover { text-decoration: underline; }
+
+    .todos-group { margin-top: 22px; }
+    .todos-group-head {
+      display: flex; align-items: center; gap: 10px; margin-bottom: 12px;
+      padding-bottom: 8px; border-bottom: 1px solid rgba(27,54,93,0.07);
+    }
+    .todos-group-icon {
+      width: 28px; height: 28px; border-radius: 8px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .todos-group-title {
+      font-family: 'Montserrat', sans-serif; font-weight: 700;
+      font-size: 0.85rem; color: var(--navy);
+      text-transform: uppercase; letter-spacing: 0.06em;
+    }
+    .todos-group-count {
+      font-family: 'Poppins', sans-serif; font-size: 0.7rem; font-weight: 600;
+      color: var(--muted);
+    }
+    .todos-list {
+      list-style: none; display: flex; flex-direction: column; gap: 8px;
+    }
+    .todos-item {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 4px 16px;
+      padding: 11px 14px;
+      background: #fafbfc;
+      border: 1px solid rgba(27,54,93,0.06);
+      border-radius: 10px;
+    }
+    .todos-item-title {
+      font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.88rem;
+      color: var(--navy); line-height: 1.4;
+    }
+    .todos-item-owner {
+      font-family: 'Poppins', sans-serif; font-size: 0.68rem; font-weight: 600;
+      letter-spacing: 0.04em; text-transform: uppercase;
+      color: var(--gray); white-space: nowrap; align-self: start;
+    }
+    .todos-item-note {
+      grid-column: 1 / -1;
+      font-size: 0.81rem; line-height: 1.5; color: #475569;
+    }
+    .todos-item-note code {
+      background: rgba(0,0,0,0.06); padding: 1px 5px; border-radius: 4px;
+      font-size: 0.76rem;
+    }
+    @media (max-width: 540px) {
+      .todos-item { grid-template-columns: 1fr; }
+      .todos-item-owner { justify-self: start; }
+    }
+
     /* ── Pending Approvals card ───────────────────────── */
     .approvals-card {
       background: var(--surface); border-radius: 20px;
@@ -514,6 +593,137 @@
         </li>
 
       </ul>
+    </div>
+
+    <!-- Open Items -->
+    <span class="section-label">Tracking</span>
+    <h2 class="section-title">Open Items</h2>
+
+    <div class="todos-card">
+      <div class="todos-head">
+        <h3>Things on deck — not decisions, but not done</h3>
+        <span class="todos-count">14 open</span>
+      </div>
+      <p class="todos-sub">
+        Content we're waiting on, technical TODOs, and unresolved scope asks. The full picture
+        lives in the lower quadrants of <a href="/scope.html">Scope &amp; SOW</a>; this card is the
+        glance view.
+      </p>
+
+      <!-- Awaiting Content / External Delivery -->
+      <div class="todos-group">
+        <div class="todos-group-head">
+          <div class="todos-group-icon" style="background: rgba(229,32,47,0.1); color: var(--red);">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+          </div>
+          <span class="todos-group-title">Awaiting Content / External Delivery</span>
+          <span class="todos-group-count">· 8 items</span>
+        </div>
+        <ul class="todos-list">
+          <li class="todos-item">
+            <div class="todos-item-title">Portal resource PDFs</div>
+            <div class="todos-item-owner">Rebecca · Allie</div>
+            <div class="todos-item-note">CHW Resources, Clinical &amp; Technical, and Social Media Kit cards are all <code>disabled</code> in <code>portal.html</code> — need real PDFs / downloadables before the portal can be shared with CHWs.</div>
+          </li>
+          <li class="todos-item">
+            <div class="todos-item-title">Portal support email</div>
+            <div class="todos-item-owner">Alexandra</div>
+            <div class="todos-item-note"><code>[portal support email]</code> placeholder still in <code>portal.html</code> — need a real address (could be a shared inbox or Alexandra's UHI address).</div>
+          </li>
+          <li class="todos-item">
+            <div class="todos-item-title">CAB testimonials, headshots, group photo</div>
+            <div class="todos-item-owner">Alexandra</div>
+            <div class="todos-item-note">Captured at the 5/21 in-person meeting. Once received, drops into Community Voice carousel + replaces the AI placeholder photo.</div>
+          </li>
+          <li class="todos-item">
+            <div class="todos-item-title">Comms-team photo shoot</div>
+            <div class="todos-item-owner">Rachel</div>
+            <div class="todos-item-note">To replace AI-generated community imagery across the site. Rachel is coordinating; no firm date.</div>
+          </li>
+          <li class="todos-item">
+            <div class="todos-item-title">Medically-accurate BP imagery</div>
+            <div class="todos-item-owner">Rebecca</div>
+            <div class="todos-item-note">Apr 28 check-in flagged AI shots with incorrect BP technique (arm unsupported, etc.). Awaiting Rebecca's BP-instruction reference or comms-shoot replacement.</div>
+          </li>
+          <li class="todos-item">
+            <div class="todos-item-title">Hero video B-roll refresh</div>
+            <div class="todos-item-owner">Rachel · comms</div>
+            <div class="todos-item-note">Current loop "reads too healthy" per doctor feedback; need real-people, real-neighborhoods clips.</div>
+          </li>
+          <li class="todos-item">
+            <div class="todos-item-title">3 remaining story videos</div>
+            <div class="todos-item-owner">Subject TBD</div>
+            <div class="todos-item-note">Watch Their Stories grid currently has 4 of 7 planned videos.</div>
+          </li>
+          <li class="todos-item">
+            <div class="todos-item-title">Mobile-team headshot consent forms</div>
+            <div class="todos-item-owner">6 team members</div>
+            <div class="todos-item-note">Signed consents needed before <code>core-messaging.html</code> can be shared externally — Porcha, Trish, Sam K, Sam L, Laurie, Tataneisha.</div>
+          </li>
+          <li class="todos-item">
+            <div class="todos-item-title">Core Values content</div>
+            <div class="todos-item-owner">LHC team</div>
+            <div class="todos-item-note">Section in <code>core-messaging.html</code> is blank pending team input.</div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Open Decisions (not yes/no asks, just unresolved direction) -->
+      <div class="todos-group">
+        <div class="todos-group-head">
+          <div class="todos-group-icon" style="background: rgba(255,184,28,0.18); color: #7a5000;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </div>
+          <span class="todos-group-title">Open Direction / Future Decisions</span>
+          <span class="todos-group-count">· 4 items</span>
+        </div>
+        <ul class="todos-list">
+          <li class="todos-item">
+            <div class="todos-item-title">Maintenance tier selection</div>
+            <div class="todos-item-owner">Alexandra · Rebecca</div>
+            <div class="todos-item-note">Trigger: once the remaining ~$5,250 of the initial SOW is consumed. Pick $1K / 8h or $5K / 67h. Not urgent yet — flagged so it doesn't sneak up.</div>
+          </li>
+          <li class="todos-item">
+            <div class="todos-item-title">Event-update workflow</div>
+            <div class="todos-item-owner">Allie · Rebecca</div>
+            <div class="todos-item-note">Choose: email-to-Gary (current) or restore a Google Sheets CSV feed so partners post events directly. Affects ongoing maintenance load.</div>
+          </li>
+          <li class="todos-item">
+            <div class="todos-item-title">Coalition Model landing page</div>
+            <div class="todos-item-owner">Rebecca</div>
+            <div class="todos-item-note">Recent client ask — a public-facing page about the LHC coalition model (separate from internal <code>core-messaging.html</code>). Scope TBD.</div>
+          </li>
+          <li class="todos-item">
+            <div class="todos-item-title">Self-service CMS</div>
+            <div class="todos-item-owner">Stakeholder</div>
+            <div class="todos-item-note">True editing surface so staff can post events / news without a developer. Loops back to the original Squarespace intent.</div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Tech TODOs -->
+      <div class="todos-group">
+        <div class="todos-group-head">
+          <div class="todos-group-icon" style="background: rgba(70,183,229,0.16); color: var(--blue);">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          </div>
+          <span class="todos-group-title">Tech &amp; Documentation TODOs</span>
+          <span class="todos-group-count">· 2 items</span>
+        </div>
+        <ul class="todos-list">
+          <li class="todos-item">
+            <div class="todos-item-title">Provider signup / login end-to-end test</div>
+            <div class="todos-item-owner">Gary</div>
+            <div class="todos-item-note">Run a real account through <code>portal.html</code>'s SignUp → Confirm → Login → Interior flow once portal assets land. Validates the gate + sessionStorage logic against a non-developer browser.</div>
+          </li>
+          <li class="todos-item">
+            <div class="todos-item-title">Partner content update SLA</div>
+            <div class="todos-item-owner">Gary</div>
+            <div class="todos-item-note">Document a simple submission process for Rebecca / Allie (events, news, logos) + a formal turnaround commitment. Reduces churn around "where did that go?"</div>
+          </li>
+        </ul>
+      </div>
+
     </div>
 
     <!-- QR Codes -->
