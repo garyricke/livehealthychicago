@@ -620,13 +620,13 @@
       <div class="budget-bar-row">
         <div class="budget-bar-title">Initial SOW — $25,000 fixed fee</div>
         <div class="budget-bar-stats">
-          <div>Spent ≈ <strong>$21,500</strong> (86%)</div>
-          <div>Remaining ≈ <strong>$3,500</strong></div>
+          <div>Spent ≈ <strong>$22,250</strong> (89%)</div>
+          <div>Remaining ≈ <strong>$2,750</strong></div>
           <div>Status: <strong>Pre-maintenance</strong></div>
         </div>
       </div>
       <div class="budget-bar-track">
-        <div class="budget-bar-fill" style="width: 86%;"></div>
+        <div class="budget-bar-fill" style="width: 89%;"></div>
       </div>
       <div class="budget-bar-foot">
         <span>0%</span>
@@ -776,7 +776,7 @@
           <li class="todos-item">
             <div class="todos-item-title">Maintenance tier selection</div>
             <div class="todos-item-owner">Allie · Rebecca</div>
-            <div class="todos-item-note">Trigger: once the remaining ~$3,500 of the initial SOW is consumed. Pick $1K / 8h or $5K / 67h. Not urgent yet — flagged so it doesn't sneak up.</div>
+            <div class="todos-item-note">Trigger: once the remaining ~$2,750 of the initial SOW is consumed. Pick $1K / 8h or $5K / 67h. Not urgent yet — flagged so it doesn't sneak up.</div>
           </li>
           <li class="todos-item">
             <div class="todos-item-title">Event-update workflow</div>
@@ -1003,7 +1003,7 @@
           <div class="tl-section-title">Portal — Resource Submission Tool (live)</div>
           <ul class="tl-items">
             <li class="tl-item">Built the self-service resource tool on <a href="/portal.html" style="color:var(--blue);"><code>portal.html</code></a> — the last Active Build item from the 5/26 check-in. An admin can <strong>add, edit, and delete</strong> resources and the resource page <strong>reacts immediately</strong>; no developer, no code edits, replacing the "wait for PDFs / Google Doc dumping ground" pattern</li>
-            <li class="tl-item">Each resource shows a <strong>thumbnail</strong> for visual scanning — a website screenshot for links, the first page for uploaded PDFs, the image itself for graphics — so the library is easy to browse</li>
+            <li class="tl-item">Each resource shows a <strong>thumbnail</strong> for visual scanning — a website screenshot for links, the first page for uploaded PDFs, the image itself for graphics. Thumbnails are <strong>captured once and stored in Supabase</strong> (instant + permanent): a new link shows immediately, then a screenshot is grabbed in the background and saved to storage. Sites that block screenshotting fall back to a clean gradient placeholder</li>
             <li class="tl-item">Backed by <strong>Supabase</strong> (database + file storage). <strong>Two-tier access:</strong> the admin password <strong><code>editresources</code></strong> unlocks add/edit/delete; the partner password the signup flow hands out (<code>livehealthychi</code>) is now <strong>read-only</strong>, so the public password can't modify the library</li>
             <li class="tl-item">Seeded the three live clinical links (AMA MAP, Hypertension Bites, AHA) into the database; built-in placeholder cards retired in favor of real, managed resources. Verified end-to-end (add/edit/delete, both tiers, thumbnails) with no console errors</li>
           </ul>
