@@ -303,6 +303,42 @@
     .acc-body .todos-card { margin-bottom: 0; box-shadow: none; border: none; padding: 12px 0 4px; }
     .acc-body .qr-grid { margin-bottom: 8px; }
     .acc-body .staging-warning { margin-bottom: 18px; }
+
+    /* Alert variant — deep red wrapper for high-priority accordions */
+    .acc--alert .acc-summary {
+      border: 2px solid #a01010;
+      box-shadow: 0 1px 3px rgba(160,16,16,0.12), 0 4px 16px rgba(160,16,16,0.1);
+    }
+    .acc--alert .acc-summary:hover {
+      border-color: #7a0d0d;
+      box-shadow: 0 1px 3px rgba(160,16,16,0.18), 0 8px 22px rgba(160,16,16,0.18);
+    }
+    .acc--alert[open] .acc-summary {
+      border-color: #a01010;
+      border-bottom-color: transparent;
+    }
+    .acc--alert .acc-body {
+      border: 2px solid #a01010; border-top: none;
+    }
+    .acc--alert .acc-summary .section-label { color: #a01010; }
+    .acc--alert .acc-meta {
+      background: rgba(160,16,16,0.1); color: #a01010;
+      border: 1px solid rgba(160,16,16,0.25);
+    }
+    .acc--alert[open] .acc-chev { color: #a01010; }
+
+    /* Active Build items — individual red emphasis */
+    .todos-item--active {
+      border: 2px solid #a01010 !important;
+      background: #fff5f5 !important;
+      box-shadow: 0 1px 2px rgba(160,16,16,0.08), 0 4px 12px rgba(160,16,16,0.07);
+    }
+    .todos-item--active .todos-item-title { color: #a01010; }
+    .todos-item--active .todos-item-owner {
+      background: #a01010; color: #fff;
+      padding: 3px 9px; border-radius: 99px;
+      letter-spacing: 0.05em;
+    }
     @media (max-width: 540px) {
       .acc-summary { flex-wrap: wrap; padding: 16px 18px; }
       .acc-summary-text .section-title { font-size: 1.15rem; }
@@ -619,15 +655,15 @@
 
         <li class="approvals-item">
           <div class="approvals-item-title">Community Voice — Phase 2 content</div>
-          <div class="approvals-item-meta">Alexandra</div>
+          <div class="approvals-item-meta">Allie</div>
           <div class="approvals-item-detail">
-            <strong>Phase 1 is live in staging</strong> — new "Our Approach — Community at the center" section between Our Model and Neighborhoods. Includes softened framing copy (per Rachel 5/14), a placeholder CAB group photo, a 6-icon responsibilities grid, and a rotating quote card seeded with Rachel's two approach principles. Now waiting on <strong>video, headshots, and the real group photo</strong> Alexandra captured at the <strong>5/21 in-person CAB meeting</strong> to swap in real testimonials and the real photo.
+            <strong>Phase 1 is live in staging</strong> — new "Our Approach — Community at the center" section with softened framing (per Rachel 5/14), a placeholder CAB photo, a 6-icon responsibilities grid, and a rotating quote card seeded with Rachel's two approach principles. <strong>Photo consents</strong> are in hand from many of the 5/21 attendees but <strong>not all</strong>, so any group photo we use will need careful framing. <strong>Testimonials are too early</strong> — we'll revisit after the steering committee event. AI placeholder photo + principle quotes stay live in the meantime.
           </div>
         </li>
 
         <li class="approvals-item">
           <div class="approvals-item-title">Nuna interview — slot pick</div>
-          <div class="approvals-item-meta">Alexandra · Rachel</div>
+          <div class="approvals-item-meta">Allie · Rebecca</div>
           <div class="approvals-item-detail">
             Rescheduled to <strong>Monday 6/1</strong>. Two options on offer: <strong>2:30–3:00 PM</strong> or <strong>4:00–4:30 PM</strong>. Need a pick so we can confirm with the Nuna exec director. Previously paused for Katine's medical leave (she's back in June).
           </div>
@@ -635,17 +671,17 @@
 
         <li class="approvals-item">
           <div class="approvals-item-title">Celebrate the Check — raffle copy</div>
-          <div class="approvals-item-meta">Law Rush Law</div>
+          <div class="approvals-item-meta">Rebecca · Ofu</div>
           <div class="approvals-item-detail">
-            Raffle / $50 gift card / drawing language has been <strong>stripped</strong> from <code>/celebrate.html</code> for the Comms Committee trial. Once Law Rush Law clears the legal framing (Alexandra suggested the same "double indemnification" pattern Michelle at CDPH used for ScholarshipOwl), they'll send approved copy and we put it back behind a re-enable toggle.
+            Raffle / $50 gift card / drawing language has been <strong>stripped</strong> from <code>/celebrate.html</code> for the Comms Committee trial. <strong>Rebecca or Ofu can likely opine</strong> on whether Rush legal needs to be involved (and what framing they'd accept — Allie referenced the "double indemnification" pattern Michelle at CDPH used for ScholarshipOwl). Once cleared, we put approved language back behind a re-enable toggle.
           </div>
         </li>
 
         <li class="approvals-item">
           <div class="approvals-item-title">Celebrate the Check — live counter</div>
-          <div class="approvals-item-meta">Alexandra</div>
+          <div class="approvals-item-meta">Allie</div>
           <div class="approvals-item-detail">
-            Counter is set to <strong>500 BP screenings</strong> (placeholder) and <strong>not logging</strong> while the Comms Committee shops the flow around. Need the real <strong>starting count</strong> and <strong>start date</strong> to flip on live increments.
+            Counter is set to <strong>500 BP screenings</strong> (placeholder) and <strong>not logging</strong> while the Comms Committee shops the flow around. Need the real <strong>starting count</strong> and <strong>start date</strong> to flip on live increments. Gary is wiring it to a real database this week — once it goes live (preset 500), it will tick up on every submission.
           </div>
         </li>
 
@@ -653,13 +689,13 @@
     </div>
 
     <!-- Open Items -->
-    <details class="acc">
+    <details class="acc acc--alert">
       <summary class="acc-summary">
         <div class="acc-summary-text">
           <span class="section-label">Tracking</span>
           <h2 class="section-title">Open Items</h2>
         </div>
-        <span class="acc-meta">14 open</span>
+        <span class="acc-meta">17 open</span>
         <span class="acc-chev">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
         </span>
@@ -669,13 +705,65 @@
     <div class="todos-card">
       <div class="todos-head">
         <h3>Things on deck — not decisions, but not done</h3>
-        <span class="todos-count">14 open</span>
+        <span class="todos-count">17 open</span>
       </div>
       <p class="todos-sub">
         Content we're waiting on, technical TODOs, and unresolved scope asks. The full picture
         lives in the lower quadrants of <a href="/scope.html">Scope &amp; SOW</a>; this card is the
         glance view.
       </p>
+
+      <!-- Active Build · This Week (from 5/26 Rachel check-in) -->
+      <div class="todos-group">
+        <div class="todos-group-head">
+          <div class="todos-group-icon" style="background: rgba(72,201,176,0.18); color: #1a6b5a;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <span class="todos-group-title">Active Build · This Week</span>
+          <span class="todos-group-count">· 3 items · target pre-6/8</span>
+        </div>
+        <ul class="todos-list">
+          <li class="todos-item todos-item--active">
+            <div class="todos-item-title">Celebrate the Check — v2 enhancements</div>
+            <div class="todos-item-owner">Gary · pre-6/8</div>
+            <div class="todos-item-note">
+              Refresh the post-screening flow with Lisa's expanded survey (Rachel sending the full
+              question thread): how did you hear about today's event · what was your motivation for
+              getting checked · how do you feel after · what was helpful · what could have been
+              better · next steps (appointment / two-week recheck) · consent to use your "why" in
+              LHC messaging. Add <strong>optional email + phone</strong> fields
+              (collect now, surface later when the raffle is cleared). <strong>Wire the counter to
+              a real database</strong> — preset 500, tick up on each submission. Add an
+              <strong>animated heart character</strong> that reacts as users answer, to lift the
+              fill-rate.
+            </div>
+          </li>
+          <li class="todos-item todos-item--active">
+            <div class="todos-item-title">"What's Your Why" — stakeholder survey for 6/8</div>
+            <div class="todos-item-owner">Gary · live by 6/8</div>
+            <div class="todos-item-note">
+              Separate QR + form for the <strong>June 8 in-person steering committee meeting</strong>.
+              Same celebrate visual language and animated character, different audience: skips
+              the BP step, asks <em>stakeholder category</em> (CHW, clinician, partner, etc.) and
+              <em>why are you part of LHC / what motivates you to live healthy</em>. Pilot live on
+              screen at the event — passive crowd-sourced "why" testimonials we can use across the
+              site.
+            </div>
+          </li>
+          <li class="todos-item todos-item--active">
+            <div class="todos-item-title">Portal — Resource Submission Tool</div>
+            <div class="todos-item-owner">Gary</div>
+            <div class="todos-item-note">
+              Replace the wait-for-PDFs pattern with a self-service admin form on
+              <code>portal.html</code>. Required: URL <em>or</em> file upload, and category
+              (CHW Resources / Clinical &amp; Technical / Social Media Kit). Optional: title (auto-
+              extracted if blank), short description. Each submission lands in the correct portal
+              section without anyone touching code. Replaces the Google Doc dumping ground Allie
+              spun up.
+            </div>
+          </li>
+        </ul>
+      </div>
 
       <!-- Awaiting Content / External Delivery -->
       <div class="todos-group">
@@ -688,19 +776,19 @@
         </div>
         <ul class="todos-list">
           <li class="todos-item">
-            <div class="todos-item-title">Portal resource PDFs</div>
+            <div class="todos-item-title">Portal resources content</div>
             <div class="todos-item-owner">Rebecca · Allie</div>
-            <div class="todos-item-note">CHW Resources, Clinical &amp; Technical, and Social Media Kit cards are all <code>disabled</code> in <code>portal.html</code> — need real PDFs / downloadables before the portal can be shared with CHWs.</div>
+            <div class="todos-item-note">Once the Resource Submission Tool ships (Active Build), staff can self-serve. Allie has already started a Google Doc as a dumping ground — that becomes the on-ramp: someone with a link or PDF adds it via the form, no developer in the loop.</div>
           </li>
           <li class="todos-item">
             <div class="todos-item-title">Portal support email</div>
-            <div class="todos-item-owner">Alexandra</div>
-            <div class="todos-item-note"><code>[portal support email]</code> placeholder still in <code>portal.html</code> — need a real address (could be a shared inbox or Alexandra's UHI address).</div>
+            <div class="todos-item-owner">Allie</div>
+            <div class="todos-item-note"><code>[portal support email]</code> placeholder still in <code>portal.html</code> — need a real address (could be a shared inbox or Allie's UHI address).</div>
           </li>
           <li class="todos-item">
-            <div class="todos-item-title">CAB testimonials, headshots, group photo</div>
-            <div class="todos-item-owner">Alexandra</div>
-            <div class="todos-item-note">Captured at the 5/21 in-person meeting. Once received, drops into Community Voice carousel + replaces the AI placeholder photo.</div>
+            <div class="todos-item-title">CAB photo &amp; testimonials</div>
+            <div class="todos-item-owner">Allie</div>
+            <div class="todos-item-note">Photo consents in hand from many 5/21 attendees but <strong>not all</strong> — any group photo we use needs careful framing. <strong>Testimonials are too early; revisit after the steering committee event.</strong> Once content lands it drops into the Community Voice carousel + replaces the AI placeholder photo.</div>
           </li>
           <li class="todos-item">
             <div class="todos-item-title">Comms-team photo shoot</div>
@@ -747,7 +835,7 @@
         <ul class="todos-list">
           <li class="todos-item">
             <div class="todos-item-title">Maintenance tier selection</div>
-            <div class="todos-item-owner">Alexandra · Rebecca</div>
+            <div class="todos-item-owner">Allie · Rebecca</div>
             <div class="todos-item-note">Trigger: once the remaining ~$5,250 of the initial SOW is consumed. Pick $1K / 8h or $5K / 67h. Not urgent yet — flagged so it doesn't sneak up.</div>
           </li>
           <li class="todos-item">
@@ -950,6 +1038,17 @@
             <li class="tl-item"><strong>Stripped raffle / $50 gift card / drawing language</strong> from the flow per Alexandra's ask — keeps survey questions and celebration intact. Comms Committee can shop it around without legal exposure; Law Rush Law will clear copy before raffle goes back in</li>
             <li class="tl-item">Counter <strong>12,000 → 500</strong> (Alexandra's "we know we've done 500 BP screenings" number); real logging is <strong>disabled</strong> — passive display only until the real start date + starting number land</li>
             <li class="tl-item">Removed the <code>celebrate-drawing</code> Netlify form and the <code>EmailView</code> screen entirely (was the email-collection step for the raffle); flow now goes Entry → Celebrate → Impact → (optional Survey) → Thanks</li>
+          </ul>
+
+          <div class="tl-section-title">Rachel Check-In (May 26, PM) — Next Steps</div>
+          <ul class="tl-items">
+            <li class="tl-item"><strong>Attendance:</strong> only Rachel made the call (Allie out). Rachel is emailing the team a snapshot of the open decisions so they land in inboxes and can be resolved async</li>
+            <li class="tl-item"><strong>Community Voice Phase 2 is deferred until after the steering committee event.</strong> Rachel: the 5/21 CAB meeting got <strong>about half the members to sign consent forms</strong> (not all), and members are "still kind of figuring out their role on the project" — pushing real testimonials now would feel performative and forced. Keep the Phase 1 section live; revisit next week. Next inflection: <strong>steering committee meeting · June 8 (in person)</strong> — Allie + Rebecca leading the planning — where we can capture testimonials passively at a table (people walk up and share their "why"). Also an executive leadership meeting tomorrow (5/27) may touch on how to better integrate community voice</li>
+            <li class="tl-item"><strong>Nuna interview is firmly Rebecca's partnership</strong> — Rebecca + Allie own the slot pick for 6/1. Nuna canceled today's slot; rescheduled to next Monday</li>
+            <li class="tl-item"><strong>Celebrate the Check — raffle copy:</strong> Rachel will follow up with Rebecca on the Rush legal piece</li>
+            <li class="tl-item"><strong>Celebrate the Check v2 commitments for next week</strong> — wire the counter to an actual database (preset 500, ticks up per submission); expand the survey with the question set Lisa (CAB facilitator) is shaping with the board: how did you hear about today's event (dropdown) · what was your motivation for getting checked today · how do you feel after (empowered / less scared / concerned / worried) · what was helpful · what could have been better · next step (make an appointment / come back in two weeks) · and a consent question, "is it okay to use your why on LHC messaging to inspire others?" Add <strong>optional email + phone</strong> fields (collect now, surface in the UI once raffle copy is cleared — needed to notify gift-card winners); add an animated heart character that reacts to answers to lift fill-rate. <strong>Rachel is sending Gary the full survey thread</strong> so the questions can be loaded and seen live, then trimmed/prioritized</li>
+            <li class="tl-item"><strong>"What's Your Why" stakeholder survey for 6/8</strong> — Rachel's idea: a <strong>separate QR + form</strong> (decided to keep it distinct from Celebrate rather than merge — one less decision point = less friction), same visual language and heart character but skips the BP step. Greets the person by name, asks <em>stakeholder category</em> (CHW, clinician, partner, etc.) and <em>why are you part of LHC / what motivates you to live healthy</em>. Pilot it live on the screen at the in-person steering committee meeting to passively crowd-source stakeholder excitement. Rachel will send the question set and copy Gary</li>
+            <li class="tl-item"><strong>Portal — Resource Submission Tool</strong> — Rachel walked through the Google Doc dumping ground Allie started (organized into Clinical &amp; Technical / CHW Resources / Social Media Kit, seeded from David Ansell + CDC Foundation links). Rather than wait for static PDFs, we'll build a small admin form on <code>portal.html</code>: paste a URL <em>or</em> upload a PDF/asset, pick a required category, optional title (auto-pulled from the page if blank) and short description — submission lands in the right portal section with no developer in the loop. Eliminates the "nobody's job to update the website" friction Rachel and Gary talked through</li>
           </ul>
         </div>
       </div>
