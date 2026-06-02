@@ -112,6 +112,26 @@
       return { path: name, url: sb.storage.from(bucket).getPublicUrl(name).data.publicUrl };
     }
 
+    // Capture a URL screenshot and store it in Supabase (permanent, like uploaded
+    // files). thum.io sends CORS so we can read the bytes and re-upload. Runs in the
+    // background after save — thum.io can take several seconds to render a fresh
+    // screenshot. Returns the stored public URL, or null to keep the live thum.io URL.
+    async function captureUrlThumb(url) {
+      for (let attempt = 0; attempt < 6; attempt++) {
+        try {
+          const resp = await fetch(thumbForUrl(url), { cache: 'no-store' });
+          if (resp.ok) {
+            const blob = await resp.blob();
+            if (blob.size > 3000) { // a real screenshot, not the tiny "generating" placeholder
+              return (await uploadToBucket('resource-thumbs', blob, 'png')).url;
+            }
+          }
+        } catch (e) { /* CORS/network hiccup — retry */ }
+        await new Promise(r => setTimeout(r, 3000));
+      }
+      return null;
+    }
+
     // Map a Supabase row to the shape ResourceCard expects
     const SECTION_GRADIENT = {
       clinical: 'linear-gradient(135deg, #1B365D, #2a4a7f)',
@@ -531,11 +551,15 @@
         setBusy(true); setErr('');
         try {
           const row = { category, title: title.trim(), description: description.trim() || null, type };
+          let bgCaptureUrl = null; // if set, capture+store a screenshot in the background after save
           if (mode === 'url') {
             const u = url.trim();
-            row.url = u; row.source = 'url'; row.thumb_url = thumbForUrl(u);
+            row.url = u; row.source = 'url';
             if (!row.title) { try { row.title = new URL(u).hostname.replace(/^www\./, ''); } catch { row.title = u; } }
             if (!row.type) row.type = 'Link';
+            const keepThumb = editing && initial.source === 'url' && initial.url === u && initial.thumb_url;
+            row.thumb_url = keepThumb ? initial.thumb_url : thumbForUrl(u); // live now; upgraded to stored copy in background
+            bgCaptureUrl = keepThumb ? null : u;
           } else if (file) {
             const ext = (file.name.split('.').pop() || '').toLowerCase();
             const up = await uploadToBucket('resource-files', file, ext);
@@ -547,11 +571,16 @@
           } else { // editing an upload without replacing the file
             row.url = initial.url; row.source = initial.source; row.thumb_url = initial.thumb_url;
           }
-          const resp = editing
-            ? await sb.from('resources').update(row).eq('id', initial.id)
-            : await sb.from('resources').insert(row);
-          if (resp.error) throw resp.error;
-          onSaved();
+          let savedId = editing ? initial.id : null;
+          if (editing) {
+            const resp = await sb.from('resources').update(row).eq('id', initial.id);
+            if (resp.error) throw resp.error;
+          } else {
+            const resp = await sb.from('resources').insert(row).select('id').single();
+            if (resp.error) throw resp.error;
+            savedId = resp.data.id;
+          }
+          onSaved(bgCaptureUrl && savedId ? { id: savedId, url: bgCaptureUrl } : null);
         } catch (e2) {
           setErr((e2 && e2.message) || 'Something went wrong. Try again.');
           setBusy(false);
@@ -650,6 +679,16 @@
         if (!window.confirm('Delete “' + row.title + '”? This removes it for everyone.')) return;
         await sb.from('resources').delete().eq('id', row.id);
         fetchResources();
+      };
+
+      // After a URL resource is saved (shown immediately with the live thum.io URL),
+      // capture the screenshot and store it in Supabase, then swap the row to the stored copy.
+      const captureAndStore = async ({ id, url }) => {
+        const stored = await captureUrlThumb(url);
+        if (stored) {
+          await sb.from('resources').update({ thumb_url: stored }).eq('id', id);
+          fetchResources();
+        }
       };
 
       const handleBrandGuide = () => {
@@ -931,7 +970,7 @@
               initial={editing}
               defaultCategory={activeSection}
               onClose={() => { setFormOpen(false); setEditing(null); }}
-              onSaved={() => { setFormOpen(false); setEditing(null); fetchResources(); }}
+              onSaved={(bg) => { setFormOpen(false); setEditing(null); fetchResources(); if (bg) captureAndStore(bg); }}
             />
           )}
         </div>
