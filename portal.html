@@ -62,9 +62,10 @@
 
     const RESOURCE_TYPES = ['Link', 'Website', 'PDF', 'Guide', 'Slides', 'Template', 'Graphics', 'Video'];
 
-    // Screenshot thumbnail for an external URL (free, no key; <img> loads it directly)
+    // Screenshot thumbnail for an external URL (free, no key; <img> loads it directly).
+    // thum.io wants the target URL appended RAW — encoding it returns HTTP 400.
     const thumbForUrl = (url) =>
-      'https://image.thum.io/get/width/600/crop/450/noanimate/' + encodeURIComponent(url);
+      'https://image.thum.io/get/width/600/crop/450/noanimate/' + url;
 
     if (window.pdfjsLib) {
       pdfjsLib.GlobalWorkerOptions.workerSrc =
