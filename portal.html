@@ -11,6 +11,8 @@
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'Poppins', sans-serif; background: #F7FAFC; }
@@ -51,6 +53,81 @@
       charcoal: '#2D2D2D',
       softCloud: '#F7FAFC',
     };
+
+    // ── Supabase (resource library backend) ───────────────────────
+    const SUPABASE_URL = 'https://vwsvqtohkxmnzjzohtql.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_zi_6ms67MjfNXKLMrBvCNg_wgiWKYnj'; // publishable (browser-safe; writes require admin sign-in)
+    const ADMIN_EMAIL  = 'admin@livehealthychi.com';
+    const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    const RESOURCE_TYPES = ['Link', 'Website', 'PDF', 'Guide', 'Slides', 'Template', 'Graphics', 'Video'];
+
+    // Screenshot thumbnail for an external URL (free, no key; <img> loads it directly)
+    const thumbForUrl = (url) =>
+      'https://image.thum.io/get/width/600/crop/450/noanimate/' + encodeURIComponent(url);
+
+    if (window.pdfjsLib) {
+      pdfjsLib.GlobalWorkerOptions.workerSrc =
+        'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    }
+
+    // Generate a thumbnail Blob from an uploaded file (PDF page 1, or downscaled image)
+    async function makeThumb(file) {
+      try {
+        if (file.type === 'application/pdf') {
+          const buf = await file.arrayBuffer();
+          const pdf = await pdfjsLib.getDocument({ data: buf }).promise;
+          const page = await pdf.getPage(1);
+          const base = page.getViewport({ scale: 1 });
+          const v = page.getViewport({ scale: 600 / base.width });
+          const canvas = document.createElement('canvas');
+          canvas.width = v.width; canvas.height = v.height;
+          await page.render({ canvasContext: canvas.getContext('2d'), viewport: v }).promise;
+          return await new Promise(res => canvas.toBlob(res, 'image/jpeg', 0.82));
+        }
+        if (file.type.startsWith('image/')) {
+          const img = await new Promise((res, rej) => {
+            const i = new Image(); i.onload = () => res(i); i.onerror = rej;
+            i.src = URL.createObjectURL(file);
+          });
+          const scale = Math.min(1, 600 / img.width);
+          const canvas = document.createElement('canvas');
+          canvas.width = Math.round(img.width * scale);
+          canvas.height = Math.round(img.height * scale);
+          canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+          return await new Promise(res => canvas.toBlob(res, 'image/jpeg', 0.82));
+        }
+      } catch (e) { console.warn('thumbnail generation failed', e); }
+      return null;
+    }
+
+    // Upload a File/Blob to a Storage bucket; returns { path, url }
+    async function uploadToBucket(bucket, file, ext) {
+      const name = crypto.randomUUID() + (ext ? '.' + ext : '');
+      const { error } = await sb.storage.from(bucket).upload(name, file, {
+        upsert: false, contentType: file.type || undefined,
+      });
+      if (error) throw error;
+      return { path: name, url: sb.storage.from(bucket).getPublicUrl(name).data.publicUrl };
+    }
+
+    // Map a Supabase row to the shape ResourceCard expects
+    const SECTION_GRADIENT = {
+      clinical: 'linear-gradient(135deg, #1B365D, #2a4a7f)',
+      chw:      'linear-gradient(135deg, #46B7E5, #2a89b4)',
+      social:   'linear-gradient(135deg, #FFB81C, #c48a00)',
+    };
+    const rowToResource = (r) => ({
+      id: r.id,
+      title: r.title,
+      description: r.description || '',
+      type: r.type || (r.source === 'url' ? 'Link' : 'PDF'),
+      url: r.url,
+      thumbnail: r.thumb_url || null,
+      gradient: SECTION_GRADIENT[r.category] || '#e8edf4',
+      source: r.source,
+      category: r.category,
+    });
 
     // ── Password Gate ─────────────────────────────────────────────
     const PORTAL_HASH = '4973303f9a14715775d80d65bfafc89f7ba96b0dd6993391147b9bd7013bb882';
@@ -246,20 +323,19 @@
     );
 
     // ── ResourceCard ──────────────────────────────────────────────
-    function ResourceCard({ resource }) {
+    function ResourceCard({ resource, onEdit, onDelete }) {
       const typeColor = resource.typeColor || C.starRed;
       const live = !!resource.url;
-
-      const getActionLabel = (type) => {
-        if (type === 'Guide') return 'View Guide';
-        if (type === 'Links' || type === 'Website') return 'Visit Site';
-        return 'Download';
+      const adminBtn = {
+        width: '28px', height: '28px', borderRadius: '8px', border: 'none', cursor: 'pointer',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        background: 'rgba(15,30,53,0.78)', color: 'white', backdropFilter: 'blur(4px)',
       };
 
-      const getActionIcon = (type) => {
-        if (type === 'Links' || type === 'Website') return <ExternalLinkIcon />;
-        return <DownloadIcon />;
-      };
+      const [imgOk, setImgOk] = useState(true);
+      const isLink = resource.source === 'url' || ['Link', 'Links', 'Website'].includes(resource.type);
+      const actionLabel = resource.type === 'Guide' ? 'View Guide' : (isLink ? 'Visit Site' : 'Download');
+      const actionIcon = isLink ? <ExternalLinkIcon /> : <DownloadIcon />;
 
       return (
         <div style={{
@@ -281,8 +357,9 @@
             justifyContent: 'center',
             overflow: 'hidden',
           }}>
-            {resource.thumbnail ? (
+            {resource.thumbnail && imgOk ? (
               <img src={resource.thumbnail} alt={resource.title}
+                   onError={() => setImgOk(false)}
                    style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top' }} />
             ) : (
               <div style={{ opacity: 0.22, color: 'white' }}>
@@ -316,6 +393,24 @@
                 letterSpacing: '0.02em',
               }}>
                 Placeholder — coming soon
+              </div>
+            )}
+            {(onEdit || onDelete) && (
+              <div style={{ position: 'absolute', top: '10px', left: '10px', display: 'flex', gap: '6px' }}>
+                {onEdit && (
+                  <button onClick={onEdit} title="Edit" aria-label="Edit resource" style={adminBtn}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/>
+                    </svg>
+                  </button>
+                )}
+                {onDelete && (
+                  <button onClick={onDelete} title="Delete" aria-label="Delete resource" style={{ ...adminBtn, background: 'rgba(229,32,47,0.85)' }}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                    </svg>
+                  </button>
+                )}
               </div>
             )}
           </div>
@@ -381,8 +476,8 @@
                   fontFamily: "'Poppins', sans-serif",
                 }}
               >
-                {getActionIcon(resource.type)}
-                {getActionLabel(resource.type)}
+                {actionIcon}
+                {actionLabel}
               </a>
             ) : (
               <button
@@ -405,10 +500,125 @@
                   fontFamily: "'Poppins', sans-serif",
                 }}
               >
-                {getActionIcon(resource.type)}
-                {getActionLabel(resource.type)}
+                {actionIcon}
+                {actionLabel}
               </button>
             )}
+          </div>
+        </div>
+      );
+    }
+
+    // ── ResourceForm (add / edit modal) ───────────────────────────
+    function ResourceForm({ initial, defaultCategory, onClose, onSaved }) {
+      const editing = !!(initial && initial.id);
+      const [category, setCategory] = useState(initial?.category || defaultCategory || 'clinical');
+      const [mode, setMode] = useState(initial?.source === 'upload' ? 'upload' : 'url'); // 'url' | 'upload'
+      const [url, setUrl] = useState(initial && initial.source !== 'upload' ? (initial.url || '') : '');
+      const [file, setFile] = useState(null);
+      const [title, setTitle] = useState(initial?.title || '');
+      const [description, setDescription] = useState(initial?.description || '');
+      const [type, setType] = useState(initial?.type || 'Link');
+      const [busy, setBusy] = useState(false);
+      const [err, setErr] = useState('');
+
+      const canSave = !busy && (mode === 'url' ? !!url.trim() : (editing || !!file));
+
+      const submit = async (e) => {
+        e.preventDefault();
+        if (!canSave) return;
+        setBusy(true); setErr('');
+        try {
+          const row = { category, title: title.trim(), description: description.trim() || null, type };
+          if (mode === 'url') {
+            const u = url.trim();
+            row.url = u; row.source = 'url'; row.thumb_url = thumbForUrl(u);
+            if (!row.title) { try { row.title = new URL(u).hostname.replace(/^www\./, ''); } catch { row.title = u; } }
+            if (!row.type) row.type = 'Link';
+          } else if (file) {
+            const ext = (file.name.split('.').pop() || '').toLowerCase();
+            const up = await uploadToBucket('resource-files', file, ext);
+            row.url = up.url; row.source = 'upload';
+            const thumbBlob = await makeThumb(file);
+            if (thumbBlob) { const t = await uploadToBucket('resource-thumbs', thumbBlob, 'jpg'); row.thumb_url = t.url; }
+            if (!row.title) row.title = file.name.replace(/\.[^.]+$/, '');
+            if (!row.type || row.type === 'Link') row.type = file.type === 'application/pdf' ? 'PDF' : (file.type.startsWith('image/') ? 'Graphics' : 'PDF');
+          } else { // editing an upload without replacing the file
+            row.url = initial.url; row.source = initial.source; row.thumb_url = initial.thumb_url;
+          }
+          const resp = editing
+            ? await sb.from('resources').update(row).eq('id', initial.id)
+            : await sb.from('resources').insert(row);
+          if (resp.error) throw resp.error;
+          onSaved();
+        } catch (e2) {
+          setErr((e2 && e2.message) || 'Something went wrong. Try again.');
+          setBusy(false);
+        }
+      };
+
+      const field = { width: '100%', border: '1.5px solid rgba(0,0,0,0.14)', borderRadius: '10px', padding: '11px 13px', fontSize: '14px', fontFamily: "'Poppins', sans-serif", color: C.charcoal };
+      const lbl = { fontSize: '12px', fontWeight: 700, color: C.trustNavy, marginBottom: '6px', display: 'block', letterSpacing: '0.02em' };
+      const toggle = (active) => ({ flex: 1, padding: '9px', borderRadius: '9px', fontSize: '13px', fontWeight: 600, cursor: 'pointer', fontFamily: "'Poppins', sans-serif", border: active ? 'none' : '1.5px solid rgba(0,0,0,0.14)', background: active ? C.skyBlue : 'white', color: active ? 'white' : C.charcoal });
+
+      return (
+        <div onClick={onClose} style={{ position: 'fixed', inset: 0, zIndex: 100, background: 'rgba(15,30,53,0.55)', display: 'flex', alignItems: 'flex-start', justifyContent: 'center', padding: '40px 16px', overflowY: 'auto' }}>
+          <div onClick={e => e.stopPropagation()} style={{ background: 'white', borderRadius: '18px', width: '100%', maxWidth: '460px', padding: '26px', boxShadow: '0 20px 60px rgba(0,0,0,0.3)' }} className="fade-up">
+            <h3 style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 800, fontSize: '19px', color: C.trustNavy, marginBottom: '18px' }}>
+              {editing ? 'Edit resource' : 'Add a resource'}
+            </h3>
+            <form onSubmit={submit} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+              <div>
+                <label style={lbl}>Category</label>
+                <select value={category} onChange={e => setCategory(e.target.value)} style={field}>
+                  {SECTIONS.map(s => <option key={s.id} value={s.id}>{s.label}</option>)}
+                </select>
+              </div>
+
+              <div style={{ display: 'flex', gap: '8px' }}>
+                <button type="button" onClick={() => setMode('url')} style={toggle(mode === 'url')}>Link / URL</button>
+                <button type="button" onClick={() => setMode('upload')} style={toggle(mode === 'upload')}>Upload file</button>
+              </div>
+
+              {mode === 'url' ? (
+                <div>
+                  <label style={lbl}>URL</label>
+                  <input type="url" value={url} onChange={e => setUrl(e.target.value)} placeholder="https://…" style={field} />
+                </div>
+              ) : (
+                <div>
+                  <label style={lbl}>File {editing && <span style={{ fontWeight: 400, opacity: 0.6 }}>(leave empty to keep current)</span>}</label>
+                  <input type="file" accept=".pdf,image/*" onChange={e => setFile(e.target.files[0] || null)} style={{ ...field, padding: '9px' }} />
+                  <div style={{ fontSize: '11px', color: C.charcoal, opacity: 0.55, marginTop: '5px' }}>PDF or image. A thumbnail is generated automatically.</div>
+                </div>
+              )}
+
+              <div>
+                <label style={lbl}>Title <span style={{ fontWeight: 400, opacity: 0.6 }}>(optional — auto-filled if blank)</span></label>
+                <input type="text" value={title} onChange={e => setTitle(e.target.value)} placeholder="Resource title" style={field} />
+              </div>
+
+              <div>
+                <label style={lbl}>Description <span style={{ fontWeight: 400, opacity: 0.6 }}>(optional)</span></label>
+                <textarea value={description} onChange={e => setDescription(e.target.value)} rows={2} placeholder="Short description" style={{ ...field, resize: 'vertical' }} />
+              </div>
+
+              <div>
+                <label style={lbl}>Type</label>
+                <select value={type} onChange={e => setType(e.target.value)} style={field}>
+                  {RESOURCE_TYPES.map(t => <option key={t} value={t}>{t}</option>)}
+                </select>
+              </div>
+
+              {err && <div style={{ background: '#FFF0F0', border: '1px solid #E5202F44', borderRadius: '8px', padding: '10px 13px', fontSize: '13px', color: C.starRed }}>{err}</div>}
+
+              <div style={{ display: 'flex', gap: '10px', marginTop: '4px' }}>
+                <button type="button" onClick={onClose} style={{ flex: 1, padding: '12px', borderRadius: '10px', border: '1.5px solid rgba(0,0,0,0.16)', background: 'white', color: C.charcoal, fontSize: '14px', fontWeight: 600, cursor: 'pointer', fontFamily: "'Poppins', sans-serif" }}>Cancel</button>
+                <button type="submit" disabled={!canSave} style={{ flex: 2, padding: '12px', borderRadius: '10px', border: 'none', background: canSave ? C.starRed : 'rgba(0,0,0,0.15)', color: 'white', fontSize: '14px', fontWeight: 700, cursor: canSave ? 'pointer' : 'not-allowed', fontFamily: "'Poppins', sans-serif" }}>
+                  {busy ? 'Saving…' : (editing ? 'Save changes' : 'Add resource')}
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       );
@@ -419,10 +629,34 @@
       const [activeSection, setActiveSection] = useState('clinical');
       const section = SECTIONS.find(s => s.id === activeSection);
 
+      const [dbResources, setDbResources] = useState([]);
+      const [formOpen, setFormOpen] = useState(false);
+      const [editing, setEditing] = useState(null);
+      const [isAdmin, setIsAdmin] = useState(false);
+
+      useEffect(() => { sb.auth.getSession().then(({ data }) => setIsAdmin(!!data.session)); }, []);
+
+      const fetchResources = async () => {
+        const { data, error } = await sb.from('resources').select('*')
+          .order('sort', { ascending: true }).order('created_at', { ascending: true });
+        if (!error) setDbResources(data || []);
+      };
+      useEffect(() => { fetchResources(); }, []);
+
+      const sectionDb = dbResources.filter(r => r.category === activeSection);
+
+      const handleDelete = async (row) => {
+        if (!window.confirm('Delete “' + row.title + '”? This removes it for everyone.')) return;
+        await sb.from('resources').delete().eq('id', row.id);
+        fetchResources();
+      };
+
       const handleBrandGuide = () => {
         localStorage.setItem('lhc_brand_auth', '1');
         window.open('brand-guide.html', '_blank');
       };
+
+      const signOut = () => { sb.auth.signOut().catch(() => {}); onSignOut(); };
 
       return (
         <div style={{ minHeight: '100vh', background: C.softCloud }}>
@@ -465,7 +699,7 @@
                 </div>
               </div>
               <button
-                onClick={onSignOut}
+                onClick={signOut}
                 style={{
                   background: 'transparent',
                   border: `1.5px solid rgba(0,0,0,0.18)`,
@@ -554,32 +788,67 @@
             </div>
 
             {/* Section heading */}
-            <div style={{ marginBottom: '24px' }}>
-              <h2 style={{
-                fontSize: '20px',
-                fontWeight: 700,
-                color: C.trustNavy,
-                fontFamily: "'Montserrat', sans-serif",
-                marginBottom: '6px',
-              }}>
-                {section.label}
-              </h2>
-              <p style={{ fontSize: '14px', color: C.charcoal, opacity: 0.7, maxWidth: '640px' }}>
-                {section.description}
-              </p>
+            <div style={{ marginBottom: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: '16px', flexWrap: 'wrap' }}>
+              <div>
+                <h2 style={{
+                  fontSize: '20px',
+                  fontWeight: 700,
+                  color: C.trustNavy,
+                  fontFamily: "'Montserrat', sans-serif",
+                  marginBottom: '6px',
+                }}>
+                  {section.label}
+                </h2>
+                <p style={{ fontSize: '14px', color: C.charcoal, opacity: 0.7, maxWidth: '640px' }}>
+                  {section.description}
+                </p>
+              </div>
+              {isAdmin && (
+                <button
+                  onClick={() => { setEditing(null); setFormOpen(true); }}
+                  style={{
+                    flexShrink: 0, display: 'flex', alignItems: 'center', gap: '7px',
+                    background: C.starRed, color: 'white', border: 'none', borderRadius: '10px',
+                    padding: '10px 18px', fontSize: '13px', fontWeight: 700, cursor: 'pointer',
+                    fontFamily: "'Poppins', sans-serif", boxShadow: '0 4px 14px rgba(229,32,47,0.3)',
+                  }}
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+                  </svg>
+                  Add resource
+                </button>
+              )}
             </div>
 
-            {/* Resource grid */}
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
-              gap: '20px',
-              marginBottom: '56px',
-            }}>
-              {section.resources.map((resource, i) => (
-                <ResourceCard key={i} resource={resource} />
-              ))}
-            </div>
+            {/* Resource grid (resources come from Supabase) */}
+            {sectionDb.length === 0 ? (
+              <div style={{
+                border: '1.5px dashed rgba(0,0,0,0.16)', borderRadius: '14px',
+                padding: '44px 24px', textAlign: 'center', marginBottom: '56px',
+                color: C.charcoal,
+              }}>
+                <div style={{ fontSize: '14px', opacity: 0.65 }}>
+                  No resources in this category yet.{isAdmin ? ' Click “Add resource” to add one.' : ''}
+                </div>
+              </div>
+            ) : (
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
+                gap: '20px',
+                marginBottom: '56px',
+              }}>
+                {sectionDb.map((row) => (
+                  <ResourceCard
+                    key={row.id}
+                    resource={rowToResource(row)}
+                    onEdit={isAdmin ? () => { setEditing(row); setFormOpen(true); } : undefined}
+                    onDelete={isAdmin ? () => handleDelete(row) : undefined}
+                  />
+                ))}
+              </div>
+            )}
 
             {/* Coming Soon */}
             <div style={{ marginTop: '16px' }}>
@@ -655,6 +924,15 @@
               </div>
             </div>
           </main>
+
+          {formOpen && (
+            <ResourceForm
+              initial={editing}
+              defaultCategory={activeSection}
+              onClose={() => { setFormOpen(false); setEditing(null); }}
+              onSaved={() => { setFormOpen(false); setEditing(null); fetchResources(); }}
+            />
+          )}
         </div>
       );
     }
@@ -1169,8 +1447,18 @@
         e.preventDefault();
         setLoading(true);
         setError('');
+        // Admin tier: password that authenticates with Supabase → can add/edit/delete
+        const { error: authErr } = await sb.auth.signInWithPassword({ email: ADMIN_EMAIL, password });
+        if (!authErr) {
+          sessionStorage.setItem(SESSION_KEY, 'true');
+          onSuccess();
+          setLoading(false);
+          return;
+        }
+        // Viewer tier: the partner password from the signup flow → read-only
         const hash = await sha256(password);
         if (hash === PORTAL_HASH) {
+          await sb.auth.signOut().catch(() => {}); // clear any stale admin session
           sessionStorage.setItem(SESSION_KEY, 'true');
           onSuccess();
         } else {

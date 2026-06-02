@@ -687,7 +687,7 @@
           <span class="section-label">Tracking</span>
           <h2 class="section-title">Open Items</h2>
         </div>
-        <span class="acc-meta">15 open</span>
+        <span class="acc-meta">14 open</span>
         <span class="acc-chev">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
         </span>
@@ -697,38 +697,13 @@
     <div class="todos-card">
       <div class="todos-head">
         <h3>Things on deck — not decisions, but not done</h3>
-        <span class="todos-count">15 open</span>
+        <span class="todos-count">14 open</span>
       </div>
       <p class="todos-sub">
         Content we're waiting on, technical TODOs, and unresolved scope asks. The full picture
         lives in the lower quadrants of <a href="/scope.html">Scope &amp; SOW</a>; this card is the
         glance view.
       </p>
-
-      <!-- Active Build · This Week (from 5/26 Rachel check-in) -->
-      <div class="todos-group">
-        <div class="todos-group-head">
-          <div class="todos-group-icon" style="background: rgba(72,201,176,0.18); color: #1a6b5a;">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          </div>
-          <span class="todos-group-title">Active Build · This Week</span>
-          <span class="todos-group-count">· 1 item · target pre-6/8</span>
-        </div>
-        <ul class="todos-list">
-          <li class="todos-item todos-item--active">
-            <div class="todos-item-title">Portal — Resource Submission Tool</div>
-            <div class="todos-item-owner">Gary</div>
-            <div class="todos-item-note">
-              Replace the wait-for-PDFs pattern with a self-service admin form on
-              <a href="/portal.html" style="color:var(--blue);"><code>portal.html</code></a>. Required: URL <em>or</em> file upload, and category
-              (CHW Resources / Clinical &amp; Technical / Social Media Kit). Optional: title (auto-
-              extracted if blank), short description. Each submission lands in the correct portal
-              section without anyone touching code. Replaces the Google Doc dumping ground Allie
-              spun up.
-            </div>
-          </li>
-        </ul>
-      </div>
 
       <!-- Awaiting Content / External Delivery -->
       <div class="todos-group">
@@ -743,7 +718,7 @@
           <li class="todos-item">
             <div class="todos-item-title">Portal resources content</div>
             <div class="todos-item-owner">Rebecca · Allie</div>
-            <div class="todos-item-note">Once the Resource Submission Tool ships (Active Build), staff can self-serve. Allie has already started a Google Doc as a dumping ground — that becomes the on-ramp: someone with a link or PDF adds it via the form, no developer in the loop.</div>
+            <div class="todos-item-note"><strong>The Resource Submission Tool is now live</strong> on <a href="/portal.html" style="color:var(--blue);"><code>portal.html</code></a> — staff can self-serve (paste a link or upload a PDF, pick a category, done). Remaining: the team actually loading their real resources (Allie's Google Doc links, social media kit assets, CHW materials) via the form.</div>
           </li>
           <li class="todos-item">
             <div class="todos-item-title">Portal support email</div>
@@ -1023,6 +998,14 @@
             <li class="tl-item">Reuses the <strong>same heart buddy</strong> (floats to the active question, reacts) and the <strong>same voice clips + fanfare</strong> from <code>assets/celebrate-audio/</code> — no new audio needed. Captures passive "why" testimonials we can pull across the site</li>
             <li class="tl-item">Added short link <strong><code>/why → /whats-your-why.html</code></strong> to <code>_redirects</code>, generated the <strong><code>/why</code> QR code</strong> (same house style — gray circle modules, donut finders, heart-star logo; pyzbar-verified), and added a <strong>"What's Your Why" entry to the AdminMenu</strong> in both index files. Supports a <code>?loc=</code> tag (e.g. <code>?loc=june-8-steering-committee</code>) to mark where a response came from</li>
             <li class="tl-item"><strong>Still to do before 6/8:</strong> swap in Rachel's final question wording when she sends it (structure handles wording changes without rework)</li>
+          </ul>
+
+          <div class="tl-section-title">Portal — Resource Submission Tool (live)</div>
+          <ul class="tl-items">
+            <li class="tl-item">Built the self-service resource tool on <a href="/portal.html" style="color:var(--blue);"><code>portal.html</code></a> — the last Active Build item from the 5/26 check-in. An admin can <strong>add, edit, and delete</strong> resources and the resource page <strong>reacts immediately</strong>; no developer, no code edits, replacing the "wait for PDFs / Google Doc dumping ground" pattern</li>
+            <li class="tl-item">Each resource shows a <strong>thumbnail</strong> for visual scanning — a website screenshot for links, the first page for uploaded PDFs, the image itself for graphics — so the library is easy to browse</li>
+            <li class="tl-item">Backed by <strong>Supabase</strong> (database + file storage). <strong>Two-tier access:</strong> the admin password <strong><code>editresources</code></strong> unlocks add/edit/delete; the partner password the signup flow hands out (<code>livehealthychi</code>) is now <strong>read-only</strong>, so the public password can't modify the library</li>
+            <li class="tl-item">Seeded the three live clinical links (AMA MAP, Hypertension Bites, AHA) into the database; built-in placeholder cards retired in favor of real, managed resources. Verified end-to-end (add/edit/delete, both tiers, thumbnails) with no console errors</li>
           </ul>
 
           <div class="tl-section-title">Still Open &amp; Scheduling</div>
