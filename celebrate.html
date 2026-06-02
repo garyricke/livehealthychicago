@@ -60,13 +60,25 @@
       transition: width 1.8s cubic-bezier(.3,.8,.3,1);
     }
 
-    input[type="text"], input[type="email"] {
+    input[type="text"], input[type="email"], input[type="tel"] {
       -webkit-appearance: none;
       appearance: none;
     }
 
+    /* Heart buddy mascot */
+    .heart-idle   { animation: heartBob 2.6s ease-in-out infinite; transform-origin: 50% 90%; }
+    .heart-bounce { animation: heartBounce 0.55s cubic-bezier(.2,1.5,.4,1); transform-origin: 50% 90%; }
+    .heart-cheer  { animation: heartCheer 0.8s cubic-bezier(.2,1.4,.4,1); transform-origin: 50% 90%; }
+    @keyframes heartBob    { 0%,100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-4px) rotate(-2deg); } }
+    @keyframes heartBounce { 0% { transform: translateY(0) scale(1); } 35% { transform: translateY(-14px) scale(1.08); } 100% { transform: translateY(0) scale(1); } }
+    @keyframes heartCheer  { 0% { transform: translateY(0) scale(1) rotate(0); } 30% { transform: translateY(-18px) scale(1.12) rotate(-6deg); } 60% { transform: translateY(-5px) scale(1.05) rotate(6deg); } 100% { transform: translateY(0) scale(1) rotate(0); } }
+
+    .speech-bubble { animation: bubblePop 0.4s cubic-bezier(.2,1.4,.5,1) both; }
+    @keyframes bubblePop { 0% { opacity: 0; transform: translateY(6px) scale(0.92); } 100% { opacity: 1; transform: translateY(0) scale(1); } }
+
     @media (prefers-reduced-motion: reduce) {
-      .view-enter, .pop-in, .flag-bar, .star { animation: none !important; opacity: 1 !important; transform: none !important; }
+      .view-enter, .pop-in, .flag-bar, .star,
+      .heart-idle, .heart-bounce, .heart-cheer, .speech-bubble { animation: none !important; opacity: 1 !important; transform: none !important; }
       .progress-fill { transition: none !important; }
     }
   </style>
@@ -77,16 +89,22 @@
   <form name="celebrate-survey" data-netlify="true" netlify-honeypot="bot-field" hidden>
     <input type="text" name="first_name" />
     <input type="text" name="location" />
-    <input type="text" name="q1_experience" />
-    <input type="text" name="q2_neighborhood" />
-    <input type="text" name="q3_reflection" />
+    <input type="text" name="heard_about" />
+    <input type="text" name="motivation" />
+    <input type="text" name="feeling_after" />
+    <input type="text" name="helpful_info" />
+    <input type="text" name="better_experience" />
+    <input type="text" name="next_step" />
+    <input type="text" name="consent_share" />
+    <input type="email" name="email" />
+    <input type="tel" name="phone" />
     <input type="text" name="bot-field" />
   </form>
 
   <div id="root"></div>
 
   <script type="text/babel">
-    const { useState, useEffect, useRef, useMemo, useCallback } = React;
+    const { useState, useEffect, useLayoutEffect, useRef, useMemo, useCallback } = React;
 
     // ── Palette (Chicago flag + LHC navy) ─────────────────────────────
     const C = {
@@ -112,6 +130,63 @@
     const getCount  = () => ({ total: COUNTER_BASE, month: MONTH_BASE });
     const bumpCount = () => ({ total: COUNTER_BASE, month: MONTH_BASE });
 
+    // ── Raffle gating ─────────────────────────────────────────────────
+    // Email + phone are only collected for the monthly gift-card raffle.
+    // Raffle copy is paused pending Rush legal review, so these fields
+    // stay hidden until this flips to true. Survey data is still captured.
+    const RAFFLE_ENABLED = false;
+
+    // ── Survey options (Lisa's expanded set, informed by the CAB) ─────
+    const HEARD_OPTIONS = ['Family or friend', 'Social media', 'Church', 'Community org', 'A provider', 'The website', 'Other'];
+    const FEELING_OPTIONS = [
+      { val: 'Empowered',   face: 'laugh' },
+      { val: 'Less scared', face: 'smile' },
+      { val: 'Concerned',   face: 'meh' },
+      { val: 'Worried',     face: 'frown' },
+    ];
+    const NEXTSTEP_OPTIONS = [
+      'Make an appointment with my provider',
+      'Come back in two weeks for a recheck',
+      'Keep watching it at home',
+      'Not sure yet',
+    ];
+    const HEART_CHEERS = ['Nice!', 'Love that!', 'Heck yes!', 'Keep going!', 'So good!', "You're the best!"];
+    const randomCheer = () => HEART_CHEERS[Math.floor(Math.random() * HEART_CHEERS.length)];
+
+    // ── Heart buddy voice clips (ElevenLabs) ──────────────────────────
+    const AUDIO_BASE = 'assets/celebrate-audio/';
+    const SOUNDS = {
+      greeting:   ['hi-ill-cheer-you-on'],
+      cheer:      ['nice', 'love-that', 'heck-yes', 'heck-yeah', 'keep-going', 'keep-going-my-friend', 'so-good', 'youre-the-best', 'youre-the-best-seriously'],
+      why:        ['thats-your-why'],
+      feeling:    ['thanks-for-sharing'],
+      better:     ['good-to-know-thankyou'],
+      plan:       ['love-that-plan'],
+      consentYes: ['thank-you'],
+      consentNo:  ['totally-okay', 'totally-ohhhh-kay'],
+      complete:   ['you-answered-them-all', 'you-answered-them-all-i-heart-you'],
+      sending:    ['sending-it-in', 'sending-it-in-yipeeee', 'is-that-your-final-answer-ha-ha-it-looks-great'],
+    };
+    let voiceAudio = null;
+    const lastVoice = {};
+    const playVoice = (key, muted) => {
+      if (muted || !key) return;
+      const pool = SOUNDS[key];
+      if (!pool || !pool.length) return;
+      let clip = pool[0];
+      if (pool.length > 1) {
+        let n = 0;
+        do { clip = pool[Math.floor(Math.random() * pool.length)]; } while (clip === lastVoice[key] && ++n < 8);
+      }
+      lastVoice[key] = clip;
+      try {
+        if (voiceAudio) voiceAudio.pause();      // never stack voices
+        voiceAudio = new Audio(AUDIO_BASE + clip + '.mp3');
+        voiceAudio.volume = 0.95;
+        voiceAudio.play().catch(() => {});
+      } catch (e) { /* noop */ }
+    };
+
     // ── Web Audio fanfare (royalty-free: synthesized here) ────────────
     let audioCtx = null;
     const getCtx = () => {
@@ -120,7 +195,7 @@
       return audioCtx;
     };
 
-    const playFanfare = (muted) => {
+    const playSynthFanfare = (muted) => {
       if (muted) return;
       try {
         const ctx = getCtx();
@@ -156,6 +231,23 @@
           osc.start(shimmer); osc.stop(shimmer + 1.0);
         });
       } catch (e) { /* noop */ }
+    };
+
+    // Designed fanfare (ElevenLabs) for name submit; falls back to the
+    // synth horn if the file can't load or autoplay is blocked.
+    let fanfareAudio = null;
+    const playFanfare = (muted) => {
+      if (muted) return;
+      try {
+        if (fanfareAudio) fanfareAudio.pause();
+        fanfareAudio = new Audio(AUDIO_BASE + 'celebrate-fanfare.mp3');
+        fanfareAudio.volume = 0.85;
+        fanfareAudio.addEventListener('error', () => playSynthFanfare(muted), { once: true });
+        const p = fanfareAudio.play();
+        if (p && p.catch) p.catch(() => playSynthFanfare(muted));
+      } catch (e) {
+        playSynthFanfare(muted);
+      }
     };
 
     const playPing = (muted) => {
@@ -411,10 +503,10 @@
                       color: C.white,
                       boxShadow: '0 10px 30px rgba(218,41,28,0.3)',
                     }}>
-              SHARE A QUICK THOUGHT →
+              TELL US ABOUT YOUR CHECK →
             </button>
             <p className="text-xs mb-4" style={{ color: 'rgba(255,255,255,0.5)' }}>
-              3 quick questions about your day
+              A few quick questions — and a buddy to cheer you on 💙
             </p>
             <button onClick={onDone}
                     className="text-sm underline"
@@ -426,103 +518,298 @@
       );
     };
 
-    const SurveyView = ({ name, onSubmit, onSkip }) => {
-      const [q1, setQ1] = useState('');
-      const [q2, setQ2] = useState('');
-      const [q3, setQ3] = useState('');
-      const [busy, setBusy] = useState(false);
+    // ── Reactive heart mascot ─────────────────────────────────────────
+    const HeartBuddy = ({ mood, tick }) => {
+      const excited = mood === 'cheer';
+      const animClass = mood === 'cheer' ? 'heart-cheer' : mood === 'bounce' ? 'heart-bounce' : 'heart-idle';
+      return (
+        <div key={tick} className="shrink-0" style={{ width: 56, height: 56 }}>
+          <div className={animClass}>
+            <svg width="56" height="56" viewBox="0 0 100 100" aria-hidden="true">
+              {/* arms */}
+              <line x1="26" y1="52" x2="16" y2="52" stroke={C.red} strokeWidth="6" strokeLinecap="round" />
+              <line x1="74" y1="52" x2="84" y2="52" stroke={C.red} strokeWidth="6" strokeLinecap="round" />
+              {/* gloves */}
+              <circle cx="13" cy="52" r="8" fill={C.white} />
+              <circle cx="87" cy="52" r="8" fill={C.white} />
+              {/* heart body */}
+              <path d="M50 84 C50 84 14 60 14 37 C14 24 24 16 34 16 C42 16 47 21 50 26 C53 21 58 16 66 16 C76 16 86 24 86 37 C86 60 50 84 50 84 Z" fill={C.red} />
+              {/* cheeks */}
+              <circle cx="31" cy="52" r="4" fill={C.redLt} opacity="0.65" />
+              <circle cx="69" cy="52" r="4" fill={C.redLt} opacity="0.65" />
+              {/* eyes */}
+              <circle cx="39" cy="43" r="6.5" fill={C.white} />
+              <circle cx="61" cy="43" r="6.5" fill={C.white} />
+              <circle cx="40" cy="44" r="3" fill={C.navy} />
+              <circle cx="62" cy="44" r="3" fill={C.navy} />
+              {/* mouth */}
+              {excited
+                ? <path d="M40 57 Q50 71 60 57 Z" fill={C.navy} />
+                : <path d="M41 58 Q50 66 59 58" stroke={C.navy} strokeWidth="3" fill="none" strokeLinecap="round" />}
+            </svg>
+          </div>
+        </div>
+      );
+    };
 
-      const scale = [
-        { val: 'Great',    emoji: '🎉' },
-        { val: 'Good',     emoji: '🙂' },
-        { val: 'OK',       emoji: '😐' },
-        { val: 'Not great', emoji: '😞' },
-      ];
+    // ── Flat face icons (lucide-style, inherit currentColor) ──────────
+    const FaceIcon = ({ kind }) => {
+      const mouth = {
+        laugh: <path d="M18 13a6 6 0 0 1-6 5 6 6 0 0 1-6-5h12Z" />,
+        smile: <path d="M8 14s1.5 2 4 2 4-2 4-2" />,
+        meh:   <line x1="8" y1="15" x2="16" y2="15" />,
+        frown: <path d="M16 16s-1.5-2-4-2-4 2-4 2" />,
+      }[kind];
+      return (
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="10" />
+          {mouth}
+          <line x1="9" y1="9" x2="9.01" y2="9" />
+          <line x1="15" y1="9" x2="15.01" y2="9" />
+        </svg>
+      );
+    };
 
-      const canSubmit = q1 && !busy;
+    // ── Chip-style single choice row ──────────────────────────────────
+    const ChoiceRow = ({ options, value, onPick }) => (
+      <div className="flex flex-wrap gap-2">
+        {options.map(opt => {
+          const val = typeof opt === 'string' ? opt : opt.val;
+          const face = typeof opt === 'object' ? opt.face : null;
+          const on = value === val;
+          return (
+            <button type="button" key={val}
+                    onClick={() => onPick(on ? '' : val)}
+                    className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-label font-semibold transition-all"
+                    style={{
+                      background: on ? 'rgba(65,143,222,0.20)' : 'rgba(255,255,255,0.05)',
+                      border: `1px solid ${on ? C.blue : C.faint}`,
+                      color: on ? C.white : C.muted,
+                    }}>
+              {face && <FaceIcon kind={face} />}{val}
+            </button>
+          );
+        })}
+      </div>
+    );
+
+    const SurveyView = ({ name, muted, onSubmit, onSkip }) => {
+      const [heard, setHeard]       = useState('');
+      const [motivation, setMotiv]  = useState('');
+      const [feeling, setFeeling]   = useState('');
+      const [helpful, setHelpful]   = useState('');
+      const [better, setBetter]     = useState('');
+      const [nextStep, setNextStep] = useState('');
+      const [consent, setConsent]   = useState('');
+      const [email, setEmail]       = useState('');
+      const [phone, setPhone]       = useState('');
+      const [busy, setBusy]         = useState(false);
+
+      // Reactive buddy state
+      const [mood, setMood]       = useState('idle');
+      const [msg, setMsg]         = useState(`Hi ${name}! I'll cheer you on 💙`);
+      const [tick, setTick]       = useState(0);
+      const [showBubble, setShowBubble] = useState(true);
+      const [activeIdx, setActiveIdx]   = useState(0);
+      const [heartTop, setHeartTop]     = useState(0);
+      const moodTimer   = useRef();
+      const bubbleTimer = useRef();
+      const qRefs       = useRef([]);
+
+      const react = (message, sound, big = false) => {
+        if (message) setMsg(message);
+        setMood(big ? 'cheer' : 'bounce');
+        setTick(t => t + 1);
+        setShowBubble(true);
+        playVoice(sound, muted);
+        clearTimeout(moodTimer.current);
+        moodTimer.current = setTimeout(() => setMood('idle'), big ? 800 : 560);
+        clearTimeout(bubbleTimer.current);
+        bubbleTimer.current = setTimeout(() => setShowBubble(false), big ? 2600 : 2000);
+      };
+      useEffect(() => () => { clearTimeout(moodTimer.current); clearTimeout(bubbleTimer.current); }, []);
+      useEffect(() => { playVoice('greeting', muted); }, []); // greet on open (gesture already unlocked audio)
+
+      // Float the buddy to the question currently being answered.
+      const HEART_H = 56;
+      const positionHeart = () => {
+        const el = qRefs.current[activeIdx];
+        if (el) setHeartTop(Math.max(0, el.offsetTop + el.offsetHeight / 2 - HEART_H / 2));
+      };
+      const qProps = (i) => ({
+        ref: (el) => { qRefs.current[i] = el; },
+        onPointerDown: () => setActiveIdx(i),
+        onClick: () => setActiveIdx(i),
+        onFocusCapture: () => setActiveIdx(i),
+      });
+      useLayoutEffect(positionHeart, [activeIdx]);
+      useEffect(() => {
+        window.addEventListener('resize', positionHeart);
+        const t = setTimeout(positionHeart, 400); // settle after fonts/layout
+        return () => { window.removeEventListener('resize', positionHeart); clearTimeout(t); };
+      }, [activeIdx]);
+
+      // react when a text field goes from empty → filled
+      const soundOf = (s, v) => (typeof s === 'function' ? s(v) : s);
+      const txt = (cur, setter, message, sound, max = 140) => (e) => {
+        const v = e.target.value.slice(0, max);
+        if (!cur && v.trim()) react(message, sound);
+        setter(v);
+      };
+      const pick = (setter, msgFor, sound) => (v) => {
+        setter(v);
+        if (v) react(typeof msgFor === 'function' ? msgFor(v) : msgFor, soundOf(sound, v));
+      };
+
+      const core = [heard, motivation, feeling, helpful, better, nextStep, consent];
+      const answered = core.filter(v => v && v.trim()).length;
+      const pct = Math.round((answered / core.length) * 100);
+      const hasAny = answered > 0 || (RAFFLE_ENABLED && (email.trim() || phone.trim()));
+
+      const prevAns = useRef(0);
+      useEffect(() => {
+        if (answered === core.length && answered > prevAns.current) react('You answered them all! 🎉', 'complete', true);
+        prevAns.current = answered;
+      }, [answered]);
+
+      const labelCls = "block font-label font-semibold mb-2.5 text-sm";
+      const inputStyle = { background: 'rgba(255,255,255,0.06)', border: `1px solid ${C.faint}`, color: C.white };
+      const num = (n) => (
+        <span className="inline-flex items-center justify-center w-5 h-5 rounded-full text-[11px] font-bold mr-2 align-middle"
+              style={{ background: 'rgba(65,143,222,0.2)', color: C.blueLt }}>{n}</span>
+      );
+      const optional = <span style={{ color: C.muted, fontWeight: 400 }}>(optional)</span>;
 
       const handle = async (e) => {
         e.preventDefault();
-        if (!canSubmit) return;
+        if (busy || !hasAny) return;
         setBusy(true);
+        react('Sending… 🎉', 'sending', true);
         try {
           await submitNetlify('celebrate-survey', {
             first_name: name,
             location: getLoc(),
-            q1_experience: q1,
-            q2_neighborhood: q2,
-            q3_reflection: q3,
+            heard_about: heard,
+            motivation,
+            feeling_after: feeling,
+            helpful_info: helpful,
+            better_experience: better,
+            next_step: nextStep,
+            consent_share: consent,
+            ...(RAFFLE_ENABLED ? { email, phone } : {}),
           });
         } catch (err) { /* continue anyway */ }
         onSubmit();
       };
 
       return (
-        <div className="view-enter relative min-h-[100dvh] flex flex-col px-6 py-10">
+        <div className="view-enter relative min-h-[100dvh] flex flex-col px-6 py-8">
           <FlagBackdrop />
-          <div className="relative z-10 w-full max-w-md mx-auto flex-1 flex flex-col justify-center">
-            <p className="font-label uppercase tracking-[0.25em] text-xs mb-3" style={{ color: C.yellow }}>
-              Three quick ones
-            </p>
-            <h2 className="font-heading font-black text-3xl mb-8" style={{ letterSpacing: '-0.02em' }}>
-              Tell us about your day, {name}.
-            </h2>
+          <div className="relative z-10 w-full max-w-md mx-auto">
 
-            <form onSubmit={handle} className="space-y-7">
-              <div>
-                <label className="block font-label font-semibold mb-3 text-sm">
-                  1. How was your screening today?
-                </label>
-                <div className="grid grid-cols-4 gap-2">
-                  {scale.map(s => {
-                    const on = q1 === s.val;
-                    return (
-                      <button type="button" key={s.val}
-                              onClick={() => setQ1(s.val)}
-                              className="py-3 rounded-xl text-center transition-all"
-                              style={{
-                                background: on ? 'rgba(65,143,222,0.18)' : 'rgba(255,255,255,0.05)',
-                                border: `1px solid ${on ? C.blue : C.faint}`,
-                              }}>
-                        <div className="text-2xl leading-none mb-1">{s.emoji}</div>
-                        <div className="text-[10px] font-label font-semibold uppercase tracking-wide"
-                             style={{ color: on ? C.white : C.muted }}>{s.val}</div>
-                      </button>
-                    );
-                  })}
+            {/* Progress (sticky) */}
+            <div className="sticky top-3 z-20 mb-6 rounded-2xl px-4 py-3"
+                 style={{ background: 'rgba(26,45,78,0.92)', backdropFilter: 'blur(10px)', border: `1px solid ${C.faint}` }}>
+              <div className="flex items-center justify-between mb-2 font-label text-xs">
+                <span style={{ color: C.muted }}>{answered} of {core.length} answered</span>
+                <span style={{ color: C.blueLt }}>{pct}%</span>
+              </div>
+              <div className="h-1.5 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.1)' }}>
+                <div className="h-full rounded-full"
+                     style={{ width: `${pct}%`, background: `linear-gradient(90deg, ${C.blue}, ${C.red})`, transition: 'width 0.4s ease' }} />
+              </div>
+            </div>
+
+            {/* Floating buddy — glides to the question being answered */}
+            <div className="absolute pointer-events-none"
+                 style={{ top: heartTop, right: 0, width: HEART_H, zIndex: 30,
+                          transition: 'top 0.45s cubic-bezier(.34,1.3,.5,1)' }}>
+              {showBubble && (
+                <div key={tick} className="speech-bubble absolute font-label font-semibold text-xs px-3 py-2 rounded-2xl text-center"
+                     style={{ bottom: HEART_H + 6, right: 0, width: 'max-content', maxWidth: 156,
+                              background: C.white, color: C.navy, boxShadow: '0 8px 22px rgba(0,0,0,0.3)' }}>
+                  {msg}
                 </div>
+              )}
+              <HeartBuddy mood={mood} tick={tick} />
+            </div>
+
+            <h2 className="font-heading font-black text-2xl sm:text-3xl mb-2" style={{ letterSpacing: '-0.02em' }}>
+              Tell us about today, {name}.
+            </h2>
+            <p className="text-sm mb-8" style={{ color: C.muted }}>
+              Answer what you like — every bit helps us serve your neighborhood better.
+            </p>
+
+            <form onSubmit={handle} className="space-y-7 pb-4 pr-16">
+
+              <div {...qProps(0)}>
+                <label className={labelCls}>{num(1)}How did you hear about today's event?</label>
+                <ChoiceRow options={HEARD_OPTIONS} value={heard} onPick={pick(setHeard, randomCheer, 'cheer')} />
               </div>
 
-              <div>
-                <label className="block font-label font-semibold mb-3 text-sm">
-                  2. What's one thing you love about your neighborhood?
-                </label>
-                <input type="text" value={q2} onChange={e => setQ2(e.target.value.slice(0, 140))}
-                       placeholder="(optional)"
-                       className="w-full px-4 py-3 rounded-xl text-base focus:outline-none"
-                       style={{ background: 'rgba(255,255,255,0.06)', border: `1px solid ${C.faint}`, color: C.white }} />
+              <div {...qProps(1)}>
+                <label className={labelCls}>{num(2)}What made you decide to get checked today?</label>
+                <input type="text" value={motivation} onChange={txt(motivation, setMotiv, "That's your why 💙", 'why', 200)}
+                       placeholder="Your “why” — in a few words"
+                       className="w-full px-4 py-3 rounded-xl text-base focus:outline-none" style={inputStyle} />
               </div>
 
-              <div>
-                <label className="block font-label font-semibold mb-3 text-sm">
-                  3. What does "living healthy" mean to you?
-                </label>
-                <input type="text" value={q3} onChange={e => setQ3(e.target.value.slice(0, 140))}
-                       placeholder="(optional)"
-                       className="w-full px-4 py-3 rounded-xl text-base focus:outline-none"
-                       style={{ background: 'rgba(255,255,255,0.06)', border: `1px solid ${C.faint}`, color: C.white }} />
+              <div {...qProps(2)}>
+                <label className={labelCls}>{num(3)}How do you feel after getting checked?</label>
+                <ChoiceRow options={FEELING_OPTIONS} value={feeling} onPick={pick(setFeeling, 'Thanks for sharing 💙', 'feeling')} />
               </div>
+
+              <div {...qProps(3)}>
+                <label className={labelCls}>{num(4)}What information was helpful today? {optional}</label>
+                <input type="text" value={helpful} onChange={txt(helpful, setHelpful, randomCheer(), 'cheer')}
+                       placeholder="(optional)"
+                       className="w-full px-4 py-3 rounded-xl text-base focus:outline-none" style={inputStyle} />
+              </div>
+
+              <div {...qProps(4)}>
+                <label className={labelCls}>{num(5)}What could have made today better? {optional}</label>
+                <input type="text" value={better} onChange={txt(better, setBetter, 'Good to know — thank you!', 'better')}
+                       placeholder="(optional)"
+                       className="w-full px-4 py-3 rounded-xl text-base focus:outline-none" style={inputStyle} />
+              </div>
+
+              <div {...qProps(5)}>
+                <label className={labelCls}>{num(6)}After seeing your numbers, what's your next step?</label>
+                <ChoiceRow options={NEXTSTEP_OPTIONS} value={nextStep} onPick={pick(setNextStep, 'Love that plan! 🙌', 'plan')} />
+              </div>
+
+              <div {...qProps(6)}>
+                <label className={labelCls}>{num(7)}Is it okay to share your words to inspire others?</label>
+                <ChoiceRow options={['Yes', 'No']} value={consent}
+                           onPick={pick(setConsent,
+                             v => v === 'Yes' ? 'Thank you! 🙌' : 'Totally okay 💙',
+                             v => v === 'Yes' ? 'consentYes' : 'consentNo')} />
+              </div>
+
+              {RAFFLE_ENABLED && (
+                <div>
+                  <label className={labelCls}>Want us to follow up? {optional}</label>
+                  <input type="email" value={email} onChange={e => setEmail(e.target.value.slice(0, 120))}
+                         placeholder="Email (optional)"
+                         className="w-full px-4 py-3 rounded-xl text-base focus:outline-none mb-2" style={inputStyle} />
+                  <input type="tel" value={phone} onChange={e => setPhone(e.target.value.slice(0, 30))}
+                         placeholder="Phone (optional)"
+                         className="w-full px-4 py-3 rounded-xl text-base focus:outline-none" style={inputStyle} />
+                </div>
+              )}
 
               <button type="submit"
-                      disabled={!canSubmit}
+                      disabled={!hasAny || busy}
                       className="w-full py-4 rounded-2xl font-heading font-extrabold text-base tracking-wide transition-all"
                       style={{
-                        background: canSubmit ? `linear-gradient(135deg, ${C.red} 0%, #B01E15 100%)` : 'rgba(255,255,255,0.08)',
-                        color: canSubmit ? C.white : 'rgba(255,255,255,0.4)',
-                        boxShadow: canSubmit ? '0 10px 30px rgba(218,41,28,0.3)' : 'none',
-                        cursor: canSubmit ? 'pointer' : 'not-allowed',
+                        background: (hasAny && !busy) ? `linear-gradient(135deg, ${C.red} 0%, #B01E15 100%)` : 'rgba(255,255,255,0.08)',
+                        color: (hasAny && !busy) ? C.white : 'rgba(255,255,255,0.4)',
+                        boxShadow: (hasAny && !busy) ? '0 10px 30px rgba(218,41,28,0.3)' : 'none',
+                        cursor: (hasAny && !busy) ? 'pointer' : 'not-allowed',
                       }}>
-                {busy ? 'SENDING…' : 'CONTINUE →'}
+                {busy ? 'SENDING…' : 'SEND IT IN →'}
               </button>
 
               <button type="button" onClick={onSkip}
@@ -551,7 +838,15 @@
           <FlagBackdrop />
           <div className="relative z-10 w-full max-w-md text-center">
             <div className="pop-in">
-              <div className="text-6xl mb-6">🏙️</div>
+              <div className="flex justify-center mb-6" style={{ color: C.blueLt }}>
+              <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z" />
+                <path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2" />
+                <path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2" />
+                <path d="M10 6h4" /><path d="M10 10h4" /><path d="M10 14h4" /><path d="M10 18h4" />
+              </svg>
+            </div>
               <h2 className="font-heading font-black text-4xl sm:text-5xl mb-4" style={{ letterSpacing: '-0.02em' }}>
                 You're in, {name}.
               </h2>
@@ -621,7 +916,7 @@
           {view === 'impact'    && <ImpactView    name={name} count={count}
                                                   onSurvey={() => setView('survey')}
                                                   onDone={() => setView('thanks')} />}
-          {view === 'survey'    && <SurveyView    name={name}
+          {view === 'survey'    && <SurveyView    name={name} muted={muted}
                                                   onSubmit={() => { fireConfetti('small'); setView('thanks'); }}
                                                   onSkip={() => setView('thanks')} />}
           {view === 'thanks'    && <ThanksView    name={name} onReset={reset} />}
