@@ -645,13 +645,21 @@
     <div class="approvals-card">
       <div class="approvals-head">
         <h3>Items waiting on a yes / no</h3>
-        <span class="approvals-count">3 open</span>
+        <span class="approvals-count">4 open</span>
       </div>
       <p class="approvals-sub">
         These items can move forward as soon as we get a thumbs-up. Drop a note here, in Slack, or reply
         to the latest email thread — whatever's easiest.
       </p>
       <ul class="approvals-list">
+
+        <li class="approvals-item">
+          <div class="approvals-item-title">Events — approve 4 new events to go live</div>
+          <div class="approvals-item-meta">Allie · Rebecca</div>
+          <div class="approvals-item-detail">
+            Four upcoming events are <strong>staged on <a href="/index-stage.html" style="color:var(--blue);"><code>index-stage.html</code></a></strong> with Cloudinary hero thumbnails, ready to review: <strong>Spring Health Fair on the Block</strong> (Jun 12 · Auburn Gresham) · <strong>Peace and Healing Fest</strong> (Jul 2 · Bethel New Life) · <strong>Walk for Wellness — Opening</strong> (Jul 11 · Garfield Park Golden Dome) · <strong>Walk for Wellness — Final</strong> (Aug 22 · Garfield Park Golden Dome). Give them a look on staging; on a thumbs-up I'll promote them to the public <a href="/index.html" style="color:var(--blue);"><code>index.html</code></a>. Flag any wording, dates, or images to fix first.
+          </div>
+        </li>
 
         <li class="approvals-item">
           <div class="approvals-item-title">Community Voice — Phase 2 content</div>
@@ -1006,6 +1014,12 @@
             <li class="tl-item">Each resource shows a <strong>thumbnail</strong> for visual scanning — a website screenshot for links, the first page for uploaded PDFs, the image itself for graphics. Thumbnails are <strong>captured once and stored in Supabase</strong> (instant + permanent): a new link shows immediately, then a screenshot is grabbed in the background and saved to storage. Sites that block screenshotting fall back to a clean gradient placeholder</li>
             <li class="tl-item">Backed by <strong>Supabase</strong> (database + file storage). <strong>Two-tier access:</strong> the admin password <strong><code>editresources</code></strong> unlocks add/edit/delete; the partner password the signup flow hands out (<code>livehealthychi</code>) is now <strong>read-only</strong>, so the public password can't modify the library</li>
             <li class="tl-item">Seeded the three live clinical links (AMA MAP, Hypertension Bites, AHA) into the database; built-in placeholder cards retired in favor of real, managed resources. Verified end-to-end (add/edit/delete, both tiers, thumbnails) with no console errors</li>
+          </ul>
+
+          <div class="tl-section-title">Events — 4 New Upcoming Events (Staging)</div>
+          <ul class="tl-items">
+            <li class="tl-item">Added four upcoming community events to the Events feed on <a href="/index-stage.html" style="color:var(--blue);"><code>index-stage.html</code></a>, each with a Gemini-generated Cloudinary hero thumbnail: <strong>Spring Health Fair on the Block</strong> (Jun 12 · Auburn Gresham) · <strong>Peace and Healing Fest</strong> (Jul 2 · Bethel New Life) · <strong>Walk for Wellness — Opening</strong> (Jul 11) and <strong>— Final</strong> (Aug 22), both at Garfield Park Golden Dome Fieldhouse</li>
+            <li class="tl-item"><strong>Live on staging for review</strong> — promoted to the public <a href="/index.html" style="color:var(--blue);"><code>index.html</code></a> once approved (tracked in Pending Decisions above)</li>
           </ul>
 
           <div class="tl-section-title">Still Open &amp; Scheduling</div>
