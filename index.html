@@ -1488,6 +1488,59 @@
         rsvpUrl: 'https://alzillinois.org/release-the-silence',
         heroImage: 'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1775580335/lhc-events/release-the-silence/hero.jpg',
       },
+      {
+        id: 'spring-health-fair-jun-2026',
+        title: 'Spring Health Fair on the Block',
+        subtitle: 'Hosted by Greater Auburn Gresham Development Corporation',
+        date: 'June 12, 2026',
+        weekday: 'Friday',
+        time: '10:00 A.M. – 2:00 P.M.',
+        location: 'Auburn Gresham Healthy Lifestyle Hub',
+        address: '839 W. 79th St., Chicago, IL 60620',
+        description: 'A free outdoor health fair on the block — jump into a day full of wellness with free screenings, fresh produce, and community resources for the whole family.',
+        longDescription: 'Join Greater Auburn Gresham Development Corporation for a day full of wellness right on the block.\n\nWhat to expect:\n• FREE health screenings\n• FREE fresh produce (giveaway at noon)\n• FREE Peloton subscriptions and rides\n• FREE community resources\n\nOutdoors, weather permitting. If rain is forecasted, please call 773-483-3696 to confirm event status.',
+        highlights: ['Free Screenings', 'Fresh Produce', 'All Ages', 'Outdoors'],
+        heroImage: 'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1780423614/lhc-events/spring-health-fair/hero.jpg',
+      },
+      {
+        id: 'peace-healing-fest-jul-2026',
+        title: 'Peace and Healing Fest',
+        subtitle: 'A community wellness celebration at Bethel New Life',
+        date: 'July 2, 2026',
+        weekday: 'Thursday',
+        time: '10:00 A.M. – 3:00 P.M.',
+        location: 'Bethel New Life',
+        address: '1150 N. Lamon Ave., Chicago, IL 60651',
+        description: 'A free community celebration of peace, healing, and well-being — with health resources, wellness activities, and connection for West Side neighbors of all ages.',
+        highlights: ['Free Event', 'All Ages', 'Wellness Activities', 'In Person'],
+        heroImage: 'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1780423615/lhc-events/peace-healing-fest/hero.jpg',
+      },
+      {
+        id: 'walk-for-wellness-opening-jul-2026',
+        title: 'Walk for Wellness — Opening Ceremony',
+        subtitle: 'Kick off the summer Walk for Wellness',
+        date: 'July 11, 2026',
+        weekday: 'Saturday',
+        time: '9:00 A.M. – 1:00 P.M.',
+        location: 'Garfield Park Golden Dome Fieldhouse',
+        address: '100 N. Central Park Ave., Chicago, IL 60624',
+        description: 'Join neighbors at the Golden Dome Fieldhouse to kick off the summer Walk for Wellness — a season of movement, connection, and heart health across the community.',
+        highlights: ['Free Event', 'All Ages', 'Get Moving', 'Outdoors'],
+        heroImage: 'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1780423615/lhc-events/walk-for-wellness-opening/hero.jpg',
+      },
+      {
+        id: 'walk-for-wellness-final-aug-2026',
+        title: 'Walk for Wellness — Final Ceremony',
+        subtitle: 'Celebrate the close of the summer Walk for Wellness',
+        date: 'August 22, 2026',
+        weekday: 'Saturday',
+        time: '9:00 A.M. – 1:00 P.M.',
+        location: 'Garfield Park Golden Dome Fieldhouse',
+        address: '100 N. Central Park Ave., Chicago, IL 60624',
+        description: 'Celebrate the close of the summer Walk for Wellness at the Golden Dome Fieldhouse — a community finale honoring a season of movement and healthy habits.',
+        highlights: ['Free Event', 'All Ages', 'Celebration', 'Outdoors'],
+        heroImage: 'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1780423616/lhc-events/walk-for-wellness-final/hero.jpg',
+      },
     ];
 
     // ── Weekly Screening Sites ───────────────────────────────────────────────
@@ -1663,7 +1716,7 @@
           </div>
           <button className="w-full py-3 rounded-full text-sm font-bold transition-all group-hover:brightness-110"
                   style={{ backgroundColor: EV_YELLOW, color: EV_NAVY, fontFamily: "'Poppins', sans-serif" }}>
-            See Details &amp; Register →
+            {event.rsvpUrl ? 'See Details & Register →' : 'See Event Details →'}
           </button>
         </div>
       </div>
