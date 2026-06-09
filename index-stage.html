@@ -3899,6 +3899,7 @@ let it drop on you`;
           author: 'Gary Ricke',
           pageUrl: '/news/jini-kim-nuna.html',
           partnerLogo: 'https://res.cloudinary.com/dsbllwpbh/image/upload/fl_sanitize/lhc-news/nuna-logo.svg',
+          hasAudio: true,
           featured: true,
         },
         {
@@ -3910,6 +3911,7 @@ let it drop on you`;
           author: 'Gary Ricke',
           pageUrl: '/news/kristen-pallok-nuna.html',
           partnerLogo: 'https://res.cloudinary.com/dsbllwpbh/image/upload/fl_sanitize/lhc-news/nuna-logo.svg',
+          hasAudio: true,
           featured: true,
         },
         {
@@ -5266,11 +5268,20 @@ And that is how we overcome high blood pressure. They'll tell you about food and
                             <span className="text-sm font-semibold" style={{ color: colors.starRed }}>Includes video</span>
                           </div>
                         )}
+                        {article.hasAudio && (
+                          <div className="flex items-center gap-2 mb-4 px-3 py-2 rounded-lg"
+                               style={{ backgroundColor: `${colors.neighborhoodTeal}10` }}>
+                            <div className="w-6 h-6 rounded-full flex items-center justify-center" style={{ backgroundColor: colors.neighborhoodTeal }}>
+                              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>
+                            </div>
+                            <span className="text-sm font-semibold" style={{ color: colors.neighborhoodTeal }}>Listen to the full audio interview · chaptered</span>
+                          </div>
+                        )}
                         <div className="flex items-center justify-between">
                           <span className="text-sm font-medium" style={{ color: colors.coolGray }}>By {article.author}</span>
                           <span className="inline-flex items-center gap-2 font-semibold text-sm group-hover:gap-3 transition-all"
                                 style={{ color: colors.skyBlue, fontFamily: "'Poppins', sans-serif" }}>
-                            {article.video ? 'Watch Video' : 'Read Article'} <ArrowRightIcon className="w-4 h-4" />
+                            {article.video ? 'Watch Video' : article.hasAudio ? 'Listen & Read' : 'Read Article'} <ArrowRightIcon className="w-4 h-4" />
                           </span>
                         </div>
                       </div>
