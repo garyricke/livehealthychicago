@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Walk to Your Friends and Cook Vegetables Together — A Conversation with Dr. Kristen Pallok — Live Healthy Chicago</title>
+  <meta name="description" content="Rush internist Dr. Kristen Pallok on why blood pressure is managed outside the clinic, how the Nuna app meets patients where they live, and the refreshingly simple advice she gives for a healthier heart.">
+  <meta property="og:title" content="Walk to Your Friends and Cook Vegetables Together — Dr. Kristen Pallok">
+  <meta property="og:description" content="A Rush physician on remote monitoring, the Nuna app, and the simplest heart advice there is: eat your vegetables, walk more, stay connected.">
+  <meta property="og:image" content="https://res.cloudinary.com/dsbllwpbh/image/upload/v1781044881/lhc-news/og-kristen-pallok.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Live Healthy Chicago interview — Walk to Your Friends and Cook Vegetables Together, with Dr. Kristen Pallok">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Walk to Your Friends and Cook Vegetables Together — Dr. Kristen Pallok">
+  <meta name="twitter:description" content="A Rush physician on remote monitoring, the Nuna app, and the simplest heart advice there is: eat your vegetables, walk more, stay connected.">
+  <meta name="twitter:image" content="https://res.cloudinary.com/dsbllwpbh/image/upload/v1781044881/lhc-news/og-kristen-pallok.png">
+  <meta property="og:type" content="article">
+  <meta name="article:published_time" content="2026-06-09">
+  <meta name="article:author" content="Live Healthy Chicago">
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/dsbllwpbh/image/upload/v1771612857/favicon-live-healthy-chicago_e7o6el.png">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700&family=Open+Sans:ital,wght@0,400;0,600;1,400&family=Poppins:wght@600&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --navy:    #1B365D;
+      --blue:    #46B7E5;
+      --teal:    #48C9B0;
+      --red:     #E5202F;
+      --yellow:  #FFB81C;
+      --charcoal:#2D2D2D;
+      --gray:    #64748b;
+      --bg:      #F0F4F8;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Open Sans', sans-serif; background: var(--bg); color: var(--charcoal); -webkit-font-smoothing: antialiased; }
+    h1, h2, h3, h4, h5 { font-family: 'Montserrat', sans-serif; }
+
+    /* ── Password Gate ───────────────────────────────── */
+    #gate { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(135deg, #0f1f3d 0%, #1B365D 60%, #0d2847 100%); }
+    #gate.fade-out { opacity: 0; transition: opacity 0.5s ease; pointer-events: none; }
+    .gate-card { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); backdrop-filter: blur(16px);
+      border-radius: 20px; padding: 48px 40px; width: 100%; max-width: 400px; text-align: center; }
+    .gate-logo { height: 48px; margin: 0 auto 28px; }
+    .gate-card h2 { color: #fff; font-size: 1.25rem; font-weight: 700; margin-bottom: 8px; }
+    .gate-card p  { color: rgba(255,255,255,0.55); font-size: 0.875rem; margin-bottom: 28px; }
+    .gate-input { width: 100%; padding: 14px 16px; border-radius: 12px; background: rgba(255,255,255,0.09);
+      border: 1px solid rgba(255,255,255,0.18); color: #fff; font-size: 1rem; outline: none; margin-bottom: 14px;
+      letter-spacing: 0.05em; transition: border-color 0.2s; }
+    .gate-input:focus { border-color: var(--blue); }
+    .gate-input::placeholder { color: rgba(255,255,255,0.35); }
+    .gate-btn { width: 100%; padding: 14px; border-radius: 12px; border: none;
+      background: linear-gradient(90deg, var(--blue), var(--teal)); color: #fff; font-weight: 700; font-size: 1rem;
+      cursor: pointer; font-family: 'Montserrat', sans-serif; letter-spacing: 0.03em; transition: opacity 0.2s; }
+    .gate-btn:hover { opacity: 0.88; }
+    .gate-error { color: #fc8181; font-size: 0.8rem; margin-top: 10px; min-height: 20px; }
+
+    /* ── Nav ─────────────────────────────────────────── */
+    .site-nav { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.95); backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(27,54,93,0.08); padding: 0 24px; display: flex; align-items: center;
+      justify-content: space-between; height: 64px; }
+    .nav-logo { height: 36px; }
+    .back-link { display: flex; align-items: center; gap: 6px; color: var(--gray); font-size: 0.875rem; font-weight: 600;
+      text-decoration: none; font-family: 'Montserrat', sans-serif; transition: color 0.2s; }
+    .back-link:hover { color: var(--navy); }
+    .back-link svg { flex-shrink: 0; }
+
+    /* ── Hero (full-bleed photo) ─────────────────────── */
+    .hero-wrap { position: relative; width: 100%; max-height: 560px; overflow: hidden; }
+    .hero-img { width: 100%; height: 560px; object-fit: cover; object-position: center 35%; display: block; }
+    .hero-overlay { position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(8,20,38,0.92) 0%, rgba(8,20,38,0.45) 50%, rgba(8,20,38,0.15) 100%); }
+    .hero-content { position: absolute; bottom: 0; left: 0; right: 0; padding: 44px max(24px, calc((100% - 820px) / 2)); }
+    .hero-badges { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
+    .hero-pill { background: rgba(72,201,176,0.22); border: 1px solid rgba(72,201,176,0.45); color: #d5fff5;
+      font-family: 'Poppins', sans-serif; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 4px 12px; border-radius: 99px; }
+    .hero-date { color: rgba(255,255,255,0.6); font-size: 0.85rem; }
+    .hero-h1 { font-family: 'Montserrat', sans-serif; font-size: clamp(1.9rem, 4.2vw, 3rem); font-weight: 900; color: #fff;
+      line-height: 1.1; letter-spacing: -0.02em; max-width: 760px; margin-bottom: 16px; }
+    .hero-dek { color: rgba(255,255,255,0.82); font-size: 1.05rem; line-height: 1.6; max-width: 600px; }
+    .hero-byline { margin-top: 22px; display: flex; align-items: center; gap: 12px; color: rgba(255,255,255,0.6); font-size: 0.85rem; flex-wrap: wrap; }
+    .hero-byline .dot { width: 4px; height: 4px; border-radius: 50%; background: rgba(255,255,255,0.4); }
+
+    /* ── Article shell ───────────────────────────────── */
+    .article-outer { background: #fff; }
+    .article-inner { max-width: 760px; margin: 0 auto; padding: 44px 24px 80px; }
+    .lede { font-size: 1.28rem; line-height: 1.7; color: #334155; font-style: italic; margin: 8px 0 40px;
+      padding-left: 20px; border-left: 3px solid var(--teal); }
+    .body-p { font-size: 1.0625rem; line-height: 1.85; color: #334155; margin-bottom: 24px; }
+    .body-p strong { color: var(--navy); font-weight: 600; }
+    .section-heading { font-size: 1.45rem; font-weight: 800; color: var(--navy); margin: 52px 0 18px; letter-spacing: -0.02em;
+      display: flex; align-items: center; gap: 12px; }
+    .section-heading .kicker-num { font-family: 'Poppins', sans-serif; font-size: 0.8rem; color: var(--teal);
+      border: 1.5px solid rgba(72,201,176,0.45); border-radius: 8px; padding: 3px 8px; flex-shrink: 0; }
+
+    .pullquote { margin: 40px 0; padding: 8px 0 8px 28px; border-left: 4px solid var(--blue); }
+    .pullquote p { font-family: 'Montserrat', sans-serif; font-size: 1.4rem; line-height: 1.4; font-weight: 700;
+      color: var(--navy); letter-spacing: -0.01em; }
+    .pullquote .pq-mark { color: var(--blue); font-size: 2.4rem; line-height: 0; vertical-align: -0.4em; margin-right: 4px; }
+
+    .bio-card { display: flex; gap: 20px; align-items: center; margin: 36px 0; padding: 22px;
+      background: linear-gradient(135deg, rgba(27,54,93,0.04), rgba(72,201,176,0.07)); border: 1px solid rgba(27,54,93,0.08);
+      border-radius: 18px; }
+    .bio-card img { width: 92px; height: 92px; border-radius: 50%; object-fit: cover; flex-shrink: 0;
+      box-shadow: 0 6px 18px rgba(27,54,93,0.2); }
+    .bio-name { font-family: 'Montserrat', sans-serif; font-weight: 800; color: var(--navy); font-size: 1.1rem; }
+    .bio-role { color: var(--gray); font-size: 0.9rem; margin-top: 2px; line-height: 1.45; }
+
+    .fig { margin: 40px 0; }
+    .fig img { width: 100%; border-radius: 16px; display: block; box-shadow: 0 10px 30px rgba(27,54,93,0.12); }
+    .fig figcaption { font-size: 0.82rem; color: var(--gray); margin-top: 10px; text-align: center; font-style: italic; }
+    .fig.fig-center { text-align: center; }
+    .fig.fig-center img { max-width: 480px; margin: 0 auto; }
+
+    /* SMART goal callout */
+    .smart { margin: 36px 0; display: flex; gap: 18px; align-items: flex-start; padding: 24px 26px; border-radius: 18px;
+      background: linear-gradient(135deg, var(--navy), #2a4a7f); }
+    .smart-ico { flex-shrink: 0; width: 46px; height: 46px; border-radius: 12px; background: rgba(255,184,28,0.2);
+      display: flex; align-items: center; justify-content: center; color: var(--yellow); }
+    .smart h4 { color: #fff; font-size: 1.05rem; font-weight: 800; margin-bottom: 6px; }
+    .smart p { color: rgba(255,255,255,0.72); font-size: 0.92rem; line-height: 1.6; }
+    .smart p strong { color: var(--yellow); font-weight: 700; }
+
+    .stat-strip { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin: 36px 0; }
+    @media (max-width: 560px) { .stat-strip { grid-template-columns: 1fr; } }
+    .stat-cell { text-align: center; padding: 22px 16px; border-radius: 16px;
+      background: linear-gradient(135deg, rgba(27,54,93,0.04), rgba(72,201,176,0.07)); border: 1px solid rgba(27,54,93,0.07); }
+    .stat-num { font-family: 'Montserrat', sans-serif; font-size: 2rem; font-weight: 900; color: var(--navy); line-height: 1; }
+    .stat-num span { color: var(--teal); }
+    .stat-cap { font-size: 0.8rem; color: var(--gray); margin-top: 8px; line-height: 1.45; }
+
+    .divider { border: none; border-top: 1px solid #e2e8f0; margin: 44px 0; }
+
+    .cta-block { margin: 56px 0 0; padding: 44px 40px; background: linear-gradient(135deg, var(--navy) 0%, #0d2847 100%);
+      border-radius: 22px; text-align: center; position: relative; overflow: hidden; }
+    .cta-block::after { content:''; position:absolute; right:-40px; top:-40px; width:200px; height:200px; border-radius:50%;
+      background: radial-gradient(circle, rgba(72,201,176,0.25), transparent 70%); }
+    .cta-block h3 { color: #fff; font-size: 1.5rem; font-weight: 800; margin-bottom: 10px; position: relative; }
+    .cta-block p { color: rgba(255,255,255,0.68); font-size: 0.95rem; margin-bottom: 28px; line-height: 1.6; position: relative; }
+    .cta-btn { display: inline-flex; align-items: center; gap: 8px; padding: 15px 30px; border-radius: 12px;
+      background: linear-gradient(90deg, var(--blue), var(--teal)); color: #fff; font-family: 'Montserrat', sans-serif;
+      font-weight: 700; font-size: 0.95rem; text-decoration: none; transition: opacity 0.2s, transform 0.2s; position: relative; }
+    .cta-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+
+    /* See also / continue the series */
+    .see-also { margin: 52px 0 0; }
+    .see-also-label { font-family: 'Poppins', sans-serif; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--gray); margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+    .see-also-card { display: flex; align-items: center; gap: 18px; padding: 18px; border: 1px solid rgba(27,54,93,0.12);
+      border-radius: 18px; text-decoration: none; background: #fff; transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s; }
+    .see-also-card:hover { border-color: rgba(70,183,229,0.55); box-shadow: 0 12px 28px rgba(27,54,93,0.12); transform: translateY(-2px); }
+    .see-also-thumb { width: 74px; height: 74px; border-radius: 14px; object-fit: cover; flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(27,54,93,0.18); }
+    .sa-text { flex: 1; min-width: 0; }
+    .sa-kicker { font-family: 'Poppins', sans-serif; font-size: 0.64rem; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--teal); }
+    .sa-title { display: block; font-family: 'Montserrat', sans-serif; font-weight: 800; color: var(--navy);
+      font-size: 1.02rem; line-height: 1.25; margin: 3px 0; }
+    .sa-sub { font-size: 0.82rem; color: var(--gray); }
+    .sa-arrow { flex-shrink: 0; color: var(--blue); transition: transform 0.2s; }
+    .see-also-card:hover .sa-arrow { transform: translateX(4px); }
+
+    .article-footer { background: var(--navy); padding: 36px 24px; text-align: center; }
+    .article-footer img { height: 36px; margin: 0 auto 16px; }
+    .article-footer p { color: rgba(255,255,255,0.45); font-size: 0.8rem; }
+    .article-footer a { color: rgba(255,255,255,0.55); text-decoration: none; }
+    .article-footer a:hover { color: var(--blue); }
+
+    /* ════════ CHAPTERED AUDIO PLAYER ════════ */
+    .player { margin: -40px auto 44px; max-width: 720px; position: relative; z-index: 20; border-radius: 22px;
+      background: linear-gradient(150deg, #122a4a 0%, #1B365D 55%, #20406e 100%);
+      box-shadow: 0 24px 60px rgba(13,34,56,0.4); overflow: hidden; border: 1px solid rgba(255,255,255,0.08); }
+    .player-top { padding: 24px 26px 18px; }
+    .player-head { display: flex; gap: 18px; align-items: center; margin-bottom: 6px; }
+    .player-avatar { width: 82px; height: 82px; border-radius: 50%; object-fit: cover; flex-shrink: 0;
+      border: 3px solid rgba(255,255,255,0.18); box-shadow: 0 6px 20px rgba(0,0,0,0.38); }
+    .player-headtext { min-width: 0; }
+    @media (max-width: 480px) { .player-avatar { width: 62px; height: 62px; } }
+    .player-label { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+    .eq { display: flex; align-items: flex-end; gap: 3px; height: 20px; }
+    .eq span { width: 3px; background: var(--teal); border-radius: 2px; height: 6px; }
+    .player.is-playing .eq span { animation: eq 0.9s ease-in-out infinite; }
+    .player.is-playing .eq span:nth-child(2){ animation-delay: 0.15s }
+    .player.is-playing .eq span:nth-child(3){ animation-delay: 0.3s }
+    .player.is-playing .eq span:nth-child(4){ animation-delay: 0.45s }
+    @keyframes eq { 0%,100%{ height:5px } 50%{ height:19px } }
+    .player-label-text { font-family: 'Poppins', sans-serif; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--teal); }
+    .player-title { font-family: 'Montserrat', sans-serif; font-size: 1.15rem; font-weight: 800; color: #fff; line-height: 1.25; }
+    .player-now { margin-top: 8px; font-size: 0.82rem; color: rgba(255,255,255,0.6); display: flex; align-items: center; gap: 8px; }
+    .player-now b { color: var(--teal); font-weight: 700; }
+    .now-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0;
+      box-shadow: 0 0 0 0 rgba(72,201,176,0.6); }
+    .player.is-playing .now-dot { animation: pulse 1.6s infinite; }
+    @keyframes pulse { 0%{ box-shadow:0 0 0 0 rgba(72,201,176,0.55) } 70%{ box-shadow:0 0 0 8px rgba(72,201,176,0) } 100%{ box-shadow:0 0 0 0 rgba(72,201,176,0) } }
+
+    .player-progress { position: relative; height: 8px; margin: 18px 0 8px; border-radius: 99px;
+      background: rgba(255,255,255,0.14); cursor: pointer; }
+    .player-fill { position: absolute; left: 0; top: 0; height: 100%; border-radius: 99px;
+      background: linear-gradient(90deg, var(--teal), var(--blue)); pointer-events: none; width: 0%; }
+    .player-thumb { position: absolute; top: 50%; transform: translate(-50%,-50%); width: 15px; height: 15px; border-radius: 50%;
+      background: #fff; box-shadow: 0 2px 6px rgba(0,0,0,0.4); pointer-events: none; left: 0%; }
+    .player-tick { position: absolute; top: 50%; transform: translate(-50%,-50%); width: 2px; height: 12px;
+      background: rgba(255,255,255,0.45); border-radius: 2px; pointer-events: none; }
+    .player-times { display: flex; justify-content: space-between; font-size: 0.74rem; color: rgba(255,255,255,0.5);
+      font-variant-numeric: tabular-nums; }
+
+    .player-controls { display: flex; align-items: center; justify-content: center; gap: 14px; padding: 6px 26px 22px; }
+    .pc-btn { width: 42px; height: 42px; border-radius: 50%; border: none; background: rgba(255,255,255,0.1); cursor: pointer;
+      display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.8);
+      transition: transform 0.15s, background 0.15s; font-family: 'Montserrat', sans-serif; font-size: 0.72rem; font-weight: 800; }
+    .pc-btn:hover { transform: scale(1.08); background: rgba(255,255,255,0.18); }
+    .pc-play { width: 56px; height: 56px; border-radius: 50%; border: none; cursor: pointer;
+      background: linear-gradient(135deg, var(--teal), var(--blue)); display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 6px 20px rgba(72,201,176,0.5); transition: transform 0.15s; }
+    .pc-play:hover { transform: scale(1.06); }
+    .pc-chapters { display: flex; align-items: center; gap: 8px; padding: 0 16px 0 18px; height: 44px; border-radius: 99px;
+      border: 1.5px solid rgba(72,201,176,0.6); background: rgba(72,201,176,0.18); color: #eafff9; cursor: pointer;
+      font-family: 'Montserrat', sans-serif; font-size: 0.82rem; font-weight: 800;
+      transition: background 0.15s, border-color 0.15s, transform 0.15s; }
+    .pc-chapters:hover { background: rgba(72,201,176,0.34); border-color: rgba(72,201,176,0.95); transform: scale(1.04); }
+    .pc-chapters svg { transition: transform 0.25s; }
+    .pc-chapters .chev { color: var(--teal); }
+    .player.chapters-open .pc-chapters { background: rgba(72,201,176,0.3); }
+    .player.chapters-open .pc-chapters svg.chev { transform: rotate(180deg); }
+    .ch-count { display: inline-flex; align-items: center; justify-content: center; min-width: 19px; height: 19px; padding: 0 5px;
+      border-radius: 99px; background: var(--teal); color: #06241d; font-size: 0.66rem; font-weight: 800; line-height: 1; }
+    @keyframes chapterPulse { 0% { box-shadow: 0 0 0 0 rgba(72,201,176,0.5); } 70% { box-shadow: 0 0 0 9px rgba(72,201,176,0); } 100% { box-shadow: 0 0 0 0 rgba(72,201,176,0); } }
+    .player:not(.chapters-open) .pc-chapters { animation: chapterPulse 2.4s ease-out infinite; }
+    @media (prefers-reduced-motion: reduce) { .player:not(.chapters-open) .pc-chapters { animation: none; } }
+
+    .chapters-panel { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; background: rgba(7,18,33,0.55);
+      border-top: 1px solid rgba(255,255,255,0.07); }
+    .player.chapters-open .chapters-panel { max-height: 560px; overflow-y: auto; }
+    .chapters-head { padding: 16px 24px 6px; font-family: 'Poppins', sans-serif; font-size: 0.66rem; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
+    .chapter-row { display: flex; align-items: center; gap: 14px; width: 100%; text-align: left; border: none; background: transparent;
+      cursor: pointer; padding: 12px 24px; color: rgba(255,255,255,0.82); transition: background 0.15s; border-left: 3px solid transparent; }
+    .chapter-row:hover { background: rgba(255,255,255,0.06); }
+    .chapter-row.active { background: rgba(72,201,176,0.1); border-left-color: var(--teal); }
+    .chapter-idx { flex-shrink: 0; width: 26px; height: 26px; border-radius: 8px; background: rgba(255,255,255,0.08);
+      display: flex; align-items: center; justify-content: center; font-family: 'Montserrat', sans-serif; font-size: 0.72rem;
+      font-weight: 800; color: rgba(255,255,255,0.7); }
+    .chapter-row.active .chapter-idx { background: var(--teal); color: #06241d; }
+    .chapter-info { flex: 1; min-width: 0; }
+    .chapter-name { font-family: 'Montserrat', sans-serif; font-size: 0.9rem; font-weight: 700; line-height: 1.3; }
+    .chapter-time { font-size: 0.72rem; color: rgba(255,255,255,0.45); font-variant-numeric: tabular-nums; margin-top: 1px; }
+    .chapter-playing-ico { flex-shrink: 0; color: var(--teal); opacity: 0; }
+    .chapter-row.active .chapter-playing-ico { opacity: 1; }
+
+    /* ── Nuna app tabbed showcase ────────────────────── */
+    .app-tabs { margin: 36px 0; border: 1px solid rgba(27,54,93,0.1); border-radius: 18px; overflow: hidden; background: #fff; }
+    .app-tabs-head { display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap;
+      padding: 18px 22px; background: linear-gradient(135deg, var(--navy), #2a4a7f); }
+    .app-tabs-head h4 { color: #fff; font-size: 1.05rem; font-weight: 800; }
+    .app-tabs-head p { color: rgba(255,255,255,0.62); font-size: 0.82rem; margin-top: 2px; }
+    .nuna-link { display: inline-flex; align-items: center; gap: 6px; padding: 9px 16px; border-radius: 99px;
+      background: linear-gradient(90deg, var(--blue), var(--teal)); color: #fff; font-family: 'Montserrat', sans-serif;
+      font-weight: 700; font-size: 0.8rem; text-decoration: none; white-space: nowrap; transition: opacity 0.2s, transform 0.2s; }
+    .nuna-link:hover { opacity: 0.9; transform: translateY(-1px); }
+    .app-tabs-body { display: grid; grid-template-columns: 1.25fr 1fr; }
+    @media (max-width: 620px) { .app-tabs-body { grid-template-columns: 1fr; } }
+    .app-tabs-display { position: relative; aspect-ratio: 4 / 3; background: #eef3f8; }
+    .app-tabs-display img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.5s ease; }
+    .app-tabs-display img.active { opacity: 1; }
+    .app-tabs-list { display: flex; flex-direction: column; gap: 6px; padding: 14px; justify-content: center; }
+    .app-tab { display: flex; align-items: center; gap: 14px; padding: 13px 15px; border: none; background: transparent;
+      cursor: pointer; border-radius: 12px; text-align: left; border-left: 3px solid transparent; transition: background 0.2s; }
+    .app-tab:hover { background: rgba(70,183,229,0.06); }
+    .app-tab.active { background: rgba(72,201,176,0.1); border-left-color: var(--teal); }
+    .app-tab-ico { flex-shrink: 0; width: 40px; height: 40px; border-radius: 10px; background: rgba(70,183,229,0.12);
+      color: var(--blue); display: flex; align-items: center; justify-content: center; transition: background 0.2s, color 0.2s; }
+    .app-tab.active .app-tab-ico { background: var(--teal); color: #fff; }
+    .app-tab-label { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.92rem; color: var(--navy); line-height: 1.3; }
+  </style>
+</head>
+<body>
+
+<!-- ── Password Gate ──────────────────────────────────────── -->
+<div id="gate">
+  <div class="gate-card">
+    <img class="gate-logo" src="https://assets.codepen.io/3457845/logo-Live-Healthy-Chicago.png" alt="Live Healthy Chicago">
+    <h2>Preview Access</h2>
+    <p>Enter the password to view this page.</p>
+    <input id="pw-input" class="gate-input" type="password" placeholder="Password" autocomplete="current-password">
+    <button class="gate-btn" onclick="checkPassword()">Enter</button>
+    <p class="gate-error" id="gate-error"></p>
+  </div>
+</div>
+
+<!-- ── Main Content ───────────────────────────────────────── -->
+<div id="app" style="display:none">
+
+  <!-- Nav -->
+  <nav class="site-nav">
+    <a href="../index-stage.html">
+      <img class="nav-logo" src="https://assets.codepen.io/3457845/logo-Live-Healthy-Chicago.png" alt="Live Healthy Chicago">
+    </a>
+    <a href="../index-stage.html#news" class="back-link">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"/>
+      </svg>
+      Back to News
+    </a>
+  </nav>
+
+  <!-- Hero -->
+  <div class="hero-wrap">
+    <img class="hero-img"
+         src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1781035111/lhc-news/kristen-pallok-hero"
+         alt="A group of friends and neighbors laughing while cooking fresh vegetables together in a Chicago kitchen">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="hero-badges">
+        <span class="hero-pill">Interview</span>
+        <span class="hero-date">June 9, 2026 · 20 min listen</span>
+      </div>
+      <h1 class="hero-h1">Walk to Your Friends and Cook Vegetables Together</h1>
+      <p class="hero-dek">Rush internist Dr. Kristen Pallok on why blood pressure is really managed outside the clinic, how the Nuna app meets patients where they live — and the refreshingly simple advice she gives for a healthier heart.</p>
+      <div class="hero-byline">
+        <span>A conversation hosted by Gary Ricke</span>
+        <span class="dot"></span>
+        <span>Live Healthy Chicago</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Article -->
+  <div class="article-outer">
+    <div class="article-inner">
+
+      <!-- ════ CHAPTERED AUDIO PLAYER ════ -->
+      <div class="player" id="player">
+        <audio id="audio" preload="metadata"
+               src="https://res.cloudinary.com/dsbllwpbh/video/upload/v1781040564/0-nuna-Kristen_Nuna_Interview-with-intro-outro_swtwev.mp3"></audio>
+        <div class="player-top">
+          <div class="player-head">
+            <img class="player-avatar" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/lhc-news/kristen-pallok-profile" alt="Dr. Kristen Pallok">
+            <div class="player-headtext">
+              <div class="player-label">
+                <div class="eq" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+                <span class="player-label-text">Listen to the Interview</span>
+              </div>
+              <div class="player-title">Dr. Kristen Pallok, Rush University Medical Center</div>
+              <div class="player-now"><span class="now-dot"></span><span>Now playing: <b id="now-chapter">Host Introduction</b></span></div>
+            </div>
+          </div>
+
+          <div class="player-progress" id="progress">
+            <div class="player-fill" id="fill"></div>
+            <div class="player-thumb" id="thumb"></div>
+          </div>
+          <div class="player-times"><span id="cur">0:00</span><span id="dur">19:31</span></div>
+        </div>
+
+        <div class="player-controls">
+          <button class="pc-btn" id="speed" onclick="cycleSpeed()" title="Playback speed">1×</button>
+          <button class="pc-btn" onclick="skip(-15)" title="Back 15 seconds">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+          </button>
+          <button class="pc-play" id="playBtn" onclick="toggle()" title="Play / pause">
+            <svg id="playIcon" width="24" height="24" viewBox="0 0 24 24" fill="white"><polygon points="7,4 20,12 7,20"/></svg>
+          </button>
+          <button class="pc-btn" onclick="skip(15)" title="Forward 15 seconds">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M23 4v6h-6"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+          </button>
+          <button class="pc-chapters" onclick="toggleChapters()" title="Chapters">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+            <span>Chapters</span>
+            <span class="ch-count">10</span>
+            <svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+        </div>
+
+        <div class="chapters-panel">
+          <div class="chapters-head">10 Chapters · Tap to jump</div>
+          <div id="chapter-list"></div>
+        </div>
+      </div>
+
+      <p class="lede">A one-time blood pressure reading is a glance. Risk is a story that unfolds over years — mostly outside the exam room, in the moments between visits. Dr. Kristen Pallok has spent her career learning to see into those moments. And it turns out the most powerful tools are sometimes the simplest.</p>
+
+      <p class="body-p">Dr. Kristen Pallok is an internist at Rush University Medical Center and one of the clinicians putting the <strong>Nuna app</strong> to work in real clinics, with real patients, across Live Healthy Chicago. In our conversation she explains why remote monitoring matters, what she's learned about getting people to engage with their own health — and, when we asked what she does for her own heart, she gave the kind of answer you can start using today.</p>
+
+      <!-- Bio -->
+      <div class="bio-card">
+        <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/lhc-news/kristen-pallok-profile" alt="Dr. Kristen Pallok">
+        <div>
+          <div class="bio-name">Kristen Pallok, MD</div>
+          <div class="bio-role">Internist and Assistant Professor of Internal Medicine (Division of General Internal Medicine) at Rush University Medical Center, Chicago. A clinician helping bring remote blood-pressure monitoring to the neighborhoods that need it most.</div>
+        </div>
+      </div>
+
+      <h2 class="section-heading"><span class="kicker-num">01</span> Health Happens Outside the Clinic</h2>
+      <p class="body-p">"You come in, you have a one-time blood pressure, and you see that person for 10 minutes," Dr. Pallok says. "Maybe they took their meds that day, maybe they didn't, maybe they were stuck in traffic." Any number of things can move a single reading up or down. But blood pressure isn't a single glance — <strong>it's an accumulation of risk over time</strong> that leads to strokes, heart attacks, and vascular dementia. And most of that risk builds in the moments care teams never see.</p>
+
+      <div class="pullquote">
+        <p><span class="pq-mark">"</span>Blood pressure is a risk. It's not just one glance into one visit at a clinic. It's an accumulation of risk over time.</p>
+      </div>
+
+      <p class="body-p">Remote monitoring opens a door — especially for people facing what clinicians call the <strong>social determinants of health</strong>. Dr. Pallok hears it constantly: patients choosing between paying for hospital parking and buying food for their family. When blood pressure can be measured at home, a patient who might otherwise disappear for months stays connected, gets to better control faster, and keeps a thread of continuity that the rest of the system — with its long waits and fragmented urgent-care visits — rarely provides. As the American Medical Association urges: <strong>act rapidly.</strong></p>
+
+      <h2 class="section-heading"><span class="kicker-num">02</span> The App as Everyday Education</h2>
+      <p class="body-p">Much of Nuna's approach grew out of a Rush program called <strong>E3</strong>, in which a social care team educated patients about hypertension, helped with medication adjustments, and wrapped support around the patient. Those lessons became the app — so a person at home can ask, in the moment, "My blood pressure is this; should I put chicken on my salad, or beef?" and get real-time feedback. That kind of nutrition coaching almost never fits inside a packed clinic visit.</p>
+
+      <p class="body-p">"Everyone wants physicians to focus on nutrition in the visit, and it's not because we don't want to," she says. "It's the laundry list of things people come in with — the time runs out." The app fills that gap, and can tailor guidance to the whole person: what to eat for diabetes versus hypertension, or how to adjust when chronic kidney disease is in the mix.</p>
+
+      <div class="app-tabs">
+        <div class="app-tabs-head">
+          <div>
+            <h4>Inside the Nuna app</h4>
+            <p>The coach Dr. Pallok and her patients use — feature by feature.</p>
+          </div>
+          <a class="nuna-link" href="https://www.nuna.com/" target="_blank" rel="noopener noreferrer">
+            Visit nuna.com
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+          </a>
+        </div>
+        <div class="app-tabs-body">
+          <div class="app-tabs-display">
+            <img class="nt-img active" id="nt-0" loading="lazy" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/lhc-news/nuna-feat-ai-guide" alt="A person talking with their AI-powered health guide">
+            <img class="nt-img" id="nt-1" loading="lazy" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/lhc-news/nuna-feat-care-team" alt="A care team member using the patient software">
+            <img class="nt-img" id="nt-2" loading="lazy" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/lhc-news/nuna-feat-gamification" alt="A happy couple enjoying life">
+            <img class="nt-img" id="nt-3" loading="lazy" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/lhc-news/nuna-feat-village" alt="A man talking with a community health worker">
+          </div>
+          <div class="app-tabs-list">
+            <button class="app-tab active" data-idx="0">
+              <span class="app-tab-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15 9 22 9 17 14 19 21 12 17 5 21 7 14 2 9 9 9"/></svg></span>
+              <span class="app-tab-label">A daily AI-powered guide</span>
+            </button>
+            <button class="app-tab" data-idx="1">
+              <span class="app-tab-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
+              <span class="app-tab-label">Connected to your care team</span>
+            </button>
+            <button class="app-tab" data-idx="2">
+              <span class="app-tab-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg></span>
+              <span class="app-tab-label">Gamification for the win</span>
+            </button>
+            <button class="app-tab" data-idx="3">
+              <span class="app-tab-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 1 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></span>
+              <span class="app-tab-label">It takes a village</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <h2 class="section-heading"><span class="kicker-num">03</span> Who’s Actually Using It</h2>
+      <p class="body-p">There was real skepticism at the start: could you get people in their 80s and 90s to use a phone app? "The answer is, a lot of folks do," Dr. Pallok says. Many people have smartphones regardless of income, and there's genuine appetite to engage — among patients of every age.</p>
+
+      <p class="body-p">The harder lesson has been calibration: <strong>how much nudging actually helps</strong>, versus how much makes someone want to back off. Getting it right — in the office and in the app — is where the trust piece comes in.</p>
+
+      <h2 class="section-heading"><span class="kicker-num">04</span> Lowering the Trust Barrier</h2>
+      <p class="body-p">The biggest hurdle is simply getting someone to try. And here Dr. Pallok found something powerful: <strong>when a doctor prescribes Nuna, the trust barrier drops dramatically.</strong> "You already have a relationship with the nurse practitioner or physician you're seeing. If someone says, 'I really think this is a good idea for you — I want to see your blood pressures because I want to do a better job taking care of you,' people are far more likely to engage."</p>
+
+      <p class="body-p">Engagement that fades is the other challenge. In earlier programs, people would participate for a few months and then stop — which is exactly why Nuna leans on <strong>gamification</strong> to keep people reading about their health and checking their numbers. Because blood pressure isn't static: it shifts with age, diet, drinking, even how much you're sweating in the summer. "We've seen much better engagement now," she says.</p>
+
+      <h2 class="section-heading"><span class="kicker-num">05</span> Built for Medicaid First — and Spreading Across the City</h2>
+      <p class="body-p">Here's what surprised us most. Nuna was designed and implemented at Rush specifically for a <strong>Medicaid population</strong>. "How often do you see technology designed for folks in need on Medicaid?" Dr. Pallok asks. "Usually it's designed to help people with private insurance — they get the early access. We wanted it to be the reverse."</p>
+
+      <div class="stat-strip">
+        <div class="stat-cell"><div class="stat-num">40</div><div class="stat-cap">West Side clinics in the Live Healthy Chicago ecosystem</div></div>
+        <div class="stat-cell"><div class="stat-num">50</div><div class="stat-cap">South Side clinics involved across the city</div></div>
+        <div class="stat-cell"><div class="stat-num"><span>FQHC</span></div><div class="stat-cap">Federally Qualified Health Centers gaining remote-monitoring access</div></div>
+      </div>
+
+      <p class="body-p">Now the work is taking it to the community health centers it was always meant for — places where remote monitoring and these education tools have been out of reach because they're simply too expensive for many FQHCs to buy on their own.</p>
+
+      <h2 class="section-heading"><span class="kicker-num">06</span> What Success Looks Like</h2>
+      <p class="body-p">In the near term, success is measured in one number: <strong>blood pressure control</strong>, and especially <strong>systolic blood pressure</strong> — the figure that most drives heart-disease risk. Even small, steady improvements across clinics would signal real change in cardiovascular risk over time.</p>
+
+      <p class="body-p">To see it, partners including <strong>AllianceChicago</strong> and a team from Northwestern working through the <strong>CAPriCORN</strong> network are building a shared dashboard for Live Healthy Chicago — letting clinics across a fragmented system, including FQHCs, finally see blood-pressure data together and understand where they sit in the ecosystem. Alongside the technology, the coalition is teaching up-to-date measurement technique, working with medical assistants and nurses, and even purchasing validated automated cuffs for clinics that lacked them — quality improvement wrapped around the newly updated 2025 guidelines.</p>
+
+      <figure class="fig fig-center">
+        <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/lhc-news/pallok-ansell" alt="Dr. Kristen Pallok standing with Dr. David Ansell in a glass-walled lobby at Rush University Medical Center">
+        <figcaption>Dr. Kristen Pallok with Dr. David Ansell — Rush University Medical Center's Senior Vice President for Community Health Equity, author of <em>The Death Gap</em>, and a driving force behind Live Healthy Chicago.</figcaption>
+      </figure>
+
+      <h2 class="section-heading"><span class="kicker-num">07</span> What's On Her Own Phone</h2>
+      <p class="body-p">Dr. Pallok practices what she prescribes. She keeps a digital cuff at home — "it doesn't have to be anything super fancy" — and she has the Nuna app on her own phone, so she understands exactly what her patients see and the kind of messages it sends.</p>
+
+      <p class="body-p">Looking ahead, the app is built to fold in the data people already collect: fitness and step counts through Apple Health or Android, and — on the roadmap — continuous glucose monitors like Dexcom and Libre. The goal is a fuller, more human picture of a person's health, assembled from the devices already in their lives.</p>
+
+      <h2 class="section-heading"><span class="kicker-num">08</span> Vegetables, Salt &amp; Walking</h2>
+      <p class="body-p">So we asked the obvious question: what does she do for her own blood pressure? The answer was disarmingly simple — exercise and eating. Hypertension runs in her family, and she's quick to note that genetics is strong, but so is culture: families tend to eat and move in similar ways, so it's worth being honest about both.</p>
+
+      <p class="body-p">She uses a lot of olive oil, tries not to add salt — "sodium is one thing that, evolutionarily, our kidneys just don't process well" — and eats a lot of vegetables. With patients, she keeps the first step almost playfully small.</p>
+
+      <div class="smart">
+        <div class="smart-ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
+        <div>
+          <h4>Her "homework" for patients</h4>
+          <p><strong>Eat at least one vegetable every single day.</strong> It's a SMART goal — short, actionable, measurable, and time-bound. "By the time you come back, I want to hear that you're incorporating vegetables into your diet."</p>
+        </div>
+      </div>
+
+      <p class="body-p">It doesn't have to be salad, she says — any array of vegetables, lean proteins, and whole grains will do. Her bigger point is one most of us get backwards: in the U.S. and most wealthy countries, people aren't protein deficient.</p>
+
+      <div class="pullquote">
+        <p><span class="pq-mark">"</span>People are fiber deficient. Ninety percent of the United States is fiber deficient — because we don't eat enough whole grains, vegetables, and fruit.</p>
+      </div>
+
+      <div class="fig">
+        <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/lhc-news/food-as-medicine" alt="An overhead spread of fresh vegetables, salads, whole grains, fruit and olive oil on a wooden table">
+        <figcaption>"Change your diet and there's a good chance you'll at least improve your blood pressure a little bit."</figcaption>
+      </div>
+
+      <p class="body-p">She points to the Mediterranean as a model — "really cute older grandmothers who are super functional," still gardening and sweeping into old age because they stay active, walk instead of drive, eat a balanced diet, and have strong <strong>social cohesion</strong>. That last ingredient, she notes, isn't well baked into American healthcare, and we have to make a conscious effort to get it back.</p>
+
+      <p class="body-p">When we summed it up — vegetables and walking — she laughed. "Pretty much. It's pretty simple." Or, as she put it best:</p>
+
+      <div class="pullquote">
+        <p><span class="pq-mark">"</span>Walk to your friends and cook vegetables together.</p>
+      </div>
+
+      <hr class="divider">
+
+      <!-- CTA -->
+      <div class="cta-block">
+        <h3>Explore the movement</h3>
+        <p>See the partners, the 27 priority neighborhoods, and how community-rooted care and simple, everyday habits come together across Chicago.</p>
+        <a href="https://livehealthychi.com" class="cta-btn">
+          Explore LiveHealthyChicago.com
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+        </a>
+      </div>
+
+      <!-- See also -->
+      <div class="see-also">
+        <div class="see-also-label">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>
+          Continue the series
+        </div>
+        <a class="see-also-card" href="jini-kim-nuna.html">
+          <img class="see-also-thumb" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/lhc-news/jini-kim-profile" alt="Jini Kim">
+          <div class="sa-text">
+            <span class="sa-kicker">Interview · Nuna</span>
+            <span class="sa-title">The Older Sister Goes First</span>
+            <span class="sa-sub">Jini Kim, Co-Founder &amp; CEO of Nuna · 15 min listen</span>
+          </div>
+          <svg class="sa-arrow" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+
+    </div><!-- /article-inner -->
+  </div><!-- /article-outer -->
+
+  <!-- Footer -->
+  <footer class="article-footer">
+    <img src="https://assets.codepen.io/3457845/logo-Live-Healthy-Chicago.png" alt="Live Healthy Chicago">
+    <p style="margin-bottom:10px;">
+      <a href="../index-stage.html">Home</a> &nbsp;·&nbsp;
+      <a href="../index-stage.html#news">News &amp; Stories</a> &nbsp;·&nbsp;
+      <a href="../index-stage.html#events">Events</a> &nbsp;·&nbsp;
+      <a href="../index-stage.html#contact">Contact</a>
+    </p>
+    <p>© 2026 Live Healthy Chicago. All rights reserved.</p>
+  </footer>
+
+</div><!-- /app -->
+
+<script>
+  const HASH = '4973303f9a14715775d80d65bfafc89f7ba96b0dd6993391147b9bd7013bb882';
+  async function sha256(message) {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(message));
+    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+  }
+  async function checkPassword() {
+    const val = document.getElementById('pw-input').value;
+    if (await sha256(val) === HASH) {
+      sessionStorage.setItem('lhc_auth', '1');
+      const gate = document.getElementById('gate');
+      gate.classList.add('fade-out');
+      setTimeout(() => { gate.style.display = 'none'; document.getElementById('app').style.display = ''; }, 500);
+    } else { document.getElementById('gate-error').textContent = 'Incorrect password. Try again.'; }
+  }
+  document.getElementById('pw-input').addEventListener('keydown', e => { if (e.key === 'Enter') checkPassword(); });
+  if (sessionStorage.getItem('lhc_auth') === '1') {
+    document.getElementById('gate').style.display = 'none';
+    document.getElementById('app').style.display = '';
+  }
+
+  /* ════ Chaptered Audio Player ════ */
+  const CHAPTERS = [
+    { t: 0,    title: 'Host Introduction' },
+    { t: 61,   title: 'Health Happens Outside the Clinic' },
+    { t: 224,  title: 'The App as Everyday Education' },
+    { t: 354,  title: 'Who’s Actually Using It' },
+    { t: 439,  title: 'Lowering the Trust Barrier' },
+    { t: 566,  title: 'Spreading Nuna Across the City' },
+    { t: 653,  title: 'What Success Looks Like' },
+    { t: 789,  title: 'What’s On Her Own Phone' },
+    { t: 878,  title: 'Vegetables, Salt & Walking' },
+    { t: 1128, title: 'Host Outro' },
+  ];
+
+  const player   = document.getElementById('player');
+  const audio    = document.getElementById('audio');
+  const fill     = document.getElementById('fill');
+  const thumb    = document.getElementById('thumb');
+  const curEl    = document.getElementById('cur');
+  const durEl    = document.getElementById('dur');
+  const playIcon = document.getElementById('playIcon');
+  const speedBtn = document.getElementById('speed');
+  const nowEl    = document.getElementById('now-chapter');
+  const progress = document.getElementById('progress');
+  const listEl   = document.getElementById('chapter-list');
+
+  const SPEEDS = [1, 1.25, 1.5, 2];
+  let speedIdx = 0;
+  let activeIdx = -1;
+
+  const fmt = s => { const m = Math.floor(s/60), sec = Math.floor(s%60); return `${m}:${sec<10?'0':''}${sec}`; };
+
+  CHAPTERS.forEach((c, i) => {
+    const row = document.createElement('button');
+    row.className = 'chapter-row';
+    row.dataset.idx = i;
+    row.innerHTML =
+      `<span class="chapter-idx">${i+1}</span>` +
+      `<span class="chapter-info"><span class="chapter-name">${c.title}</span><span class="chapter-time">${fmt(c.t)}</span></span>` +
+      `<span class="chapter-playing-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="6,4 20,12 6,20"/></svg></span>`;
+    row.addEventListener('click', () => { jumpTo(i); });
+    listEl.appendChild(row);
+  });
+  const rows = Array.from(listEl.children);
+
+  function placeTicks() {
+    if (!audio.duration) return;
+    progress.querySelectorAll('.player-tick').forEach(t => t.remove());
+    CHAPTERS.forEach((c, i) => {
+      if (i === 0) return;
+      const tick = document.createElement('div');
+      tick.className = 'player-tick';
+      tick.style.left = (c.t / audio.duration * 100) + '%';
+      progress.appendChild(tick);
+    });
+  }
+
+  audio.addEventListener('loadedmetadata', () => { durEl.textContent = fmt(audio.duration); placeTicks(); });
+
+  function chapterAt(time) {
+    let idx = 0;
+    for (let i = 0; i < CHAPTERS.length; i++) { if (time >= CHAPTERS[i].t - 0.3) idx = i; }
+    return idx;
+  }
+  function setActive(idx) {
+    if (idx === activeIdx) return;
+    activeIdx = idx;
+    nowEl.textContent = CHAPTERS[idx].title;
+    rows.forEach((r, i) => r.classList.toggle('active', i === idx));
+  }
+  function refreshUI() {
+    const pct = audio.duration ? (audio.currentTime / audio.duration) * 100 : 0;
+    fill.style.width = pct + '%';
+    thumb.style.left = pct + '%';
+    curEl.textContent = fmt(audio.currentTime);
+    setActive(chapterAt(audio.currentTime));
+  }
+  audio.addEventListener('timeupdate', refreshUI);
+
+  audio.addEventListener('ended', () => { playIcon.innerHTML = '<polygon points="7,4 20,12 7,20"/>'; player.classList.remove('is-playing'); });
+
+  function toggle() {
+    if (audio.paused) {
+      audio.play();
+      playIcon.innerHTML = '<rect x="6" y="4" width="4" height="16" rx="1.2"/><rect x="14" y="4" width="4" height="16" rx="1.2"/>';
+      player.classList.add('is-playing');
+    } else {
+      audio.pause();
+      playIcon.innerHTML = '<polygon points="7,4 20,12 7,20"/>';
+      player.classList.remove('is-playing');
+    }
+  }
+  function skip(sec) { audio.currentTime = Math.max(0, Math.min(audio.duration || 0, audio.currentTime + sec)); }
+  function cycleSpeed() { speedIdx = (speedIdx + 1) % SPEEDS.length; audio.playbackRate = SPEEDS[speedIdx]; speedBtn.textContent = SPEEDS[speedIdx] + '×'; }
+  function jumpTo(i) { audio.currentTime = CHAPTERS[i].t; refreshUI(); if (audio.paused) toggle(); }
+  function toggleChapters() { player.classList.toggle('chapters-open'); }
+  progress.addEventListener('click', e => {
+    const rect = progress.getBoundingClientRect();
+    const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+    if (audio.duration) { audio.currentTime = pct * audio.duration; refreshUI(); }
+  });
+
+  /* ════ Nuna app tabbed showcase ════ */
+  (function () {
+    const imgs = Array.from(document.querySelectorAll('.nt-img'));
+    const tabs = Array.from(document.querySelectorAll('.app-tab'));
+    if (!imgs.length) return;
+    let idx = 0, timer;
+    function show(i) {
+      idx = (i + imgs.length) % imgs.length;
+      imgs.forEach((im, j) => im.classList.toggle('active', j === idx));
+      tabs.forEach((t, j) => t.classList.toggle('active', j === idx));
+    }
+    function reset() { clearInterval(timer); timer = setInterval(() => show(idx + 1), 4500); }
+    tabs.forEach((t, j) => t.addEventListener('click', () => { show(j); reset(); }));
+    reset();
+  })();
+</script>
+</body>
+</html>
