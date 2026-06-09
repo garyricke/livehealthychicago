@@ -597,7 +597,7 @@
       <h1>Project Status</h1>
       <p>A running log of every update, build, and content change to the Live Healthy Chicago site.</p>
       <div class="header-meta">
-        <div class="header-badge"><span class="badge-dot" style="background:var(--green)"></span> Last updated June 3, 2026</div>
+        <div class="header-badge"><span class="badge-dot" style="background:var(--green)"></span> Last updated June 9, 2026</div>
         <div class="header-badge"><span class="badge-dot" style="background:var(--blue)"></span> livehealthychi.com</div>
         <div class="header-badge"><span class="badge-dot" style="background:var(--yellow)"></span> Staging: index-stage.html</div>
         <a href="/scope.html" style="display:inline-flex; align-items:center; gap:7px; padding:6px 14px; border-radius:99px; background:rgba(70,183,229,0.18); border:1px solid rgba(70,183,229,0.4); color:#fff; font-size:0.8rem; font-family:'Poppins',sans-serif; font-weight:600; text-decoration:none; transition:background 0.2s, border-color 0.2s;" onmouseover="this.style.background='rgba(70,183,229,0.3)'; this.style.borderColor='rgba(70,183,229,0.6)';" onmouseout="this.style.background='rgba(70,183,229,0.18)'; this.style.borderColor='rgba(70,183,229,0.4)';">
@@ -620,13 +620,13 @@
       <div class="budget-bar-row">
         <div class="budget-bar-title">Initial SOW — $25,000 fixed fee</div>
         <div class="budget-bar-stats">
-          <div>Spent ≈ <strong>$22,250</strong> (89%)</div>
-          <div>Remaining ≈ <strong>$2,750</strong></div>
+          <div>Spent ≈ <strong>$23,500</strong> (94%)</div>
+          <div>Remaining ≈ <strong>$1,500</strong></div>
           <div>Status: <strong>Pre-maintenance</strong></div>
         </div>
       </div>
       <div class="budget-bar-track">
-        <div class="budget-bar-fill" style="width: 89%;"></div>
+        <div class="budget-bar-fill" style="width: 94%;"></div>
       </div>
       <div class="budget-bar-foot">
         <span>0%</span>
@@ -776,7 +776,7 @@
           <li class="todos-item">
             <div class="todos-item-title">Maintenance tier selection</div>
             <div class="todos-item-owner">Allie · Rebecca</div>
-            <div class="todos-item-note">Trigger: once the remaining ~$2,750 of the initial SOW is consumed. Pick $1K / 8h or $5K / 67h. Not urgent yet — flagged so it doesn't sneak up.</div>
+            <div class="todos-item-note">Trigger: once the remaining ~$1,500 of the initial SOW is consumed. Pick $1K / 8h or $5K / 67h. Approaching — flag for an upcoming budget conversation.</div>
           </li>
           <li class="todos-item">
             <div class="todos-item-title">Event-update workflow</div>
@@ -956,16 +956,44 @@
 
     <div class="timeline">
 
-      <!-- June 3 2026 — TODAY -->
+      <!-- June 9 2026 — TODAY -->
       <div class="tl-entry">
         <div class="tl-date-col">
-          <div class="tl-date"><span class="month">Jun</span>3, 2026</div>
+          <div class="tl-date"><span class="month">Jun</span>9, 2026</div>
         </div>
         <div class="tl-connector"><div class="tl-dot today"></div></div>
         <div class="tl-card today-card">
           <div class="tl-card-header">
-            <span class="tl-card-date-mobile">June 3, 2026</span>
+            <span class="tl-card-date-mobile">June 9, 2026</span>
             <span class="tl-tag tag-today">Today</span>
+            <span class="tl-tag tag-dev">Dev</span>
+            <span class="tl-tag tag-content">Content</span>
+            <span class="tl-tag tag-design">Design</span>
+            <span class="tl-status status-waiting">Staged · Review to go live</span>
+          </div>
+
+          <div class="tl-section-title">News — Two Featured Nuna Interviews (on staging for review)</div>
+          <ul class="tl-items">
+            <li class="tl-item"><strong>Two new featured interview articles</strong>, each a polished standalone page with a podcast-style listening experience: <a href="/news/jini-kim-nuna.html" style="color:var(--blue);">The Older Sister Goes First — Jini Kim, CEO of Nuna</a> and <a href="/news/kristen-pallok-nuna.html" style="color:var(--blue);">Walk to Your Friends and Cook Vegetables Together — Dr. Kristen Pallok, Rush</a>. Both are pinned as the first two cards in the News feed on <code>index-stage.html</code>.</li>
+            <li class="tl-item"><strong>Creative chaptered audio player</strong> — each interview plays in a custom player with a recorded host intro/outro (voiced by Gary), a standout <strong>Chapters</strong> menu of 10 click-to-jump chapters, scrubber tick marks, speed control, and a live now-playing indicator. Chapter timestamps were synced to the audio, then re-synced after the recordings were tightened.</li>
+            <li class="tl-item"><strong>Engaging, magazine-style article bodies</strong> as a visual companion to the audio — pull quotes, stat strips, bio cards, and embedded looks at the Nuna app (a looping demo video, an image slideshow, and a tabbed feature showcase), each linking out to <strong>nuna.com</strong>.</li>
+            <li class="tl-item"><strong>Custom imagery</strong> — real headshots restyled into a matched studio set; the <em>TIME</em> "Code Red" cover (the HealthCare.gov rescue) in Jini's piece; an AI-upscaled photo of Dr. Pallok with Dr. David Ansell; a warm "friends cooking vegetables in a Chicago kitchen" hero for Dr. Pallok; the full Nuna team photo; plus supporting documentary visuals — all hosted on Cloudinary.</li>
+            <li class="tl-item"><strong>"Featured with Nuna" partner badge</strong> on the two interview cards in the News feed, marking them as prominent partner content.</li>
+            <li class="tl-item"><strong>Branded social share cards</strong> (1200×630 Open Graph + Twitter) built for both articles, so links preview cleanly when shared.</li>
+            <li class="tl-item"><strong>Staging only — awaiting client review.</strong> All of the above lives on <code>index-stage.html</code> and the <code>/news/</code> pages; nothing has been promoted to the public <a href="/index.html" style="color:var(--blue);"><code>index.html</code></a> yet. Review on staging, then give the go-ahead to publish.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- June 3 2026 -->
+      <div class="tl-entry">
+        <div class="tl-date-col">
+          <div class="tl-date"><span class="month">Jun</span>3, 2026</div>
+        </div>
+        <div class="tl-connector"><div class="tl-dot"></div></div>
+        <div class="tl-card">
+          <div class="tl-card-header">
+            <span class="tl-card-date-mobile">June 3, 2026</span>
             <span class="tl-tag tag-dev">Dev</span>
             <span class="tl-tag tag-content">Content</span>
             <span class="tl-status status-completed">Completed</span>
