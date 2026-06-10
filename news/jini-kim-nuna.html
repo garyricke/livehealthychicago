@@ -278,8 +278,7 @@
       background: linear-gradient(90deg, var(--blue), var(--teal)); color: #fff; font-family: 'Montserrat', sans-serif;
       font-weight: 700; font-size: 0.8rem; text-decoration: none; white-space: nowrap; transition: opacity 0.2s, transform 0.2s; }
     .nuna-link:hover { opacity: 0.9; transform: translateY(-1px); }
-    .app-video { width: 100%; display: block; background: #0d2238; }
-    .nuna-slideshow { padding: 22px; display: grid; grid-template-columns: minmax(0,300px) 1fr; gap: 24px; align-items: center; }
+    .nuna-slideshow { padding: 28px; display: grid; grid-template-columns: minmax(0,380px) 1fr; gap: 32px; align-items: center; }
     @media (max-width: 560px) { .nuna-slideshow { grid-template-columns: 1fr; text-align: center; } }
     .nuna-slides { position: relative; width: 100%; aspect-ratio: 1 / 1; border-radius: 16px; overflow: hidden;
       box-shadow: 0 8px 24px rgba(27,54,93,0.16); background: #eef3f8; }
@@ -342,7 +341,7 @@
         <div class="hero-photo-frame">
           <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/lhc-news/jini-kim-childhood-hero"
                alt="A young Jini Kim with her younger brother as children">
-          <span class="hero-photo-tag">Jini &amp; her brother</span>
+          <span class="hero-photo-tag">Jini &amp; her brother, Kimong</span>
         </div>
       </div>
       <div class="hero-text-col">
@@ -351,7 +350,7 @@
           <span class="hero-date">June 9, 2026 · 15 min listen</span>
         </div>
         <h1 class="hero-h1">The Older Sister Goes First</h1>
-        <p class="hero-dek">Jini Kim built Nuna for the people technology usually leaves behind. She talks about her brother, the meaning of a name, and why partnering with Live Healthy Chicago feels less like a new direction than a homecoming.</p>
+        <p class="hero-dek">Jini Kim built Nuna for the people technology usually leaves behind. She talks about her brother, Kimong, the meaning of a name, and why partnering with Live Healthy Chicago feels less like a new direction than a homecoming.</p>
         <div class="hero-byline">
           <span>A conversation hosted by Gary Ricke</span>
           <span class="dot"></span>
@@ -482,8 +481,8 @@
 
       <div class="feature-block">
         <div class="feature-head">
-          <h4>How the coach works today</h4>
-          <p>AI-native, designed to feel human, built so you don't go it alone.</p>
+          <h4>How Nuna works today</h4>
+          <p>AI native, designed to feel human, so that people can always feel supported.</p>
         </div>
         <div class="feature-grid">
           <div class="feature-item">
@@ -496,7 +495,7 @@
           </div>
           <div class="feature-item">
             <div class="feature-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15 9 22 9 17 14 19 21 12 17 5 21 7 14 2 9 9 9"/></svg></div>
-            <div><h5>Gamification</h5><p>Designed to be fun to use, so people keep coming back to their health instead of dropping off.</p></div>
+            <div><h5>Gamification</h5><p>Designed to be satisfying and motivating to use, so people keep coming back to their health instead of dropping off.</p></div>
           </div>
           <div class="feature-item">
             <div class="feature-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
@@ -516,25 +515,26 @@
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
           </a>
         </div>
-        <video class="app-video" autoplay muted loop playsinline preload="metadata"
-               src="https://res.cloudinary.com/dsbllwpbh/video/upload/lhc-news/nuna-app-loop.mp4"></video>
         <div class="nuna-slideshow">
           <div class="nuna-slides">
-            <img class="nuna-slide active" data-label="Dynamic Updates" loading="lazy"
-                 src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/lhc-news/nuna-app-dynamic-updates" alt="Nuna app — dynamic updates screen">
-            <img class="nuna-slide" data-label="Personalized Offers" loading="lazy"
-                 src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/lhc-news/nuna-app-personalized-offers" alt="Nuna app — personalized offers screen">
-            <img class="nuna-slide" data-label="Multimodality" loading="lazy"
-                 src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/lhc-news/nuna-app-multimodality" alt="Nuna app — multimodality screen">
+            <img class="nuna-slide active" data-label="Dynamic Coaching"
+                 data-sub="Personalized guidance and gentle nudges accompany people in the everyday moments between visits, and keep them on track with their care plans." loading="lazy"
+                 src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/lhc-news/nuna-app-dynamic-updates" alt="Nuna app — dynamic coaching screen">
+            <img class="nuna-slide" data-label="Always-On Support"
+                 data-sub="Immediate feedback to support the real-life decisions people face every day as they navigate their lives and their conditions." loading="lazy"
+                 src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/lhc-news/nuna-app-personalized-offers" alt="Nuna app — always-on support screen">
+            <img class="nuna-slide" data-label="Knowledge Paths"
+                 data-sub="Personalized knowledge building — condition knowledge, reflection, and habit building — to help put people in the driver's seat of their health." loading="lazy"
+                 src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/lhc-news/nuna-app-multimodality" alt="Nuna app — knowledge paths screen">
           </div>
           <div>
             <div class="nuna-cap-label">Inside the app</div>
-            <div id="nuna-cap">Dynamic Updates</div>
-            <p class="nuna-sub">Proactive prompts, personalized guidance, and content in many formats — meeting people in the everyday moments between visits.</p>
+            <div id="nuna-cap">Dynamic Coaching</div>
+            <p class="nuna-sub" id="nuna-sub">Personalized guidance and gentle nudges accompany people in the everyday moments between visits, and keep them on track with their care plans.</p>
             <div class="nuna-dots">
-              <button class="nuna-dot active" aria-label="Show Dynamic Updates"></button>
-              <button class="nuna-dot" aria-label="Show Personalized Offers"></button>
-              <button class="nuna-dot" aria-label="Show Multimodality"></button>
+              <button class="nuna-dot active" aria-label="Show Dynamic Coaching"></button>
+              <button class="nuna-dot" aria-label="Show Always-On Support"></button>
+              <button class="nuna-dot" aria-label="Show Knowledge Paths"></button>
             </div>
           </div>
         </div>
@@ -546,7 +546,7 @@
       <p class="body-p">"Then you'll feel less alone as you go through the process of managing your hypertension," she says. And as Nuna moves toward harder conditions — cancer is one the team is already thinking about — that human connection stops being a nice-to-have. "Then it goes from being ill to life and death."</p>
 
       <h2 class="section-heading"><span class="kicker-num">07</span> Real Tools, Existing Trust</h2>
-      <p class="body-p">Jini learned something from Live Healthy Chicago partners David Ansell and Dr. Kristen Pallok that she keeps returning to: in Chicago, the distance between a long life and a short one can be just a few miles. Neighborhoods close enough to share a skyline can differ by a decade or more in life expectancy — and hypertension and heart disease are written all over that gap.</p>
+      <p class="body-p">Jini learned something from Live Healthy Chicago partners Dr. David Ansell and Dr. Kristen Pallok that she keeps returning to: in Chicago, the distance between a long life and a short one can be just a few miles. Neighborhoods close enough to share a skyline can differ by a decade or more in life expectancy — and hypertension and heart disease are written all over that gap.</p>
 
       <p class="body-p">What gives her hope is that Chicago also holds some of the most committed community leadership anywhere — people doing this work long before Nuna arrived, and long after. Her ambition isn't to stand apart from that work but to strengthen it: to put real tools into trust that already exists. If it works, she believes Chicago could become a blueprint other cities follow.</p>
 
@@ -750,6 +750,7 @@
     const slides = Array.from(document.querySelectorAll('.nuna-slide'));
     const dots   = Array.from(document.querySelectorAll('.nuna-dot'));
     const cap    = document.getElementById('nuna-cap');
+    const sub    = document.getElementById('nuna-sub');
     if (!slides.length) return;
     let idx = 0, timer;
     function show(i) {
@@ -757,6 +758,7 @@
       slides.forEach((s, j) => s.classList.toggle('active', j === idx));
       dots.forEach((d, j) => d.classList.toggle('active', j === idx));
       cap.textContent = slides[idx].dataset.label;
+      if (sub && slides[idx].dataset.sub) sub.textContent = slides[idx].dataset.sub;
     }
     function reset() { clearInterval(timer); timer = setInterval(() => show(idx + 1), 3500); }
     dots.forEach((d, j) => d.addEventListener('click', () => { show(j); reset(); }));
