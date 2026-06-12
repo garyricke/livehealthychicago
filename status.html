@@ -967,6 +967,7 @@
             <span class="tl-card-date-mobile">June 12, 2026</span>
             <span class="tl-tag tag-today">Today</span>
             <span class="tl-tag tag-content">Content</span>
+            <span class="tl-tag tag-dev">Dev</span>
             <span class="tl-status status-waiting">Final edit applied · awaiting green light</span>
           </div>
 
@@ -976,6 +977,13 @@
             <li class="tl-item"><strong>New graphic in place</strong> — the produce-aisle photo now shows the Nuna app open to a roasted-carrots recipe with the voice "tap to mute" control, a real in-the-moment look at the app. Hosted on Cloudinary, web-optimized (<code>f_auto,q_auto</code>, ~280&nbsp;KB).</li>
             <li class="tl-item"><strong>Nuna gave the green light to publish</strong> with this swap — "let us know when it's live and we'll plug it too." Reply drafted confirming the change.</li>
             <li class="tl-item"><strong>Next step — promote to public.</strong> Pending the go-live signal, the article + News-feed parity move from <code>index-stage.html</code> to the public <a href="/index.html" style="color:var(--blue);"><code>index.html</code></a>.</li>
+          </ul>
+
+          <div class="tl-section-title" style="margin-top:18px;">Admin Menu — Upgraded to the New Style</div>
+          <ul class="tl-items">
+            <li class="tl-item"><strong>Discreet badge → password gate → slide-in panel.</strong> The bottom-right "A" badge now opens a password modal first; on unlock, a full-height panel slides in from the right with the internal links as branded icon cards (plus a "Lock &amp; sign out"). Replaces the old click-only popover.</li>
+            <li class="tl-item"><strong>Hides internal links from public visitors</strong> — the URLs are no longer exposed until someone enters the password. Shares the existing site session, so unlocking the panel or any gated page covers them all in that browser session.</li>
+            <li class="tl-item"><strong>Same password</strong> (<code>livehealthychi</code>), verified by SHA-256 (no plaintext in source). Applied to both <a href="/index.html" style="color:var(--blue);"><code>index.html</code></a> and <code>index-stage.html</code>; all 9 admin links carried over.</li>
           </ul>
         </div>
       </div>
