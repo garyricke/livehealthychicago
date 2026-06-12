@@ -2527,83 +2527,158 @@
       },
     ];
 
+    // New-style admin entry: discreet badge → password modal → slide-in panel.
+    // Shares the site gate's sessionStorage key 'lhc_auth'; password is the
+    // project password "livehealthychi", stored only as a SHA-256 hash (never
+    // plaintext in source) and verified via crypto.subtle, matching the gate.
+    const ADMIN_HASH = '4973303f9a14715775d80d65bfafc89f7ba96b0dd6993391147b9bd7013bb882';
+    const ADMIN_LOGO = 'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1771612857/favicon-live-healthy-chicago_e7o6el.png';
+    const ADMIN_PANEL_CSS = `
+#adm-root{
+  --adm-accent:#46B7E5; --adm-accent-hover:#6cc7ec; --adm-ink:#ecf4f9;
+  --adm-panel-bg:linear-gradient(165deg,#0f2447 0%,#0c1e3c 45%,#06122a 100%);
+  --adm-modal-bg:rgba(11,26,52,0.97); --adm-modal-ink:#06122a;
+  --adm-font-display:'Montserrat',system-ui,sans-serif; --adm-font-body:'Open Sans',system-ui,sans-serif;
+}
+#adm{position:fixed;bottom:24px;right:24px;z-index:900;font-family:var(--adm-font-display);}
+#adm-btn{width:32px;height:32px;border-radius:50%;border:1px solid color-mix(in srgb,var(--adm-accent) 35%,transparent);background:rgba(6,18,42,0.4);color:color-mix(in srgb,var(--adm-accent) 60%,transparent);font-size:0.85rem;font-weight:700;cursor:pointer;opacity:0.35;padding:0;line-height:1;display:flex;align-items:center;justify-content:center;transition:opacity .25s,color .25s,border-color .25s,background .25s;}
+#adm-btn:hover,#adm-btn:focus-visible,#adm[data-open="true"] #adm-btn{opacity:1;color:var(--adm-accent);border-color:var(--adm-accent);background:rgba(6,18,42,0.9);outline:none;}
+#adm-lock{position:fixed;inset:0;z-index:1200;display:flex;align-items:center;justify-content:center;background:rgba(2,12,24,0.72);backdrop-filter:blur(6px);font-family:var(--adm-font-body);animation:admFade .2s ease-out;}
+#adm-lock-box{position:relative;background:var(--adm-modal-bg);border:1px solid color-mix(in srgb,var(--adm-accent) 30%,transparent);border-radius:16px;padding:38px 36px;width:min(380px,90vw);text-align:center;box-shadow:0 24px 80px rgba(0,0,0,0.55);}
+#adm-lock-box img{height:40px;margin:0 auto 18px;display:block;}
+#adm-lock-box h2{font-family:var(--adm-font-display);font-size:1.35rem;font-weight:800;color:#fff;letter-spacing:0.02em;margin:0 0 6px;}
+#adm-lock-box .adm-lock-sub{font-size:0.82rem;color:color-mix(in srgb,var(--adm-ink) 55%,transparent);margin:0 0 22px;letter-spacing:0.02em;}
+#adm-lock-input{width:100%;padding:12px 16px;background:rgba(0,0,0,0.3);border:1px solid color-mix(in srgb,var(--adm-accent) 30%,transparent);border-radius:8px;color:#fff;font-size:0.95rem;font-family:inherit;outline:none;transition:border-color .2s;box-sizing:border-box;}
+#adm-lock-input:focus{border-color:var(--adm-accent);}
+#adm-lock-btn{margin-top:14px;width:100%;padding:12px;background:var(--adm-accent);color:var(--adm-modal-ink);border:0;border-radius:8px;font-family:var(--adm-font-display);font-size:0.95rem;font-weight:700;letter-spacing:0.04em;cursor:pointer;transition:background .2s;}
+#adm-lock-btn:hover{background:var(--adm-accent-hover);}
+#adm-lock-error{font-size:0.78rem;color:#ff7a7a;margin:12px 0 0;min-height:1.1em;}
+.adm-shake{animation:admShake .35s;}
+@keyframes admShake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-7px)}40%,80%{transform:translateX(7px)}}
+@keyframes admFade{from{opacity:0}to{opacity:1}}
+#adm-scrim{position:fixed;inset:0;z-index:1100;background:rgba(2,12,24,0.55);backdrop-filter:blur(2px);animation:admFade .25s ease-out;}
+#adm-panel{position:fixed;top:0;right:0;z-index:1110;width:min(340px,88vw);height:100%;background:var(--adm-panel-bg);border-left:1px solid color-mix(in srgb,var(--adm-accent) 30%,transparent);box-shadow:-24px 0 70px rgba(0,0,0,0.5);transform:translateX(100%);transition:transform .34s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;font-family:var(--adm-font-body);}
+#adm-panel.open{transform:translateX(0);}
+.adm-panel-head{display:flex;align-items:flex-end;justify-content:space-between;padding:26px 24px 18px;border-bottom:1px solid color-mix(in srgb,var(--adm-accent) 18%,transparent);}
+.adm-eyebrow{display:block;font-size:0.62rem;letter-spacing:0.22em;text-transform:uppercase;color:color-mix(in srgb,var(--adm-accent) 90%,transparent);margin-bottom:5px;}
+.adm-panel-brand h3{font-family:var(--adm-font-display);font-size:1.4rem;font-weight:800;color:#fff;letter-spacing:0.02em;margin:0;line-height:1;}
+#adm-panel-close{background:transparent;border:0;cursor:pointer;color:color-mix(in srgb,var(--adm-ink) 60%,transparent);width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:6px;transition:color .15s,background .15s;}
+#adm-panel-close svg{width:20px;height:20px;}
+#adm-panel-close:hover{color:var(--adm-accent);background:color-mix(in srgb,var(--adm-accent) 12%,transparent);}
+.adm-links{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:4px;}
+.adm-links a{display:flex;align-items:flex-start;gap:13px;padding:13px 14px;border-radius:10px;text-decoration:none;color:var(--adm-ink);border:1px solid transparent;transition:background .15s,border-color .15s,transform .15s;}
+.adm-links a:hover{background:color-mix(in srgb,var(--adm-accent) 10%,transparent);border-color:color-mix(in srgb,var(--adm-accent) 28%,transparent);transform:translateX(-2px);}
+.adm-ic{flex:none;width:38px;height:38px;border-radius:9px;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--adm-accent) 14%,transparent);color:var(--adm-accent);border:1px solid color-mix(in srgb,var(--adm-accent) 22%,transparent);}
+.adm-ic svg{width:20px;height:20px;}
+.adm-links a:hover .adm-ic{background:color-mix(in srgb,var(--adm-accent) 22%,transparent);}
+.adm-txt{display:flex;flex-direction:column;gap:2px;padding-top:1px;}
+.adm-txt b{font-weight:600;font-size:0.92rem;color:#fff;letter-spacing:0.01em;}
+.adm-txt small{font-size:0.72rem;line-height:1.4;color:color-mix(in srgb,var(--adm-ink) 62%,transparent);}
+.adm-panel-foot{padding:14px 18px 20px;border-top:1px solid rgba(255,255,255,0.08);}
+#adm-lock-out{display:flex;align-items:center;gap:9px;width:100%;padding:11px 14px;background:transparent;border:1px solid rgba(255,255,255,0.14);border-radius:9px;color:color-mix(in srgb,var(--adm-ink) 60%,transparent);font-family:var(--adm-font-body);font-size:0.8rem;letter-spacing:0.02em;cursor:pointer;transition:color .15s,border-color .15s,background .15s;}
+#adm-lock-out svg{width:16px;height:16px;}
+#adm-lock-out:hover{color:var(--adm-accent);border-color:color-mix(in srgb,var(--adm-accent) 40%,transparent);background:color-mix(in srgb,var(--adm-accent) 8%,transparent);}
+@media (prefers-reduced-motion: reduce){#adm-panel{transition:none;}#adm-lock,#adm-scrim{animation:none;}.adm-shake{animation:none;}}
+`;
+
     function AdminMenu() {
-      const [open, setOpen] = React.useState(false);
-      const wrapRef = React.useRef(null);
+      // phase: 'idle' (badge only) | 'lock' (password modal) | 'panel' (slide-in)
+      const [phase, setPhase] = React.useState('idle');
+      const [pw, setPw] = React.useState('');
+      const [error, setError] = React.useState('');
+      const [shake, setShake] = React.useState(false);
+      const inputRef = React.useRef(null);
+
+      const authed = () => { try { return sessionStorage.getItem('lhc_auth') === '1'; } catch (e) { return false; } };
+
+      const openFromBadge = () => {
+        if (authed()) { setPhase('panel'); return; }
+        setPw(''); setError(''); setPhase('lock');
+      };
 
       React.useEffect(() => {
-        if (!open) return;
-        const onDown = e => { if (wrapRef.current && !wrapRef.current.contains(e.target)) setOpen(false); };
-        const onEsc  = e => { if (e.key === 'Escape') setOpen(false); };
-        document.addEventListener('mousedown', onDown);
+        if (phase === 'lock') { const t = setTimeout(() => inputRef.current && inputRef.current.focus(), 30); return () => clearTimeout(t); }
+      }, [phase]);
+
+      React.useEffect(() => {
+        document.body.style.overflow = phase === 'panel' ? 'hidden' : '';
+        return () => { document.body.style.overflow = ''; };
+      }, [phase]);
+
+      React.useEffect(() => {
+        const onEsc = e => { if (e.key !== 'Escape') return; if (phase === 'lock') setPhase('idle'); else if (phase === 'panel') setPhase('idle'); };
         document.addEventListener('keydown', onEsc);
-        return () => {
-          document.removeEventListener('mousedown', onDown);
-          document.removeEventListener('keydown', onEsc);
-        };
-      }, [open]);
+        return () => document.removeEventListener('keydown', onEsc);
+      }, [phase]);
+
+      const submit = async () => {
+        try {
+          const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(pw));
+          const hash = Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+          if (hash === ADMIN_HASH) {
+            try { sessionStorage.setItem('lhc_auth', '1'); } catch (e) {}
+            setError(''); setPhase('panel');
+          } else {
+            setError('Incorrect password. Try again.');
+            setShake(false); requestAnimationFrame(() => setShake(true));
+          }
+        } catch (e) { setError('Unable to verify. Try again.'); }
+      };
+
+      const signOut = () => { try { sessionStorage.removeItem('lhc_auth'); } catch (e) {} setPhase('idle'); };
 
       return (
-        <div ref={wrapRef} style={{ position: 'absolute', bottom: 14, right: 18, zIndex: 10 }}>
-          {open && (
-            <div role="menu" style={{
-              position: 'absolute', bottom: 'calc(100% + 12px)', right: 0,
-              minWidth: 260, padding: 6, borderRadius: 14,
-              background: 'rgba(15,30,60,0.97)',
-              border: '1px solid rgba(255,255,255,0.12)',
-              boxShadow: '0 12px 40px rgba(0,0,0,0.45), 0 2px 8px rgba(0,0,0,0.25)',
-              backdropFilter: 'blur(14px)',
-            }}>
-              <div style={{
-                fontFamily: "'Poppins', sans-serif", fontSize: 10, fontWeight: 700,
-                letterSpacing: '0.12em', textTransform: 'uppercase',
-                color: 'rgba(255,255,255,0.4)', padding: '10px 14px 8px'
-              }}>Admin Pages</div>
-              {ADMIN_PAGES.map(p => (
-                <a key={p.href} href={p.href} role="menuitem"
-                   style={{
-                     display: 'flex', alignItems: 'center', gap: 12,
-                     padding: '9px 12px', borderRadius: 9,
-                     color: '#fff', textDecoration: 'none',
-                     fontFamily: "'Open Sans', sans-serif",
-                     transition: 'background 0.15s'
-                   }}
-                   onMouseEnter={e => e.currentTarget.style.background = 'rgba(70,183,229,0.14)'}
-                   onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
-                  <div style={{
-                    width: 26, height: 26, borderRadius: 7,
-                    background: 'rgba(70,183,229,0.18)',
-                    color: '#46B7E5',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    flexShrink: 0
-                  }}>{p.icon}</div>
-                  <div style={{ flex: 1 }}>
-                    <div style={{ fontSize: 13, fontWeight: 600, lineHeight: 1.25 }}>{p.label}</div>
-                    <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.5)', marginTop: 1 }}>{p.desc}</div>
-                  </div>
-                </a>
-              ))}
+        <div id="adm-root">
+          <style dangerouslySetInnerHTML={{ __html: ADMIN_PANEL_CSS }} />
+
+          <div id="adm" data-open={phase !== 'idle' ? 'true' : 'false'}>
+            <button id="adm-btn" type="button" aria-label="Admin access" aria-haspopup="dialog"
+                    aria-expanded={phase !== 'idle'} onClick={openFromBadge}>A</button>
+          </div>
+
+          {phase === 'lock' && (
+            <div id="adm-lock" onClick={e => { if (e.target.id === 'adm-lock') setPhase('idle'); }}>
+              <div id="adm-lock-box" className={shake ? 'adm-shake' : ''} role="dialog" aria-modal="true" aria-label="Admin access">
+                <img src={ADMIN_LOGO} alt="Live Healthy Chicago" onError={e => { e.currentTarget.style.display = 'none'; }} />
+                <h2>Admin Access</h2>
+                <p className="adm-lock-sub">Internal area · enter the password to continue.</p>
+                <input id="adm-lock-input" ref={inputRef} type="password" placeholder="Enter password"
+                       value={pw} autoComplete="current-password"
+                       onChange={e => setPw(e.target.value)}
+                       onKeyDown={e => { if (e.key === 'Enter') submit(); }} />
+                <button id="adm-lock-btn" type="button" onClick={submit}>Enter</button>
+                <p id="adm-lock-error" role="alert">{error}</p>
+              </div>
             </div>
           )}
-          <button
-            type="button"
-            aria-label={open ? 'Close admin menu' : 'Open admin menu'}
-            aria-expanded={open}
-            onClick={() => setOpen(o => !o)}
-            style={{
-              width: 28, height: 28, borderRadius: '50%',
-              background: open ? 'rgba(70,183,229,0.2)' : 'transparent',
-              border: open ? '1px solid rgba(70,183,229,0.5)' : '1px solid rgba(255,255,255,0.1)',
-              color: open ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.3)',
-              fontFamily: "'Montserrat', sans-serif",
-              fontWeight: 700, fontSize: 11,
-              cursor: 'pointer',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              transition: 'all 0.2s', padding: 0, lineHeight: 1,
-            }}
-            onMouseEnter={e => { if (!open) { e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.28)'; e.currentTarget.style.color = 'rgba(255,255,255,0.75)'; } }}
-            onMouseLeave={e => { if (!open) { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)'; e.currentTarget.style.color = 'rgba(255,255,255,0.3)'; } }}
-          >A</button>
+
+          {phase === 'panel' && <div id="adm-scrim" onClick={() => setPhase('idle')} />}
+          <aside id="adm-panel" className={phase === 'panel' ? 'open' : ''} role="dialog" aria-modal="true"
+                 aria-label="Admin links" aria-hidden={phase !== 'panel'}>
+            <div className="adm-panel-head">
+              <div className="adm-panel-brand">
+                <span className="adm-eyebrow">Live Healthy Chicago</span>
+                <h3>Admin</h3>
+              </div>
+              <button id="adm-panel-close" type="button" aria-label="Close admin panel" onClick={() => setPhase('idle')}>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>
+              </button>
+            </div>
+            <nav className="adm-links">
+              {ADMIN_PAGES.map(p => (
+                <a key={p.href} href={p.href}>
+                  <span className="adm-ic">{p.icon}</span>
+                  <span className="adm-txt"><b>{p.label}</b><small>{p.desc}</small></span>
+                </a>
+              ))}
+            </nav>
+            <div className="adm-panel-foot">
+              <button id="adm-lock-out" type="button" onClick={signOut}>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+                Lock &amp; sign out
+              </button>
+            </div>
+          </aside>
         </div>
       );
     }
