@@ -1,0 +1,40 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Reply to Erik — Jini interview final edit</title></head>
+<body style="margin:0; padding:24px; background:#ffffff; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif; color:#1a2535; line-height:1.6;">
+  <div class="copy-control" style="max-width:600px; margin:0 0 18px; display:flex; align-items:center; gap:12px;">
+    <button id="copy-btn" onclick="copyEmail()" style="display:inline-flex; align-items:center; gap:8px; background:#0362BC; color:#fff; border:none; border-radius:8px; padding:10px 16px; font-family:inherit; font-size:14px; font-weight:600; cursor:pointer;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+      Copy email
+    </button>
+    <span id="copy-status" style="font-size:13px; color:#4a5568;">Click, then paste into your email (formatting included).</span>
+  </div>
+  <div id="email-body" style="max-width:600px; margin:0; background:#ffffff;">
+
+    <p style="margin:0 0 16px;">Hi Erik,</p>
+
+    <p style="margin:0 0 16px;">Done — and thank you for the green light. I swapped the <strong>"08. The Real Work Is In Between"</strong> graphic for the one you sent, with a real Nuna app screen in the moment: the produce aisle, recipe pulled up, voice control right there. It's a much stronger image for that beat than the placeholder, and it's live on the staging proof now.</p>
+
+    <a href="https://www.livehealthychi.com/news/jini-kim-nuna.html" target="_blank" style="text-decoration:none; color:inherit;">
+      <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto:good,w_1100/v1781270158/lhc-news/jini-between-visits-app.jpg" alt="The Nuna app open to a roasted-carrots recipe while shopping in the produce aisle" style="display:block; width:100%; max-width:600px; height:auto; border:1px solid #dce3ed; border-radius:10px;">
+    </a>
+    <p style="margin:8px 0 20px; font-size:13px; color:#4a5568;">The new section 08 graphic — a real Nuna app screen in the produce aisle. <a href="https://www.livehealthychi.com/news/jini-kim-nuna.html" target="_blank" style="color:#0362BC; text-decoration:none;">See it live →</a></p>
+
+    <p style="margin:0 0 16px;">That was your last item, so we're ready to publish on your word. I'll move it from staging to the public site and <strong>let you know the moment it's live</strong> so you and Jini can plug it on your end.</p>
+
+    <p style="margin:0 0 6px;">Here's the proof again for convenience:</p>
+    <p style="margin:0 0 4px;"><strong>Interview proof</strong> &nbsp;<a href="https://www.livehealthychi.com/news/jini-kim-nuna.html" target="_blank" style="color:#0362BC; text-decoration:none;">livehealthychi.com/news/jini-kim-nuna.html</a></p>
+    <p style="margin:0 0 4px;"><strong>Full staging site</strong> &nbsp;<a href="https://www.livehealthychi.com/index-stage.html" target="_blank" style="color:#0362BC; text-decoration:none;">livehealthychi.com/index-stage.html</a> <span style="color:#4a5568;">(article pinned at the top of the News feed)</span></p>
+    <p style="margin:0 0 20px;"><strong>Password</strong> &nbsp;<code style="background:#f1f5f9; padding:2px 6px; border-radius:4px; font-size:13px;">livehealthychi</code></p>
+
+    <p style="margin:0 0 16px;">Thanks again for the careful read on this one — it made the piece better.</p>
+
+    <p style="margin:0 0 4px;">Best,</p>
+    <p style="margin:0;">Gary</p>
+
+  </div>
+  <script>
+    function setStatus(m,ok){var s=document.getElementById('copy-status');s.textContent=m;s.style.color=ok?'#1a7f37':'#b42318';}
+    function selectFallback(el){try{var r=document.createRange();r.selectNode(el);var s=window.getSelection();s.removeAllRanges();s.addRange(r);var ok=document.execCommand('copy');s.removeAllRanges();setStatus(ok?'✓ Copied — paste into your email':'Press ⌘C to copy the selected email',ok);}catch(e){setStatus('Select the email and press ⌘C',false);}}
+    function copyEmail(){var el=document.getElementById('email-body');if(navigator.clipboard&&window.ClipboardItem){var d=[new ClipboardItem({'text/html':new Blob([el.outerHTML],{type:'text/html'}),'text/plain':new Blob([el.innerText],{type:'text/plain'})})];navigator.clipboard.write(d).then(function(){setStatus('✓ Copied — paste into your email (formatting included)',true);},function(){selectFallback(el);});}else{selectFallback(el);}}
+  </script>
+</body></html>
