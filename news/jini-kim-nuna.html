@@ -306,20 +306,8 @@
 </head>
 <body>
 
-<!-- ── Password Gate ──────────────────────────────────────── -->
-<div id="gate">
-  <div class="gate-card">
-    <img class="gate-logo" src="https://assets.codepen.io/3457845/logo-Live-Healthy-Chicago.png" alt="Live Healthy Chicago">
-    <h2>Preview Access</h2>
-    <p>Enter the password to view this page.</p>
-    <input id="pw-input" class="gate-input" type="password" placeholder="Password" autocomplete="current-password">
-    <button class="gate-btn" onclick="checkPassword()">Enter</button>
-    <p class="gate-error" id="gate-error"></p>
-  </div>
-</div>
-
 <!-- ── Main Content ───────────────────────────────────────── -->
-<div id="app" style="display:none">
+<div id="app">
 
   <!-- Nav -->
   <nav class="site-nav">
@@ -618,26 +606,6 @@
 </div><!-- /app -->
 
 <script>
-  const HASH = '4973303f9a14715775d80d65bfafc89f7ba96b0dd6993391147b9bd7013bb882';
-  async function sha256(message) {
-    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(message));
-    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
-  }
-  async function checkPassword() {
-    const val = document.getElementById('pw-input').value;
-    if (await sha256(val) === HASH) {
-      sessionStorage.setItem('lhc_auth', '1');
-      const gate = document.getElementById('gate');
-      gate.classList.add('fade-out');
-      setTimeout(() => { gate.style.display = 'none'; document.getElementById('app').style.display = ''; }, 500);
-    } else { document.getElementById('gate-error').textContent = 'Incorrect password. Try again.'; }
-  }
-  document.getElementById('pw-input').addEventListener('keydown', e => { if (e.key === 'Enter') checkPassword(); });
-  if (sessionStorage.getItem('lhc_auth') === '1') {
-    document.getElementById('gate').style.display = 'none';
-    document.getElementById('app').style.display = '';
-  }
-
   /* ════ Chaptered Audio Player ════ */
   const CHAPTERS = [
     { t: 0,    title: 'Host Introduction' },
