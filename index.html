@@ -2428,6 +2428,330 @@
       );
     }
 
+    // ── Community Voice ──
+    // Soft, principle-led framing for the Community Advisory Board's role in LHC.
+    // Carousel is seeded with approach principles (Rachel Reichlin, 5/14); real CAB
+    // testimonials from the 5/21 in-person meeting drop into COMMUNITY_VOICES as they
+    // arrive (add kind: 'testimonial' with name + attribution + optional avatar).
+    const CAB_RESPONSIBILITIES = [
+      {
+        label: 'Cultural Relevance & Access',
+        text: 'Guide cultural relevance and accessibility of approach (tiers of intervention).',
+        icon: (
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" style={{width:'20px',height:'20px'}}>
+            <circle cx="12" cy="12" r="10"/>
+            <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
+          </svg>
+        ),
+      },
+      {
+        label: 'Evaluation & Learnings',
+        text: 'Inform the evaluation and dissemination of learnings.',
+        icon: (
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" style={{width:'20px',height:'20px'}}>
+            <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/>
+            <line x1="6" y1="20" x2="6" y2="14"/>
+          </svg>
+        ),
+      },
+      {
+        label: 'Ongoing Communication',
+        text: 'Create pathways for ongoing communication.',
+        icon: (
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" style={{width:'20px',height:'20px'}}>
+            <path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/>
+          </svg>
+        ),
+      },
+      {
+        label: 'Community Strengths',
+        text: 'Amplify strengths and expertise in our community.',
+        icon: (
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" style={{width:'20px',height:'20px'}}>
+            <path d="M3 11l18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/>
+          </svg>
+        ),
+      },
+    ];
+
+    const COMMUNITY_VOICES = [
+      {
+        kind: 'principle',
+        quote: 'We build with leaders who are trusted communicators in their communities.',
+        attribution: 'Our approach',
+      },
+      {
+        kind: 'principle',
+        quote: 'We make space to be guided by — and make meaning with — people who hold deep relationships in our priority neighborhoods.',
+        attribution: 'Our approach',
+      },
+    ];
+
+    // CAB community photo.
+    const CAB_PHOTOS = [
+      { src: 'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1600/lhc-community/cab-community-openai.jpg', alt: 'A warm, candid community gathering of residents, a nurse, and a local pastor in a neighborhood community hall.' },
+    ];
+
+    function CommunityVoice() {
+      const [active, setActive] = React.useState(0);
+      const [photo, setPhoto] = React.useState(0);
+      const userStoppedRef = React.useRef(false);
+
+      React.useEffect(() => {
+        if (CAB_PHOTOS.length < 2) return;
+        const id = setInterval(() => setPhoto(p => (p + 1) % CAB_PHOTOS.length), 5000);
+        return () => clearInterval(id);
+      }, []);
+
+      React.useEffect(() => {
+        if (COMMUNITY_VOICES.length < 2) return;
+        const id = setInterval(() => {
+          if (userStoppedRef.current) { clearInterval(id); return; }
+          setActive(a => (a + 1) % COMMUNITY_VOICES.length);
+        }, 6000);
+        return () => clearInterval(id);
+      }, []);
+
+      const handleSelect = (i) => {
+        userStoppedRef.current = true;
+        setActive(i);
+      };
+
+      const current = COMMUNITY_VOICES[active];
+
+      return (
+        <section id="community-voice" style={{ backgroundColor: '#fff', padding: '96px 0' }}>
+          <div style={{ maxWidth: '880px', margin: '0 auto', padding: '0 24px' }}>
+
+            {/* Header */}
+            <div style={{ textAlign: 'center', marginBottom: '48px' }}>
+              <span style={{ fontFamily: "'Poppins',sans-serif", fontSize: '11px', fontWeight: 700,
+                letterSpacing: '0.18em', textTransform: 'uppercase', color: colors.vitalityYellow,
+                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginBottom: '12px' }}>
+                <span style={{ display: 'inline-block', width: '28px', height: '2px', background: colors.vitalityYellow }}/>
+                Our Approach
+              </span>
+              <h2 style={{ fontFamily: "'Montserrat',sans-serif", fontWeight: 800,
+                fontSize: 'clamp(26px,4vw,40px)', color: colors.trustNavy, marginBottom: '14px',
+                letterSpacing: '-0.02em' }}>
+                Community at the center.
+              </h2>
+              <p style={{ fontFamily: "'Open Sans',sans-serif", fontSize: '17px',
+                color: colors.charcoal, maxWidth: '620px', margin: '0 auto', lineHeight: 1.7 }}>
+                Live Healthy Chicago is shaped alongside the people we serve. Our work is guided by
+                a Community Advisory Board of leaders, neighbors, and trusted communicators from
+                the neighborhoods where we show up.
+              </p>
+            </div>
+
+            {/* CAB photo carousel */}
+            <figure style={{ margin: '0 0 36px', position: 'relative' }}>
+              <div style={{
+                borderRadius: '20px',
+                overflow: 'hidden',
+                boxShadow: '0 12px 36px rgba(27,54,93,0.12)',
+                position: 'relative',
+                aspectRatio: '21 / 9',
+                background: colors.coolGray,
+              }}>
+                {CAB_PHOTOS.map((p, i) => (
+                  <img
+                    key={i}
+                    src={p.src}
+                    alt={p.alt}
+                    style={{
+                      position: 'absolute', inset: 0,
+                      width: '100%', height: '100%', display: 'block', objectFit: 'cover',
+                      opacity: i === photo ? 1 : 0,
+                      transition: 'opacity 0.7s ease',
+                    }}
+                  />
+                ))}
+                {CAB_PHOTOS.length > 1 && (
+                  <div style={{
+                    position: 'absolute', bottom: '14px', left: 0, right: 0,
+                    display: 'flex', justifyContent: 'center', gap: '8px',
+                  }}>
+                    {CAB_PHOTOS.map((_, i) => (
+                      <button key={i} onClick={() => setPhoto(i)}
+                        aria-label={`Show photo ${i + 1} of ${CAB_PHOTOS.length}`}
+                        style={{
+                          width: i === photo ? '24px' : '8px',
+                          height: '8px',
+                          borderRadius: '99px',
+                          border: 'none',
+                          cursor: 'pointer',
+                          background: '#fff',
+                          opacity: i === photo ? 1 : 0.55,
+                          padding: 0,
+                          boxShadow: '0 1px 4px rgba(0,0,0,0.35)',
+                          transition: 'all 0.3s ease',
+                        }}/>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </figure>
+
+            {/* Responsibilities grid */}
+            <div style={{ marginBottom: '40px' }}>
+              <p style={{
+                fontFamily: "'Poppins',sans-serif",
+                fontSize: '11px', fontWeight: 700,
+                letterSpacing: '0.14em', textTransform: 'uppercase',
+                color: colors.charcoal, opacity: 0.55,
+                textAlign: 'center', marginBottom: '20px',
+              }}>
+                How the CAB shapes our work
+              </p>
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
+                gap: '14px',
+              }}>
+                {CAB_RESPONSIBILITIES.map((r, i) => (
+                  <div key={i} style={{
+                    display: 'flex', gap: '12px', alignItems: 'flex-start',
+                    padding: '16px 18px',
+                    background: '#fff',
+                    border: `1px solid rgba(27,54,93,0.08)`,
+                    borderRadius: '12px',
+                  }}>
+                    <div style={{
+                      flexShrink: 0,
+                      width: '36px', height: '36px',
+                      borderRadius: '10px',
+                      background: `${colors.vitalityYellow}22`,
+                      color: colors.trustNavy,
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    }}>
+                      {r.icon}
+                    </div>
+                    <div>
+                      <p style={{
+                        fontFamily: "'Montserrat',sans-serif",
+                        fontWeight: 700, fontSize: '13px',
+                        color: colors.trustNavy, marginBottom: '4px',
+                        letterSpacing: '-0.005em',
+                      }}>
+                        {r.label}
+                      </p>
+                      <p style={{
+                        fontFamily: "'Open Sans',sans-serif",
+                        fontSize: '12.5px', lineHeight: 1.55,
+                        color: colors.charcoal, opacity: 0.78,
+                        margin: 0,
+                      }}>
+                        {r.text}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Quote card — yellow testimonial carousel hidden for now (re-enable when real CAB stories land) */}
+            {false && (
+            <div style={{
+              position: 'relative',
+              background: `linear-gradient(135deg, #FFFBEE 0%, #FFF8E1 100%)`,
+              border: `1px solid ${colors.vitalityYellow}55`,
+              borderRadius: '24px',
+              padding: '48px 40px',
+              boxShadow: '0 8px 32px rgba(27,54,93,0.06)',
+              overflow: 'hidden',
+            }}>
+
+              {/* Decorative quote glyph */}
+              <svg viewBox="0 0 24 24" fill={colors.vitalityYellow} aria-hidden="true"
+                style={{
+                  position: 'absolute', top: '20px', left: '24px',
+                  width: '40px', height: '40px', opacity: 0.35,
+                }}>
+                <path d="M6.5 17h-3a1 1 0 01-1-1v-5a6 6 0 016-6V9a3 3 0 00-3 3v.5h2.5a1 1 0 011 1V16a1 1 0 01-1 1zm10 0h-3a1 1 0 01-1-1v-5a6 6 0 016-6V9a3 3 0 00-3 3v.5h2.5a1 1 0 011 1V16a1 1 0 01-1 1z"/>
+              </svg>
+
+              {/* Slide */}
+              <div key={active} style={{
+                animation: 'fadeIn 0.55s ease-out both',
+                minHeight: '180px',
+                display: 'flex', flexDirection: 'column', justifyContent: 'center',
+                padding: '8px 8px 0',
+              }}>
+                <p style={{
+                  fontFamily: "'Montserrat',sans-serif",
+                  fontWeight: 600,
+                  fontSize: 'clamp(20px,2.6vw,26px)',
+                  lineHeight: 1.45,
+                  color: colors.trustNavy,
+                  letterSpacing: '-0.01em',
+                  marginBottom: '20px',
+                  textAlign: 'center',
+                }}>
+                  &ldquo;{current.quote}&rdquo;
+                </p>
+                <p style={{
+                  fontFamily: "'Poppins',sans-serif",
+                  fontSize: '12px',
+                  fontWeight: 600,
+                  letterSpacing: '0.14em',
+                  textTransform: 'uppercase',
+                  color: colors.charcoal,
+                  opacity: 0.65,
+                  textAlign: 'center',
+                }}>
+                  — {current.attribution}
+                </p>
+              </div>
+
+              {/* Dots */}
+              {COMMUNITY_VOICES.length > 1 && (
+                <div style={{
+                  display: 'flex', justifyContent: 'center', gap: '8px',
+                  marginTop: '24px',
+                }}>
+                  {COMMUNITY_VOICES.map((_, i) => (
+                    <button key={i} onClick={() => handleSelect(i)}
+                      aria-label={`Show voice ${i + 1} of ${COMMUNITY_VOICES.length}`}
+                      style={{
+                        width: i === active ? '24px' : '8px',
+                        height: '8px',
+                        borderRadius: '99px',
+                        border: 'none',
+                        cursor: 'pointer',
+                        background: i === active ? colors.trustNavy : colors.coolGray,
+                        opacity: i === active ? 1 : 0.5,
+                        padding: 0,
+                        transition: 'all 0.3s ease',
+                      }}/>
+                  ))}
+                </div>
+              )}
+            </div>
+            )}
+
+            {/* Listening note — signals that real CAB stories are inbound */}
+            <p style={{
+              marginTop: '32px',
+              textAlign: 'center',
+              fontFamily: "'Open Sans',sans-serif",
+              fontSize: '14px',
+              color: colors.charcoal,
+              opacity: 0.7,
+              lineHeight: 1.7,
+              maxWidth: '560px',
+              marginLeft: 'auto',
+              marginRight: 'auto',
+            }}>
+              We&rsquo;re weaving in voices from our Community Advisory Board — captured at our
+              in&#8209;person meeting on May&nbsp;21. Stories landing here over the coming weeks.
+            </p>
+
+          </div>
+        </section>
+      );
+    }
+
     // ── Admin Menu (discrete "A" badge → admin pages popover) ──────────
     // All pages listed here are password-protected (sessionStorage 'lhc_auth'
     // or localStorage 'lhc_brand_auth'). celebrate.html is intentionally
@@ -3677,6 +4001,9 @@ And that is how we overcome high blood pressure. They'll tell you about food and
 
           {/* ── Our Model ── */}
           <ModelV2 />
+
+          {/* ── Community Voice ── */}
+          <CommunityVoice />
 
           {/* ── Neighborhoods ── */}
           <section className="py-24" id="neighborhoods" style={{ backgroundColor: colors.softCloud }}>

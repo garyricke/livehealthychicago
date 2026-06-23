@@ -1020,10 +1020,18 @@
             <span class="tl-tag tag-today">Today</span>
             <span class="tl-tag tag-dev">Dev</span>
             <span class="tl-tag tag-planning">Planning</span>
-            <span class="tl-status status-completed">Portal fixed · tags + submissions dashboard shipped · forms updated</span>
+            <span class="tl-status status-completed">Community Voice live on the public site · portal fixed · tags + submissions dashboard shipped · forms updated</span>
           </div>
 
-          <div class="tl-section-title">Admin — Form Submissions Dashboard (live)</div>
+          <div class="tl-section-title">&ldquo;Community at the Center&rdquo; — Now Live on the Public Site 🎉</div>
+          <ul class="tl-items">
+            <li class="tl-item"><strong>The Community Advisory Board section is now on the public homepage</strong> (<a href="/index.html" style="color:var(--blue);"><code>index.html</code></a>), between &ldquo;Our Model&rdquo; and the 27 Neighborhoods. It had been staging-only; it&rsquo;s been promoted so visitors see how the work is shaped alongside residents.</li>
+            <li class="tl-item"><strong>New community-feel photo.</strong> Replaced the institutional/academic placeholder image with a warm, candid neighborhood gathering — residents of all ages, a community health worker, and a local pastor in a welcoming community hall. Removed the old &ldquo;Placeholder&rdquo; label and the &ldquo;coming soon&rdquo; caption.</li>
+            <li class="tl-item"><strong>How we chose it:</strong> generated the new image two ways (Google Gemini and OpenAI) and reviewed both side-by-side in a quick on-page carousel; the warmer OpenAI version was selected and the other dropped. Image is web-optimized and served via Cloudinary.</li>
+            <li class="tl-item"><strong>Tidied the section:</strong> the &ldquo;How the CAB shapes our work&rdquo; grid was simplified to <strong>4 focused cards</strong> (cultural relevance &amp; access · evaluation &amp; learnings · ongoing communication · community strengths), and the yellow rotating-quote testimonial card was <strong>hidden for now</strong> — it returns once real CAB stories from the in-person meeting are ready to feature.</li>
+          </ul>
+
+          <div class="tl-section-title" style="margin-top:18px;">Admin — Form Submissions Dashboard (live)</div>
           <ul class="tl-items">
             <li class="tl-item"><strong>One place to see every form submission.</strong> New gated admin page at <strong>livehealthychi.com/submissions</strong> (also in the admin menu) shows all entries across all forms — <strong>filter by form, search, and export CSV</strong> — instead of downloading per-form CSVs from Netlify.</li>
             <li class="tl-item"><strong>How it works:</strong> a small Netlify function writes each new submission into Supabase as it arrives; the dashboard reads from there. <strong>24 existing submissions</strong> (13 contact + 11 What's Your Why) were backfilled in.</li>
