@@ -1,0 +1,6 @@
+# Netlify config — static site + serverless functions (no build step).
+[build]
+  publish = "."
+
+[functions]
+  directory = "netlify/functions"
