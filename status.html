@@ -794,6 +794,9 @@
                 <li style="margin-bottom:6px;"><strong>The library is small and there's no per-user identity.</strong> ~18 resources across 3 tabs (~6 each) — a user scans a whole tab in seconds, so faceted segmentation solves a scale problem the portal doesn't have. And true per-user segmentation needs per-user logins/roles; today there's a single shared viewer password, so "who is a clinician vs. educator?" isn't even knowable without building an identity layer first.</li>
               </ul>
               <strong style="color:var(--navy);">Cheaper path that captures the benefit:</strong> if a role lens is wanted, sharpen the <em>existing</em> tabs (role-forward labels like "For Clinicians / For CHWs / For Health Educators / Promotion") and/or add <strong>optional, multi-select role tags with a "show all" default filter</strong> — tags <em>narrow</em> without <em>hiding</em>, a resource can carry several, and nothing gets buried. Reserve a hard role-gated structure for when (a) the library outgrows easy browsing and (b) there's a real need for role-<em>private</em> content (resources a role shouldn't see) — a different requirement from findability. <em>Net: agree with the pushback; revisit only on those triggers.</em>
+              <div style="margin-top:9px; padding-top:9px; border-top:1px dashed rgba(70,183,229,0.35);">
+                <strong style="color:var(--green);">Update (6/23): audience tags shipped ✓.</strong> Built the lightweight tag path above — 6 audience tags, multi-select, with a default-"All" filter bar that narrows without hiding. Live in the portal now; see the "Audience Tags Added" note in today's timeline entry. A hard role-gated structure remains deferred to the two triggers above.
+              </div>
             </div>
           </li>
           <li class="todos-item">
@@ -991,10 +994,17 @@
             <span class="tl-tag tag-today">Today</span>
             <span class="tl-tag tag-dev">Dev</span>
             <span class="tl-tag tag-planning">Planning</span>
-            <span class="tl-status status-completed">Portal fixed · form recipients updated</span>
+            <span class="tl-status status-completed">Portal fixed · tags shipped · forms updated</span>
           </div>
 
-          <div class="tl-section-title">Portal Restored — CDN Version Pin</div>
+          <div class="tl-section-title">Portal — Audience Tags Added (live)</div>
+          <ul class="tl-items">
+            <li class="tl-item"><strong>Resources can now be tagged by audience</strong> — <em>Clinicians, CHWs, Health Educators, Patients &amp; Community, Comms / Social, Admin / Operations</em>. This is the "cheaper path" from the segmentation analysis below: a resource can carry <strong>several</strong> tags, so a cross-role item surfaces for every relevant role instead of being filed under one and hidden from the rest.</li>
+            <li class="tl-item"><strong>Visitors get a "Filter by audience" bar</strong> at the top of each category. It defaults to <strong>All</strong>, so tags <strong>narrow without hiding</strong> — nothing disappears unless someone chooses to filter. Admins set tags in the Add / Edit form; the help popup documents it.</li>
+            <li class="tl-item"><strong>Live and verified.</strong> Added the <code>tags</code> column in Supabase, applied tags to the 3 current Clinical resources, and confirmed the filter works end-to-end (e.g. "Patients &amp; Community" → 2 of 3, "Admin / Operations" → 1 of 3) with no errors. The remaining catalog gets tagged as it's loaded through the form. Commit <code>7c31657</code>.</li>
+          </ul>
+
+          <div class="tl-section-title" style="margin-top:18px;">Portal Restored — CDN Version Pin</div>
           <ul class="tl-items">
             <li class="tl-item"><strong>The Professional Portal had stopped loading</strong> — a blank page with a console error (<code>Cannot use import statement outside a module</code>) and nothing rendered.</li>
             <li class="tl-item"><strong>Cause:</strong> <a href="/portal.html" style="color:var(--blue);"><code>portal.html</code></a> loaded the Babel library from an <strong>unpinned CDN URL</strong>, which silently upgraded to a newer build whose in-browser transformer emits modern module code the browser then rejected. The page's own code never changed — an external dependency moved underneath it.</li>
