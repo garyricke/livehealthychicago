@@ -1,0 +1,51 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Maintenance options — quick correction</title></head>
+<body style="margin:0; padding:24px; background:#ffffff; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif; color:#1a2535; line-height:1.6;">
+
+  <div class="copy-control" style="max-width:600px; margin:0 0 18px; display:flex; align-items:center; gap:12px;">
+    <button id="copy-btn" onclick="copyEmail()" style="display:inline-flex; align-items:center; gap:8px; background:#1B365D; color:#fff; border:none; border-radius:8px; padding:10px 16px; font-family:inherit; font-size:14px; font-weight:600; cursor:pointer;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+      Copy email
+    </button>
+    <span id="copy-status" style="font-size:13px; color:#4a5568;">Click, then paste into your email (formatting included).</span>
+  </div>
+
+  <div id="email-body" style="max-width:600px; margin:0; background:#ffffff;">
+
+    <p style="margin:0 0 14px;">Hi all,</p>
+
+    <p style="margin:0 0 14px;">One quick correction to the agenda I just sent — on <strong>item 6 (budget &amp; maintenance)</strong>. I oversimplified it to two options; the maintenance is actually a <strong>prepay block on a sliding scale</strong>: the more you prepay, the lower the hourly rate. Here's the full menu:</p>
+
+    <table role="presentation" cellpadding="0" cellspacing="0" style="border-collapse:collapse; width:100%; max-width:380px; margin:0 0 16px; font-size:14px;">
+      <thead>
+        <tr>
+          <th align="left"  style="padding:8px 10px; border-bottom:2px solid #dce3ed; color:#0d6a8f; font-size:12px; text-transform:uppercase; letter-spacing:.4px;">Prepay</th>
+          <th align="left"  style="padding:8px 10px; border-bottom:2px solid #dce3ed; color:#0d6a8f; font-size:12px; text-transform:uppercase; letter-spacing:.4px;">Hours</th>
+          <th align="right" style="padding:8px 10px; border-bottom:2px solid #dce3ed; color:#0d6a8f; font-size:12px; text-transform:uppercase; letter-spacing:.4px;">Per hour</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td style="padding:7px 10px; border-bottom:1px solid #eef2f7;"><strong>$5,000</strong></td><td style="padding:7px 10px; border-bottom:1px solid #eef2f7;">67 hrs</td><td align="right" style="padding:7px 10px; border-bottom:1px solid #eef2f7;">$75</td></tr>
+        <tr><td style="padding:7px 10px; border-bottom:1px solid #eef2f7;"><strong>$4,000</strong></td><td style="padding:7px 10px; border-bottom:1px solid #eef2f7;">50 hrs</td><td align="right" style="padding:7px 10px; border-bottom:1px solid #eef2f7;">$80</td></tr>
+        <tr><td style="padding:7px 10px; border-bottom:1px solid #eef2f7;"><strong>$3,000</strong></td><td style="padding:7px 10px; border-bottom:1px solid #eef2f7;">34 hrs</td><td align="right" style="padding:7px 10px; border-bottom:1px solid #eef2f7;">$88</td></tr>
+        <tr><td style="padding:7px 10px; border-bottom:1px solid #eef2f7;"><strong>$2,500</strong></td><td style="padding:7px 10px; border-bottom:1px solid #eef2f7;">27 hrs</td><td align="right" style="padding:7px 10px; border-bottom:1px solid #eef2f7;">$93</td></tr>
+        <tr><td style="padding:7px 10px; border-bottom:1px solid #eef2f7;"><strong>$2,000</strong></td><td style="padding:7px 10px; border-bottom:1px solid #eef2f7;">20 hrs</td><td align="right" style="padding:7px 10px; border-bottom:1px solid #eef2f7;">$100</td></tr>
+        <tr><td style="padding:7px 10px; border-bottom:1px solid #eef2f7;"><strong>$1,500</strong></td><td style="padding:7px 10px; border-bottom:1px solid #eef2f7;">13 hrs</td><td align="right" style="padding:7px 10px; border-bottom:1px solid #eef2f7;">$115</td></tr>
+        <tr><td style="padding:7px 10px; border-bottom:1px solid #eef2f7;"><strong>$1,000</strong></td><td style="padding:7px 10px; border-bottom:1px solid #eef2f7;">8 hrs</td><td align="right" style="padding:7px 10px; border-bottom:1px solid #eef2f7;">$125</td></tr>
+        <tr><td style="padding:7px 10px;"><strong>$600</strong></td><td style="padding:7px 10px;">4 hrs</td><td align="right" style="padding:7px 10px;">$150</td></tr>
+      </tbody>
+    </table>
+
+    <p style="margin:0 0 14px;">No need to decide on the spot — just wanted you to have the real options in front of you for that part of the conversation. Happy to talk through which makes sense given the pace of ongoing requests.</p>
+
+    <p style="margin:0 0 2px;">Thanks,<br>Gary</p>
+    <p style="margin:0; font-size:13px; color:#4a5568;">Gary Ricke · Orbis Design</p>
+
+  </div>
+
+<script>
+  function setStatus(m,ok){var s=document.getElementById('copy-status');s.textContent=m;s.style.color=ok?'#1a7f37':'#b42318';}
+  function selectFallback(el){try{var r=document.createRange();r.selectNode(el);var s=window.getSelection();s.removeAllRanges();s.addRange(r);var ok=document.execCommand('copy');s.removeAllRanges();setStatus(ok?'✓ Copied — paste into your email':'Press ⌘C to copy the selected email',ok);}catch(e){setStatus('Select the email and press ⌘C',false);}}
+  function copyEmail(){var el=document.getElementById('email-body');if(navigator.clipboard&&window.ClipboardItem){var d=[new ClipboardItem({'text/html':new Blob([el.outerHTML],{type:'text/html'}),'text/plain':new Blob([el.innerText],{type:'text/plain'})})];navigator.clipboard.write(d).then(function(){setStatus('✓ Copied — paste into your email (formatting included)',true);},function(){selectFallback(el);});}else{selectFallback(el);}}
+</script>
+</body></html>
