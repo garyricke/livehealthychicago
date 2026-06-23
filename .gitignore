@@ -3,6 +3,9 @@
 .env.*
 *.env
 
+# Internal-only — not for the client / not deployed
+budget.html
+
 # OS cruft
 .DS_Store
 **/.DS_Store
