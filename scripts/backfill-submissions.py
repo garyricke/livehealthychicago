@@ -50,8 +50,18 @@ def supa_upsert(rows):
     with urllib.request.urlopen(req) as r:
         return r.status
 
-# List forms across the account, keep the ones we care about.
-forms = [f for f in netlify_get("/forms") if f.get("name") in FORMS]
+# Resolve the site id (env override, else find by livehealthychi.com domain).
+SITE_ID = os.environ.get("NETLIFY_SITE_ID")
+if not SITE_ID:
+    for s in netlify_get("/sites?per_page=100"):
+        hay = (s.get("name", "") + (s.get("custom_domain") or "") + (s.get("ssl_url") or "")).lower()
+        if "livehealthychi" in hay:
+            SITE_ID = s["id"]; break
+if not SITE_ID:
+    sys.exit("Could not find the livehealthychi site; set NETLIFY_SITE_ID.")
+
+# List the site's forms, keep the ones we care about.
+forms = [f for f in netlify_get(f"/sites/{SITE_ID}/forms") if f.get("name") in FORMS]
 print(f"Found {len(forms)} matching form(s): {', '.join(f['name'] for f in forms)}")
 
 total = 0
