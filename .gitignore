@@ -1,0 +1,12 @@
+# Secrets — never commit
+.env
+.env.*
+*.env
+
+# OS cruft
+.DS_Store
+**/.DS_Store
+
+# Editor
+.vscode/
+.idea/
