@@ -61,6 +61,9 @@
     const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
     const RESOURCE_TYPES = ['Link', 'Website', 'PDF', 'Guide', 'Slides', 'Template', 'Graphics', 'Video'];
+    // Audience / "user type" tags — a resource can carry several, so cross-role
+    // items surface for every relevant role instead of being filed under one.
+    const TAG_OPTIONS = ['Clinicians', 'CHWs', 'Health Educators', 'Patients & Community', 'Comms / Social', 'Admin / Operations'];
 
     // Screenshot thumbnail for an external URL (free, no key; <img> loads it directly).
     // thum.io wants the target URL appended RAW — encoding it returns HTTP 400.
@@ -148,6 +151,7 @@
       gradient: SECTION_GRADIENT[r.category] || '#e8edf4',
       source: r.source,
       category: r.category,
+      tags: Array.isArray(r.tags) ? r.tags : [],
     });
 
     // ── Password Gate ─────────────────────────────────────────────
@@ -474,6 +478,18 @@
               {resource.description}
             </div>
 
+            {resource.tags && resource.tags.length > 0 && (
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px' }}>
+                {resource.tags.map(t => (
+                  <span key={t} style={{
+                    fontSize: '10px', fontWeight: 600, color: C.trustNavy,
+                    background: 'rgba(27,54,93,0.07)', border: '1px solid rgba(27,54,93,0.14)',
+                    borderRadius: '20px', padding: '2px 9px',
+                  }}>{t}</span>
+                ))}
+              </div>
+            )}
+
             {live ? (
               <a
                 href={resource.url}
@@ -531,7 +547,7 @@
     }
 
     // ── ResourceForm (add / edit modal) ───────────────────────────
-    function ResourceForm({ initial, defaultCategory, onClose, onSaved }) {
+    function ResourceForm({ initial, defaultCategory, onClose, onSaved, tagsEnabled }) {
       const editing = !!(initial && initial.id);
       const [category, setCategory] = useState(initial?.category || defaultCategory || 'clinical');
       const [mode, setMode] = useState(initial?.source === 'upload' ? 'upload' : 'url'); // 'url' | 'upload'
@@ -540,6 +556,7 @@
       const [title, setTitle] = useState(initial?.title || '');
       const [description, setDescription] = useState(initial?.description || '');
       const [type, setType] = useState(initial?.type || 'Link');
+      const [tags, setTags] = useState(Array.isArray(initial?.tags) ? initial.tags : []);
       const [busy, setBusy] = useState(false);
       const [err, setErr] = useState('');
 
@@ -551,6 +568,7 @@
         setBusy(true); setErr('');
         try {
           const row = { category, title: title.trim(), description: description.trim() || null, type };
+          if (tagsEnabled) row.tags = tags;
           let bgCaptureUrl = null; // if set, capture+store a screenshot in the background after save
           if (mode === 'url') {
             const u = url.trim();
@@ -640,7 +658,30 @@
                 </select>
               </div>
 
-              {err && <div style={{ background: '#FFF0F0', border: '1px solid #E5202F44', borderRadius: '8px', padding: '10px 13px', fontSize: '13px', color: C.starRed }}>{err}</div>}
+              {tagsEnabled && (
+                <div>
+                  <label style={lbl}>Tags <span style={{ fontWeight: 400, opacity: 0.6 }}>(who is this for — pick any that apply)</span></label>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '7px' }}>
+                    {TAG_OPTIONS.map(t => {
+                      const on = tags.includes(t);
+                      return (
+                        <button type="button" key={t}
+                          onClick={() => setTags(on ? tags.filter(x => x !== t) : [...tags, t])}
+                          style={{
+                            fontSize: '12px', fontWeight: 600, cursor: 'pointer', fontFamily: "'Poppins', sans-serif",
+                            padding: '5px 11px', borderRadius: '20px',
+                            border: on ? 'none' : '1.5px solid rgba(0,0,0,0.14)',
+                            background: on ? C.skyBlue : 'white', color: on ? 'white' : C.charcoal,
+                          }}>
+                          {t}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {err &&<div style={{ background: '#FFF0F0', border: '1px solid #E5202F44', borderRadius: '8px', padding: '10px 13px', fontSize: '13px', color: C.starRed }}>{err}</div>}
 
               <div style={{ display: 'flex', gap: '10px', marginTop: '4px' }}>
                 <button type="button" onClick={onClose} style={{ flex: 1, padding: '12px', borderRadius: '10px', border: '1.5px solid rgba(0,0,0,0.16)', background: 'white', color: C.charcoal, fontSize: '14px', fontWeight: 600, cursor: 'pointer', fontFamily: "'Poppins', sans-serif" }}>Cancel</button>
@@ -655,7 +696,7 @@
     }
 
     // ── HelpModal (admin: how to use the portal) ──────────────────
-    function HelpModal({ onClose }) {
+    function HelpModal({ onClose, tagsEnabled }) {
       const h  = { fontFamily: "'Montserrat', sans-serif", fontWeight: 800, fontSize: '14px', color: C.trustNavy, margin: '18px 0 7px' };
       const p  = { fontSize: '13.5px', lineHeight: 1.6, color: C.charcoal, opacity: 0.85, margin: 0 };
       const li = { fontSize: '13.5px', lineHeight: 1.55, color: C.charcoal, opacity: 0.85, marginBottom: '6px' };
@@ -687,6 +728,14 @@
             </ul>
             <p style={{ ...p, marginTop: '8px', fontSize: '12.5px', opacity: 0.7 }}>Tip: pick the Type that matches how you want people to act on it. For an uploaded file you'd rather people open in their browser than download, choose <strong>Guide</strong> or <strong>Website</strong>.</p>
 
+            {tagsEnabled && (
+              <React.Fragment>
+                <h4 style={h}>Tagging by audience</h4>
+                <p style={p}>Tags mark <strong>who a resource is for</strong> — Clinicians, CHWs, Health Educators, Patients &amp; Community, Comms / Social, Admin / Operations. A resource can carry <strong>several</strong>, so something useful to more than one role shows up for all of them (nothing gets buried under a single bucket). Set them in the Add / Edit form.</p>
+                <p style={{ ...p, marginTop: '6px' }}>Visitors use the <strong>“Filter by audience”</strong> chips at the top of a category to narrow the list. The default is <strong>All</strong>, so tags never hide anything unless someone chooses to filter.</p>
+              </React.Fragment>
+            )}
+
             <h4 style={h}>Editing &amp; removing</h4>
             <p style={p}>Hover any card and use the <strong>pencil</strong> to edit or the <strong>trash</strong> to delete.</p>
             <p style={{ ...p, marginTop: '8px', background: '#FFF0F0', border: '1px solid rgba(229,32,47,0.28)', borderRadius: '8px', padding: '10px 12px', opacity: 1 }}>
@@ -712,8 +761,11 @@
       const [helpOpen, setHelpOpen] = useState(false);
       const [editing, setEditing] = useState(null);
       const [isAdmin, setIsAdmin] = useState(false);
+      const [activeTags, setActiveTags] = useState([]);
 
       useEffect(() => { sb.auth.getSession().then(({ data }) => setIsAdmin(!!data.session)); }, []);
+      // Reset the audience filter when switching category tabs.
+      useEffect(() => { setActiveTags([]); }, [activeSection]);
 
       const fetchResources = async () => {
         const { data, error } = await sb.from('resources').select('*')
@@ -722,7 +774,13 @@
       };
       useEffect(() => { fetchResources(); }, []);
 
-      const sectionDb = dbResources.filter(r => r.category === activeSection);
+      // Tagging activates automatically once the `tags` column exists in Supabase.
+      const tagsReady = dbResources.length > 0 && ('tags' in dbResources[0]);
+      const categoryRows = dbResources.filter(r => r.category === activeSection);
+      const availableTags = TAG_OPTIONS.filter(t => categoryRows.some(r => Array.isArray(r.tags) && r.tags.includes(t)));
+      const sectionDb = activeTags.length === 0
+        ? categoryRows
+        : categoryRows.filter(r => Array.isArray(r.tags) && r.tags.some(t => activeTags.includes(t)));
 
       const handleDelete = async (row) => {
         if (!window.confirm('Delete “' + row.title + '”? This removes it for everyone.')) return;
@@ -926,6 +984,28 @@
               )}
             </div>
 
+            {/* Audience filter — tags narrow without hiding; "All" is the default */}
+            {tagsReady && availableTags.length > 0 && (
+              <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '8px', marginBottom: '22px' }}>
+                <span style={{ fontSize: '12px', fontWeight: 700, color: C.trustNavy, opacity: 0.7, marginRight: '2px' }}>Filter by audience:</span>
+                {[null, ...availableTags].map(t => {
+                  const on = t === null ? activeTags.length === 0 : activeTags.includes(t);
+                  return (
+                    <button key={t || 'all'} type="button"
+                      onClick={() => t === null ? setActiveTags([]) : setActiveTags(activeTags.includes(t) ? activeTags.filter(x => x !== t) : [...activeTags, t])}
+                      style={{
+                        fontSize: '12px', fontWeight: 600, cursor: 'pointer', fontFamily: "'Poppins', sans-serif",
+                        padding: '5px 12px', borderRadius: '20px',
+                        border: on ? 'none' : '1.5px solid rgba(0,0,0,0.14)',
+                        background: on ? C.trustNavy : 'white', color: on ? 'white' : C.charcoal,
+                      }}>
+                      {t || 'All'}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+
             {/* Resource grid (resources come from Supabase) */}
             {sectionDb.length === 0 ? (
               <div style={{
@@ -934,7 +1014,9 @@
                 color: C.charcoal,
               }}>
                 <div style={{ fontSize: '14px', opacity: 0.65 }}>
-                  No resources in this category yet.{isAdmin ? ' Click “Add resource” to add one.' : ''}
+                  {activeTags.length > 0
+                    ? 'No resources match this filter. Clear it or pick a different audience.'
+                    : 'No resources in this category yet.' + (isAdmin ? ' Click “Add resource” to add one.' : '')}
                 </div>
               </div>
             ) : (
@@ -1034,12 +1116,13 @@
             <ResourceForm
               initial={editing}
               defaultCategory={activeSection}
+              tagsEnabled={tagsReady}
               onClose={() => { setFormOpen(false); setEditing(null); }}
               onSaved={(bg) => { setFormOpen(false); setEditing(null); fetchResources(); if (bg) captureAndStore(bg); }}
             />
           )}
 
-          {helpOpen && <HelpModal onClose={() => setHelpOpen(false)} />}
+          {helpOpen && <HelpModal onClose={() => setHelpOpen(false)} tagsEnabled={tagsReady} />}
         </div>
       );
     }
