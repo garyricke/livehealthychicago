@@ -1,13 +1,14 @@
 # Live Healthy Chicago — Short URL Redirects
 # /bp, /mobile, /events are live on the public index.html as of 2026-04-23
-# /check is the post-screening "Celebrate the Check" trial flow
+# /check and /celebrate both open the "Celebrate the Check" post-screening flow
 # /why is the "What's Your Why" stakeholder survey (June 8 steering committee)
 # /portal is the professional resource portal (portal.html)
 
 /bp       /index.html#blood-pressure       302
 /mobile   /index.html#mobile-screenings    302
 /events   /index.html#community-events     302
-/check    /celebrate.html                  302
+/check     /celebrate.html                 302
+/celebrate /celebrate.html                 302
 /why      /whats-your-why.html             302
 /portal   /portal.html                     302
 /submissions  /submissions.html            302

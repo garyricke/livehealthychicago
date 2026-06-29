@@ -598,7 +598,7 @@
       <h1>Project Status</h1>
       <p>A running log of every update, build, and content change to the Live Healthy Chicago site.</p>
       <div class="header-meta">
-        <div class="header-badge"><span class="badge-dot" style="background:var(--green)"></span> Last updated June 23, 2026</div>
+        <div class="header-badge"><span class="badge-dot" style="background:var(--green)"></span> Last updated June 29, 2026</div>
         <div class="header-badge"><span class="badge-dot" style="background:var(--blue)"></span> livehealthychi.com</div>
         <div class="header-badge"><span class="badge-dot" style="background:var(--yellow)"></span> Staging: index-stage.html</div>
         <a href="/scope.html" style="display:inline-flex; align-items:center; gap:7px; padding:6px 14px; border-radius:99px; background:rgba(70,183,229,0.18); border:1px solid rgba(70,183,229,0.4); color:#fff; font-size:0.8rem; font-family:'Poppins',sans-serif; font-weight:600; text-decoration:none; transition:background 0.2s, border-color 0.2s;" onmouseover="this.style.background='rgba(70,183,229,0.3)'; this.style.borderColor='rgba(70,183,229,0.6)';" onmouseout="this.style.background='rgba(70,183,229,0.18)'; this.style.borderColor='rgba(70,183,229,0.4)';">
@@ -672,7 +672,7 @@
     <div class="approvals-card">
       <div class="approvals-head">
         <h3>Items waiting on a yes / no</h3>
-        <span class="approvals-count">4 open</span>
+        <span class="approvals-count">3 open</span>
       </div>
       <p class="approvals-sub">
         These items can move forward as soon as we get a thumbs-up. Drop a note here, in Slack, or reply
@@ -697,18 +697,10 @@
         </li>
 
         <li class="approvals-item">
-          <div class="approvals-item-title">Celebrate the Check — live counter</div>
-          <div class="approvals-item-meta">Allie</div>
+          <div class="approvals-item-title">Celebrate the Check — base counter number</div>
+          <div class="approvals-item-meta">Allie · Rebecca</div>
           <div class="approvals-item-detail">
-            Counter is set to <strong>500 BP screenings</strong> (placeholder) and <strong>not logging</strong> while the Comms Committee shops the flow around. Need the real <strong>starting count</strong> and <strong>start date</strong> to flip on live increments. Gary is wiring it to a real database this week — once it goes live (preset 500), it will tick up on every submission.
-          </div>
-        </li>
-
-        <li class="approvals-item">
-          <div class="approvals-item-title">Celebrate the Check — animation</div>
-          <div class="approvals-item-meta">Rachel · CAB</div>
-          <div class="approvals-item-detail">
-            Rachel (6/17) is <strong>unsure about the animation</strong> on <a href="/celebrate.html" style="color:var(--blue);"><code>/celebrate.html</code></a> (the voiced floating heart buddy + fanfare) and planned to <strong>test-drive it with the CAB</strong> the next day. Awaiting that read to decide whether to <strong>keep, tone down, or cut</strong> it. No change until we hear back.
+            The animation question is <strong>resolved</strong> — per the 6/23 check-in, the music and the heart-buddy animation were <strong>removed</strong>, and the "what could have made today better?" question was dropped. The one remaining item is the counter: it shows a <strong>500</strong> placeholder. Need the real <strong>starting count</strong> (and ideally a start date) to set the base, then it can tick up with each submission. <em>Send the number and Gary will set it and reply-all that it's fully live.</em>
           </div>
         </li>
 
@@ -1008,16 +1000,41 @@
 
     <div class="timeline">
 
-      <!-- June 23 2026 — TODAY -->
+      <!-- June 29 2026 — TODAY -->
       <div class="tl-entry">
         <div class="tl-date-col">
-          <div class="tl-date"><span class="month">Jun</span>23, 2026</div>
+          <div class="tl-date"><span class="month">Jun</span>29, 2026</div>
         </div>
         <div class="tl-connector"><div class="tl-dot today"></div></div>
         <div class="tl-card today-card">
           <div class="tl-card-header">
-            <span class="tl-card-date-mobile">June 23, 2026</span>
+            <span class="tl-card-date-mobile">June 29, 2026</span>
             <span class="tl-tag tag-today">Today</span>
+            <span class="tl-tag tag-dev">Dev</span>
+            <span class="tl-status status-completed">Celebrate the Check simplified per the 6/23 check-in · QR + print-ready one-pager produced</span>
+          </div>
+
+          <div class="tl-section-title">Celebrate the Check — Next Evolution (from the 6/23 Check-In)</div>
+          <ul class="tl-items">
+            <li class="tl-item"><strong>Music removed.</strong> All audio (the voiced cheers, fanfare, and UI pings) is gone — Rachel found it distracting in the field, so the flow is now silent (visual confetti stays).</li>
+            <li class="tl-item"><strong>Heart-buddy animation removed.</strong> The floating "heart guy" mascot and its speech bubbles were taken out of the survey. The survey is now clean and quick.</li>
+            <li class="tl-item"><strong>One survey question dropped</strong> — &ldquo;What could have made today better?&rdquo; — since the team isn&rsquo;t acting on that feedback. The survey is now <strong>6 questions</strong>.</li>
+            <li class="tl-item"><strong>Added a <code>/celebrate</code> short link</strong> → <code>celebrate.html</code> (alongside the existing <code>/check</code>), matching what the team types and shares. Both resolve to the same page.</li>
+            <li class="tl-item"><strong>QR code + a print-ready one-pager.</strong> Generated a clean, on-brand QR (heart-star logo, LHC navy) pointing to <strong>livehealthychi.com/celebrate</strong>, plus a letter-size one-pager (LHC logo + &ldquo;Celebrate the Check!&rdquo; title + QR + URL) ready to print and laminate at the BP station — for Sarah&rsquo;s field pilot (<strong>Fillmore Wed 12–3</strong>, <strong>Sankofa Thu 2–5</strong>). Files: <code>assets/qr-codes/celebrate-check.png</code>, <code>assets/celebrate-check-onepager.pdf</code>.</li>
+            <li class="tl-item"><strong>Still open:</strong> the <strong>base counter number</strong> (Allie/Rebecca to provide), and a small fix so the survey answers show up in the form-notification emails. Once the number is set, the counter goes fully live and Gary replies-all.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- June 23 2026 -->
+      <div class="tl-entry">
+        <div class="tl-date-col">
+          <div class="tl-date"><span class="month">Jun</span>23, 2026</div>
+        </div>
+        <div class="tl-connector"><div class="tl-dot"></div></div>
+        <div class="tl-card">
+          <div class="tl-card-header">
+            <span class="tl-card-date-mobile">June 23, 2026</span>
             <span class="tl-tag tag-dev">Dev</span>
             <span class="tl-tag tag-planning">Planning</span>
             <span class="tl-status status-completed">Community Voice live on the public site · portal fixed · tags + submissions dashboard shipped · forms updated</span>

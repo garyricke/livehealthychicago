@@ -65,20 +65,8 @@
       appearance: none;
     }
 
-    /* Heart buddy mascot */
-    .heart-idle   { animation: heartBob 2.6s ease-in-out infinite; transform-origin: 50% 90%; }
-    .heart-bounce { animation: heartBounce 0.55s cubic-bezier(.2,1.5,.4,1); transform-origin: 50% 90%; }
-    .heart-cheer  { animation: heartCheer 0.8s cubic-bezier(.2,1.4,.4,1); transform-origin: 50% 90%; }
-    @keyframes heartBob    { 0%,100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-4px) rotate(-2deg); } }
-    @keyframes heartBounce { 0% { transform: translateY(0) scale(1); } 35% { transform: translateY(-14px) scale(1.08); } 100% { transform: translateY(0) scale(1); } }
-    @keyframes heartCheer  { 0% { transform: translateY(0) scale(1) rotate(0); } 30% { transform: translateY(-18px) scale(1.12) rotate(-6deg); } 60% { transform: translateY(-5px) scale(1.05) rotate(6deg); } 100% { transform: translateY(0) scale(1) rotate(0); } }
-
-    .speech-bubble { animation: bubblePop 0.4s cubic-bezier(.2,1.4,.5,1) both; }
-    @keyframes bubblePop { 0% { opacity: 0; transform: translateY(6px) scale(0.92); } 100% { opacity: 1; transform: translateY(0) scale(1); } }
-
     @media (prefers-reduced-motion: reduce) {
-      .view-enter, .pop-in, .flag-bar, .star,
-      .heart-idle, .heart-bounce, .heart-cheer, .speech-bubble { animation: none !important; opacity: 1 !important; transform: none !important; }
+      .view-enter, .pop-in, .flag-bar, .star { animation: none !important; opacity: 1 !important; transform: none !important; }
       .progress-fill { transition: none !important; }
     }
   </style>
@@ -93,7 +81,6 @@
     <input type="text" name="motivation" />
     <input type="text" name="feeling_after" />
     <input type="text" name="helpful_info" />
-    <input type="text" name="better_experience" />
     <input type="text" name="next_step" />
     <input type="text" name="consent_share" />
     <input type="email" name="email" />
@@ -150,122 +137,10 @@
       'Keep watching it at home',
       'Not sure yet',
     ];
-    const HEART_CHEERS = ['Nice!', 'Love that!', 'Heck yes!', 'Keep going!', 'So good!', "You're the best!"];
-    const randomCheer = () => HEART_CHEERS[Math.floor(Math.random() * HEART_CHEERS.length)];
-
-    // ── Heart buddy voice clips (ElevenLabs) ──────────────────────────
-    const AUDIO_BASE = 'assets/celebrate-audio/';
-    const SOUNDS = {
-      greeting:   ['hi-ill-cheer-you-on'],
-      cheer:      ['nice', 'love-that', 'heck-yes', 'heck-yeah', 'keep-going', 'keep-going-my-friend', 'so-good', 'youre-the-best', 'youre-the-best-seriously'],
-      why:        ['thats-your-why'],
-      feeling:    ['thanks-for-sharing'],
-      better:     ['good-to-know-thankyou'],
-      plan:       ['love-that-plan'],
-      consentYes: ['thank-you'],
-      consentNo:  ['totally-okay', 'totally-ohhhh-kay'],
-      complete:   ['you-answered-them-all', 'you-answered-them-all-i-heart-you'],
-      sending:    ['sending-it-in', 'sending-it-in-yipeeee', 'is-that-your-final-answer-ha-ha-it-looks-great'],
-    };
-    let voiceAudio = null;
-    const lastVoice = {};
-    const playVoice = (key, muted) => {
-      if (muted || !key) return;
-      const pool = SOUNDS[key];
-      if (!pool || !pool.length) return;
-      let clip = pool[0];
-      if (pool.length > 1) {
-        let n = 0;
-        do { clip = pool[Math.floor(Math.random() * pool.length)]; } while (clip === lastVoice[key] && ++n < 8);
-      }
-      lastVoice[key] = clip;
-      try {
-        if (voiceAudio) voiceAudio.pause();      // never stack voices
-        voiceAudio = new Audio(AUDIO_BASE + clip + '.mp3');
-        voiceAudio.volume = 0.95;
-        voiceAudio.play().catch(() => {});
-      } catch (e) { /* noop */ }
-    };
-
-    // ── Web Audio fanfare (royalty-free: synthesized here) ────────────
-    let audioCtx = null;
-    const getCtx = () => {
-      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      if (audioCtx.state === 'suspended') audioCtx.resume();
-      return audioCtx;
-    };
-
-    const playSynthFanfare = (muted) => {
-      if (muted) return;
-      try {
-        const ctx = getCtx();
-        const now = ctx.currentTime;
-        // Ascending party-horn pattern: G4 C5 E5 G5 ... with slight overlap
-        const notes = [392, 523, 659, 784];
-        notes.forEach((freq, i) => {
-          const t = now + i * 0.13;
-          // Horn = sawtooth + square mixed for bright tone
-          [['sawtooth', 0.22], ['square', 0.08]].forEach(([type, amp]) => {
-            const osc = ctx.createOscillator();
-            const gain = ctx.createGain();
-            osc.type = type;
-            osc.frequency.value = freq;
-            gain.gain.setValueAtTime(0, t);
-            gain.gain.linearRampToValueAtTime(amp, t + 0.02);
-            gain.gain.exponentialRampToValueAtTime(0.001, t + 0.38);
-            osc.connect(gain); gain.connect(ctx.destination);
-            osc.start(t); osc.stop(t + 0.42);
-          });
-        });
-        // Final shimmer chord
-        const shimmer = now + 0.55;
-        [784, 988, 1175].forEach((freq, i) => {
-          const osc = ctx.createOscillator();
-          const gain = ctx.createGain();
-          osc.type = 'triangle';
-          osc.frequency.value = freq;
-          gain.gain.setValueAtTime(0, shimmer);
-          gain.gain.linearRampToValueAtTime(0.14, shimmer + 0.04);
-          gain.gain.exponentialRampToValueAtTime(0.001, shimmer + 0.9);
-          osc.connect(gain); gain.connect(ctx.destination);
-          osc.start(shimmer); osc.stop(shimmer + 1.0);
-        });
-      } catch (e) { /* noop */ }
-    };
-
-    // Designed fanfare (ElevenLabs) for name submit; falls back to the
-    // synth horn if the file can't load or autoplay is blocked.
-    let fanfareAudio = null;
-    const playFanfare = (muted) => {
-      if (muted) return;
-      try {
-        if (fanfareAudio) fanfareAudio.pause();
-        fanfareAudio = new Audio(AUDIO_BASE + 'celebrate-fanfare.mp3');
-        fanfareAudio.volume = 0.85;
-        fanfareAudio.addEventListener('error', () => playSynthFanfare(muted), { once: true });
-        const p = fanfareAudio.play();
-        if (p && p.catch) p.catch(() => playSynthFanfare(muted));
-      } catch (e) {
-        playSynthFanfare(muted);
-      }
-    };
-
-    const playPing = (muted) => {
-      if (muted) return;
-      try {
-        const ctx = getCtx();
-        const now = ctx.currentTime;
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.type = 'triangle';
-        osc.frequency.value = 1046;
-        gain.gain.setValueAtTime(0, now);
-        gain.gain.linearRampToValueAtTime(0.15, now + 0.02);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
-        osc.connect(gain); gain.connect(ctx.destination);
-        osc.start(now); osc.stop(now + 0.45);
-      } catch (e) { /* noop */ }
-    };
+    // ── Audio removed (June 2026) ─────────────────────────────────────
+    // The heart-buddy voice clips, celebration fanfare, and UI pings were
+    // removed per CAB / team feedback — they were distracting in the field.
+    // Visual confetti is kept; nothing on this page plays sound.
 
     // ── Confetti ──────────────────────────────────────────────────────
     const reducedMotion = () => window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -331,24 +206,6 @@
         <polygon points="50,5 61,39 96,39 68,60 79,94 50,73 21,94 32,60 4,39 39,39"
                  fill={C.red} />
       </svg>
-    );
-
-    // ── Mute toggle ───────────────────────────────────────────────────
-    const MuteButton = ({ muted, setMuted }) => (
-      <button onClick={() => setMuted(m => !m)}
-              aria-label={muted ? 'Unmute' : 'Mute'}
-              className="fixed top-4 right-4 z-50 w-11 h-11 rounded-full flex items-center justify-center transition-colors"
-              style={{ background: 'rgba(0,0,0,0.35)', border: `1px solid ${C.faint}`, color: C.white }}>
-        {muted ? (
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707A1 1 0 0112 5v14a1 1 0 01-1.707.707L5.586 15zM17 9l4 6m0-6l-4 6"/>
-          </svg>
-        ) : (
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707A1 1 0 0112 5v14a1 1 0 01-1.707.707L5.586 15zM15.536 8.464a5 5 0 010 7.072M18.364 5.636a9 9 0 010 12.728"/>
-          </svg>
-        )}
-      </button>
     );
 
     // ── Screens ───────────────────────────────────────────────────────
@@ -506,47 +363,13 @@
               TELL US ABOUT YOUR CHECK →
             </button>
             <p className="text-xs mb-4" style={{ color: 'rgba(255,255,255,0.5)' }}>
-              A few quick questions — and a buddy to cheer you on 💙
+              A few quick questions about your day.
             </p>
             <button onClick={onDone}
                     className="text-sm underline"
                     style={{ color: 'rgba(255,255,255,0.55)' }}>
               No thanks, I'm done
             </button>
-          </div>
-        </div>
-      );
-    };
-
-    // ── Reactive heart mascot ─────────────────────────────────────────
-    const HeartBuddy = ({ mood, tick }) => {
-      const excited = mood === 'cheer';
-      const animClass = mood === 'cheer' ? 'heart-cheer' : mood === 'bounce' ? 'heart-bounce' : 'heart-idle';
-      return (
-        <div key={tick} className="shrink-0" style={{ width: 56, height: 56 }}>
-          <div className={animClass}>
-            <svg width="56" height="56" viewBox="0 0 100 100" aria-hidden="true">
-              {/* arms */}
-              <line x1="26" y1="52" x2="16" y2="52" stroke={C.red} strokeWidth="6" strokeLinecap="round" />
-              <line x1="74" y1="52" x2="84" y2="52" stroke={C.red} strokeWidth="6" strokeLinecap="round" />
-              {/* gloves */}
-              <circle cx="13" cy="52" r="8" fill={C.white} />
-              <circle cx="87" cy="52" r="8" fill={C.white} />
-              {/* heart body */}
-              <path d="M50 84 C50 84 14 60 14 37 C14 24 24 16 34 16 C42 16 47 21 50 26 C53 21 58 16 66 16 C76 16 86 24 86 37 C86 60 50 84 50 84 Z" fill={C.red} />
-              {/* cheeks */}
-              <circle cx="31" cy="52" r="4" fill={C.redLt} opacity="0.65" />
-              <circle cx="69" cy="52" r="4" fill={C.redLt} opacity="0.65" />
-              {/* eyes */}
-              <circle cx="39" cy="43" r="6.5" fill={C.white} />
-              <circle cx="61" cy="43" r="6.5" fill={C.white} />
-              <circle cx="40" cy="44" r="3" fill={C.navy} />
-              <circle cx="62" cy="44" r="3" fill={C.navy} />
-              {/* mouth */}
-              {excited
-                ? <path d="M40 57 Q50 71 60 57 Z" fill={C.navy} />
-                : <path d="M41 58 Q50 66 59 58" stroke={C.navy} strokeWidth="3" fill="none" strokeLinecap="round" />}
-            </svg>
           </div>
         </div>
       );
@@ -594,84 +417,21 @@
       </div>
     );
 
-    const SurveyView = ({ name, muted, onSubmit, onSkip }) => {
+    const SurveyView = ({ name, onSubmit, onSkip }) => {
       const [heard, setHeard]       = useState('');
       const [motivation, setMotiv]  = useState('');
       const [feeling, setFeeling]   = useState('');
       const [helpful, setHelpful]   = useState('');
-      const [better, setBetter]     = useState('');
       const [nextStep, setNextStep] = useState('');
       const [consent, setConsent]   = useState('');
       const [email, setEmail]       = useState('');
       const [phone, setPhone]       = useState('');
       const [busy, setBusy]         = useState(false);
 
-      // Reactive buddy state
-      const [mood, setMood]       = useState('idle');
-      const [msg, setMsg]         = useState(`Hi ${name}! I'll cheer you on 💙`);
-      const [tick, setTick]       = useState(0);
-      const [showBubble, setShowBubble] = useState(true);
-      const [activeIdx, setActiveIdx]   = useState(0);
-      const [heartTop, setHeartTop]     = useState(0);
-      const moodTimer   = useRef();
-      const bubbleTimer = useRef();
-      const qRefs       = useRef([]);
-
-      const react = (message, sound, big = false) => {
-        if (message) setMsg(message);
-        setMood(big ? 'cheer' : 'bounce');
-        setTick(t => t + 1);
-        setShowBubble(true);
-        playVoice(sound, muted);
-        clearTimeout(moodTimer.current);
-        moodTimer.current = setTimeout(() => setMood('idle'), big ? 800 : 560);
-        clearTimeout(bubbleTimer.current);
-        bubbleTimer.current = setTimeout(() => setShowBubble(false), big ? 2600 : 2000);
-      };
-      useEffect(() => () => { clearTimeout(moodTimer.current); clearTimeout(bubbleTimer.current); }, []);
-      useEffect(() => { playVoice('greeting', muted); }, []); // greet on open (gesture already unlocked audio)
-
-      // Float the buddy to the question currently being answered.
-      const HEART_H = 56;
-      const positionHeart = () => {
-        const el = qRefs.current[activeIdx];
-        if (el) setHeartTop(Math.max(0, el.offsetTop + el.offsetHeight / 2 - HEART_H / 2));
-      };
-      const qProps = (i) => ({
-        ref: (el) => { qRefs.current[i] = el; },
-        onPointerDown: () => setActiveIdx(i),
-        onClick: () => setActiveIdx(i),
-        onFocusCapture: () => setActiveIdx(i),
-      });
-      useLayoutEffect(positionHeart, [activeIdx]);
-      useEffect(() => {
-        window.addEventListener('resize', positionHeart);
-        const t = setTimeout(positionHeart, 400); // settle after fonts/layout
-        return () => { window.removeEventListener('resize', positionHeart); clearTimeout(t); };
-      }, [activeIdx]);
-
-      // react when a text field goes from empty → filled
-      const soundOf = (s, v) => (typeof s === 'function' ? s(v) : s);
-      const txt = (cur, setter, message, sound, max = 140) => (e) => {
-        const v = e.target.value.slice(0, max);
-        if (!cur && v.trim()) react(message, sound);
-        setter(v);
-      };
-      const pick = (setter, msgFor, sound) => (v) => {
-        setter(v);
-        if (v) react(typeof msgFor === 'function' ? msgFor(v) : msgFor, soundOf(sound, v));
-      };
-
-      const core = [heard, motivation, feeling, helpful, better, nextStep, consent];
+      const core = [heard, motivation, feeling, helpful, nextStep, consent];
       const answered = core.filter(v => v && v.trim()).length;
       const pct = Math.round((answered / core.length) * 100);
       const hasAny = answered > 0 || (RAFFLE_ENABLED && (email.trim() || phone.trim()));
-
-      const prevAns = useRef(0);
-      useEffect(() => {
-        if (answered === core.length && answered > prevAns.current) react('You answered them all! 🎉', 'complete', true);
-        prevAns.current = answered;
-      }, [answered]);
 
       const labelCls = "block font-label font-semibold mb-2.5 text-sm";
       const inputStyle = { background: 'rgba(255,255,255,0.06)', border: `1px solid ${C.faint}`, color: C.white };
@@ -685,7 +445,6 @@
         e.preventDefault();
         if (busy || !hasAny) return;
         setBusy(true);
-        react('Sending… 🎉', 'sending', true);
         try {
           await submitNetlify('celebrate-survey', {
             first_name: name,
@@ -694,7 +453,6 @@
             motivation,
             feeling_after: feeling,
             helpful_info: helpful,
-            better_experience: better,
             next_step: nextStep,
             consent_share: consent,
             ...(RAFFLE_ENABLED ? { email, phone } : {}),
@@ -721,20 +479,6 @@
               </div>
             </div>
 
-            {/* Floating buddy — glides to the question being answered */}
-            <div className="absolute pointer-events-none"
-                 style={{ top: heartTop, right: 0, width: HEART_H, zIndex: 30,
-                          transition: 'top 0.45s cubic-bezier(.34,1.3,.5,1)' }}>
-              {showBubble && (
-                <div key={tick} className="speech-bubble absolute font-label font-semibold text-xs px-3 py-2 rounded-2xl text-center"
-                     style={{ bottom: HEART_H + 6, right: 0, width: 'max-content', maxWidth: 156,
-                              background: C.white, color: C.navy, boxShadow: '0 8px 22px rgba(0,0,0,0.3)' }}>
-                  {msg}
-                </div>
-              )}
-              <HeartBuddy mood={mood} tick={tick} />
-            </div>
-
             <h2 className="font-heading font-black text-2xl sm:text-3xl mb-2" style={{ letterSpacing: '-0.02em' }}>
               Tell us about today, {name}.
             </h2>
@@ -742,50 +486,40 @@
               Answer what you like — every bit helps us serve your neighborhood better.
             </p>
 
-            <form onSubmit={handle} className="space-y-7 pb-4 pr-16">
+            <form onSubmit={handle} className="space-y-7 pb-4">
 
-              <div {...qProps(0)}>
+              <div>
                 <label className={labelCls}>{num(1)}How did you hear about today's event?</label>
-                <ChoiceRow options={HEARD_OPTIONS} value={heard} onPick={pick(setHeard, randomCheer, 'cheer')} />
+                <ChoiceRow options={HEARD_OPTIONS} value={heard} onPick={setHeard} />
               </div>
 
-              <div {...qProps(1)}>
+              <div>
                 <label className={labelCls}>{num(2)}What made you decide to get checked today?</label>
-                <input type="text" value={motivation} onChange={txt(motivation, setMotiv, "That's your why 💙", 'why', 200)}
+                <input type="text" value={motivation} onChange={e => setMotiv(e.target.value.slice(0, 200))}
                        placeholder="Your “why” — in a few words"
                        className="w-full px-4 py-3 rounded-xl text-base focus:outline-none" style={inputStyle} />
               </div>
 
-              <div {...qProps(2)}>
+              <div>
                 <label className={labelCls}>{num(3)}How do you feel after getting checked?</label>
-                <ChoiceRow options={FEELING_OPTIONS} value={feeling} onPick={pick(setFeeling, 'Thanks for sharing 💙', 'feeling')} />
+                <ChoiceRow options={FEELING_OPTIONS} value={feeling} onPick={setFeeling} />
               </div>
 
-              <div {...qProps(3)}>
+              <div>
                 <label className={labelCls}>{num(4)}What information was helpful today? {optional}</label>
-                <input type="text" value={helpful} onChange={txt(helpful, setHelpful, randomCheer(), 'cheer')}
+                <input type="text" value={helpful} onChange={e => setHelpful(e.target.value.slice(0, 140))}
                        placeholder="(optional)"
                        className="w-full px-4 py-3 rounded-xl text-base focus:outline-none" style={inputStyle} />
               </div>
 
-              <div {...qProps(4)}>
-                <label className={labelCls}>{num(5)}What could have made today better? {optional}</label>
-                <input type="text" value={better} onChange={txt(better, setBetter, 'Good to know — thank you!', 'better')}
-                       placeholder="(optional)"
-                       className="w-full px-4 py-3 rounded-xl text-base focus:outline-none" style={inputStyle} />
+              <div>
+                <label className={labelCls}>{num(5)}After seeing your numbers, what's your next step?</label>
+                <ChoiceRow options={NEXTSTEP_OPTIONS} value={nextStep} onPick={setNextStep} />
               </div>
 
-              <div {...qProps(5)}>
-                <label className={labelCls}>{num(6)}After seeing your numbers, what's your next step?</label>
-                <ChoiceRow options={NEXTSTEP_OPTIONS} value={nextStep} onPick={pick(setNextStep, 'Love that plan! 🙌', 'plan')} />
-              </div>
-
-              <div {...qProps(6)}>
-                <label className={labelCls}>{num(7)}Is it okay to share your words to inspire others?</label>
-                <ChoiceRow options={['Yes', 'No']} value={consent}
-                           onPick={pick(setConsent,
-                             v => v === 'Yes' ? 'Thank you! 🙌' : 'Totally okay 💙',
-                             v => v === 'Yes' ? 'consentYes' : 'consentNo')} />
+              <div>
+                <label className={labelCls}>{num(6)}Is it okay to share your words to inspire others?</label>
+                <ChoiceRow options={['Yes', 'No']} value={consent} onPick={setConsent} />
               </div>
 
               {RAFFLE_ENABLED && (
@@ -884,7 +618,6 @@
       const [view, setView] = useState('entry'); // entry | celebrate | impact | survey | thanks
       const [name, setName] = useState('');
       const [count, setCount] = useState(getCount());
-      const [muted, setMuted] = useState(false);
       const loc = useMemo(getLoc, []);
       const locLabel = loc ? loc.replace(/[-_]/g, ' ') : '';
 
@@ -894,14 +627,12 @@
         setName(nm);
         setCount(bumpCount());
         setView('celebrate');
-        playFanfare(muted);
         fireConfetti('big');
       };
 
       const toImpact = useCallback(() => {
         setView('impact');
-        playPing(muted);
-      }, [muted]);
+      }, []);
 
       const reset = () => {
         setName('');
@@ -910,13 +641,12 @@
 
       return (
         <>
-          <MuteButton muted={muted} setMuted={setMuted} />
           {view === 'entry'     && <EntryView     name={name} setName={setName} onGo={go} locLabel={locLabel} />}
           {view === 'celebrate' && <CelebrateView name={name} onNext={toImpact} />}
           {view === 'impact'    && <ImpactView    name={name} count={count}
                                                   onSurvey={() => setView('survey')}
                                                   onDone={() => setView('thanks')} />}
-          {view === 'survey'    && <SurveyView    name={name} muted={muted}
+          {view === 'survey'    && <SurveyView    name={name}
                                                   onSubmit={() => { fireConfetti('small'); setView('thanks'); }}
                                                   onSkip={() => setView('thanks')} />}
           {view === 'thanks'    && <ThanksView    name={name} onReset={reset} />}

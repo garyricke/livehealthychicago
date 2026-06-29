@@ -144,6 +144,29 @@
     $('pw').addEventListener('keydown', e=>{ if(e.key==='Enter') signIn(); });
     $('signout').addEventListener('click', async ()=>{ await sb.auth.signOut(); location.reload(); });
 
+    // ── Field labels + noise filtering ───────────────────
+    // Netlify adds these to every submission; they're not answers.
+    const HIDE_KEYS = new Set(['referrer','user_agent','ip','bot-field']);
+    // Human-readable labels so survey answers read as the actual questions.
+    const FIELD_LABELS = {
+      first_name:'First name', name:'Name', location:'Location', email:'Email', phone:'Phone',
+      organization:'Organization', org_type:'Organization type', message:'Message',
+      consent_share:'OK to share their words?',
+      // celebrate-survey
+      heard_about:'How did you hear about today’s event?',
+      motivation:'What made you decide to get checked today?',
+      feeling_after:'How do you feel after getting checked?',
+      helpful_info:'What information was helpful today?',
+      better_experience:'What could have made today better? (retired)',
+      next_step:'After seeing your numbers, next step',
+      // whats-your-why
+      role:'Which best describes you?',
+      why_lhc:'Why are you part of Live Healthy Chicago?',
+      living_healthy:'What does living healthy mean to you?',
+      excited_about:'What you’re most excited about',
+    };
+    const fieldLabel = k => FIELD_LABELS[k] || k.replace(/_/g,' ').replace(/\b\w/g, c=>c.toUpperCase());
+
     // ── Load + render ─────────────────────────────────────
     async function load(){
       $('errbox').innerHTML=''; $('meta').textContent='Loading…';
@@ -177,8 +200,8 @@
       if(rows.length===0){ $('list').innerHTML = `<div class="empty">No submissions${ALL.length?' match this filter':' yet'}.</div>`; return; }
       $('list').innerHTML = rows.map(r=>{
         const data = r.data || {};
-        const fields = Object.keys(data).filter(k=>data[k]!=null && String(data[k]).trim()!=='').map(k=>
-          `<div class="field"><div class="k">${esc(k)}</div><div class="v">${linkify(data[k])}</div></div>`).join('');
+        const fields = Object.keys(data).filter(k=>!HIDE_KEYS.has(k) && data[k]!=null && String(data[k]).trim()!=='').map(k=>
+          `<div class="field"><div class="k">${esc(fieldLabel(k))}</div><div class="v">${linkify(data[k])}</div></div>`).join('');
         return `<div class="sub">
           <div class="sub-top">
             <span class="form-badge">${esc(r.form_name)}</span>
@@ -198,7 +221,7 @@
     $('export').addEventListener('click', ()=>{
       const rows = filtered();
       if(!rows.length) return;
-      const keys = [...new Set(rows.flatMap(r=>Object.keys(r.data||{})))];
+      const keys = [...new Set(rows.flatMap(r=>Object.keys(r.data||{})))].filter(k=>!HIDE_KEYS.has(k));
       const header = ['form','submitted_at',...keys];
       const lines = [header.map(csvCell).join(',')];
       rows.forEach(r=>{
