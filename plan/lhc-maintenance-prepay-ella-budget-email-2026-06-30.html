@@ -1,0 +1,46 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Budget follow-up — Allie & Rebecca</title></head>
+<body style="margin:0; padding:24px; background:#ffffff; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif; color:#1a2535; line-height:1.6;">
+  <div class="copy-control" style="max-width:600px; margin:0 0 18px; display:flex; align-items:center; gap:12px;">
+    <button id="copy-btn" onclick="copyEmail()" style="display:inline-flex; align-items:center; gap:8px; background:#0362BC; color:#fff; border:none; border-radius:8px; padding:10px 16px; font-family:inherit; font-size:14px; font-weight:600; cursor:pointer;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+      Copy email
+    </button>
+    <span id="copy-status" style="font-size:13px; color:#4a5568;">Click, then paste into your email (formatting included).</span>
+  </div>
+
+  <div id="email-body" style="max-width:600px; margin:0; background:#ffffff;">
+
+    <p style="margin:0 0 16px;">Hi Allie and Rebecca,</p>
+
+    <p style="margin:0 0 16px;">Following up from the check-in, and on the thread with Ella you&rsquo;re now copied on. We&rsquo;re essentially at the end of the original statement of work (about $688 of the $25k left), so I want to give you a simple way to think about what comes next &mdash; both for Ella&rsquo;s CHW training project and for routine upkeep going forward.</p>
+
+    <p style="margin:0 0 16px;">My recommendation is the <strong>$5,000 prepay maintenance package</strong>. It carries the best rate on the sliding scale &mdash; <strong>$75/hour, ~67 hours</strong> &mdash; and it cleanly funds Ella&rsquo;s project plus a long runway of ongoing edits. Pricing everything off that one rate, here&rsquo;s the picture:</p>
+
+    <div style="border:1px solid #dce3ed; border-radius:10px; padding:18px 20px; margin:0 0 18px; background:#f8fafc;">
+      <p style="margin:0 0 10px; font-size:13px; font-weight:700; letter-spacing:0.04em; text-transform:uppercase; color:#0362BC;">$5,000 prepay &middot; ~67 hrs @ $75/hr</p>
+      <p style="margin:0 0 8px;"><strong>~$1,500</strong> &mdash; Ella&rsquo;s CHW training set: the AI-built interview refresher (~15 min), a handful of short clips, and a professionally designed print pamphlet (more on that below).</p>
+      <p style="margin:0 0 8px;"><strong>~$3,500 remaining</strong> &mdash; ongoing maintenance for the rest of the year.</p>
+      <p style="margin:0;">Most routine edits are <strong>event ads or news items</strong>, which run roughly <strong>$50&ndash;$150 each</strong> &mdash; lower when we batch several at once. So that remaining balance covers a lot of regular upkeep.</p>
+    </div>
+
+    <p style="margin:0 0 16px;">A note on Ella&rsquo;s estimate: it&rsquo;s a solid number, not a hedge. The interview is a simple, single-session conversation &mdash; no reshoots &mdash; and the chaptered format already exists from the Nuna stories, which needed essentially no heavy editing, so I don&rsquo;t anticipate any here either. This is largely reuse rather than a new build.</p>
+
+    <p style="margin:0 0 16px;">The piece I&rsquo;m most excited to fold in is the <strong>print pamphlet</strong>. I&rsquo;ve been doing a lot of print design with these AI tools for other clients lately, and it&rsquo;s genuinely remarkable how well they handle layout, typography, and on-brand copy &mdash; so Ella&rsquo;s tri-fold won&rsquo;t just be functional, it&rsquo;ll be a polished, professional, on-brand piece the CHWs are proud to hand out. That&rsquo;s included in the $1,500.</p>
+
+    <p style="margin:0 0 16px;">Separately, whenever you&rsquo;re ready, we should also decide what officially <strong>closes out the original SOW</strong> &mdash; which of the remaining open items we call done versus carry into maintenance. Happy to walk through that list whenever works.</p>
+
+    <p style="margin:0 0 16px;">No need to decide over email &mdash; since we&rsquo;re meeting this afternoon, let&rsquo;s just talk it through then. I wanted you to have the numbers in front of you going in. Once we land on a direction, I&rsquo;ll get Ella&rsquo;s project moving as soon as she sends her script.</p>
+
+    <p style="margin:0 0 16px;">Thanks,</p>
+
+    <p style="margin:0;">Gary</p>
+
+  </div>
+
+<script>
+  function setStatus(m,ok){var s=document.getElementById('copy-status');s.textContent=m;s.style.color=ok?'#1a7f37':'#b42318';}
+  function selectFallback(el){try{var r=document.createRange();r.selectNode(el);var s=window.getSelection();s.removeAllRanges();s.addRange(r);var ok=document.execCommand('copy');s.removeAllRanges();setStatus(ok?'✓ Copied — paste into your email':'Press ⌘C to copy the selected email',ok);}catch(e){setStatus('Select the email and press ⌘C',false);}}
+  function copyEmail(){var el=document.getElementById('email-body');if(navigator.clipboard&&window.ClipboardItem){var d=[new ClipboardItem({'text/html':new Blob([el.outerHTML],{type:'text/html'}),'text/plain':new Blob([el.innerText],{type:'text/plain'})})];navigator.clipboard.write(d).then(function(){setStatus('✓ Copied — paste into your email (formatting included)',true);},function(){selectFallback(el);});}else{selectFallback(el);}}
+</script>
+</body></html>
