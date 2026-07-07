@@ -35,8 +35,10 @@
     .nav-logo{height:40px;width:auto;filter:brightness(0) invert(1)}
     .nav-back{color:rgba(255,255,255,0.9);text-decoration:none;font-family:'Poppins',sans-serif;font-size:.85rem;font-weight:600;border:1px solid rgba(255,255,255,0.28);padding:7px 15px;border-radius:8px;transition:all .2s}
     .nav-back:hover{background:rgba(255,255,255,0.12);color:#fff}
-    .hero{width:100%;max-height:460px;overflow:hidden;background:var(--navy)}
-    .hero img{width:100%;height:100%;max-height:460px;object-fit:cover;object-position:center}
+    .hero{width:100%;height:clamp(240px,40vw,440px);overflow:hidden;background:var(--navy)}
+    .hero img{width:100%;height:100%;object-fit:cover;object-position:center 22%}
+    .hero-video{height:auto;display:flex;justify-content:center;padding:0}
+    .hero-video video{display:block;width:100%;max-width:1040px;aspect-ratio:16/9;background:#000;object-fit:contain}
     .wrap{max-width:760px;margin:0 auto;padding:40px 24px 72px}
     .a-meta{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:16px;font-size:.82rem;color:var(--gray)}
     .a-cat{background:#46B7E51a;color:#1173a8;font-family:'Poppins',sans-serif;font-weight:600;font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;padding:4px 11px;border-radius:999px}
@@ -83,7 +85,7 @@
     .foot img{height:42px;width:auto;margin:0 auto 16px;filter:brightness(0) invert(1)}
     .foot a{color:var(--blue);text-decoration:none}
     .foot p{font-size:.85rem;margin-bottom:6px}
-    @media(max-width:600px){h1.a-title{font-size:1.7rem}.a-dek{font-size:1.05rem}.hero,.hero img{max-height:300px}}
+    @media(max-width:600px){h1.a-title{font-size:1.7rem}.a-dek{font-size:1.05rem}.hero{height:230px}}
   </style>
 </head>
 <body>
@@ -94,16 +96,13 @@
     </div>
   </nav>
 
-  <div class="hero"><img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,ar_16:9/v1774370046/lhc-people/dr-ige-thumb-cropped.png" alt="“We Want Black People in Chicago to Live to Be 100” — CDPH Commissioner Dr. Simbo Ige"></div>
+  <div class="hero hero-video"><video controls preload="metadata" poster="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,ar_16:9/v1774370046/lhc-people/dr-ige-thumb-cropped.png" src="https://player.vimeo.com/progressive_redirect/playback/1174486208/rendition/720p/file.mp4%20%28720p%29.mp4?loc=external&amp;log_user=0&amp;signature=09dd4fc7453481de31cd1770ca29113795b41dc717efb9cad65d4c1d77e58b6f">Your browser does not support video.</video></div>
 
   <article class="wrap">
     <div class="a-meta"><span class="a-cat">Video</span><span>Feb 27, 2026</span><span>&middot; By Dr. Olusimbo (Simbo) Ige, CDPH</span></div>
     <h1 class="a-title">“We Want Black People in Chicago to Live to Be 100” — CDPH Commissioner Dr. Simbo Ige</h1>
     <p class="a-dek">At a Live Healthy Chicago community event, Chicago Department of Public Health Commissioner Dr. Olusimbo (Simbo) Ige delivered a passionate call to action — linking personal experience, a stark life-expectancy gap, and a clear citywide mission.</p>
     
-        <figure class="a-media">
-          <video controls preload="metadata" poster="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,ar_16:9/v1774370046/lhc-people/dr-ige-thumb-cropped.png" style="width:100%;border-radius:14px" src="https://player.vimeo.com/progressive_redirect/playback/1174486208/rendition/720p/file.mp4%20%28720p%29.mp4?loc=external&amp;log_user=0&amp;signature=09dd4fc7453481de31cd1770ca29113795b41dc717efb9cad65d4c1d77e58b6f">Your browser does not support video.</video>
-        </figure>
     <div class="a-body">
         <p>On a Friday in late February, Chicago Department of Public Health Commissioner Dr. Olusimbo (Simbo) Ige walked into a Live Healthy Chicago community health event — and started doing her happy dance.</p>
         <blockquote>“I put on my pink blouse and I said, ‘Let’s go and celebrate this event.’”</blockquote>
