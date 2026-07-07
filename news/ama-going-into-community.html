@@ -9,8 +9,17 @@
   <meta property="og:description" content="How Rush University, the AMA, and 31 community partners are tackling hypertension where it hits hardest — on the South and West Sides of Chicago.">
   <meta property="og:image" content="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/lhc-news/ama-community-bp-hero.jpg">
   <meta property="og:type" content="article">
-  <meta name="article:published_time" content="2026-03-25">
-  <meta name="article:author" content="Georgia Garvey, AMA">
+  <meta property="og:url" content="https://livehealthychi.com/news/ama-going-into-community.html">
+  <meta property="og:site_name" content="Live Healthy Chicago">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Going Into the Community to Bring Down High BP">
+  <meta name="twitter:description" content="How Rush University, the AMA, and 31 community partners are tackling hypertension where it hits hardest — on the South and West Sides of Chicago.">
+  <meta name="twitter:image" content="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/lhc-news/ama-community-bp-hero.jpg">
+  <meta property="article:published_time" content="2026-03-25">
+  <meta property="article:author" content="Georgia Garvey, AMA">
+  <meta property="article:section" content="Feature">
+  <link rel="canonical" href="https://livehealthychi.com/news/ama-going-into-community.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"NewsArticle","headline":"Going Into the Community to Bring Down High BP","description":"The AMA spotlights Live Healthy Chicago — a 31-partner coalition taking free screenings and evidence-based care directly into Chicago's South and West Side neighborhoods where hypertension rates are highest.","image":["https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/lhc-news/ama-community-bp-hero.jpg"],"datePublished":"2026-03-25","dateModified":"2026-03-25","author":[{"@type":"Organization","name":"Georgia Garvey, AMA"}],"publisher":{"@type":"Organization","name":"Live Healthy Chicago","logo":{"@type":"ImageObject","url":"https://res.cloudinary.com/dsbllwpbh/image/upload/v1771612857/favicon-live-healthy-chicago_e7o6el.png"}},"articleSection":"Feature","mainEntityOfPage":{"@type":"WebPage","@id":"https://livehealthychi.com/news/ama-going-into-community.html"},"url":"https://livehealthychi.com/news/ama-going-into-community.html"}</script>
   <link rel="icon" type="image/png" href="https://res.cloudinary.com/dsbllwpbh/image/upload/v1771612857/favicon-live-healthy-chicago_e7o6el.png">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700&family=Open+Sans:ital,wght@0,400;0,600;1,400&family=Poppins:wght@600&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
@@ -303,27 +312,15 @@
 </head>
 <body>
 
-<!-- ── Password Gate ──────────────────────────────────────── -->
-<div id="gate">
-  <div class="gate-card">
-    <img class="gate-logo" src="https://assets.codepen.io/3457845/logo-Live-Healthy-Chicago.png" alt="Live Healthy Chicago">
-    <h2>Preview Access</h2>
-    <p>Enter the password to view this page.</p>
-    <input id="pw-input" class="gate-input" type="password" placeholder="Password" autocomplete="current-password">
-    <button class="gate-btn" onclick="checkPassword()">Enter</button>
-    <p class="gate-error" id="gate-error"></p>
-  </div>
-</div>
-
 <!-- ── Main Content ───────────────────────────────────────── -->
-<div id="app" style="display:none">
+<div id="app">
 
   <!-- Nav -->
   <nav class="site-nav">
-    <a href="../index-stage.html">
+    <a href="/">
       <img class="nav-logo" src="https://assets.codepen.io/3457845/logo-Live-Healthy-Chicago.png" alt="Live Healthy Chicago">
     </a>
-    <a href="../index-stage.html#news" class="back-link">
+    <a href="/#news" class="back-link">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
         <polyline points="15 18 9 12 15 6"/>
       </svg>
@@ -600,36 +597,6 @@
 </div><!-- /app -->
 
 <script>
-  const HASH = '4973303f9a14715775d80d65bfafc89f7ba96b0dd6993391147b9bd7013bb882';
-
-  async function sha256(message) {
-    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(message));
-    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
-  }
-
-  async function checkPassword() {
-    const val = document.getElementById('pw-input').value;
-    const hash = await sha256(val);
-    if (hash === HASH) {
-      sessionStorage.setItem('lhc_auth', '1');
-      const gate = document.getElementById('gate');
-      gate.classList.add('fade-out');
-      setTimeout(() => { gate.style.display = 'none'; document.getElementById('app').style.display = ''; }, 500);
-    } else {
-      document.getElementById('gate-error').textContent = 'Incorrect password. Try again.';
-    }
-  }
-
-  document.getElementById('pw-input').addEventListener('keydown', e => {
-    if (e.key === 'Enter') checkPassword();
-  });
-
-  // Auto-unlock if already authenticated
-  if (sessionStorage.getItem('lhc_auth') === '1') {
-    document.getElementById('gate').style.display = 'none';
-    document.getElementById('app').style.display = '';
-  }
-
   // MAP accordion toggle
   function toggleMap(header) {
     const item = header.closest('.map-item');
