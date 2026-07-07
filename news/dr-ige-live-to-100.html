@@ -37,8 +37,10 @@
     .nav-back:hover{background:rgba(255,255,255,0.12);color:#fff}
     .hero{width:100%;height:clamp(240px,40vw,440px);overflow:hidden;background:var(--navy)}
     .hero img{width:100%;height:100%;object-fit:cover;object-position:center 22%}
-    .hero-video{height:auto;display:flex;justify-content:center;padding:0}
-    .hero-video video{display:block;width:100%;max-width:1040px;aspect-ratio:16/9;background:#000;object-fit:contain}
+    .a-video-portrait{float:right;width:min(300px,42%);margin:2px 0 16px 24px}
+    .a-video-portrait video{display:block;width:100%;aspect-ratio:9/16;background:#000;border-radius:14px;object-fit:cover}
+    .a-video-portrait figcaption{font-size:.78rem;color:var(--gray);text-align:center;margin-top:7px}
+    @media(max-width:600px){.a-video-portrait{float:none;width:100%;max-width:340px;margin:0 auto 18px}}
     .wrap{max-width:760px;margin:0 auto;padding:40px 24px 72px}
     .a-meta{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:16px;font-size:.82rem;color:var(--gray)}
     .a-cat{background:#46B7E51a;color:#1173a8;font-family:'Poppins',sans-serif;font-weight:600;font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;padding:4px 11px;border-radius:999px}
@@ -96,7 +98,7 @@
     </div>
   </nav>
 
-  <div class="hero hero-video"><video controls preload="metadata" poster="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,ar_16:9/v1774370046/lhc-people/dr-ige-thumb-cropped.png" src="https://player.vimeo.com/progressive_redirect/playback/1174486208/rendition/720p/file.mp4%20%28720p%29.mp4?loc=external&amp;log_user=0&amp;signature=09dd4fc7453481de31cd1770ca29113795b41dc717efb9cad65d4c1d77e58b6f">Your browser does not support video.</video></div>
+  
 
   <article class="wrap">
     <div class="a-meta"><span class="a-cat">Video</span><span>Feb 27, 2026</span><span>&middot; By Dr. Olusimbo (Simbo) Ige, CDPH</span></div>
@@ -104,6 +106,7 @@
     <p class="a-dek">At a Live Healthy Chicago community event, Chicago Department of Public Health Commissioner Dr. Olusimbo (Simbo) Ige delivered a passionate call to action — linking personal experience, a stark life-expectancy gap, and a clear citywide mission.</p>
     
     <div class="a-body">
+        <figure class="a-video-portrait"><video controls preload="metadata" poster="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,ar_16:9/v1774370046/lhc-people/dr-ige-thumb-cropped.png" src="https://player.vimeo.com/progressive_redirect/playback/1174486208/rendition/720p/file.mp4%20%28720p%29.mp4?loc=external&amp;log_user=0&amp;signature=09dd4fc7453481de31cd1770ca29113795b41dc717efb9cad65d4c1d77e58b6f">Your browser does not support video.</video><figcaption>Watch the video</figcaption></figure>
         <p>On a Friday in late February, Chicago Department of Public Health Commissioner Dr. Olusimbo (Simbo) Ige walked into a Live Healthy Chicago community health event — and started doing her happy dance.</p>
         <blockquote>“I put on my pink blouse and I said, ‘Let’s go and celebrate this event.’”</blockquote>
         <h2 class="a-h3">The Personal Stakes</h2>
@@ -126,6 +129,7 @@
         <p>She closed with a conviction that she believes will be proven in her own lifetime: “No more stories of people dying at forty. No more stories of Chicago being last in life expectancy.”</p>
         <h2 class="a-h3">About the Speaker</h2>
         <div class="a-bio"><img class="a-bio-img" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1773772029/dr-olusimbo-ige-450x450_ct347m.jpg" alt="Dr. Olusimbo (Simbo) Ige, M.D., MPH" loading="lazy"><div><div class="a-bio-name">Dr. Olusimbo (Simbo) Ige, M.D., MPH</div><div class="a-bio-role">Commissioner, Chicago Department of Public Health</div><p class="a-bio-text">Dr. Ige’s public health career spans nearly two decades. Before her appointment as CDPH Commissioner, she served as Managing Director of Programs at the Robert Wood Johnson Foundation and as Assistant Commissioner for the New York City Department of Health and Mental Hygiene, overseeing the city’s pandemic response, food security, mental health, and violence prevention programs. She holds degrees from the University of Ibadan (Nigeria) and the University of Manchester (UK).</p></div></div>
+        <div style="clear:both"></div>
     </div>
     
         <details class="a-transcript"><summary>Read the full transcript</summary>

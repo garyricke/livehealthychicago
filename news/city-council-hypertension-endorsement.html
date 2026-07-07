@@ -37,8 +37,10 @@
     .nav-back:hover{background:rgba(255,255,255,0.12);color:#fff}
     .hero{width:100%;height:clamp(240px,40vw,440px);overflow:hidden;background:var(--navy)}
     .hero img{width:100%;height:100%;object-fit:cover;object-position:center 22%}
-    .hero-video{height:auto;display:flex;justify-content:center;padding:0}
-    .hero-video video{display:block;width:100%;max-width:1040px;aspect-ratio:16/9;background:#000;object-fit:contain}
+    .a-video-portrait{float:right;width:min(300px,42%);margin:2px 0 16px 24px}
+    .a-video-portrait video{display:block;width:100%;aspect-ratio:9/16;background:#000;border-radius:14px;object-fit:cover}
+    .a-video-portrait figcaption{font-size:.78rem;color:var(--gray);text-align:center;margin-top:7px}
+    @media(max-width:600px){.a-video-portrait{float:none;width:100%;max-width:340px;margin:0 auto 18px}}
     .wrap{max-width:760px;margin:0 auto;padding:40px 24px 72px}
     .a-meta{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:16px;font-size:.82rem;color:var(--gray)}
     .a-cat{background:#46B7E51a;color:#1173a8;font-family:'Poppins',sans-serif;font-weight:600;font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;padding:4px 11px;border-radius:999px}
@@ -104,11 +106,13 @@
     <p class="a-dek">Chicago aldermen voice unanimous support for the Pressure Drop campaign, pledging ward-level resources to increase blood pressure awareness in underserved communities.</p>
     
     <div class="a-body">
+        
         <p>In a rare show of bipartisan support, the Chicago City Council has unanimously endorsed the Pressure Drop public awareness campaign, a cornerstone of Live Healthy Chicago’s efforts to get more residents screened for high blood pressure.</p>
         <p>The resolution encourages aldermen in the 27 priority wards to dedicate community engagement resources to promoting free screening events and connecting residents with primary care.</p>
         <p>“High blood pressure doesn’t care about your zip code, but the resources to fight it do,” said one South Side alderman during the council session. “This resolution says we’re going to change that.”</p>
         <p>The endorsement comes alongside a $2 million commitment from the Chicago Department of Public Health to fund mobile screening units and community health worker training through 2028.</p>
         <p>Live Healthy Chicago leaders called the vote a “turning point” in the city’s approach to cardiovascular health equity, noting that political will has historically been a missing ingredient in closing the life-expectancy gap.</p>
+        <div style="clear:both"></div>
     </div>
     
   </article>

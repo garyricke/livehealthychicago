@@ -37,8 +37,10 @@
     .nav-back:hover{background:rgba(255,255,255,0.12);color:#fff}
     .hero{width:100%;height:clamp(240px,40vw,440px);overflow:hidden;background:var(--navy)}
     .hero img{width:100%;height:100%;object-fit:cover;object-position:center 22%}
-    .hero-video{height:auto;display:flex;justify-content:center;padding:0}
-    .hero-video video{display:block;width:100%;max-width:1040px;aspect-ratio:16/9;background:#000;object-fit:contain}
+    .a-video-portrait{float:right;width:min(300px,42%);margin:2px 0 16px 24px}
+    .a-video-portrait video{display:block;width:100%;aspect-ratio:9/16;background:#000;border-radius:14px;object-fit:cover}
+    .a-video-portrait figcaption{font-size:.78rem;color:var(--gray);text-align:center;margin-top:7px}
+    @media(max-width:600px){.a-video-portrait{float:none;width:100%;max-width:340px;margin:0 auto 18px}}
     .wrap{max-width:760px;margin:0 auto;padding:40px 24px 72px}
     .a-meta{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:16px;font-size:.82rem;color:var(--gray)}
     .a-cat{background:#46B7E51a;color:#1173a8;font-family:'Poppins',sans-serif;font-weight:600;font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;padding:4px 11px;border-radius:999px}
@@ -104,6 +106,7 @@
     <p class="a-dek">Physicians, community health workers, and partners gathered at a Chicago Park District facility in Englewood for a free blood pressure event — proof that the most effective care starts where people already are.</p>
     
     <div class="a-body">
+        
         <p>At a bustling Chicago Park District facility in Englewood, physicians, health systems, community organizations, and a slew of dedicated volunteers came together for a Live Healthy Chicago event — sharing resources, free blood pressure checks, and a shared conviction that lasting change in heart health begins in the community, not the clinic.</p>
         <p>Englewood is one of 27 Chicago neighborhoods where cardiovascular disease is disproportionately common. Understanding why — and what can be done about it — was at the heart of the event.</p>
         <h2 class="a-h3">By the Numbers</h2>
@@ -129,6 +132,7 @@
         <h2 class="a-h3">Key Terms</h2>
         <p>New to some of these terms? Tap any card to learn more.</p>
         <div class="a-gloss"><details class="a-gloss-item"><summary>Hypertension</summary><div class="a-acc-body">The medical term for high blood pressure. Blood pressure is measured as two numbers: systolic (the top number, when the heart beats) and diastolic (the bottom number, between beats). A reading of 130/80 mm Hg or higher is now classified as hypertension under 2025 AMA/AHA guidelines.</div></details><details class="a-gloss-item"><summary>Systolic Blood Pressure</summary><div class="a-acc-body">The top number in a blood pressure reading. It measures the pressure in your arteries when your heart beats and pumps blood. A systolic reading of 130 or higher is a key marker of hypertension.</div></details><details class="a-gloss-item"><summary>Diastolic Blood Pressure</summary><div class="a-acc-body">The bottom number in a blood pressure reading. It measures the pressure in your arteries between heartbeats, when the heart is resting. A reading of 80 or higher is associated with elevated cardiovascular risk.</div></details><details class="a-gloss-item"><summary>mm Hg</summary><div class="a-acc-body">Millimeters of mercury — the unit used to measure blood pressure. It comes from early devices that used mercury in a glass tube. Today’s devices are digital, but the same scale is used worldwide.</div></details><details class="a-gloss-item"><summary>AMA MAP™ Hypertension</summary><div class="a-acc-body">An evidence-based quality improvement program from the American Medical Association. MAP stands for Measure accurately, Act rapidly, and Partner with patients. Rush University Medical Center adopted it in 2022, embedding it directly into their electronic health record system.</div></details><details class="a-gloss-item"><summary>Community Health Worker (CHW)</summary><div class="a-acc-body">A trained community member who bridges the gap between healthcare providers and the people they serve. CHWs in Live Healthy Chicago learn how to take accurate blood pressure readings, explain results clearly, and connect people to follow-up care — meeting residents in familiar community settings, no appointment needed.</div></details><details class="a-gloss-item"><summary>Social Determinants of Health</summary><div class="a-acc-body">The conditions in which people are born, grow, live, work, and age — including access to healthy food, safe neighborhoods, stable housing, and economic security. These factors shape health outcomes as much as, or more than, clinical care alone.</div></details><details class="a-gloss-item"><summary>Blood Pressure Control Rate</summary><div class="a-acc-body">The percentage of people with diagnosed hypertension whose blood pressure is successfully managed to a healthy level. Rush’s internal rate is approximately 78%, but in some Chicago communities the rate may be as low as 50% — meaning half of people with high blood pressure don’t yet have it under control.</div></details></div>
+        <div style="clear:both"></div>
     </div>
     
   </article>

@@ -37,8 +37,10 @@
     .nav-back:hover{background:rgba(255,255,255,0.12);color:#fff}
     .hero{width:100%;height:clamp(240px,40vw,440px);overflow:hidden;background:var(--navy)}
     .hero img{width:100%;height:100%;object-fit:cover;object-position:center 22%}
-    .hero-video{height:auto;display:flex;justify-content:center;padding:0}
-    .hero-video video{display:block;width:100%;max-width:1040px;aspect-ratio:16/9;background:#000;object-fit:contain}
+    .a-video-portrait{float:right;width:min(300px,42%);margin:2px 0 16px 24px}
+    .a-video-portrait video{display:block;width:100%;aspect-ratio:9/16;background:#000;border-radius:14px;object-fit:cover}
+    .a-video-portrait figcaption{font-size:.78rem;color:var(--gray);text-align:center;margin-top:7px}
+    @media(max-width:600px){.a-video-portrait{float:none;width:100%;max-width:340px;margin:0 auto 18px}}
     .wrap{max-width:760px;margin:0 auto;padding:40px 24px 72px}
     .a-meta{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:16px;font-size:.82rem;color:var(--gray)}
     .a-cat{background:#46B7E51a;color:#1173a8;font-family:'Poppins',sans-serif;font-weight:600;font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;padding:4px 11px;border-radius:999px}
@@ -104,11 +106,13 @@
     <p class="a-dek">The coalition announces its formal launch, bringing together hospitals, community health centers, and public health institutions to address cardiovascular health disparities across 27 neighborhoods.</p>
     
     <div class="a-body">
+        
         <p>Live Healthy Chicago has officially launched its coalition of 15 founding partner organizations, united by a single goal: reducing cardiovascular disease risk in 27 priority neighborhoods across Chicago’s South and West Sides.</p>
         <p>The initiative, backed by major healthcare systems, community health centers, and public health agencies, will deploy community health workers, mobile screening units, and clinical pharmacists in the neighborhoods with the highest rates of uncontrolled hypertension.</p>
         <p>“This is not a top-down program,” said a coalition spokesperson. “Every element of Live Healthy Chicago has been co-designed with community members who understand these challenges from lived experience.”</p>
         <p>The coalition will target a 1% reduction in ASCVD (atherosclerotic cardiovascular disease) risk across the geography over the next three years—a goal that epidemiologists say could prevent hundreds of heart attacks and strokes.</p>
         <p>Founding partners include Rush University Medical Center, Cook County Health, Sinai Chicago, the American Heart Association, and AllianceChicago, among others.</p>
+        <div style="clear:both"></div>
     </div>
     
   </article>
