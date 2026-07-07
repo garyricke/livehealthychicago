@@ -13,3 +13,6 @@ budget.html
 # Editor
 .vscode/
 .idea/
+
+# AI-generated source images (host on Cloudinary, never commit)
+generated_imgs/

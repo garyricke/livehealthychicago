@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Correspondence — Live Healthy Chicago</title>
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/dsbllwpbh/image/upload/v1771612857/favicon-live-healthy-chicago_e7o6el.png">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy:#1B365D; --blue:#46B7E5; --teal:#48C9B0; --red:#E5202F;
+      --yellow:#FFB81C; --green:#48BB78; --charcoal:#2D2D2D; --gray:#64748b;
+      --muted:#94a3b8; --bg:#F0F4F8; --surface:#fff; --line:#e2e8f0;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { font-family:'Open Sans',sans-serif; background:var(--bg); color:var(--charcoal); -webkit-font-smoothing:antialiased; }
+    h1,h2,h3,h4 { font-family:'Montserrat',sans-serif; }
+
+    /* ── Gate ──────────────────────────────────────── */
+    #gate { position:fixed; inset:0; z-index:9999; display:flex; align-items:center; justify-content:center;
+      background:linear-gradient(135deg,#0f1f3d 0%,#1B365D 60%,#0d2847 100%); }
+    #gate.fade-out { opacity:0; transition:opacity .45s ease; pointer-events:none; }
+    .gate-card { background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); backdrop-filter:blur(16px);
+      border-radius:20px; padding:48px 40px; width:100%; max-width:380px; text-align:center; }
+    .gate-logo { height:44px; margin:0 auto 28px; }
+    .gate-card h2 { color:#fff; font-size:1.2rem; font-weight:800; margin-bottom:6px; }
+    .gate-card p { color:rgba(255,255,255,0.5); font-size:0.85rem; margin-bottom:26px; }
+    .gate-input { width:100%; padding:13px 16px; border-radius:12px; background:rgba(255,255,255,0.09);
+      border:1px solid rgba(255,255,255,0.18); color:#fff; font-size:1rem; font-family:'Open Sans',sans-serif;
+      outline:none; margin-bottom:12px; letter-spacing:0.05em; transition:border-color .2s; }
+    .gate-input:focus { border-color:var(--blue); }
+    .gate-input::placeholder { color:rgba(255,255,255,0.3); }
+    .gate-btn { width:100%; padding:13px; border-radius:12px; border:none;
+      background:linear-gradient(90deg,var(--blue),var(--teal)); color:#fff; font-weight:700; font-size:0.95rem;
+      cursor:pointer; font-family:'Montserrat',sans-serif; transition:opacity .2s; }
+    .gate-btn:hover { opacity:0.88; }
+    .gate-error { color:#fc8181; font-size:0.8rem; margin-top:10px; min-height:18px; }
+
+    /* ── Header ────────────────────────────────────── */
+    .header { background:linear-gradient(135deg,#0f1f3d 0%,#1B365D 60%,#0d2847 100%); color:#fff; padding:38px 24px 34px; }
+    .header-inner { max-width:920px; margin:0 auto; }
+    .header-eyebrow { display:inline-flex; align-items:center; gap:8px; font-size:0.72rem; font-weight:700;
+      letter-spacing:0.14em; text-transform:uppercase; color:var(--blue); margin-bottom:14px; }
+    .header h1 { font-size:1.9rem; font-weight:800; margin-bottom:8px; letter-spacing:-0.01em; }
+    .header p { color:rgba(255,255,255,0.62); font-size:0.95rem; max-width:640px; }
+    .header-back { display:inline-block; margin-top:18px; color:rgba(255,255,255,0.6); font-size:0.82rem;
+      text-decoration:none; border:1px solid rgba(255,255,255,0.18); padding:7px 14px; border-radius:8px; transition:all .2s; }
+    .header-back:hover { color:#fff; border-color:rgba(255,255,255,0.4); }
+
+    /* ── List ──────────────────────────────────────── */
+    .wrap { max-width:920px; margin:0 auto; padding:32px 24px 80px; }
+    .count-row { display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; flex-wrap:wrap; gap:10px; }
+    .count-pill { font-size:0.78rem; font-weight:700; color:var(--navy); background:#fff; border:1px solid var(--line);
+      padding:6px 14px; border-radius:999px; }
+    .count-hint { font-size:0.82rem; color:var(--gray); }
+
+    .cor-card { background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:20px 22px;
+      margin-bottom:14px; box-shadow:0 1px 2px rgba(16,32,64,0.04); transition:box-shadow .2s, border-color .2s; }
+    .cor-card:hover { box-shadow:0 6px 20px rgba(16,32,64,0.08); border-color:#cfd8e3; }
+    .cor-top { display:flex; align-items:flex-start; gap:16px; }
+    .cor-date { flex-shrink:0; width:64px; text-align:center; background:#f4f8fc; border:1px solid var(--line);
+      border-radius:10px; padding:8px 4px; }
+    .cor-date .m { display:block; font-family:'Montserrat',sans-serif; font-size:0.66rem; font-weight:700;
+      letter-spacing:0.08em; text-transform:uppercase; color:var(--blue); }
+    .cor-date .d { display:block; font-family:'Montserrat',sans-serif; font-size:1.35rem; font-weight:800; color:var(--navy); line-height:1.1; }
+    .cor-body { flex:1; min-width:0; }
+    .cor-title { font-family:'Montserrat',sans-serif; font-size:1.06rem; font-weight:700; color:var(--navy); margin-bottom:4px; }
+    .cor-meta { font-size:0.8rem; color:var(--gray); margin-bottom:8px; }
+    .cor-meta .to { color:var(--charcoal); font-weight:600; }
+    .cor-tag { display:inline-block; font-size:0.66rem; font-weight:700; letter-spacing:0.05em; text-transform:uppercase;
+      padding:3px 9px; border-radius:6px; margin-left:8px; vertical-align:middle; }
+    .tag-agenda { background:#e8f4fd; color:#0362BC; }
+    .tag-budget { background:#eafaf1; color:#1a7f4b; }
+    .tag-project { background:#fef4e6; color:#b7791f; }
+    .tag-partner { background:#f0ecfd; color:#6b46c1; }
+    .cor-desc { font-size:0.9rem; color:#475569; margin-bottom:14px; }
+    .cor-actions { display:flex; gap:10px; flex-wrap:wrap; }
+    .cor-btn { display:inline-flex; align-items:center; gap:7px; font-family:'Montserrat',sans-serif; font-size:0.82rem;
+      font-weight:600; border-radius:8px; padding:8px 14px; cursor:pointer; text-decoration:none; border:1px solid transparent; transition:all .18s; }
+    .cor-btn svg { width:15px; height:15px; }
+    .cor-btn-primary { background:#0362BC; color:#fff; }
+    .cor-btn-primary:hover { background:#024a8f; }
+    .cor-btn-ghost { background:#fff; color:var(--navy); border-color:var(--line); }
+    .cor-btn-ghost:hover { border-color:var(--blue); color:var(--blue); }
+    .cor-status { font-size:0.78rem; font-weight:600; align-self:center; }
+
+    .empty { text-align:center; color:var(--gray); padding:60px 20px; }
+    @media (max-width:560px){
+      .cor-top { gap:12px; }
+      .cor-date { width:54px; }
+      .header h1 { font-size:1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Password gate (shares the site's lhc_auth session) ── -->
+  <div id="gate">
+    <div class="gate-card">
+      <img class="gate-logo" src="https://assets.codepen.io/3457845/logo-Live-Healthy-Chicago.png" alt="Live Healthy Chicago">
+      <h2>Correspondence</h2>
+      <p>Internal — enter the password to continue.</p>
+      <input id="gate-input" class="gate-input" type="password" placeholder="Password" autocomplete="current-password">
+      <button class="gate-btn" onclick="checkGate()">Enter</button>
+      <div id="gate-error" class="gate-error"></div>
+    </div>
+  </div>
+
+  <!-- ── Header ── -->
+  <header class="header">
+    <div class="header-inner">
+      <span class="header-eyebrow">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Live Healthy Chicago · Internal
+      </span>
+      <h1>Correspondence</h1>
+      <p>Every email we've sent the team, stacked in one place — newest first. Open any one to review it, or copy it straight to your clipboard to resend or forward.</p>
+      <a class="header-back" href="/status.html">&larr; Back to status dashboard</a>
+    </div>
+  </header>
+
+  <!-- ── List ── -->
+  <main class="wrap">
+    <div class="count-row">
+      <span class="count-pill" id="count-pill">—</span>
+      <span class="count-hint">&ldquo;Copy email&rdquo; puts the formatted message on your clipboard — paste into Gmail or Outlook.</span>
+    </div>
+    <div id="cor-list"></div>
+  </main>
+
+  <script>
+    /* ─────────────────────────────────────────────────────────────
+       CORRESPONDENCE LIST
+       To add a new email: drop the HTML into /plan/, then add one
+       entry to the top of this array. Newest goes first.
+       tag: agenda | budget | project | partner
+    ───────────────────────────────────────────────────────────────*/
+    const CORRESPONDENCE = [
+      {
+        file: 'plan/lhc-team-agenda-email-2026-07-07.html',
+        title: 'Team agenda — July 7 check-in',
+        date: '2026-07-07', tag: 'agenda',
+        to: 'Allie Sontag, Rebecca Dawar, Rachel Reichlin',
+        desc: 'Coalition-first hero direction is coming together (tagline "Our City. Our Values. Our Health.", Rachel’s overview flyer, Allie’s messaging house). Maintenance decision, Ella funding path, status round.'
+      },
+      {
+        file: 'plan/lhc-team-agenda-email-2026-06-30.html',
+        title: 'Team agenda — June 30 check-in',
+        date: '2026-06-30', tag: 'agenda',
+        to: 'Allie Sontag, Rebecca Dawar, Rachel Reichlin',
+        desc: 'End of the original SOW. $5k prepay maintenance recommendation, Ella’s CHW direction & funding, closing out the SOW, status round.'
+      },
+      {
+        file: 'plan/lhc-maintenance-prepay-ella-budget-email-2026-06-30.html',
+        title: 'Maintenance & budget recommendation',
+        date: '2026-06-30', tag: 'budget',
+        to: 'Allie Sontag, Rebecca Dawar',
+        desc: 'The numbers ahead of the meeting: $5,000 prepay package ($75/hr, ~67 hrs), split ~$1,500 for Ella’s set and ~$3,500 for ongoing edits.'
+      },
+      {
+        file: 'plan/ella-chw-training-ai-direction-email-2026-06-30.html',
+        title: 'Ella — CHW training AI direction',
+        date: '2026-06-30', tag: 'project',
+        to: 'Houefa "Ella" Lawal',
+        desc: 'The approach: not an AI narrator — AI amplifying the human. Interview Ella on camera, cut a ~15-min refresher plus short clips, design the pamphlet.'
+      },
+      {
+        file: 'plan/celebrate-the-check-updates-email-2026-06-29.html',
+        title: 'Celebrate the Check — updates + QR',
+        date: '2026-06-29', tag: 'project',
+        to: 'Team (reply-all)',
+        desc: 'Simplifications done per the 6/23 check-in, on-brand QR + print-ready one-pager for the field pilots, and a request for the base counter number.'
+      },
+      {
+        file: 'plan/lhc-team-agenda-email-2026-06-23.html',
+        title: 'Team agenda — June 23 check-in',
+        date: '2026-06-23', tag: 'agenda',
+        to: 'Allie Sontag, Rebecca Dawar, Rachel Reichlin',
+        desc: 'Portal & Celebrate access, audience tags demo, submissions dashboard, form routing, Community Voice Phase 2, budget/maintenance tier, content we’re waiting on.'
+      },
+      {
+        file: 'plan/lhc-maintenance-correction-email-2026-06-23.html',
+        title: 'Maintenance options — quick correction',
+        date: '2026-06-23', tag: 'budget',
+        to: 'Allie Sontag, Rebecca Dawar',
+        desc: 'Correcting the maintenance figures to the full prepay sliding scale.'
+      },
+      {
+        file: 'plan/nuna-jini-final-edit-reply-email-2026-06-12.html',
+        title: 'Reply to Erik (Nuna) — Jini final edit',
+        date: '2026-06-12', tag: 'partner',
+        to: 'Erik Fiske (Nuna)',
+        desc: 'Applied Nuna’s final edit (real app screen in section 08) and shared proof links — green-lit to publish.'
+      },
+      {
+        file: 'plan/nuna-jini-feedback-reply-email-2026-06-10.html',
+        title: 'Reply to Erik (Nuna) — Jini interview updates',
+        date: '2026-06-10', tag: 'partner',
+        to: 'Erik Fiske (Nuna)',
+        desc: 'Applied the 6/10 feedback on the Jini Kim interview article — promoted app screenshots, real headshot, brother’s name.'
+      }
+    ];
+
+    const TAG_LABEL = { agenda:'Agenda', budget:'Budget', project:'Project', partner:'Partner' };
+    const MONTHS = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+
+    function esc(s){ return String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+    function renderList(){
+      const list = document.getElementById('cor-list');
+      const pill = document.getElementById('count-pill');
+      pill.textContent = CORRESPONDENCE.length + ' email' + (CORRESPONDENCE.length === 1 ? '' : 's');
+      list.innerHTML = CORRESPONDENCE.map((c, i) => {
+        const [y, m, d] = c.date.split('-');
+        const mon = MONTHS[parseInt(m, 10) - 1];
+        return `
+        <div class="cor-card">
+          <div class="cor-top">
+            <div class="cor-date"><span class="m">${mon}</span><span class="d">${parseInt(d,10)}</span></div>
+            <div class="cor-body">
+              <div class="cor-title">${esc(c.title)}<span class="cor-tag tag-${c.tag}">${TAG_LABEL[c.tag]||c.tag}</span></div>
+              <div class="cor-meta">To: <span class="to">${esc(c.to)}</span> &middot; ${y}</div>
+              <div class="cor-desc">${esc(c.desc)}</div>
+              <div class="cor-actions">
+                <a class="cor-btn cor-btn-primary" href="/${c.file}" target="_blank" rel="noopener">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                  Open email
+                </a>
+                <button class="cor-btn cor-btn-ghost" onclick="copyEmail(${i}, this)">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                  Copy email
+                </button>
+                <span class="cor-status" id="cor-status-${i}"></span>
+              </div>
+            </div>
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    /* Fetch the standalone email, pull out its #email-body, copy as rich HTML + text. */
+    async function copyEmail(i, btn){
+      const c = CORRESPONDENCE[i];
+      const status = document.getElementById('cor-status-' + i);
+      status.style.color = '#64748b';
+      status.textContent = 'Copying…';
+      try {
+        const res = await fetch('/' + c.file);
+        if (!res.ok) throw new Error('fetch failed');
+        const html = await res.text();
+        const doc = new DOMParser().parseFromString(html, 'text/html');
+        const body = doc.getElementById('email-body') || doc.body;
+        const htmlStr = body.outerHTML;
+        const textStr = body.innerText || body.textContent || '';
+        if (navigator.clipboard && window.ClipboardItem){
+          await navigator.clipboard.write([new ClipboardItem({
+            'text/html': new Blob([htmlStr], {type:'text/html'}),
+            'text/plain': new Blob([textStr], {type:'text/plain'})
+          })]);
+          status.style.color = '#1a7f37';
+          status.textContent = '✓ Copied — paste into your email';
+        } else {
+          throw new Error('no clipboard');
+        }
+      } catch (e) {
+        status.style.color = '#b42318';
+        status.textContent = 'Open the email and use its Copy button';
+      }
+      setTimeout(() => { status.textContent = ''; }, 4000);
+    }
+
+    /* ── Gate logic (SHA-256 of the site password, shared session) ── */
+    const GATE_HASH = '4973303f9a14715775d80d65bfafc89f7ba96b0dd6993391147b9bd7013bb882';
+    async function sha256(str){
+      const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+      return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+    }
+    async function checkGate(){
+      const input = document.getElementById('gate-input');
+      const err = document.getElementById('gate-error');
+      const hash = await sha256(input.value);
+      if (hash === GATE_HASH){
+        sessionStorage.setItem('lhc_auth', '1');
+        unlock();
+      } else {
+        err.textContent = 'Incorrect password.';
+        input.value = '';
+      }
+    }
+    function unlock(){
+      const gate = document.getElementById('gate');
+      gate.classList.add('fade-out');
+      setTimeout(() => { gate.style.display = 'none'; }, 450);
+      renderList();
+    }
+    document.getElementById('gate-input').addEventListener('keydown', e => { if (e.key === 'Enter') checkGate(); });
+    if (sessionStorage.getItem('lhc_auth') === '1'){ unlock(); }
+  </script>
+</body>
+</html>

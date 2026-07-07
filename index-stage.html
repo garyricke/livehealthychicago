@@ -2991,7 +2991,7 @@ let it drop on you`;
       };
 
       return (
-        <section style={{ backgroundColor: '#F0F4F8', padding: '96px 0' }}>
+        <section id="model" style={{ backgroundColor: '#F0F4F8', padding: '96px 0' }}>
           <div style={{ maxWidth: '900px', margin: '0 auto', padding: '0 24px' }}>
 
             {/* Header */}
@@ -3567,6 +3567,15 @@ let it drop on you`;
           </svg>
         ),
       },
+      {
+        label: 'Correspondence', desc: 'Sent emails · copy-ready', href: '/correspondence.html',
+        icon: (
+          <svg {...ADMIN_ICON_SVG}>
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+            <polyline points="22,6 12,13 2,6"/>
+          </svg>
+        ),
+      },
     ];
 
     // New-style admin entry: discreet badge → password modal → slide-in panel.
@@ -3724,6 +3733,14 @@ let it drop on you`;
         </div>
       );
     }
+
+    // ── Coalition-first hero placeholder photos (AI-generated, for team review) ──
+    // Two options crossfade so the team can compare in context. Drop one entry
+    // (or swap in a real photo/URL) once a direction + real imagery are chosen.
+    const HERO_PHOTOS = [
+      { src: 'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_2000/v1783434755/lhc-hero/coalition-gemini.jpg', credit: 'Placeholder · AI (Gemini)' },
+      { src: 'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_2000/v1783434756/lhc-hero/coalition-openai.jpg', credit: 'Placeholder · AI (OpenAI)' },
+    ];
 
     function LiveHealthyChicago() {
       const [scrolled, setScrolled] = React.useState(false);
@@ -3960,6 +3977,14 @@ let it drop on you`;
       const [selectedEvent, setSelectedEvent] = React.useState(null);
       const [selectedArticle, setSelectedArticle] = React.useState(null);
       const [showTranscript, setShowTranscript] = React.useState(false);
+
+      // Coalition hero — slow crossfade between placeholder photos for team review
+      const [heroPhotoIdx, setHeroPhotoIdx] = React.useState(0);
+      React.useEffect(() => {
+        if (HERO_PHOTOS.length < 2) return;
+        const id = setInterval(() => setHeroPhotoIdx(i => (i + 1) % HERO_PHOTOS.length), 6000);
+        return () => clearInterval(id);
+      }, []);
 
       const newsItems = [
         {
@@ -4458,48 +4483,50 @@ And that is how we overcome high blood pressure. They'll tell you about food and
             </div>
           </div>
 
-          {/* ── Hero Section ── */}
+          {/* ── Hero Section — Coalition-first concept (placeholder imagery for review) ── */}
           <section className="relative min-h-screen flex items-center overflow-hidden" style={{ backgroundColor: colors.trustNavy }}>
-            <video
-              autoPlay
-              muted
-              loop
-              playsInline
-              className="absolute inset-0 w-full h-full"
-              style={{ objectFit: 'cover', zIndex: 0 }}
-            >
-              <source src="https://player.vimeo.com/progressive_redirect/playback/1165766522/rendition/1440p/file.mp4%20%281440p%29.mp4?loc=external&log_user=0&signature=306dfa1cbdc4fd120d1098f4b023bbe6638c224d5421c2300f1857ab604c3827" type="video/mp4" />
-            </video>
-            <div className="absolute inset-0" style={{ backgroundColor: 'rgba(10, 31, 57, 0.65)', zIndex: 1 }} />
+            {/* Crossfading placeholder photos so the team can compare two options in context */}
+            {HERO_PHOTOS.map((photo, i) => (
+              <img key={i} src={photo.src} alt=""
+                   className="absolute inset-0 w-full h-full"
+                   style={{ objectFit: 'cover', objectPosition: 'center', zIndex: 0, opacity: i === heroPhotoIdx ? 1 : 0, transition: 'opacity 1.6s ease-in-out' }} />
+            ))}
+            {/* Navy gradient overlay — heavier on the left for headline legibility */}
+            <div className="absolute inset-0" style={{ background: 'linear-gradient(90deg, rgba(10,31,57,0.94) 0%, rgba(10,31,57,0.78) 45%, rgba(10,31,57,0.32) 100%)', zIndex: 1 }} />
 
-            <div className="relative z-10 max-w-7xl mx-auto px-6 py-32">
-              <div className="max-w-4xl">
+            <div className="relative z-10 max-w-7xl mx-auto px-6 py-32 w-full">
+              <div className="max-w-3xl">
+                <span className="hero-reveal inline-block font-semibold text-sm uppercase mb-5"
+                      style={{ color: colors.skyBlue, fontFamily: "'Poppins', sans-serif", letterSpacing: '0.14em' }}>
+                  Building pathways to preventive care
+                </span>
+
                 <h1 className="hero-reveal text-5xl md:text-7xl font-bold text-white leading-tight mb-6"
                     style={{ fontFamily: "'Montserrat', sans-serif" }}>
-                  Stronger Hearts.
+                  Our City. Our Values.
                   <br />
-                  <span style={{ color: colors.skyBlue }}>Healthier Neighborhoods.</span>
+                  <span style={{ color: colors.skyBlue }}>Our Health.</span>
                 </h1>
 
-                <p className="hero-reveal text-xl md:text-2xl leading-relaxed mb-8 max-w-2xl" style={{ color: 'rgba(255,255,255,0.8)' }}>
-                  Live Healthy Chicago brings together organizations, programs, and resources to help people take meaningful steps to improve their heart health.
+                <p className="hero-reveal text-xl md:text-2xl leading-relaxed mb-8 max-w-2xl" style={{ color: 'rgba(255,255,255,0.85)' }}>
+                  Live Healthy Chicago unites community, healthcare, and public health partners — sharing data, aligning resources, and building trust so preventive care reaches every neighborhood.
                 </p>
 
                 <div className="hero-reveal flex flex-col sm:flex-row gap-4 mb-16">
-                  <a href="#action"
+                  <a href="#community-voice"
                      className="group inline-flex items-center justify-center gap-2 text-white px-8 py-4 rounded-full font-semibold text-lg transition-all hover:scale-105 hover:shadow-2xl"
                      style={{ backgroundColor: colors.starRed, fontFamily: "'Poppins', sans-serif" }}>
-                    Get Your Blood Pressure Checked
+                    Meet the Coalition
                     <ArrowRightIcon className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </a>
-                  <a href="#about"
+                  <a href="#model"
                      className="inline-flex items-center justify-center gap-2 text-white px-8 py-4 rounded-full font-semibold text-lg transition-all backdrop-blur-sm border-2 hover:bg-white/10"
                      style={{ borderColor: 'rgba(255,255,255,0.3)', fontFamily: "'Poppins', sans-serif" }}>
-                    Learn More
+                    How It Works
                   </a>
                 </div>
 
-                <div ref={statsRef} className="hero-reveal grid grid-cols-3 gap-8 pt-8 border-t" style={{ borderColor: 'rgba(255,255,255,0.15)' }}>
+                <div ref={statsRef} className="hero-reveal grid grid-cols-3 gap-8 pt-8 border-t max-w-2xl" style={{ borderColor: 'rgba(255,255,255,0.15)' }}>
                   <div>
                     <div className="text-4xl md:text-5xl font-bold text-white mb-2 counter-value" style={{ fontFamily: "'Montserrat', sans-serif" }}>
                       {statsVisible ? stat1 : 0}
@@ -4510,14 +4537,21 @@ And that is how we overcome high blood pressure. They'll tell you about food and
                     <div className="text-4xl md:text-5xl font-bold text-white mb-2 counter-value" style={{ fontFamily: "'Montserrat', sans-serif" }}>
                       {statsVisible ? `${stat2}+` : '0+'}
                     </div>
-                    <div className="text-sm" style={{ color: colors.coolGray }}>Health Centers</div>
+                    <div className="text-sm" style={{ color: colors.coolGray }}>Coalition Partners</div>
                   </div>
                   <div>
                     <div className="text-4xl md:text-5xl font-bold text-white mb-2" style={{ fontFamily: "'Montserrat', sans-serif" }}>1%</div>
-                    <div className="text-sm" style={{ color: colors.coolGray }}>Risk Reduction Goal</div>
+                    <div className="text-sm" style={{ color: colors.coolGray }}>Risk-Reduction Goal</div>
                   </div>
                 </div>
               </div>
+            </div>
+
+            {/* Placeholder credit chip — flags these as temporary AI images */}
+            <div className="absolute bottom-6 right-6 z-10 hidden sm:block">
+              <span style={{ backgroundColor: 'rgba(10,31,57,0.55)', color: 'rgba(255,255,255,0.72)', fontSize: '11px', padding: '5px 12px', borderRadius: '999px', fontFamily: "'Poppins', sans-serif", backdropFilter: 'blur(4px)', border: '1px solid rgba(255,255,255,0.15)' }}>
+                {HERO_PHOTOS[heroPhotoIdx].credit} — real photos coming
+              </span>
             </div>
 
             <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
