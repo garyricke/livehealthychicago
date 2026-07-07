@@ -1,0 +1,19 @@
+User-agent: *
+Allow: /
+
+# Internal / gated pages — keep out of search
+Disallow: /index-stage.html
+Disallow: /status.html
+Disallow: /scope.html
+Disallow: /budget.html
+Disallow: /portal.html
+Disallow: /submissions.html
+Disallow: /correspondence.html
+Disallow: /brand-guide.html
+Disallow: /community-voice-options.html
+Disallow: /core-messaging/
+Disallow: /celebrate.html
+Disallow: /whats-your-why.html
+Disallow: /plan/
+
+Sitemap: https://livehealthychi.com/sitemap.xml

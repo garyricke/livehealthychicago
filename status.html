@@ -1049,9 +1049,11 @@
             <li class="tl-item">Built <strong><a href="/correspondence.html" style="color:var(--blue);"><code>correspondence.html</code></a></strong> — a single, password-gated page that <strong>stacks every email we've sent the team, newest first</strong>, each with an &ldquo;Open email&rdquo; link and a <strong>one-click &ldquo;Copy email&rdquo;</strong> that puts the formatted message on the clipboard. Adding a new one is a one-line entry. Wired into the admin menu on both index files, plus a <code>/correspondence</code> short link.</li>
           </ul>
 
-          <div class="tl-section-title">News &amp; Stories → Standalone Pages (Planned)</div>
+          <div class="tl-section-title">News &amp; Stories → Standalone Pages (Done — 8 new pages)</div>
           <ul class="tl-items">
-            <li class="tl-item">Added to the roadmap: <strong>move each news story off the homepage pop-ups and onto its own page</strong>, for <strong>faster page load and better SEO / GEO</strong> (findability in search and AI answers). Housekeeping — flows into the maintenance backlog, nothing needed from the team.</li>
+            <li class="tl-item"><strong>Moved all 8 remaining news stories off the homepage pop-ups onto their own pages</strong> (the 2 Nuna interviews + the AMA feature already had pages). Each is now a real, shareable URL under <code>/news/</code> — Seven Stops, the Englewood event, Dr. Ansell's interview, Dr. Ige's video, the coalition launch, community health workers, CAPriCORN, and the City Council endorsement.</li>
+            <li class="tl-item"><strong>Built for SEO / GEO:</strong> clean static HTML (content visible to crawlers with no pop-up or password wall), per-page title + description, social share cards, and <strong>structured data (JSON-LD NewsArticle schema)</strong> — the markup that gets stories indexed by Google and cited in AI answers. Added a <code>sitemap.xml</code> and <code>robots.txt</code> so search engines can find them and stay out of the internal pages.</li>
+            <li class="tl-item">Faster homepage, too — the story bodies (with all their photos, stats, and audio/video) no longer load inside the homepage; each lives on its own page and the news cards link straight to it.</li>
           </ul>
 
           <div class="tl-section-title">Today's Agenda Sent</div>
