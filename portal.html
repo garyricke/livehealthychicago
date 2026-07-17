@@ -155,7 +155,9 @@
     });
 
     // ── Password Gate ─────────────────────────────────────────────
-    const PORTAL_HASH = '4973303f9a14715775d80d65bfafc89f7ba96b0dd6993391147b9bd7013bb882';
+    // Portal VIEWER password (read-only browse) — kept distinct from the internal
+    // team password so partners can't open scope/status/admin pages. = 'lhcpartners2026'
+    const PORTAL_HASH = '1ad4cb672b94d63252e5ea26808d0953eee97c80a0f74763fddf0682a1f62891';
     const SESSION_KEY = 'lhc_portal_auth';
 
     async function sha256(str) {
@@ -1586,12 +1588,12 @@
               <div style={{
                 fontFamily: "'Montserrat', sans-serif",
                 fontWeight: 800,
-                fontSize: '28px',
+                fontSize: '26px',
                 color: 'white',
-                letterSpacing: '0.25em',
+                letterSpacing: '0.12em',
                 textTransform: 'lowercase',
               }}>
-                livehealthychi
+                lhcpartners2026
               </div>
             </div>
 
