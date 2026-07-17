@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>SOW Amendment No. 1 — Live Healthy Chicago</title>
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/dsbllwpbh/image/upload/v1771612857/favicon-live-healthy-chicago_e7o6el.png">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Open+Sans:wght@400;600&family=Poppins:wght@500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy:    #1B365D;
+      --blue:    #46B7E5;
+      --teal:    #48C9B0;
+      --red:     #E5202F;
+      --yellow:  #FFB81C;
+      --green:   #48BB78;
+      --charcoal:#2D2D2D;
+      --gray:    #64748b;
+      --muted:   #94a3b8;
+      --bg:      #F0F4F8;
+      --surface: #fff;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Open Sans', sans-serif; background: var(--bg); color: var(--charcoal); -webkit-font-smoothing: antialiased; }
+    h1,h2,h3,h4,h5 { font-family: 'Montserrat', sans-serif; }
+
+    /* ── Gate ─────────────────────────────────────────── */
+    #gate {
+      position: fixed; inset: 0; z-index: 9999;
+      display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(135deg, #0f1f3d 0%, #1B365D 60%, #0d2847 100%);
+    }
+    #gate.fade-out { opacity: 0; transition: opacity 0.45s ease; pointer-events: none; }
+    .gate-card {
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+      backdrop-filter: blur(16px); border-radius: 20px;
+      padding: 48px 40px; width: 100%; max-width: 380px; text-align: center;
+    }
+    .gate-logo { height: 44px; margin: 0 auto 28px; }
+    .gate-card h2 { color: #fff; font-size: 1.35rem; font-weight: 800; margin-bottom: 8px; }
+    .gate-card p { color: rgba(255,255,255,0.6); font-size: 0.9rem; margin-bottom: 24px; }
+    .gate-input {
+      width: 100%; padding: 13px 16px; border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.18); background: rgba(255,255,255,0.08);
+      color: #fff; font-size: 0.95rem; font-family: inherit; outline: none; margin-bottom: 12px;
+    }
+    .gate-input::placeholder { color: rgba(255,255,255,0.4); }
+    .gate-input:focus { border-color: var(--blue); background: rgba(255,255,255,0.12); }
+    .gate-btn {
+      width: 100%; padding: 13px; border: none; border-radius: 10px; cursor: pointer;
+      background: var(--blue); color: #06263c; font-family: 'Montserrat', sans-serif;
+      font-size: 0.95rem; font-weight: 700; transition: filter 0.2s;
+    }
+    .gate-btn:hover { filter: brightness(1.08); }
+    .gate-error { color: #ff8f8f; font-size: 0.85rem; min-height: 18px; margin: 12px 0 0; }
+
+    /* ── Nav ──────────────────────────────────────────── */
+    .site-nav {
+      background: var(--navy); padding: 12px 28px;
+      display: flex; align-items: center; gap: 16px;
+      position: sticky; top: 0; z-index: 50;
+    }
+    .nav-logo { height: 30px; display: block; }
+    .nav-pill {
+      font-family: 'Montserrat', sans-serif; font-size: 0.7rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: #fff; background: rgba(255,255,255,0.14);
+      padding: 5px 11px; border-radius: 999px;
+    }
+    .nav-home {
+      margin-left: auto; display: inline-flex; align-items: center; gap: 6px;
+      color: rgba(255,255,255,0.75); text-decoration: none;
+      font-family: 'Montserrat', sans-serif; font-size: 0.78rem; font-weight: 600;
+    }
+    .nav-home:hover { color: #fff; }
+
+    /* ── Action bar (not copied) ──────────────────────── */
+    .action-bar {
+      max-width: 880px; margin: 24px auto 0; padding: 0 24px;
+      display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+    }
+    .act-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      border: none; border-radius: 9px; cursor: pointer;
+      padding: 11px 18px; font-family: 'Montserrat', sans-serif;
+      font-size: 0.85rem; font-weight: 700; transition: filter 0.2s, transform 0.06s;
+    }
+    .act-btn:active { transform: translateY(1px); }
+    .act-btn.primary { background: var(--navy); color: #fff; }
+    .act-btn.primary:hover { filter: brightness(1.15); }
+    .act-btn.ghost { background: #fff; color: var(--navy); border: 1px solid #dce3ed; }
+    .act-btn.ghost:hover { border-color: var(--blue); }
+    #copy-status { font-size: 0.82rem; color: var(--gray); }
+
+    /* ── Paper sheet ──────────────────────────────────── */
+    .sheet-wrap { max-width: 880px; margin: 18px auto 64px; padding: 0 24px; }
+    .sheet {
+      background: var(--surface); border: 1px solid #e2e8f0; border-radius: 14px;
+      padding: 56px 60px; box-shadow: 0 2px 18px rgba(27,54,93,0.06);
+    }
+    @media (max-width: 640px) {
+      .sheet { padding: 32px 24px; }
+      .action-bar { padding: 0 16px; }
+      .sheet-wrap { padding: 0 16px; }
+    }
+
+    /* ── Print ────────────────────────────────────────── */
+    @media print {
+      body { background: #fff; }
+      #gate, .site-nav, .action-bar { display: none !important; }
+      #app { display: block !important; }
+      .sheet-wrap { max-width: none; margin: 0; padding: 0; }
+      .sheet { border: none; border-radius: 0; box-shadow: none; padding: 0; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Gate -->
+<div id="gate">
+  <div class="gate-card">
+    <img class="gate-logo" src="https://assets.codepen.io/3457845/logo-Live-Healthy-Chicago.png" alt="Live Healthy Chicago">
+    <h2>Internal Access</h2>
+    <p>SOW Amendment &mdash; team only.</p>
+    <input id="pw-input" class="gate-input" type="password" placeholder="Password" autocomplete="current-password">
+    <button class="gate-btn" onclick="checkPassword()">Enter</button>
+    <p class="gate-error" id="gate-error"></p>
+  </div>
+</div>
+
+<!-- App -->
+<div id="app" style="display:none">
+
+  <nav class="site-nav">
+    <a href="/index.html"><img class="nav-logo" src="https://assets.codepen.io/3457845/logo-Live-Healthy-Chicago.png" alt="Live Healthy Chicago"></a>
+    <span class="nav-pill">SOW Amendment No. 1</span>
+    <a href="/scope.html" class="nav-home">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      Scope &amp; Status
+    </a>
+  </nav>
+
+  <div class="action-bar">
+    <button class="act-btn primary" onclick="copyDoc()">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+      Copy for Rush
+    </button>
+    <button class="act-btn ghost" onclick="window.print()">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+      Save as PDF
+    </button>
+    <span id="copy-status">Copies the document below &mdash; paste straight into Word or Google Docs.</span>
+  </div>
+
+  <div class="sheet-wrap">
+    <div class="sheet">
+
+      <!-- ══ COPIED CONTENT STARTS ══ -->
+      <div id="doc-body" style="font-family:'Open Sans',Calibri,Arial,sans-serif; color:#2D2D2D; line-height:1.65; font-size:15px;">
+
+        <h1 style="font-family:'Montserrat',Arial,sans-serif; font-size:26px; font-weight:800; color:#1B365D; margin:0 0 6px;">Statement of Work &mdash; Amendment No. 1</h1>
+        <p style="margin:0 0 22px; font-size:15px; color:#64748b;">Live Healthy Chicago &middot; livehealthychi.com</p>
+
+        <table style="width:100%; border-collapse:collapse; margin:0 0 30px; font-size:14px;">
+          <tr>
+            <td style="padding:5px 14px 5px 0; color:#64748b; white-space:nowrap; vertical-align:top; width:130px;">Prepared by</td>
+            <td style="padding:5px 0; color:#2D2D2D;">Gary Ricke, Orbis Design</td>
+          </tr>
+          <tr>
+            <td style="padding:5px 14px 5px 0; color:#64748b; white-space:nowrap; vertical-align:top;">Prepared for</td>
+            <td style="padding:5px 0; color:#2D2D2D;">Alexandra Sontag, DNP &mdash; Director of Community Initiatives, The University of Chicago Medicine</td>
+          </tr>
+          <tr>
+            <td style="padding:5px 14px 5px 0; color:#64748b; white-space:nowrap; vertical-align:top;">Date</td>
+            <td style="padding:5px 0; color:#2D2D2D;">July 16, 2026</td>
+          </tr>
+          <tr>
+            <td style="padding:5px 14px 5px 0; color:#64748b; white-space:nowrap; vertical-align:top;">Amends</td>
+            <td style="padding:5px 0; color:#2D2D2D;">The original Statement of Work for the Live Healthy Chicago website (total fee $25,000)</td>
+          </tr>
+        </table>
+
+        <p style="margin:0 0 30px; padding:16px 20px; background:#F0F4F8; border-left:3px solid #46B7E5; font-size:14.5px; color:#2D2D2D;">This amendment adds a pre-paid maintenance package to the original Statement of Work and defines the scope it covers. It does not change the terms of the original SOW; it follows it.</p>
+
+        <!-- 1 -->
+        <h2 style="font-family:'Montserrat',Arial,sans-serif; font-size:17px; font-weight:800; color:#1B365D; margin:0 0 12px;">1. Purpose</h2>
+        <p style="margin:0 0 12px;">The original SOW is complete and its budget is effectively exhausted. This amendment does two things:</p>
+        <ul style="margin:0 0 30px; padding-left:22px;">
+          <li style="margin:0 0 8px;">Establishes a <strong>$5,000 pre-paid maintenance package</strong> to fund ongoing work on the site through the rest of the year.</li>
+          <li style="margin:0 0 8px;">Defines the <strong>Community Health Worker (CHW) training set</strong> for Ella Lawal&rsquo;s project as a fixed-fee deliverable drawn from that package.</li>
+        </ul>
+
+        <!-- 2 -->
+        <h2 style="font-family:'Montserrat',Arial,sans-serif; font-size:17px; font-weight:800; color:#1B365D; margin:0 0 12px;">2. Completion of the Original SOW &mdash; No Additional Charge</h2>
+        <p style="margin:0 0 12px;">The following items finish the original project and are delivered <strong>at no additional charge</strong> under the original SOW. They are listed here for clarity, not to be billed:</p>
+        <ul style="margin:0 0 12px; padding-left:22px;">
+          <li style="margin:0 0 10px;"><strong>Portal go-live.</strong> Turning the provider/CHW resource portal on for live use, including a <strong>sign-ups administrative view</strong> &mdash; a simple, spreadsheet-style list of who has registered showing name, email, organization, and job title, filterable by job type (CHWs, providers, nurses) so content can be targeted to the right audience.</li>
+          <li style="margin:0 0 10px;"><strong>Portal training &amp; update workflow.</strong> A short, shareable training or written workflow covering how the team loads resources and updates site content, so the work is not dependent on any one person.</li>
+          <li style="margin:0 0 10px;"><strong>Coalition-first hero.</strong> Publishing the new landing focus that presents Live Healthy Chicago as a complete idea rather than a blood-pressure-only initiative.</li>
+        </ul>
+        <p style="margin:0 0 30px;">Any further work on the portal itself remains part of the original SOW and will not be billed against the maintenance package.</p>
+
+        <!-- 3 -->
+        <h2 style="font-family:'Montserrat',Arial,sans-serif; font-size:17px; font-weight:800; color:#1B365D; margin:0 0 12px;">3. Scope of Services &mdash; Maintenance</h2>
+        <p style="margin:0 0 12px;">The pre-paid package covers ongoing and net-new work, including:</p>
+        <ul style="margin:0 0 30px; padding-left:22px;">
+          <li style="margin:0 0 10px;"><strong>Routine content edits.</strong> Event announcements, news items, copy and image updates. Most run roughly <strong>$50&ndash;$150 each</strong>, and less per item when batched together. Events continue to be requested by email, which is working well.</li>
+          <li style="margin:0 0 10px;"><strong>Brand guide content updates.</strong> As LHC&rsquo;s communications consultant develops the brand guide further, updates flowing back into the site.</li>
+          <li style="margin:0 0 10px;"><strong>Messaging alignment.</strong> Consultation with LHC&rsquo;s communications consultant to keep the site aligned with the coalition&rsquo;s larger messaging.</li>
+          <li style="margin:0 0 10px;"><strong>CHW training set.</strong> Ella Lawal&rsquo;s project, as defined in Section 4.</li>
+          <li style="margin:0 0 10px;"><strong>Ongoing site upkeep.</strong> Dependency and security updates, form and data plumbing, and general maintenance of the live site.</li>
+        </ul>
+
+        <!-- 4 -->
+        <h2 style="font-family:'Montserrat',Arial,sans-serif; font-size:17px; font-weight:800; color:#1B365D; margin:0 0 12px;">4. Scope of Services &mdash; CHW Training Set</h2>
+        <p style="margin:0 0 12px;">A training set supporting Ella Lawal&rsquo;s DNP quality-improvement project, produced by interviewing Ella on camera and letting AI amplify the human work &mdash; drafting the interview questions against her script, doing the research, designing the print pieces, and editing the audio and video. Deliverables:</p>
+        <ul style="margin:0 0 16px; padding-left:22px;">
+          <li style="margin:0 0 10px;"><strong>A five-module CHW refresher (~32 minutes)</strong> in the chaptered format already built for the Nuna interview stories: (1) Understanding High Blood Pressure, (2) Preventing &amp; Managing, (3) Know Your Numbers, (4) Recognizing an Emergency, (5) The CHW&rsquo;s Role.</li>
+          <li style="margin:0 0 10px;"><strong>Short headlined clips</strong> pulled from each module for standalone use.</li>
+          <li style="margin:0 0 10px;"><strong>Six on-screen graphics packages</strong> supporting the script: the AHA blood-pressure category table, before/during measurement checklists, BE FAST, the &gt;180/120 emergency decision flow, the CHW toolbox, and a QR resource card.</li>
+          <li style="margin:0 0 10px;"><strong>A tri-fold print pamphlet and a CHW community insert</strong> &mdash; professionally designed, on-brand, written at a 7th&ndash;9th grade reading level, with QR codes linking to the LHC site and the resource portal.</li>
+          <li style="margin:0 0 10px;"><strong>Publication to the LHC site.</strong></li>
+        </ul>
+        <p style="margin:0 0 16px;">Recording is a <strong>single session</strong> &mdash; no reshoots. Content and clinical guidance in the script have been reviewed and approved by LHC (Alexandra Sontag, July 14, 2026).</p>
+        <p style="margin:0 0 16px;"><strong>Timeline.</strong> The script is locked. Recording is scheduled for the week of <strong>August 3, 2026</strong> (following Ella&rsquo;s return on August 1), with delivery ahead of the <strong>August 25, 2026</strong> CHW training.</p>
+        <p style="margin:0 0 16px;"><strong>Fee and overage cap.</strong> This set is billed at a <strong>fixed $1,500 (20 hours)</strong> drawn from the pre-paid package.</p>
+        <p style="margin:0 0 30px; padding:16px 20px; background:#F0F4F8; border-left:3px solid #FFB81C; font-size:14.5px;">The script as written is larger than the ~15-minute refresher that figure was originally quoted against &mdash; the realistic effort for the deliverables above is approximately <strong>33 hours (~$2,500)</strong>. <strong>Orbis will absorb that difference at no charge, capped at $1,000 (~13 hours).</strong> LHC&rsquo;s cost for this deliverable is $1,500 regardless. Should LHC later add scope beyond what is listed above, additional hours would draw from the package&rsquo;s remaining balance with written approval &mdash; but nothing in the current script triggers that.</p>
+
+        <!-- 5 -->
+        <h2 style="font-family:'Montserrat',Arial,sans-serif; font-size:17px; font-weight:800; color:#1B365D; margin:0 0 12px;">5. Financial Terms</h2>
+        <p style="margin:0 0 12px;"><strong>Pre-paid maintenance package: $5,000 &mdash; 67 hours at $75/hour.</strong></p>
+        <p style="margin:0 0 16px;">This is the best rate on the standard sliding scale (Section 6 of the original SOW) and is payable in advance. Allocation:</p>
+
+        <table style="width:100%; border-collapse:collapse; margin:0 0 16px; font-size:14.5px;">
+          <tr style="background:#1B365D;">
+            <th style="padding:10px 14px; text-align:left; color:#ffffff; font-family:'Montserrat',Arial,sans-serif; font-size:12px; font-weight:700; letter-spacing:0.05em; text-transform:uppercase;">Item</th>
+            <th style="padding:10px 14px; text-align:right; color:#ffffff; font-family:'Montserrat',Arial,sans-serif; font-size:12px; font-weight:700; letter-spacing:0.05em; text-transform:uppercase; white-space:nowrap;">Hours</th>
+            <th style="padding:10px 14px; text-align:right; color:#ffffff; font-family:'Montserrat',Arial,sans-serif; font-size:12px; font-weight:700; letter-spacing:0.05em; text-transform:uppercase; white-space:nowrap;">Amount</th>
+          </tr>
+          <tr>
+            <td style="padding:11px 14px; border-bottom:1px solid #e2e8f0;">CHW training set (Section 4, fixed fee)</td>
+            <td style="padding:11px 14px; border-bottom:1px solid #e2e8f0; text-align:right; color:#64748b; white-space:nowrap;">20 hrs</td>
+            <td style="padding:11px 14px; border-bottom:1px solid #e2e8f0; text-align:right; font-weight:600; white-space:nowrap;">$1,500</td>
+          </tr>
+          <tr>
+            <td style="padding:11px 14px; border-bottom:1px solid #e2e8f0;">Ongoing maintenance (Section 3)</td>
+            <td style="padding:11px 14px; border-bottom:1px solid #e2e8f0; text-align:right; color:#64748b; white-space:nowrap;">47 hrs</td>
+            <td style="padding:11px 14px; border-bottom:1px solid #e2e8f0; text-align:right; font-weight:600; white-space:nowrap;">$3,500</td>
+          </tr>
+          <tr style="background:#F0F4F8;">
+            <td style="padding:12px 14px; font-weight:700; color:#1B365D;">Total</td>
+            <td style="padding:12px 14px; text-align:right; font-weight:700; color:#1B365D; white-space:nowrap;">67 hrs</td>
+            <td style="padding:12px 14px; text-align:right; font-weight:700; color:#1B365D; white-space:nowrap;">$5,000</td>
+          </tr>
+        </table>
+
+        <ul style="margin:0 0 30px; padding-left:22px;">
+          <li style="margin:0 0 8px;">Hours draw down against the block as work is performed and are reported on the live status dashboard.</li>
+          <li style="margin:0 0 8px;">Unused hours carry forward; there is no expiration within the calendar year.</li>
+          <li style="margin:0 0 8px;">Work described in Section 2 is not billed against this package.</li>
+        </ul>
+
+        <!-- 6 -->
+        <h2 style="font-family:'Montserrat',Arial,sans-serif; font-size:17px; font-weight:800; color:#1B365D; margin:0 0 16px;">6. Approval</h2>
+
+        <p style="margin:0 0 10px; font-size:14.5px; color:#64748b;">Accepted for Live Healthy Chicago / The University of Chicago Medicine:</p>
+        <table style="width:100%; border-collapse:collapse; margin:0 0 26px; font-size:14.5px;">
+          <tr>
+            <td style="padding:22px 20px 6px 0; border-bottom:1px solid #94a3b8; width:50%;">&nbsp;</td>
+            <td style="padding:22px 0 6px 0; border-bottom:1px solid #94a3b8; width:50%;">&nbsp;</td>
+          </tr>
+          <tr>
+            <td style="padding:6px 20px 0 0; color:#64748b; font-size:13px;">Name</td>
+            <td style="padding:6px 0 0 0; color:#64748b; font-size:13px;">Title</td>
+          </tr>
+          <tr>
+            <td style="padding:26px 20px 6px 0; border-bottom:1px solid #94a3b8;">&nbsp;</td>
+            <td style="padding:26px 0 6px 0; border-bottom:1px solid #94a3b8;">&nbsp;</td>
+          </tr>
+          <tr>
+            <td style="padding:6px 20px 0 0; color:#64748b; font-size:13px;">Signature</td>
+            <td style="padding:6px 0 0 0; color:#64748b; font-size:13px;">Date</td>
+          </tr>
+        </table>
+
+        <p style="margin:0 0 10px; font-size:14.5px; color:#64748b;">Accepted for Orbis Design:</p>
+        <table style="width:100%; border-collapse:collapse; margin:0 0 8px; font-size:14.5px;">
+          <tr>
+            <td style="padding:6px 20px 6px 0; width:50%; border-bottom:1px solid #94a3b8;">Gary Ricke</td>
+            <td style="padding:6px 0 6px 0; width:50%; border-bottom:1px solid #94a3b8;">Principal</td>
+          </tr>
+          <tr>
+            <td style="padding:6px 20px 0 0; color:#64748b; font-size:13px;">Name</td>
+            <td style="padding:6px 0 0 0; color:#64748b; font-size:13px;">Title</td>
+          </tr>
+          <tr>
+            <td style="padding:26px 20px 6px 0; border-bottom:1px solid #94a3b8;">&nbsp;</td>
+            <td style="padding:26px 0 6px 0; border-bottom:1px solid #94a3b8;">&nbsp;</td>
+          </tr>
+          <tr>
+            <td style="padding:6px 20px 0 0; color:#64748b; font-size:13px;">Signature</td>
+            <td style="padding:6px 0 0 0; color:#64748b; font-size:13px;">Date</td>
+          </tr>
+        </table>
+
+      </div>
+      <!-- ══ COPIED CONTENT ENDS ══ -->
+
+    </div>
+  </div>
+
+</div><!-- /app -->
+
+<script>
+  /* ── Copy ─────────────────────────────────────────── */
+  function setStatus(m, ok) {
+    var s = document.getElementById('copy-status');
+    s.textContent = m;
+    s.style.color = ok ? '#1a7f37' : '#b42318';
+  }
+  function selectFallback(el) {
+    try {
+      var r = document.createRange(); r.selectNode(el);
+      var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+      var ok = document.execCommand('copy'); s.removeAllRanges();
+      setStatus(ok ? '✓ Copied — paste into Word or Google Docs' : 'Press ⌘C to copy the selected document', ok);
+    } catch (e) {
+      setStatus('Select the document and press ⌘C', false);
+    }
+  }
+  function copyDoc() {
+    var el = document.getElementById('doc-body');
+    if (navigator.clipboard && window.ClipboardItem) {
+      var d = [new ClipboardItem({
+        'text/html':  new Blob([el.outerHTML], {type: 'text/html'}),
+        'text/plain': new Blob([el.innerText], {type: 'text/plain'})
+      })];
+      navigator.clipboard.write(d).then(function () {
+        setStatus('✓ Copied — paste into Word or Google Docs (formatting included)', true);
+      }, function () { selectFallback(el); });
+    } else { selectFallback(el); }
+  }
+
+  /* ── Gate ─────────────────────────────────────────── */
+  const HASH = '4973303f9a14715775d80d65bfafc89f7ba96b0dd6993391147b9bd7013bb882';
+
+  async function sha256(msg) {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(msg));
+    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+  }
+
+  async function checkPassword() {
+    const hash = await sha256(document.getElementById('pw-input').value);
+    if (hash === HASH) {
+      sessionStorage.setItem('lhc_auth', '1');
+      const gate = document.getElementById('gate');
+      gate.classList.add('fade-out');
+      setTimeout(() => { gate.style.display = 'none'; document.getElementById('app').style.display = ''; }, 450);
+    } else {
+      document.getElementById('gate-error').textContent = 'Incorrect password.';
+    }
+  }
+
+  document.getElementById('pw-input').addEventListener('keydown', e => { if (e.key === 'Enter') checkPassword(); });
+
+  if (sessionStorage.getItem('lhc_auth') === '1') {
+    document.getElementById('gate').style.display = 'none';
+    document.getElementById('app').style.display = '';
+  }
+</script>
+</body>
+</html>
