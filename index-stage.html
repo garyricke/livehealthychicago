@@ -3734,14 +3734,6 @@ let it drop on you`;
       );
     }
 
-    // ── Coalition-first hero placeholder photos (AI-generated, for team review) ──
-    // Two options crossfade so the team can compare in context. Drop one entry
-    // (or swap in a real photo/URL) once a direction + real imagery are chosen.
-    const HERO_PHOTOS = [
-      { src: 'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_2000/v1783434755/lhc-hero/coalition-gemini.jpg', credit: 'Placeholder · AI (Gemini)' },
-      { src: 'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_2000/v1783434756/lhc-hero/coalition-openai.jpg', credit: 'Placeholder · AI (OpenAI)' },
-    ];
-
     function LiveHealthyChicago() {
       const [scrolled, setScrolled] = React.useState(false);
       const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
@@ -3979,13 +3971,6 @@ let it drop on you`;
       const [showTranscript, setShowTranscript] = React.useState(false);
 
       // Coalition hero — slow crossfade between placeholder photos for team review
-      const [heroPhotoIdx, setHeroPhotoIdx] = React.useState(0);
-      React.useEffect(() => {
-        if (HERO_PHOTOS.length < 2) return;
-        const id = setInterval(() => setHeroPhotoIdx(i => (i + 1) % HERO_PHOTOS.length), 6000);
-        return () => clearInterval(id);
-      }, []);
-
       const newsItems = [
         {
           date: 'Jun 9, 2026',
@@ -4491,14 +4476,14 @@ And that is how we overcome high blood pressure. They'll tell you about food and
             </div>
           </div>
 
-          {/* ── Hero Section — Coalition-first concept (placeholder imagery for review) ── */}
+          {/* ── Hero Section — Coalition-first ── */}
           <section className="relative min-h-screen flex items-center overflow-hidden" style={{ backgroundColor: colors.trustNavy }}>
-            {/* Crossfading placeholder photos so the team can compare two options in context */}
-            {HERO_PHOTOS.map((photo, i) => (
-              <img key={i} src={photo.src} alt=""
-                   className="absolute inset-0 w-full h-full"
-                   style={{ objectFit: 'cover', objectPosition: 'center', zIndex: 0, opacity: i === heroPhotoIdx ? 1 : 0, transition: 'opacity 1.6s ease-in-out' }} />
-            ))}
+            <img
+              src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_2000/v1783434755/lhc-hero/coalition-gemini.jpg"
+              alt="Live Healthy Chicago community members and health workers gathered together in a South Side neighborhood"
+              className="absolute inset-0 w-full h-full"
+              style={{ objectFit: 'cover', objectPosition: 'center', zIndex: 0 }}
+            />
             {/* Navy gradient overlay — heavier on the left for headline legibility */}
             <div className="absolute inset-0" style={{ background: 'linear-gradient(90deg, rgba(10,31,57,0.94) 0%, rgba(10,31,57,0.78) 45%, rgba(10,31,57,0.32) 100%)', zIndex: 1 }} />
 
@@ -4553,13 +4538,6 @@ And that is how we overcome high blood pressure. They'll tell you about food and
                   </div>
                 </div>
               </div>
-            </div>
-
-            {/* Placeholder credit chip — flags these as temporary AI images */}
-            <div className="absolute bottom-6 right-6 z-10 hidden sm:block">
-              <span style={{ backgroundColor: 'rgba(10,31,57,0.55)', color: 'rgba(255,255,255,0.72)', fontSize: '11px', padding: '5px 12px', borderRadius: '999px', fontFamily: "'Poppins', sans-serif", backdropFilter: 'blur(4px)', border: '1px solid rgba(255,255,255,0.15)' }}>
-                {HERO_PHOTOS[heroPhotoIdx].credit} — real photos coming
-              </span>
             </div>
 
             <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">

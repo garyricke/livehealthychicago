@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Team Guide — Updating Live Healthy Chicago</title>
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/dsbllwpbh/image/upload/v1771612857/favicon-live-healthy-chicago_e7o6el.png">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Open+Sans:wght@400;600&family=Poppins:wght@500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy:#1B365D; --blue:#46B7E5; --teal:#48C9B0; --red:#E5202F;
+      --yellow:#FFB81C; --green:#48BB78; --charcoal:#2D2D2D; --gray:#64748b;
+      --muted:#94a3b8; --bg:#F0F4F8; --surface:#fff; --edge:#e2e8f0;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { font-family:'Open Sans',sans-serif; background:var(--bg); color:var(--charcoal); -webkit-font-smoothing:antialiased; }
+    h1,h2,h3,h4 { font-family:'Montserrat',sans-serif; }
+
+    /* Gate */
+    #gate { position:fixed; inset:0; z-index:9999; display:flex; align-items:center; justify-content:center;
+      background:linear-gradient(135deg,#0f1f3d 0%,#1B365D 60%,#0d2847 100%); }
+    #gate.fade-out { opacity:0; transition:opacity .45s ease; pointer-events:none; }
+    .gate-card { background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12); backdrop-filter:blur(16px);
+      border-radius:20px; padding:48px 40px; width:100%; max-width:380px; text-align:center; }
+    .gate-logo { height:44px; margin:0 auto 28px; }
+    .gate-card h2 { color:#fff; font-size:1.35rem; font-weight:800; margin-bottom:8px; }
+    .gate-card p { color:rgba(255,255,255,.6); font-size:.9rem; margin-bottom:24px; }
+    .gate-input { width:100%; padding:13px 16px; border-radius:10px; border:1px solid rgba(255,255,255,.18);
+      background:rgba(255,255,255,.08); color:#fff; font-size:.95rem; font-family:inherit; outline:none; margin-bottom:12px; }
+    .gate-input::placeholder { color:rgba(255,255,255,.4); }
+    .gate-input:focus { border-color:var(--blue); background:rgba(255,255,255,.12); }
+    .gate-btn { width:100%; padding:13px; border:none; border-radius:10px; cursor:pointer; background:var(--blue);
+      color:#06263c; font-family:'Montserrat',sans-serif; font-size:.95rem; font-weight:700; transition:filter .2s; }
+    .gate-btn:hover { filter:brightness(1.08); }
+    .gate-error { color:#ff8f8f; font-size:.85rem; min-height:18px; margin:12px 0 0; }
+
+    /* Nav */
+    .site-nav { background:var(--navy); padding:12px 28px; display:flex; align-items:center; gap:16px; position:sticky; top:0; z-index:50; }
+    .nav-logo { height:30px; display:block; }
+    .nav-pill { font-family:'Montserrat',sans-serif; font-size:.7rem; font-weight:700; letter-spacing:.08em;
+      text-transform:uppercase; color:#fff; background:rgba(255,255,255,.14); padding:5px 11px; border-radius:999px; }
+    .nav-home { margin-left:auto; display:inline-flex; align-items:center; gap:6px; color:rgba(255,255,255,.75);
+      text-decoration:none; font-family:'Montserrat',sans-serif; font-size:.78rem; font-weight:600; }
+    .nav-home:hover { color:#fff; }
+
+    /* Header */
+    .page-header { background:linear-gradient(135deg,#1B365D 0%,#12294a 100%); color:#fff; padding:48px 24px 40px; }
+    .ph-inner { max-width:880px; margin:0 auto; }
+    .page-header h1 { font-size:2rem; font-weight:800; margin-bottom:10px; }
+    .page-header p { color:rgba(255,255,255,.78); font-size:1.02rem; max-width:640px; }
+
+    .wrap { max-width:880px; margin:-20px auto 72px; padding:0 24px; }
+
+    /* TOC */
+    .toc { background:var(--surface); border:1px solid var(--edge); border-radius:14px; padding:18px 22px; margin-bottom:26px;
+      box-shadow:0 2px 18px rgba(27,54,93,.06); }
+    .toc h4 { font-size:.72rem; letter-spacing:.08em; text-transform:uppercase; color:var(--gray); margin-bottom:12px; }
+    .toc ol { list-style:none; counter-reset:toc; display:grid; gap:8px; }
+    .toc li { counter-increment:toc; }
+    .toc a { display:flex; align-items:baseline; gap:11px; text-decoration:none; color:var(--navy); font-weight:600; font-size:.96rem; }
+    .toc a:hover { color:var(--blue); }
+    .toc a::before { content:counter(toc); flex:0 0 24px; height:24px; border-radius:7px; background:var(--bg);
+      color:var(--navy); font-family:'Montserrat',sans-serif; font-size:.78rem; font-weight:700;
+      display:inline-flex; align-items:center; justify-content:center; }
+
+    /* Cards */
+    .card { background:var(--surface); border:1px solid var(--edge); border-radius:14px; padding:30px 32px; margin-bottom:22px;
+      box-shadow:0 2px 18px rgba(27,54,93,.06); }
+    .card-head { display:flex; align-items:center; gap:14px; margin-bottom:6px; }
+    .card-ico { flex:0 0 42px; height:42px; border-radius:11px; background:var(--bg); color:var(--navy);
+      display:inline-flex; align-items:center; justify-content:center; }
+    .card h2 { font-size:1.28rem; font-weight:800; color:var(--navy); }
+    .card .lede { color:var(--gray); font-size:.97rem; margin:2px 0 20px; }
+
+    ol.steps { list-style:none; counter-reset:step; display:grid; gap:16px; }
+    ol.steps > li { counter-increment:step; display:flex; gap:15px; }
+    ol.steps > li::before { content:counter(step); flex:0 0 28px; height:28px; border-radius:8px; background:var(--navy);
+      color:#fff; font-family:'Montserrat',sans-serif; font-weight:700; font-size:.82rem;
+      display:inline-flex; align-items:center; justify-content:center; }
+    ol.steps .s-body { padding-top:2px; font-size:.98rem; line-height:1.6; }
+    ol.steps .s-body strong { color:var(--navy); }
+
+    .note { display:flex; gap:11px; align-items:flex-start; margin-top:20px; padding:14px 16px; border-radius:10px;
+      background:var(--bg); border-left:3px solid var(--blue); font-size:.92rem; color:var(--charcoal); line-height:1.55; }
+    .note.tip { border-left-color:var(--teal); }
+    .note.hold { border-left-color:var(--yellow); }
+    .note svg { flex:0 0 18px; margin-top:1px; color:var(--navy); }
+
+    code.kbd { background:var(--bg); border:1px solid var(--edge); border-radius:6px; padding:1px 7px;
+      font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.86em; color:var(--navy); }
+    .tag-chip { display:inline-block; font-size:.78rem; font-weight:600; color:#0d6a8f; background:rgba(70,183,229,.14);
+      border-radius:20px; padding:2px 10px; margin:2px 4px 2px 0; }
+
+    /* Links table */
+    table.links { width:100%; border-collapse:collapse; font-size:.95rem; }
+    table.links th { text-align:left; font-family:'Montserrat',sans-serif; font-size:.72rem; letter-spacing:.05em;
+      text-transform:uppercase; color:var(--gray); padding:0 12px 10px 0; }
+    table.links td { padding:10px 12px 10px 0; border-top:1px solid var(--edge); vertical-align:top; }
+    table.links a { color:var(--blue); font-weight:600; text-decoration:none; }
+    table.links a:hover { text-decoration:underline; }
+    .who { font-size:.85rem; color:var(--gray); }
+
+    @media (max-width:640px){
+      .card { padding:24px 20px; } .page-header { padding:40px 20px 36px; }
+      .wrap { padding:0 16px; } .page-header h1 { font-size:1.65rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Gate -->
+<div id="gate">
+  <div class="gate-card">
+    <img class="gate-logo" src="https://assets.codepen.io/3457845/logo-Live-Healthy-Chicago.png" alt="Live Healthy Chicago">
+    <h2>Team Guide</h2>
+    <p>Updating the site &mdash; team only.</p>
+    <input id="pw-input" class="gate-input" type="password" placeholder="Password" autocomplete="current-password">
+    <button class="gate-btn" onclick="checkPassword()">Enter</button>
+    <p class="gate-error" id="gate-error"></p>
+  </div>
+</div>
+
+<!-- App -->
+<div id="app" style="display:none">
+
+  <nav class="site-nav">
+    <a href="/index.html"><img class="nav-logo" src="https://assets.codepen.io/3457845/logo-Live-Healthy-Chicago.png" alt="Live Healthy Chicago"></a>
+    <span class="nav-pill">Team Guide</span>
+    <a href="/scope.html" class="nav-home">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      Scope &amp; Status
+    </a>
+  </nav>
+
+  <div class="page-header">
+    <div class="ph-inner">
+      <h1>Updating Live Healthy Chicago</h1>
+      <p>A short, practical guide for the team: how to load resources into the portal, see who has signed up, and get events and news posted. Nothing here needs code &mdash; it's all point-and-click.</p>
+    </div>
+  </div>
+
+  <div class="wrap">
+
+    <div class="toc">
+      <h4>What you can do</h4>
+      <ol>
+        <li><a href="#resources">Add or update resources in the portal</a></li>
+        <li><a href="#signups">See who has signed up (and filter by role)</a></li>
+        <li><a href="#events">Get an event posted</a></li>
+        <li><a href="#news">Add a news story or update</a></li>
+        <li><a href="#links">Quick links &amp; passwords</a></li>
+      </ol>
+    </div>
+
+    <!-- 1 — Resources -->
+    <div class="card" id="resources">
+      <div class="card-head">
+        <span class="card-ico">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        </span>
+        <h2>1 &nbsp;Add or update resources</h2>
+      </div>
+      <p class="lede">The portal is the shared library of tools and materials for CHWs, clinicians, and partners. This is the main &ldquo;update things we can share with others&rdquo; task.</p>
+
+      <ol class="steps">
+        <li><div class="s-body">Go to <code class="kbd">livehealthychi.com/portal</code> and click <strong>Sign in</strong>. Enter the <strong>admin password</strong> (shared with you separately &mdash; it's different from the read-only viewer password partners use).</div></li>
+        <li><div class="s-body">Once you're signed in as admin, the <strong>Add resource</strong> button and the edit/delete controls appear. Click <strong>Add resource</strong>.</div></li>
+        <li><div class="s-body">Fill in the <strong>title</strong>, a short <strong>description</strong>, the <strong>category/section</strong> it belongs in, and the <strong>resource type</strong> (handout, video, link, etc.). Add the file or link.</div></li>
+        <li><div class="s-body">Set the <strong>audience tags</strong> &mdash; who the resource is for. A resource can carry several, so something useful to more than one group shows up for all of them:
+          <div style="margin-top:8px">
+            <span class="tag-chip">Clinicians</span><span class="tag-chip">CHWs</span><span class="tag-chip">Health Educators</span><span class="tag-chip">Patients &amp; Community</span><span class="tag-chip">Comms / Social</span><span class="tag-chip">Admin / Operations</span>
+          </div>
+        </div></li>
+        <li><div class="s-body"><strong>Save.</strong> It appears in the library immediately. To change or remove something later, hover the card and use the <strong>edit</strong> (pencil) or <strong>delete</strong> controls.</div></li>
+      </ol>
+
+      <div class="note tip">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5.76.76 1.23 1.52 1.41 2.5"/></svg>
+        <span>Partners who sign in with the <strong>viewer</strong> password see the library read-only. The Add / Edit / Delete controls only show for admins, so there's no risk of a partner changing anything.</span>
+      </div>
+    </div>
+
+    <!-- 2 — Signups -->
+    <div class="card" id="signups">
+      <div class="card-head">
+        <span class="card-ico">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </span>
+        <h2>2 &nbsp;See who has signed up</h2>
+      </div>
+      <p class="lede">Every portal sign-up is captured with their name, email, role, and organization. You can view and export them yourself.</p>
+
+      <ol class="steps">
+        <li><div class="s-body">Go to <code class="kbd">livehealthychi.com/submissions</code> and sign in with the <strong>admin password</strong>.</div></li>
+        <li><div class="s-body">Set the first dropdown to <strong>portal-signup</strong> to see just the people who registered for the portal (as opposed to contact-form or survey entries).</div></li>
+        <li><div class="s-body">Use the <strong>All roles</strong> dropdown to filter by job type &mdash; <strong>CHW, Nurse, Medical Doctor (MD / DO), NP / PA, Healthcare Admin</strong>. This is how you pull, say, just the CHWs when you want to reach one group.</div></li>
+        <li><div class="s-body">Use <strong>Search</strong> to find a person or organization, and <strong>Export CSV</strong> to download the current list (the export respects whatever filters you have set) for a spreadsheet or mail-merge.</div></li>
+      </ol>
+
+      <div class="note">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+        <span>Down the road this can grow into letting people subscribe to updates for their specific role. The role field you're filtering on today is the foundation for that &mdash; no rework needed when you're ready.</span>
+      </div>
+    </div>
+
+    <!-- 3 — Events -->
+    <div class="card" id="events">
+      <div class="card-head">
+        <span class="card-ico">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/></svg>
+        </span>
+        <h2>3 &nbsp;Get an event posted</h2>
+      </div>
+      <p class="lede">Events are posted for you &mdash; no form to wrestle with.</p>
+      <ol class="steps">
+        <li><div class="s-body">Email the details to <strong><a href="mailto:LiveHealthyChi@uchicagomedicine.org" style="color:var(--blue)">LiveHealthyChi@uchicagomedicine.org</a></strong> (or straight to Gary): event <strong>name, date, time, location/neighborhood, a sentence or two of description</strong>, and a flyer or photo if you have one.</div></li>
+        <li><div class="s-body">It gets added to the <strong>Events</strong> section of the site, usually same or next business day. You'll get a note back once it's live.</div></li>
+      </ol>
+      <div class="note tip">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5.76.76 1.23 1.52 1.41 2.5"/></svg>
+        <span>Batching several events into one email is faster for everyone &mdash; and cheaper against the maintenance hours.</span>
+      </div>
+    </div>
+
+    <!-- 4 — News -->
+    <div class="card" id="news">
+      <div class="card-head">
+        <span class="card-ico">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6z"/></svg>
+        </span>
+        <h2>4 &nbsp;Add a news story or update</h2>
+      </div>
+      <p class="lede">News stories are built as proper pages (good for search and for sharing), so these come through the team too.</p>
+      <ol class="steps">
+        <li><div class="s-body">Send the <strong>headline, the write-up, any photos or video, and links</strong> to Gary.</div></li>
+        <li><div class="s-body">It's built as a shareable story page and added to the <strong>News</strong> feed. This flows through the maintenance package.</div></li>
+      </ol>
+    </div>
+
+    <!-- 5 — Links -->
+    <div class="card" id="links">
+      <div class="card-head">
+        <span class="card-ico">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </span>
+        <h2>5 &nbsp;Quick links &amp; passwords</h2>
+      </div>
+      <p class="lede">Bookmark these. Passwords are shared with you separately &mdash; we keep them out of this page on purpose.</p>
+      <table class="links">
+        <thead><tr><th>Page</th><th>What it's for</th><th>Sign-in</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><a href="/portal">livehealthychi.com/portal</a></td>
+            <td>The shared resource library</td>
+            <td class="who">Admin to edit;<br>viewer to browse</td>
+          </tr>
+          <tr>
+            <td><a href="/submissions">livehealthychi.com/submissions</a></td>
+            <td>Who signed up + all form responses</td>
+            <td class="who">Admin</td>
+          </tr>
+          <tr>
+            <td><a href="/scope.html">livehealthychi.com/scope.html</a></td>
+            <td>Project scope &amp; status dashboard</td>
+            <td class="who">Team</td>
+          </tr>
+          <tr>
+            <td><a href="mailto:LiveHealthyChi@uchicagomedicine.org">LiveHealthyChi@uchicagomedicine.org</a></td>
+            <td>Events &amp; news &mdash; send details here</td>
+            <td class="who">&mdash;</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="note hold">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+        <span>Never post the admin password in a shared doc, email thread, or chat. If you need it re-sent, ask Gary or Allie directly.</span>
+      </div>
+    </div>
+
+  </div>
+</div><!-- /app -->
+
+<script>
+  const HASH = '4973303f9a14715775d80d65bfafc89f7ba96b0dd6993391147b9bd7013bb882';
+  async function sha256(msg){
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(msg));
+    return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+  }
+  async function checkPassword(){
+    const hash = await sha256(document.getElementById('pw-input').value);
+    if(hash === HASH){
+      sessionStorage.setItem('lhc_auth','1');
+      const gate = document.getElementById('gate');
+      gate.classList.add('fade-out');
+      setTimeout(()=>{ gate.style.display='none'; document.getElementById('app').style.display=''; }, 450);
+    } else {
+      document.getElementById('gate-error').textContent = 'Incorrect password.';
+    }
+  }
+  document.getElementById('pw-input').addEventListener('keydown', e=>{ if(e.key==='Enter') checkPassword(); });
+  if(sessionStorage.getItem('lhc_auth') === '1'){
+    document.getElementById('gate').style.display='none';
+    document.getElementById('app').style.display='';
+  }
+</script>
+</body>
+</html>

@@ -90,7 +90,8 @@
 
     <div class="controls">
       <select id="formfilter"><option value="">All forms</option></select>
-      <input type="search" id="search" placeholder="Search name, email, message…" />
+      <select id="rolefilter"><option value="">All roles</option></select>
+      <input type="search" id="search" placeholder="Search name, email, org…" />
       <button class="btn btn-ghost" id="refresh">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
         Refresh
@@ -159,8 +160,8 @@
       helpful_info:'What information was helpful today?',
       better_experience:'What could have made today better? (retired)',
       next_step:'After seeing your numbers, next step',
-      // whats-your-why
-      role:'Which best describes you?',
+      // whats-your-why + portal-signup
+      role:'Role',
       why_lhc:'Why are you part of Live Healthy Chicago?',
       living_healthy:'What does living healthy mean to you?',
       excited_about:'What you’re most excited about',
@@ -180,14 +181,30 @@
       const forms = [...new Set(ALL.map(r=>r.form_name))].sort();
       const sel = $('formfilter'); sel.innerHTML = '<option value="">All forms</option>' + forms.map(f=>`<option value="${esc(f)}">${esc(f)}</option>`).join('');
       $('meta').textContent = `${ALL.length} total submission${ALL.length===1?'':'s'} across ${forms.length} form${forms.length===1?'':'s'}`;
+      refreshRoleOptions();
       render();
+    }
+
+    // Populate the role / job-type filter from whatever forms are currently in view.
+    // Only forms that collect a "role" (portal sign-ups, What's Your Why) contribute
+    // values, so the dropdown lists real job types — CHW, Nurse, MD/DO, NP/PA, etc.
+    function refreshRoleOptions(){
+      const f = $('formfilter').value;
+      const pool = ALL.filter(r=>!f || r.form_name===f);
+      const roles = [...new Set(pool.map(r=>(r.data||{}).role).filter(v=>v!=null && String(v).trim()!==''))].sort();
+      const sel = $('rolefilter'); const cur = sel.value;
+      sel.innerHTML = '<option value="">All roles</option>' + roles.map(r=>`<option value="${esc(r)}">${esc(r)}</option>`).join('');
+      sel.value = roles.includes(cur) ? cur : '';
+      sel.style.display = roles.length ? '' : 'none';
     }
 
     function filtered(){
       const f = $('formfilter').value;
+      const role = $('rolefilter').value;
       const q = $('search').value.trim().toLowerCase();
       return ALL.filter(r=>{
         if(f && r.form_name!==f) return false;
+        if(role && (r.data||{}).role !== role) return false;
         if(!q) return true;
         const hay = (r.form_name+' '+JSON.stringify(r.data||{})).toLowerCase();
         return hay.includes(q);
@@ -212,7 +229,8 @@
       }).join('');
     }
 
-    $('formfilter').addEventListener('change', render);
+    $('formfilter').addEventListener('change', ()=>{ refreshRoleOptions(); render(); });
+    $('rolefilter').addEventListener('change', render);
     $('search').addEventListener('input', render);
     $('refresh').addEventListener('click', load);
 
@@ -232,7 +250,9 @@
       const a = document.createElement('a');
       a.href = URL.createObjectURL(blob);
       const f = $('formfilter').value || 'all-forms';
-      a.download = `lhc-submissions-${f}.csv`;
+      const role = $('rolefilter').value;
+      const slug = (f + (role ? '-' + role : '')).replace(/[^a-z0-9]+/gi,'-').replace(/^-|-$/g,'').toLowerCase();
+      a.download = `lhc-submissions-${slug}.csv`;
       a.click();
       URL.revokeObjectURL(a.href);
     });
