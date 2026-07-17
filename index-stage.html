@@ -3884,22 +3884,26 @@ let it drop on you`;
 
       const [partnerTabIdx, setPartnerTabIdx] = React.useState(0);
       const partnerPaused = React.useRef(false);
-      const partnerContentRef = React.useRef(null);
-      const [partnerMinHeight, setPartnerMinHeight] = React.useState(0);
+      const partnerBoxRef = React.useRef(null);
+      const partnerInView = React.useRef(false);
       React.useEffect(() => {
+        const el = partnerBoxRef.current;
+        const io = el
+          ? new IntersectionObserver(
+              ([entry]) => { partnerInView.current = entry.isIntersecting; },
+              { threshold: 0 }
+            )
+          : null;
+        if (io) io.observe(el);
         const id = setInterval(() => {
-          if (!partnerPaused.current) {
+          // Only auto-advance while the coalition is on screen — otherwise a tab
+          // change resizes this section and shifts the sections below it.
+          if (!partnerPaused.current && partnerInView.current) {
             setPartnerTabIdx(i => (i + 1) % 7);
           }
         }, 4000);
-        return () => clearInterval(id);
+        return () => { clearInterval(id); if (io) io.disconnect(); };
       }, []);
-      React.useEffect(() => {
-        if (partnerContentRef.current) {
-          const h = partnerContentRef.current.offsetHeight;
-          setPartnerMinHeight(prev => Math.max(prev, h));
-        }
-      }, [partnerTabIdx]);
 
       React.useEffect(() => {
         const hash = window.location.hash;
@@ -5113,7 +5117,7 @@ And that is how we overcome high blood pressure. They'll tell you about food and
                 ];
                 const tab = allTabs[partnerTabIdx];
                 return (
-                  <div className={`fade-up ${partnerVisible ? 'visible' : ''}`}
+                  <div ref={partnerBoxRef} className={`fade-up ${partnerVisible ? 'visible' : ''}`}
                        onMouseEnter={() => { partnerPaused.current = true; }}
                        onMouseLeave={() => { partnerPaused.current = false; }}>
 
@@ -5158,8 +5162,7 @@ And that is how we overcome high blood pressure. They'll tell you about food and
                     </div>
 
                     {/* Tab content */}
-                    <div style={{ minHeight: partnerMinHeight > 0 ? `${partnerMinHeight}px` : undefined }}>
-                    <div key={partnerTabIdx} ref={partnerContentRef}
+                    <div key={partnerTabIdx}
                          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4"
                          style={{ animation: 'fadeIn 0.3s ease-out' }}>
                       {tab.logos.map((logo, i) => (
@@ -5180,7 +5183,6 @@ And that is how we overcome high blood pressure. They'll tell you about food and
                         </div>
                       ))}
                     </div>
-                    </div>{/* end minHeight wrapper */}
 
                     {/* Progress dots */}
                     <div className="flex justify-center gap-2 mt-8">

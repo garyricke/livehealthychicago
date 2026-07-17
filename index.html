@@ -3145,13 +3145,25 @@
 
       const [partnerTabIdx, setPartnerTabIdx] = React.useState(0);
       const partnerPaused = React.useRef(false);
+      const partnerBoxRef = React.useRef(null);
+      const partnerInView = React.useRef(false);
       React.useEffect(() => {
+        const el = partnerBoxRef.current;
+        const io = el
+          ? new IntersectionObserver(
+              ([entry]) => { partnerInView.current = entry.isIntersecting; },
+              { threshold: 0 }
+            )
+          : null;
+        if (io) io.observe(el);
         const id = setInterval(() => {
-          if (!partnerPaused.current) {
+          // Only auto-advance while the coalition is on screen — otherwise a tab
+          // change resizes this section and shifts the sections below it.
+          if (!partnerPaused.current && partnerInView.current) {
             setPartnerTabIdx(i => (i + 1) % 7);
           }
         }, 4000);
-        return () => clearInterval(id);
+        return () => { clearInterval(id); if (io) io.disconnect(); };
       }, []);
 
       const healthAccelerator = [
@@ -4299,7 +4311,7 @@ And that is how we overcome high blood pressure. They'll tell you about food and
                 ];
                 const tab = allTabs[partnerTabIdx];
                 return (
-                  <div className={`fade-up ${partnerVisible ? 'visible' : ''}`}
+                  <div ref={partnerBoxRef} className={`fade-up ${partnerVisible ? 'visible' : ''}`}
                        onMouseEnter={() => { partnerPaused.current = true; }}
                        onMouseLeave={() => { partnerPaused.current = false; }}>
 
