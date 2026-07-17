@@ -598,7 +598,7 @@
       <h1>Project Status</h1>
       <p>A running log of every update, build, and content change to the Live Healthy Chicago site.</p>
       <div class="header-meta">
-        <div class="header-badge"><span class="badge-dot" style="background:var(--green)"></span> Last updated July 7, 2026</div>
+        <div class="header-badge"><span class="badge-dot" style="background:var(--green)"></span> Last updated July 17, 2026</div>
         <div class="header-badge"><span class="badge-dot" style="background:var(--blue)"></span> livehealthychi.com</div>
         <div class="header-badge"><span class="badge-dot" style="background:var(--yellow)"></span> Staging: index-stage.html</div>
         <a href="/scope.html" style="display:inline-flex; align-items:center; gap:7px; padding:6px 14px; border-radius:99px; background:rgba(70,183,229,0.18); border:1px solid rgba(70,183,229,0.4); color:#fff; font-size:0.8rem; font-family:'Poppins',sans-serif; font-weight:600; text-decoration:none; transition:background 0.2s, border-color 0.2s;" onmouseover="this.style.background='rgba(70,183,229,0.3)'; this.style.borderColor='rgba(70,183,229,0.6)';" onmouseout="this.style.background='rgba(70,183,229,0.18)'; this.style.borderColor='rgba(70,183,229,0.4)';">
@@ -1016,16 +1016,61 @@
 
     <div class="timeline">
 
-      <!-- July 7 2026 — TODAY -->
+      <!-- July 17 2026 — TODAY -->
       <div class="tl-entry">
         <div class="tl-date-col">
-          <div class="tl-date"><span class="month">Jul</span>7, 2026</div>
+          <div class="tl-date"><span class="month">Jul</span>17, 2026</div>
         </div>
         <div class="tl-connector"><div class="tl-dot today"></div></div>
         <div class="tl-card today-card">
           <div class="tl-card-header">
-            <span class="tl-card-date-mobile">July 7, 2026</span>
+            <span class="tl-card-date-mobile">July 17, 2026</span>
             <span class="tl-tag tag-today">Today</span>
+            <span class="tl-tag tag-content">Content</span>
+            <span class="tl-tag tag-fix">Fix</span>
+            <span class="tl-status status-completed">Coalition-first hero live · portal go-live prep shipped · SOW amendment posted for review · 4 August events added</span>
+          </div>
+
+          <div class="tl-section-title">Events — Four New August Events Added</div>
+          <ul class="tl-items">
+            <li class="tl-item"><strong>Alisha sent five events; four were new and are now live</strong> on <a href="/index.html" style="color:var(--blue);">the Events page</a>: <strong>Aug 1</strong> — Sen. Mattie Hunter's 21st Annual Back to School Health Fair · <strong>Aug 7</strong> — 11th Annual Englewood Community Health Fair · <strong>Aug 8</strong> — Healthy Hues: Wellness Day in the Park · <strong>Aug 22</strong> — MSI Back to School. Each has a custom hero photo, and both index files are in parity.</li>
+            <li class="tl-item"><strong>The fifth (Walk for Wellness Final Ceremony, Aug 22) was already on the site</strong> from the earlier batch, so it wasn't duplicated. Detail for the Englewood and Healthy Hues cards was pulled straight from the official event flyers.</li>
+            <li class="tl-item"><strong>Reply sent to Alisha</strong> (<code>plan/lhc-events-added-email-2026-07-17.html</code>) confirming they're live and flagging two Healthy Hues mismatches between her email and the flyer (<strong>time</strong>: 10–2 vs. 11–4; <strong>address</strong>: 1401 vs. 1402 S. Sacramento) — using the flyer pending her confirmation. Also asked whether MSI is free/walk-up or ticketed.</li>
+          </ul>
+
+          <div class="tl-section-title">Homepage — Fixed the Section &ldquo;Hop&rdquo; Below the Coalition Tabs</div>
+          <ul class="tl-items">
+            <li class="tl-item">The coalition partner tabs auto-advance, and because each tab is a different height, cycling <strong>while scrolled off screen</strong> was reflowing the page and making the Events section below it jump. The auto-advance now <strong>pauses whenever the coalition section isn't on screen</strong>, so nothing below it shifts while you're reading. Live on both index files.</li>
+          </ul>
+
+          <div class="tl-section-title">Coalition-First Hero — Now Live on the Public Site</div>
+          <ul class="tl-items">
+            <li class="tl-item">The new <strong>&ldquo;Our City. Our Values. Our Health.&rdquo;</strong> hero — approved by Allie — moved from staging to the <strong>public homepage</strong>. The site now leads with Live Healthy Chicago as a whole rather than opening on blood pressure. The placeholder chip is gone; it runs on a single approved image, ready to swap for real photography when it lands.</li>
+          </ul>
+
+          <div class="tl-section-title">Portal Go-Live Prep</div>
+          <ul class="tl-items">
+            <li class="tl-item"><strong>Signups view + role filter (done).</strong> The <a href="/submissions.html" style="color:var(--blue);"><code>submissions</code></a> dashboard now captures every portal sign-up with name, email, organization, and role, and can <strong>filter by role</strong> (CHW, Nurse, MD/DO, etc.) and export to CSV — the &ldquo;who's signing up, filter by job type&rdquo; piece Allie asked for.</li>
+            <li class="tl-item"><strong>Team how-to guide (done).</strong> New gated <a href="/training.html" style="color:var(--blue);"><code>training.html</code></a> — a plain-language, point-and-click walkthrough for loading portal resources, viewing signups, and getting events and news posted (Allie's &ldquo;workflow to share with others&rdquo;).</li>
+            <li class="tl-item"><strong>Portal now has its own password (done).</strong> Decoupled the portal viewer password from the internal team login, so partner access can be shared freely without exposing the internal pages. The one remaining step before a public launch is seeding a starter set of resources into each category.</li>
+          </ul>
+
+          <div class="tl-section-title">SOW Amendment No. 1 — Drafted &amp; Posted for Review</div>
+          <ul class="tl-items">
+            <li class="tl-item">Built <a href="/sow-amendment.html" style="color:var(--blue);"><code>sow-amendment.html</code></a> — a gated page laying out the maintenance package + Ella's CHW training set, with a one-click <strong>&ldquo;Copy for Rush&rdquo;</strong> button and a Save-as-PDF option, plus a cover email for Allie. Finishing the portal and hero stays part of the <strong>original SOW</strong> (no charge); the package begins after.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- July 7 2026 -->
+      <div class="tl-entry">
+        <div class="tl-date-col">
+          <div class="tl-date"><span class="month">Jul</span>7, 2026</div>
+        </div>
+        <div class="tl-connector"><div class="tl-dot"></div></div>
+        <div class="tl-card">
+          <div class="tl-card-header">
+            <span class="tl-card-date-mobile">July 7, 2026</span>
             <span class="tl-tag tag-dev">Planning</span>
             <span class="tl-status status-waiting">Coalition-first hero direction converging · tagline consensus forming · Correspondence tab added · meeting this afternoon</span>
           </div>
