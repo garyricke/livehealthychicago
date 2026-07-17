@@ -71,6 +71,11 @@
   .host h3{font-size:1.16rem;margin-bottom:5px}
   .host p{color:rgba(255,255,255,.82);font-size:.96rem;max-width:60ch}
 
+  .ask{display:flex;gap:15px;background:var(--surface);border:1px solid var(--edge);border-left:4px solid var(--sky);border-radius:14px;padding:20px 22px;margin:0 0 30px;box-shadow:var(--shadow)}
+  .ask .ic{flex:none;width:40px;height:40px;border-radius:11px;background:rgba(70,183,229,.14);display:flex;align-items:center;justify-content:center}
+  .ask .ic svg{width:22px;height:22px;color:var(--blue)}
+  .ask h3{font-size:1.08rem;color:var(--navy);margin-bottom:5px}
+  .ask p{font-size:.94rem;color:var(--muted);max-width:62ch}
   .thesis{font-family:'Montserrat',sans-serif;font-weight:700;font-size:clamp(1.3rem,2.6vw,1.9rem);color:var(--navy);letter-spacing:-.01em;line-height:1.2;margin:0 0 8px}
   .thesis em{font-style:normal;color:var(--ochre)}
   .thesis + p{color:var(--muted);max-width:62ch;margin-bottom:28px}
@@ -146,10 +151,13 @@
   .transcript .mod-n{font-family:'Poppins',sans-serif;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--sky);font-weight:600}
   .transcript h3.mod{font-size:1.28rem;color:var(--navy);font-weight:800}
   .transcript .mod-time{margin-left:auto;font-family:'Poppins',sans-serif;font-size:.72rem;color:var(--faint);font-weight:500}
-  .turn{display:grid;grid-template-columns:70px 1fr;gap:14px;padding:9px 0;align-items:start}
-  .turn .who{font-family:'Poppins',sans-serif;font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;font-weight:700;padding-top:3px}
-  .turn.gary .who{color:var(--faint)}
-  .turn.ella .who{color:var(--navy)}
+  .turn{display:grid;grid-template-columns:78px 1fr;gap:14px;padding:6px 0;align-items:start}
+  .turn .who{display:inline-flex;align-items:center;justify-content:center;font-family:'Poppins',sans-serif;font-size:.6rem;letter-spacing:.06em;text-transform:uppercase;font-weight:700;color:#fff;padding:5px 12px;border-radius:99px;white-space:nowrap;margin-top:12px;box-shadow:0 2px 6px -2px rgba(23,39,64,.4)}
+  .turn.gary .who{background:var(--blue)}
+  .turn.ella .who{background:var(--navy)}
+  .turn .says{padding:12px 16px;border-radius:11px;border-left:4px solid}
+  .turn.gary .says{background:#EDF4FA;border-left-color:var(--blue)}
+  .turn.ella .says{background:#F8F4EA;border-left-color:var(--navy)}
   .says p{margin:0 0 8px}
   .says p:last-child{margin-bottom:0}
   .says ul{margin:4px 0 8px 2px;padding-left:18px}
@@ -165,8 +173,8 @@
 
   @media (max-width:760px){
     .frames,.two,.ka,.opts{grid-template-columns:1fr}
-    .turn{grid-template-columns:1fr;gap:3px}
-    .turn .who{padding-top:0}
+    .turn{grid-template-columns:1fr;gap:7px}
+    .turn .who{margin-top:0;justify-self:start}
     .nav-title{display:none}
   }
 </style>
@@ -229,6 +237,14 @@
         <div>
           <h3>Gary asks the questions — no AI host.</h3>
           <p>We&rsquo;re dropping the AI narrator (&ldquo;Alex&rdquo;). Gary sits just off camera and asks Ella the questions live, so it reads as a real, warm conversation. The script barely changes — the interviewer lines simply become Gary&rsquo;s questions. Ella stays the expert on screen throughout.</p>
+        </div>
+      </div>
+
+      <div class="ask">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg></div>
+        <div>
+          <h3>Send me any design work before it&rsquo;s final.</h3>
+          <p>So everything stays on-brand and matches this look and feel, please share anything you or the team create &mdash; pamphlet drafts, graphics, handouts, slides &mdash; with me before it&rsquo;s finalized. I&rsquo;ll make sure it lines up with the Live Healthy Chicago brand and the training visuals, and I&rsquo;m glad to build or polish any of it for you.</p>
         </div>
       </div>
 
@@ -352,7 +368,7 @@
       </div>
 
       <div class="legend">
-        <span><b style="background:var(--faint)"></b>Gary &mdash; interviewer</span>
+        <span><b style="background:var(--blue)"></b>Gary &mdash; interviewer</span>
         <span><b style="background:var(--navy)"></b>Ella &mdash; expert</span>
         <span><b style="background:#a9c9e4"></b>On-screen graphic</span>
         <span><b style="background:#E0A100"></b>Suggested revision</span>
