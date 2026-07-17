@@ -1,0 +1,55 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>LHC — Shipped this week (July 17, 2026)</title></head>
+<body style="margin:0; padding:24px; background:#ffffff; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif; color:#1a2535; line-height:1.6;">
+
+  <div class="copy-control" style="max-width:600px; margin:0 0 18px; display:flex; align-items:center; gap:12px;">
+    <button id="copy-btn" onclick="copyEmail()" style="display:inline-flex; align-items:center; gap:8px; background:#0362BC; color:#fff; border:none; border-radius:8px; padding:10px 16px; font-family:inherit; font-size:14px; font-weight:600; cursor:pointer;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+      Copy email
+    </button>
+    <span id="copy-status" style="font-size:13px; color:#4a5568;">Click, then paste into your email (formatting included).</span>
+  </div>
+
+  <div id="email-body" style="max-width:600px; margin:0; background:#ffffff;">
+
+    <p style="margin:0 0 16px;">Hi Allie,</p>
+
+    <p style="margin:0 0 16px;">Separate from the SOW note — a few things from your list are already done and live. No action needed here; just so you can see the progress.</p>
+
+    <p style="margin:0 0 10px;"><strong>1. The coalition-first hero is live.</strong> The homepage now leads with Live Healthy Chicago as a whole — "Our City. Our Values. Our Health." — rather than opening on blood pressure. This is item 1 from your note.</p>
+
+    <a href="https://livehealthychi.com" style="text-decoration:none;">
+      <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto:good,w_1100/v1784301651/orbis/lhc-coalition-hero-live.png" alt="The new Live Healthy Chicago homepage hero: Our City. Our Values. Our Health." style="display:block; width:100%; max-width:600px; height:auto; border:1px solid #dce3ed; border-radius:10px; margin:0 0 8px;">
+    </a>
+    <p style="margin:0 0 18px; font-size:13px; color:#4a5568;">The new homepage hero, now live at livehealthychi.com.</p>
+
+    <p style="margin:0 0 24px;">
+      <a href="https://livehealthychi.com" style="display:inline-block; background:#0362BC; color:#ffffff; text-decoration:none; font-weight:600; font-size:15px; padding:12px 22px; border-radius:8px;">See it live &rarr;</a>
+    </p>
+
+    <p style="margin:0 0 10px;"><strong>2. You can now see who's signed up for the portal — and filter by role.</strong> Every sign-up is captured with name, email, role, and organization. On the submissions page there's now an <strong>All roles</strong> filter, so you can pull just the CHWs, or just the MDs, and export any view to a spreadsheet. That's the "who's signing up, filter by job type" piece you asked for, ready for when the portal goes live.</p>
+
+    <p style="margin:0 0 24px;">
+      <a href="https://livehealthychi.com/submissions.html" style="display:inline-block; background:#0362BC; color:#ffffff; text-decoration:none; font-weight:600; font-size:15px; padding:12px 22px; border-radius:8px;">Open the signups view &rarr;</a>
+    </p>
+
+    <p style="margin:0 0 10px;"><strong>3. There's a short team guide for updating the site.</strong> A plain-language, point-and-click walkthrough — how to load resources into the portal, how to see your signups, and how to get events and news posted. This is the start of item 3 (a workflow you can share with others). I kept passwords off the page on purpose.</p>
+
+    <p style="margin:0 0 26px;">
+      <a href="https://livehealthychi.com/training.html" style="display:inline-block; background:#0362BC; color:#ffffff; text-decoration:none; font-weight:600; font-size:15px; padding:12px 22px; border-radius:8px;">Read the team guide &rarr;</a>
+    </p>
+
+    <p style="margin:0 0 16px;">All three use the same team password you already have. That leaves flipping the portal on for real as the main remaining piece of your list — I'll fold that into the maintenance work.</p>
+
+    <p style="margin:0 0 16px;">Thanks,</p>
+
+    <p style="margin:0;">Gary</p>
+
+  </div>
+
+<script>
+  function setStatus(m,ok){var s=document.getElementById('copy-status');s.textContent=m;s.style.color=ok?'#1a7f37':'#b42318';}
+  function selectFallback(el){try{var r=document.createRange();r.selectNode(el);var s=window.getSelection();s.removeAllRanges();s.addRange(r);var ok=document.execCommand('copy');s.removeAllRanges();setStatus(ok?'✓ Copied — paste into your email':'Press ⌘C to copy the selected email',ok);}catch(e){setStatus('Select the email and press ⌘C',false);}}
+  function copyEmail(){var el=document.getElementById('email-body');if(navigator.clipboard&&window.ClipboardItem){var d=[new ClipboardItem({'text/html':new Blob([el.outerHTML],{type:'text/html'}),'text/plain':new Blob([el.innerText],{type:'text/plain'})})];navigator.clipboard.write(d).then(function(){setStatus('✓ Copied — paste into your email (formatting included)',true);},function(){selectFallback(el);});}else{selectFallback(el);}}
+</script>
+</body></html>
