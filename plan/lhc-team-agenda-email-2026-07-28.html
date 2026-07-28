@@ -1,0 +1,59 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Team agenda — July 28, 2026 check-in</title></head>
+<body style="margin:0; padding:24px; background:#ffffff; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif; color:#1a2535; line-height:1.6;">
+
+  <div class="copy-control" style="max-width:600px; margin:0 0 18px; display:flex; align-items:center; gap:12px;">
+    <button id="copy-btn" onclick="copyEmail()" style="display:inline-flex; align-items:center; gap:8px; background:#0362BC; color:#fff; border:none; border-radius:8px; padding:10px 16px; font-family:inherit; font-size:14px; font-weight:600; cursor:pointer;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+      Copy email
+    </button>
+    <span id="copy-status" style="font-size:13px; color:#4a5568;">Click, then paste into your email (formatting included).</span>
+  </div>
+
+  <div id="email-body" style="max-width:600px; margin:0; background:#ffffff;">
+
+    <p style="margin:0 0 16px;">Hi all,</p>
+
+    <p style="margin:0 0 20px;">Agenda for our check-in this afternoon, <strong>Tuesday July 28 at 2:00 PM CST</strong>. Short list — most of it is confirming things are moving rather than deciding anything new. The one item that actually needs decisions today is Ella's shoot, because recording is about a week out.</p>
+
+    <a href="https://livehealthychi.com/status.html" style="text-decoration:none;"><img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto:good,w_1100/v1785253042/orbis/lhc-status-tracker-2026-07-28.png" alt="Live Healthy Chicago project status dashboard" style="display:block; width:100%; max-width:600px; height:auto; border:1px solid #dce3ed; border-radius:10px;"></a>
+    <p style="margin:8px 0 24px; font-size:13px; color:#4a5568;">The tracker is current through today — every item below has detail there.</p>
+
+    <p style="margin:0 0 6px;"><strong>1. SOW Amendment No. 1 — where did it land?</strong></p>
+    <p style="margin:0 0 20px;">Allie approved it on our call last Tuesday and was sending it to Rebecca that day. Just want to confirm it reached <strong>Rush contracting</strong> and find out whether anything is needed from me to keep it moving. No changes to the document from my end.</p>
+
+    <p style="margin:0 0 6px;"><strong>2. Ella's CHW training — decisions needed today</strong></p>
+    <p style="margin:0 0 8px;">Ella is back <strong>August 1</strong>, we record the <strong>week of August 3</strong>, and the training is <strong>August 25</strong>. That's tight enough that these should close this week:</p>
+    <ul style="margin:0 0 20px; padding-left:20px;">
+      <li style="margin:0 0 8px;"><strong>Where we shoot.</strong> Leaning toward Ella coming to me, which she offered and which saves the most time. Her Malcolm X schedule is irregular, so I need a date more than I need a location.</li>
+      <li style="margin:0 0 8px;"><strong>Graphics scope.</strong> Her script calls for six graphics. Worth agreeing on how finished those need to be.</li>
+      <li style="margin:0 0 8px;"><strong>Rebecca's clinical sign-off.</strong> Allie approved the content; the clinical read is still open and shouldn't wait until after we've filmed.</li>
+    </ul>
+
+    <p style="margin:0 0 6px;"><strong>3. Portal — what's blocking the trial</strong></p>
+    <p style="margin:0 0 20px;">Everything technical is done: sign-ups are captured and filterable by role, the team guide is written, the portal has its own password, and the footer link works. The only thing left is <strong>seeding a starter set of resources in each category</strong> — that's a content task, not a build task. Allie wants to trial it with a small CHW group without announcing it, so we just need to agree who loads what, and by when. The top-nav link goes in after that.</p>
+
+    <p style="margin:0 0 6px;"><strong>4. Events — two loose ends with Alisha</strong></p>
+    <p style="margin:0 0 20px;">Four more events went up today (three on Aug 1, plus the Brain Freedom Party Aug 29). Two things still open on her side: the <strong>MSI sports-physical registration link</strong>, and the <strong>Brain Freedom address</strong> — her email says Peoria, the flyer says Honore. We're running the flyer version for now.</p>
+
+    <p style="margin:0 0 6px;"><strong>5. Two housekeeping items from last week</strong></p>
+    <ul style="margin:0 0 24px; padding-left:20px;">
+      <li style="margin:0 0 8px;"><strong>Passwords.</strong> Two people have now lost time locked out of the right page. I'm adding a plain "which password opens what" section to the team guide.</li>
+      <li style="margin:0 0 8px;"><strong>Domain ownership.</strong> Allie's point from last week — worth confirming who controls livehealthychi.com and making sure it sits with a shared account and more than one person, not an individual's name.</li>
+    </ul>
+
+    <p style="margin:0 0 24px;">
+      <a href="https://livehealthychi.com/status.html" style="display:inline-block; background:#0362BC; color:#ffffff; text-decoration:none; font-weight:600; font-size:15px; padding:12px 22px; border-radius:8px;">Open the project tracker &rarr;</a>
+    </p>
+
+    <p style="margin:0 0 4px;">See you at 2,</p>
+    <p style="margin:0;">Gary</p>
+
+  </div>
+
+<script>
+  function setStatus(m,ok){var s=document.getElementById('copy-status');s.textContent=m;s.style.color=ok?'#1a7f37':'#b42318';}
+  function selectFallback(el){try{var r=document.createRange();r.selectNode(el);var s=window.getSelection();s.removeAllRanges();s.addRange(r);var ok=document.execCommand('copy');s.removeAllRanges();setStatus(ok?'✓ Copied — paste into your email':'Press ⌘C to copy the selected email',ok);}catch(e){setStatus('Select the email and press ⌘C',false);}}
+  function copyEmail(){var el=document.getElementById('email-body');if(navigator.clipboard&&window.ClipboardItem){var d=[new ClipboardItem({'text/html':new Blob([el.outerHTML],{type:'text/html'}),'text/plain':new Blob([el.innerText],{type:'text/plain'})})];navigator.clipboard.write(d).then(function(){setStatus('✓ Copied — paste into your email (formatting included)',true);},function(){selectFallback(el);});}else{selectFallback(el);}}
+</script>
+</body></html>

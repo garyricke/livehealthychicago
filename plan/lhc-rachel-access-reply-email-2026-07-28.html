@@ -1,0 +1,50 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Reply to Rachel — tracker + Celebrate data (July 28, 2026)</title></head>
+<body style="margin:0; padding:24px; background:#ffffff; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif; color:#1a2535; line-height:1.6;">
+
+  <div class="copy-control" style="max-width:600px; margin:0 0 18px; display:flex; align-items:center; gap:12px;">
+    <button id="copy-btn" onclick="copyEmail()" style="display:inline-flex; align-items:center; gap:8px; background:#0362BC; color:#fff; border:none; border-radius:8px; padding:10px 16px; font-family:inherit; font-size:14px; font-weight:600; cursor:pointer;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+      Copy email
+    </button>
+    <span id="copy-status" style="font-size:13px; color:#4a5568;">Click, then paste into your email (formatting included).</span>
+  </div>
+
+  <div id="email-body" style="max-width:600px; margin:0; background:#ffffff;">
+
+    <p style="margin:0 0 16px;">Good morning Rachel,</p>
+
+    <p style="margin:0 0 20px;">We came through the storms fine, thank you — hope you did too.</p>
+
+    <p style="margin:0 0 20px;"><strong>Yes, we're on for 2:00 today.</strong> I'm sending the agenda around separately in a few minutes.</p>
+
+    <p style="margin:0 0 16px;">On the two things you couldn't find — neither one lives on the staging page, which is why they seem to have disappeared. They're their own pages, and you can go straight to them:</p>
+
+    <p style="margin:0 0 6px;"><strong>1. The project tracker</strong></p>
+    <p style="margin:0 0 16px;">This is the running change log and the open-items list, and it's current as of this morning. It takes the <strong>same password you use for the staging site</strong>.</p>
+    <p style="margin:0 0 24px;">
+      <a href="https://livehealthychi.com/status.html" style="display:inline-block; background:#0362BC; color:#ffffff; text-decoration:none; font-weight:600; font-size:15px; padding:12px 22px; border-radius:8px;">Open the project tracker &rarr;</a>
+    </p>
+
+    <p style="margin:0 0 6px;"><strong>2. Celebrate the Check responses</strong></p>
+    <p style="margin:0 0 16px;">All form entries land in one dashboard. Open it, then set the <strong>Form</strong> dropdown to <strong>celebrate-survey</strong> to see just the Celebrate responses — there's a search box and a <strong>CSV export</strong> if you want to pull it into a spreadsheet.</p>
+    <p style="margin:0 0 8px;">One catch that has tripped up more than one of us: this page uses a <em>different</em> password than the rest of the site. I'm sending it to you in a separate message rather than putting it in email alongside the link.</p>
+    <p style="margin:0 0 24px;">
+      <a href="https://livehealthychi.com/submissions.html" style="display:inline-block; background:#0362BC; color:#ffffff; text-decoration:none; font-weight:600; font-size:15px; padding:12px 22px; border-radius:8px;">Open the submissions dashboard &rarr;</a>
+    </p>
+
+    <p style="margin:0 0 20px;">That two-password split is deliberate — it lets people reach the admin pages without also being able to edit the partner portal — but it clearly isn't written down anywhere findable. Allie hit the same wall last week, so I'm adding a plain "which password opens what" section to the team guide this week.</p>
+
+    <p style="margin:0 0 24px;">If either link gives you trouble, tell me before 2 and I'll just screen-share it.</p>
+
+    <p style="margin:0 0 4px;">See you this afternoon,</p>
+    <p style="margin:0;">Gary</p>
+
+  </div>
+
+<script>
+  function setStatus(m,ok){var s=document.getElementById('copy-status');s.textContent=m;s.style.color=ok?'#1a7f37':'#b42318';}
+  function selectFallback(el){try{var r=document.createRange();r.selectNode(el);var s=window.getSelection();s.removeAllRanges();s.addRange(r);var ok=document.execCommand('copy');s.removeAllRanges();setStatus(ok?'✓ Copied — paste into your email':'Press ⌘C to copy the selected email',ok);}catch(e){setStatus('Select the email and press ⌘C',false);}}
+  function copyEmail(){var el=document.getElementById('email-body');if(navigator.clipboard&&window.ClipboardItem){var d=[new ClipboardItem({'text/html':new Blob([el.outerHTML],{type:'text/html'}),'text/plain':new Blob([el.innerText],{type:'text/plain'})})];navigator.clipboard.write(d).then(function(){setStatus('✓ Copied — paste into your email (formatting included)',true);},function(){selectFallback(el);});}else{selectFallback(el);}}
+</script>
+</body></html>
