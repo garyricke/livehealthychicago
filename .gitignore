@@ -16,3 +16,6 @@ budget.html
 
 # AI-generated source images (host on Cloudinary, never commit)
 generated_imgs/
+
+# Contains live credentials — never commit (public repo)
+plan/lhc-passwords-email-*.html
