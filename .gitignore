@@ -19,3 +19,4 @@ generated_imgs/
 
 # Contains live credentials — never commit (public repo)
 plan/lhc-passwords-email-*.html
+plan/*-private.html
