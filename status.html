@@ -1377,7 +1377,7 @@
           <ul class="tl-items">
             <li class="tl-item"><strong>Discreet badge → password gate → slide-in panel.</strong> The bottom-right "A" badge now opens a password modal first; on unlock, a full-height panel slides in from the right with the internal links as branded icon cards (plus a "Lock &amp; sign out"). Replaces the old click-only popover.</li>
             <li class="tl-item"><strong>Hides internal links from public visitors</strong> — the URLs are no longer exposed until someone enters the password. Shares the existing site session, so unlocking the panel or any gated page covers them all in that browser session.</li>
-            <li class="tl-item"><strong>Same password</strong> (<code>livehealthychi</code>), verified by SHA-256 (no plaintext in source). Applied to both <a href="/index.html" style="color:var(--blue);"><code>index.html</code></a> and <code>index-stage.html</code>; all 9 admin links carried over.</li>
+            <li class="tl-item"><strong>Same team password</strong>, verified by SHA-256 (no plaintext in source). Applied to both <a href="/index.html" style="color:var(--blue);"><code>index.html</code></a> and <code>index-stage.html</code>; all 9 admin links carried over.</li>
           </ul>
         </div>
       </div>
@@ -1526,7 +1526,7 @@
           <ul class="tl-items">
             <li class="tl-item">Built the self-service resource tool on <a href="/portal.html" style="color:var(--blue);"><code>portal.html</code></a> — the last Active Build item from the 5/26 check-in. An admin can <strong>add, edit, and delete</strong> resources and the resource page <strong>reacts immediately</strong>; no developer, no code edits, replacing the "wait for PDFs / Google Doc dumping ground" pattern</li>
             <li class="tl-item">Each resource shows a <strong>thumbnail</strong> for visual scanning — a website screenshot for links, the first page for uploaded PDFs, the image itself for graphics. Thumbnails are <strong>captured once and stored in Supabase</strong> (instant + permanent): a new link shows immediately, then a screenshot is grabbed in the background and saved to storage. Sites that block screenshotting fall back to a clean gradient placeholder</li>
-            <li class="tl-item">Backed by <strong>Supabase</strong> (database + file storage). <strong>Two-tier access:</strong> the admin password <strong><code>editresources</code></strong> unlocks add/edit/delete; the partner password the signup flow hands out (<code>livehealthychi</code>) is now <strong>read-only</strong>, so the public password can't modify the library</li>
+            <li class="tl-item">Backed by <strong>Supabase</strong> (database + file storage). <strong>Two-tier access:</strong> the admin password <strong><code>editresources</code></strong> unlocks add/edit/delete; the partner password the signup flow hands out is now <strong>read-only</strong>, so the public password can't modify the library</li>
             <li class="tl-item">Seeded the three live clinical links (AMA MAP, Hypertension Bites, AHA) into the database; built-in placeholder cards retired in favor of real, managed resources. Verified end-to-end (add/edit/delete, both tiers, thumbnails) with no console errors</li>
           </ul>
 
@@ -1919,7 +1919,7 @@
             <li class="tl-item">Added <strong>Release the Silence</strong> event; sorted events chronologically</li>
             <li class="tl-item">Fixed accordion/lightbox state reset on auto-advancing intervals</li>
             <li class="tl-item">Added <code>#pressuredrop</code> hash-scroll support</li>
-            <li class="tl-item">Changed site and portal password to <code>livehealthychi</code></li>
+            <li class="tl-item">Changed the site and portal password to a shared team password</li>
             <li class="tl-item">Archived previous <code>index-stage.html</code>; promoted <code>index-stage-2.html</code></li>
           </ul>
         </div>
@@ -2095,7 +2095,7 @@
 </div><!-- /app -->
 
 <script>
-  const HASH = '4973303f9a14715775d80d65bfafc89f7ba96b0dd6993391147b9bd7013bb882';
+  const HASH = '279b8fbaf4bcc0cd38315426d9a523c6b12370c9d241d0b8fcff4eb276b9f37e';
 
   async function sha256(msg) {
     const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(msg));

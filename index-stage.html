@@ -2953,7 +2953,7 @@ let it drop on you`;
       );
     };
 
-    const PW_HASH = '4973303f9a14715775d80d65bfafc89f7ba96b0dd6993391147b9bd7013bb882';
+    const PW_HASH = '279b8fbaf4bcc0cd38315426d9a523c6b12370c9d241d0b8fcff4eb276b9f37e';
 
     function PasswordGate({ onUnlock }) {
       const [gateInput, setGateInput] = React.useState('');
@@ -3705,9 +3705,9 @@ let it drop on you`;
 
     // New-style admin entry: discreet badge → password modal → slide-in panel.
     // Shares the site gate's sessionStorage key 'lhc_auth'; password is the
-    // project password "livehealthychi", stored only as a SHA-256 hash (never
+    // project team password, stored only as a SHA-256 hash (never
     // plaintext in source) and verified via crypto.subtle, matching the gate.
-    const ADMIN_HASH = '4973303f9a14715775d80d65bfafc89f7ba96b0dd6993391147b9bd7013bb882';
+    const ADMIN_HASH = '279b8fbaf4bcc0cd38315426d9a523c6b12370c9d241d0b8fcff4eb276b9f37e';
     const ADMIN_LOGO = 'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1771612857/favicon-live-healthy-chicago_e7o6el.png';
     const ADMIN_PANEL_CSS = `
 #adm-root{

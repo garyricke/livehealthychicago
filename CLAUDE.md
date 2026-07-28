@@ -11,8 +11,8 @@
 - No build step — push `index-stage.html` (or `index.html`) to git → Netlify auto-deploys
 
 ## Password Gate (index-stage.html only)
-- Password is **"livehealthychi"** — stored as SHA-256 hash only (never plaintext in source)
-- Hash: `4973303f9a14715775d80d65bfafc89f7ba96b0dd6993391147b9bd7013bb882`
+- Team password — stored as SHA-256 hash only, **never in plaintext anywhere in this repo (it is public)**. The current value lives outside the repo; ask Gary.
+- Hash: `279b8fbaf4bcc0cd38315426d9a523c6b12370c9d241d0b8fcff4eb276b9f37e`
 - Uses `crypto.subtle.digest('SHA-256', ...)` to hash input before comparing
 - Session persisted via `sessionStorage` key `lhc_auth`
 
