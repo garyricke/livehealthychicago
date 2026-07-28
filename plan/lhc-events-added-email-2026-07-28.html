@@ -1,0 +1,53 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>LHC Events Added — Reply to Alisha (July 28, 2026)</title></head>
+<body style="margin:0; padding:24px; background:#ffffff; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif; color:#1a2535; line-height:1.6;">
+
+  <div class="copy-control" style="max-width:600px; margin:0 0 18px; display:flex; align-items:center; gap:12px;">
+    <button id="copy-btn" onclick="copyEmail()" style="display:inline-flex; align-items:center; gap:8px; background:#0362BC; color:#fff; border:none; border-radius:8px; padding:10px 16px; font-family:inherit; font-size:14px; font-weight:600; cursor:pointer;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+      Copy email
+    </button>
+    <span id="copy-status" style="font-size:13px; color:#4a5568;">Click, then paste into your email (formatting included).</span>
+  </div>
+
+  <div id="email-body" style="max-width:600px; margin:0; background:#ffffff;">
+
+    <p style="margin:0 0 16px;">Hi Alisha,</p>
+
+    <p style="margin:0 0 16px;">Hope you had a good weekend — thanks for getting these over before your day out. Four of the five are up on the site now:</p>
+
+    <ul style="margin:0 0 20px; padding-left:20px;">
+      <li style="margin:0 0 8px;"><strong>Aug 1</strong> — Madison Corridor Recovery Festival (10 AM&ndash;4:30 PM, 4132 W. Madison St.)</li>
+      <li style="margin:0 0 8px;"><strong>Aug 1</strong> — Health Fair &amp; Wellness Market in Englewood (10 AM&ndash;2 PM, The Englewood Breakroom) — with your Eventbrite link on the card</li>
+      <li style="margin:0 0 8px;"><strong>Aug 1</strong> — 17th Annual Uplift Our Future Back to School Event (2&ndash;4 PM, Brookfield Zoo Discovery Center)</li>
+      <li style="margin:0 0 8px;"><strong>Aug 29</strong> — Brain Freedom Party (11 AM&ndash;3 PM, Imagine Englewood If Peace Campus)</li>
+    </ul>
+
+    <p style="margin:0 0 20px;">The flyers filled in a lot of nice detail — free admission, parking, and the 1 PM check-in for the Uplift event, and the line dancing, live jazz, brain-health conversations, Dementia Friend training, and provided lunch for Brain Freedom.</p>
+
+    <a href="https://livehealthychi.com/#events" style="text-decoration:none;"><img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto:good,w_1100/v1785248773/orbis/lhc-events-aug-2026-added.png" alt="New August events on the Live Healthy Chicago events page" style="display:block; width:100%; max-width:600px; height:auto; border:1px solid #dce3ed; border-radius:10px;"></a>
+    <p style="margin:8px 0 24px; font-size:13px; color:#4a5568;">The August 1 events as they appear now on the events page.</p>
+
+    <p style="margin:0 0 24px;">
+      <a href="https://livehealthychi.com/#events" style="display:inline-block; background:#0362BC; color:#ffffff; text-decoration:none; font-weight:600; font-size:15px; padding:12px 22px; border-radius:8px;">See the events live &rarr;</a>
+    </p>
+
+    <p style="margin:0 0 6px;"><strong>One address to confirm — Brain Freedom Party</strong></p>
+    <p style="margin:0 0 20px;">Your email lists <strong>6407 S. Peoria St.</strong>, and the flyer says <strong>6407 S. Honore St., 60636</strong>. I went with the flyer for now, same as we did with Healthy Hues — just say the word if Peoria is the right one and I'll switch it.</p>
+
+    <p style="margin:0 0 6px;"><strong>The Welch Back to School Health Fair</strong></p>
+    <p style="margin:0 0 20px;">That one was <strong>July 25</strong>, so it had already passed by the time this reached me — I left it off since the page only shows upcoming events. No issue at all; if there's another one on the calendar later this year, send it over and it'll go right up.</p>
+
+    <p style="margin:0 0 24px;">And whenever the <strong>MSI sports-physical registration link</strong> comes through, pass it along and I'll drop it into that card.</p>
+
+    <p style="margin:0 0 4px;">Thanks as always,</p>
+    <p style="margin:0;">Gary</p>
+
+  </div>
+
+<script>
+  function setStatus(m,ok){var s=document.getElementById('copy-status');s.textContent=m;s.style.color=ok?'#1a7f37':'#b42318';}
+  function selectFallback(el){try{var r=document.createRange();r.selectNode(el);var s=window.getSelection();s.removeAllRanges();s.addRange(r);var ok=document.execCommand('copy');s.removeAllRanges();setStatus(ok?'✓ Copied — paste into your email':'Press ⌘C to copy the selected email',ok);}catch(e){setStatus('Select the email and press ⌘C',false);}}
+  function copyEmail(){var el=document.getElementById('email-body');if(navigator.clipboard&&window.ClipboardItem){var d=[new ClipboardItem({'text/html':new Blob([el.outerHTML],{type:'text/html'}),'text/plain':new Blob([el.innerText],{type:'text/plain'})})];navigator.clipboard.write(d).then(function(){setStatus('✓ Copied — paste into your email (formatting included)',true);},function(){selectFallback(el);});}else{selectFallback(el);}}
+</script>
+</body></html>
