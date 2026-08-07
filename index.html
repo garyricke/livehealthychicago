@@ -1636,6 +1636,21 @@
         heroImage: 'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1784315519/lhc-events/msi-back-to-school/hero.jpg',
       },
       {
+        id: 'health-for-all-mobile-mammo-aug-2026',
+        title: 'Health for All: Mobile Mammography & Community Screenings',
+        subtitle: 'Rush and Siemens Healthineers, with the Chicago Park District and Equal Hope',
+        date: 'August 24 – September 4, 2026',
+        endDate: 'September 4, 2026',
+        weekday: 'Weekdays',
+        time: '8:30 A.M. – 4:00 P.M.',
+        location: 'Humboldt Park Boathouse — Parking Lot',
+        address: '1301 N. Humboldt Dr., Chicago, IL 60622',
+        description: 'Two weeks of free health information and screenings in Humboldt Park — free mammograms for women 40 and older (call (312) 942-2027 to schedule), plus free blood pressure checks and free oral cancer screenings. Everyone is welcome.',
+        longDescription: 'Come to this FREE community health event to learn about your health and take advantage of free screenings and resources. Everyone is welcome.\n\nFree services include:\n• Free mammograms for women ages 40 and older — registration is required. Call (312) 942-2027 to schedule your appointment.\n• Free blood pressure checks\n• Free oral cancer screenings\n• Learn about screenings for colorectal cancer, gastrointestinal (GI) cancer, lung cancer, and cervical cancer and HPV\n• Equal Hope will be onsite to provide free health education and help connect you with health care services\n\nDates and hours:\n• August 24–28, 8:30 A.M. – 4:00 P.M.\n• August 31 – September 4, 8:30 A.M. – 4:00 P.M.\n• Closed Saturday, August 29 and Sunday, August 30\n\nFree digital screening mammograms are provided by Rush and Siemens Healthineers.',
+        highlights: ['Free Event', 'Free Mammograms', 'Free BP Checks', 'Weekdays Only'],
+        heroImage: 'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1786126315/lhc-events/health-for-all-mobile-mammo/hero.jpg',
+      },
+      {
         id: 'brain-freedom-party-aug-2026',
         title: 'Brain Freedom Party',
         subtitle: 'Honoring the spirit of freedom through brain health — UChicago Medicine Neurology & the Center for Better Aging',
@@ -1939,7 +1954,7 @@
 
               {/* Long description */}
               {event.longDescription && (
-                <p className="text-sm leading-relaxed" style={{ color: '#555' }}>{event.longDescription}</p>
+                <p className="text-sm leading-relaxed whitespace-pre-line" style={{ color: '#555' }}>{event.longDescription}</p>
               )}
 
               {/* Feature tiles */}
@@ -4598,7 +4613,7 @@ And that is how we overcome high blood pressure. They'll tell you about food and
               {/* ── Upcoming Events ── */}
               {(() => {
                 const today = new Date(new Date().toDateString());
-                const upcoming = eventsData.filter(evt => new Date(evt.date) >= today);
+                const upcoming = eventsData.filter(evt => new Date(evt.endDate || evt.date) >= today);
                 if (!upcoming.length) return null;
                 return (
                   <div id="community-events" className="rounded-3xl mt-6 px-8 py-10"
