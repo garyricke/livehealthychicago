@@ -71,7 +71,8 @@ p,li{font-size:9.1pt;line-height:1.5;}
 .tbl th{background:var(--navy);color:#fff;font-family:'Montserrat';font-size:7.2pt;font-weight:800;
   letter-spacing:.09em;text-transform:uppercase;text-align:left;padding:4.5px 7px;}
 .tbl td{padding:6px 8px;font-size:8.1pt;border-bottom:1px solid #E6ECF3;vertical-align:middle;}
-.tbl td:first-child{font-family:'Montserrat';font-weight:800;font-size:7.4pt;letter-spacing:.02em;line-height:1.15;width:52%;}
+.tbl td:first-child{font-family:'Montserrat';font-weight:800;font-size:7.4pt;letter-spacing:.02em;line-height:1.15;width:46%;}
+.tbl td:last-child{white-space:nowrap;}
 .tbl td:last-child{font-weight:600;color:#33414f;}
 .tbl tr:last-child td{border-bottom:0;}
 .r-norm td:first-child{color:#1E7F4F;} .r-norm{background:#EEF8F2;}
@@ -125,6 +126,13 @@ p,li{font-size:9.1pt;line-height:1.5;}
 .spacer{display:none;}
 .url{font-family:'Montserrat';font-size:9.4pt;font-weight:800;color:var(--red);letter-spacing:.01em;}
 
+/* ---------- school / dissemination variant ---------- */
+.v-third{display:none;}
+body.school .v-first{display:none;}
+body.school .v-third{display:inline;}
+body.school .partners{display:none !important;}
+body.school .box-alert{margin-top:auto !important;}
+
 /* ---------- print ---------- */
 @page{size:11in 8.5in;margin:0;}
 @media print{
@@ -143,7 +151,8 @@ p,li{font-size:9.1pt;line-height:1.5;}
 <div class="bar">
   <span class="pill">Draft</span>
   <h1>Know Your Numbers — Community Tri-Fold</h1>
-  <button onclick="window.print()">Save as PDF</button>
+  <button id="variant-btn" onclick="toggleVariant()" style="margin-left:auto;background:#fff;color:#1B365D;">Switch to school version</button>
+  <button onclick="window.print()" style="margin-left:0;">Save as PDF</button>
 </div>
 
 <div class="note">
@@ -162,26 +171,26 @@ p,li{font-size:9.1pt;line-height:1.5;}
       <img class="logo" src="assets/logo-Live-Healthy-Chicago.png" alt="Live Healthy Chicago">
       <div class="rule" style="margin:12px 0 10px;"></div>
       <div class="tagline">Working together for<br>healthier communities.</div>
-      <p style="margin-top:9px;color:var(--gray);">Live Healthy Chicago is a coalition of hospitals, health experts, and community partners across Chicago working together to improve heart health and reduce the impact of high blood pressure and other chronic diseases in our neighborhoods.</p>
+      <p style="margin-top:9px;color:var(--gray);"><span class="v-first">Live Healthy Chicago is a coalition of hospitals, health experts, and community partners across Chicago working together to improve heart health and reduce the impact of high blood pressure and other chronic diseases in our neighborhoods.</span><span class="v-third">Live Healthy Chicago is a coalition of hospitals, health experts, and community partners across Chicago working together to improve heart health and reduce the impact of high blood pressure and other chronic diseases in Chicago neighborhoods.</span></p>
 
       <div class="rows" style="margin-top:12px;">
         <div class="row">
           <div class="chip" style="background:#FDEBEC;color:var(--red);">
             <svg class="ico" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
           </div>
-          <div class="txt"><p>We bring people and organizations together to improve heart health.</p></div>
+          <div class="txt"><p><span class="v-first">We bring people and organizations together to improve heart health.</span><span class="v-third">The coalition brings people and organizations together to improve heart health.</span></p></div>
         </div>
         <div class="row">
           <div class="chip" style="background:#E8F5FD;color:#1A7FB8;">
             <svg class="ico" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
           </div>
-          <div class="txt"><p>We provide education, tools, and resources to prevent and manage high blood pressure.</p></div>
+          <div class="txt"><p><span class="v-first">We provide education, tools, and resources to prevent and manage high blood pressure.</span><span class="v-third">It provides education, tools, and resources to prevent and manage high blood pressure.</span></p></div>
         </div>
         <div class="row">
           <div class="chip" style="background:#E9F8F4;color:#1F8F79;">
             <svg class="ico" viewBox="0 0 24 24"><path d="M12 22V12"/><path d="M12 12c0-4 2.5-7 7-7 0 4.5-3 7-7 7z"/><path d="M12 15c0-3-2-5.5-5.5-5.5C6.5 13 9 15 12 15z"/></svg>
           </div>
-          <div class="txt"><p>We support neighborhoods and families to make healthy choices every day.</p></div>
+          <div class="txt"><p><span class="v-first">We support neighborhoods and families to make healthy choices every day.</span><span class="v-third">It supports neighborhoods and families in making healthy choices every day.</span></p></div>
         </div>
       </div>
 
@@ -216,7 +225,7 @@ p,li{font-size:9.1pt;line-height:1.5;}
         <tr class="r-elev"><td>Elevated</td><td>120–129 and less than 80</td></tr>
         <tr class="r-s1"><td>High blood pressure<br>(Stage 1)</td><td>130–139 or 80–89</td></tr>
         <tr class="r-s2"><td>High blood pressure<br>(Stage 2)</td><td>140/90 or higher</td></tr>
-        <tr class="r-cri"><td>Hypertensive crisis</td><td>Above 180/120<br>Get help right away</td></tr>
+        <tr class="r-cri"><td>Hypertensive crisis</td><td style="white-space:normal;">Above 180/120<br>Get help right away</td></tr>
       </table>
       <p class="tiny" style="color:var(--gray);margin-top:5px;">Categories follow American Heart Association guidelines. If your top and bottom numbers fall in two different categories, use the higher one.</p>
 
@@ -469,5 +478,14 @@ p,li{font-size:9.1pt;line-height:1.5;}
 </div>
 
 <div class="tailpad" style="height:40px;"></div>
+<script>
+  function toggleVariant(){
+    var on=document.body.classList.toggle('school');
+    document.getElementById('variant-btn').textContent =
+      on ? 'Switch to dissemination version' : 'Switch to school version';
+  }
+  if(location.search.indexOf('school')>-1){document.body.classList.add('school');
+    document.getElementById('variant-btn').textContent='Switch to dissemination version';}
+</script>
 </body>
 </html>

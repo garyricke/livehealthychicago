@@ -1,0 +1,51 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>School Version Ready — Reply to Ella (August 19, 2026)</title></head>
+<body style="margin:0; padding:24px; background:#ffffff; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif; color:#1a2535; line-height:1.6;">
+
+  <div class="copy-control" style="max-width:600px; margin:0 0 18px; display:flex; align-items:center; gap:12px;">
+    <button id="copy-btn" onclick="copyEmail()" style="display:inline-flex; align-items:center; gap:8px; background:#0362BC; color:#fff; border:none; border-radius:8px; padding:10px 16px; font-family:inherit; font-size:14px; font-weight:600; cursor:pointer;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+      Copy email
+    </button>
+    <span id="copy-status" style="font-size:13px; color:#4a5568;">Click, then paste into your email (formatting included).</span>
+  </div>
+
+  <div id="email-body" style="max-width:600px; margin:0; background:#ffffff;">
+
+    <p style="margin:0 0 16px;">Hi Ella,</p>
+
+    <p style="margin:0 0 16px;">Great notes &mdash; thank you. Your <strong>school version is attached and ready to use now</strong>, so you're not waiting on anyone. It has the coalition partner-logo strip removed and describes Live Healthy Chicago in neutral third person. The pocket guide needed no changes for the school version &mdash; it never described the coalition in first person and had no logo strip &mdash; so it's the same file for both.</p>
+
+    <p style="margin:0 0 16px;">Also done, in both versions:</p>
+
+    <ul style="margin:0 0 24px; padding-left:20px; color:#4a5568;">
+      <li style="margin:0 0 8px;"><strong>"Know This Cold" is now "Red flags &mdash; get help right away."</strong> You were right that it was a label I added; yours is clearer.</li>
+      <li style="margin:0 0 8px;"><strong>The Elevated row now fits on one line</strong> &mdash; "120&ndash;129 and less than 80."</li>
+    </ul>
+
+    <p style="margin:0 0 16px;">I've also built the dissemination version, which keeps Live Healthy Chicago's own voice and the partner logos. It's attached too, but treat it as a draft &mdash; the logos still need Allie and the partners to approve.</p>
+
+    <p style="margin:0 0 8px;"><strong>Three things I'm holding for Allie</strong></p>
+    <p style="margin:0 0 12px; color:#4a5568;">None of these block your submission today &mdash; they're all quick changes once she weighs in:</p>
+
+    <ul style="margin:0 0 24px; padding-left:20px; color:#4a5568;">
+      <li style="margin:0 0 8px;"><strong>The race and ethnicity line.</strong> It's in the attached versions and stays unless Allie says otherwise.</li>
+      <li style="margin:0 0 8px;"><strong>Where the red-flags box lives.</strong> It's in the pocket guide for now. Moving it to the tri-fold is easy either way.</li>
+      <li style="margin:0 0 8px;"><strong>The blood pressure log.</strong> You're right and I had it wrong &mdash; you meant a printable sheet for tracking readings over time, not Celebrate the Check. That sheet doesn't exist yet. Once Allie confirms that's the direction, I'll build it and point the code at it.</li>
+    </ul>
+
+    <p style="margin:0 0 16px;">On the training video QR &mdash; I'm producing that video and expect it this week. When I add the link I'll route it through a Live Healthy Chicago address that forwards to the video, so we can count scans and the printed code never has to change if the video ever moves. That covers the tracking you asked for.</p>
+
+    <p style="margin:0 0 24px;">And agreed on Rebecca reviewing both before anything is printed.</p>
+
+    <p style="margin:0 0 4px;">Thanks,</p>
+    <p style="margin:0;">Gary</p>
+
+  </div>
+
+<script>
+  function setStatus(m,ok){var s=document.getElementById('copy-status');s.textContent=m;s.style.color=ok?'#1a7f37':'#b42318';}
+  function selectFallback(el){try{var r=document.createRange();r.selectNode(el);var s=window.getSelection();s.removeAllRanges();s.addRange(r);var ok=document.execCommand('copy');s.removeAllRanges();setStatus(ok?'✓ Copied — paste into your email':'Press ⌘C to copy the selected email',ok);}catch(e){setStatus('Select the email and press ⌘C',false);}}
+  function copyEmail(){var el=document.getElementById('email-body');if(navigator.clipboard&&window.ClipboardItem){var d=[new ClipboardItem({'text/html':new Blob([el.outerHTML],{type:'text/html'}),'text/plain':new Blob([el.innerText],{type:'text/plain'})})];navigator.clipboard.write(d).then(function(){setStatus('✓ Copied — paste into your email (formatting included)',true);},function(){selectFallback(el);});}else{selectFallback(el);}}
+</script>
+</body></html>
