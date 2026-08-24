@@ -1,0 +1,52 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reply to Ella — training version of the pocket guide</title></head>
+<body style="margin:0; padding:24px; background:#ffffff; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif; color:#1a2535; line-height:1.6;">
+
+  <div class="copy-control" style="max-width:600px; margin:0 0 18px; display:flex; align-items:center; gap:12px;">
+    <button id="copy-btn" onclick="copyEmail()" style="display:inline-flex; align-items:center; gap:8px; background:#0362BC; color:#fff; border:none; border-radius:8px; padding:10px 16px; font-family:inherit; font-size:14px; font-weight:600; cursor:pointer;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+      Copy email
+    </button>
+    <span id="copy-status" style="font-size:13px; color:#4a5568;">Click, then paste into your email (formatting included). Attach the PDF from Downloads.</span>
+  </div>
+
+  <div id="email-body" style="max-width:600px; margin:0; background:#ffffff;">
+
+    <p style="margin:0 0 16px;">Hi Ella,</p>
+
+    <p style="margin:0 0 16px;">Yes — that works, and it's the right call. Removing those two codes doesn't leave a gap in the piece; it just means everything printed on it resolves to something real. <strong>The training version is attached and ready for tomorrow.</strong></p>
+
+    <p style="margin:0 0 10px;">What changed, and only this:</p>
+    <ul style="margin:0 0 20px; padding-left:22px;">
+      <li style="margin-bottom:7px;">The <strong>Blood Pressure Log</strong> QR is out, since the printable log sheet doesn't exist yet.</li>
+      <li style="margin-bottom:7px;">The <strong>training video</strong> placeholder box is out.</li>
+      <li style="margin-bottom:7px;">The two remaining codes — <strong>Live Healthy Chicago</strong> and <strong>Community resources</strong> — are now larger and easier to scan, since they have the space to themselves.</li>
+    </ul>
+
+    <p style="margin:0 0 16px;">Everything else is untouched, including the 180/120 protocol. The tri-fold needs no change at all — the QR codes only ever lived on the pocket guide, so the school version you already have is the one to use.</p>
+
+    <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto:good,w_1100/v1787578804/orbis/lhc-pocket-guide-training-aug25.png" alt="The training version of the CHW pocket guide — back cover and front cover, with two QR codes" style="display:block; width:100%; max-width:600px; height:auto; border:1px solid #dce3ed; border-radius:10px;">
+    <p style="margin:8px 0 24px; font-size:13px; color:#4a5568;">The outside sheet — back cover at left with the two working codes, front cover at right.</p>
+
+    <p style="margin:0 0 12px;"><strong>One thing to know before tomorrow.</strong></p>
+
+    <p style="margin:0 0 16px;">The Community resources code opens the resource portal, and the portal asks people to sign up or log in before it shows anything — and we haven't loaded it with resources yet. So if a CHW scans it in the room tomorrow, they'll hit a sign-in screen rather than a shelf of materials.</p>
+
+    <p style="margin:0 0 16px;">That's fine if you're framing it as "this is where materials will live, sign up now" — arguably a good way to get your CHWs registered. It's not fine as a live demo. If you'd rather it work properly in the room, tell me today and I'll seed the portal with a starter set and send you the access details to put on a slide.</p>
+
+    <p style="margin:0 0 16px;">Still open on my side and unchanged: Allie's read on the race and ethnicity line and where the red-flags box belongs, the printable log sheet once she confirms the direction, the training video and its QR code, and Rebecca's clinical sign-off before anything goes to a printer. None of that blocks tomorrow.</p>
+
+    <p style="margin:0 0 16px;">Good luck with the training — send me anything that comes out of it.</p>
+
+    <p style="margin:0 0 4px;">Thanks,</p>
+    <p style="margin:0 0 0;">Gary</p>
+
+  </div>
+
+<script>
+  function setStatus(m,ok){var s=document.getElementById('copy-status');s.textContent=m;s.style.color=ok?'#1a7f37':'#b42318';}
+  function selectFallback(el){try{var r=document.createRange();r.selectNode(el);var s=window.getSelection();s.removeAllRanges();s.addRange(r);var ok=document.execCommand('copy');s.removeAllRanges();setStatus(ok?'✓ Copied — paste into your email':'Press ⌘C to copy the selected email',ok);}catch(e){setStatus('Select the email and press ⌘C',false);}}
+  function copyEmail(){var el=document.getElementById('email-body');if(navigator.clipboard&&window.ClipboardItem){var d=[new ClipboardItem({'text/html':new Blob([el.outerHTML],{type:'text/html'}),'text/plain':new Blob([el.innerText],{type:'text/plain'})})];navigator.clipboard.write(d).then(function(){setStatus('✓ Copied — paste into your email (formatting included)',true);},function(){selectFallback(el);});}else{selectFallback(el);}}
+</script>
+</body></html>

@@ -94,6 +94,16 @@ table.dom tr:last-child td{border-bottom:0;}
 
 .footstrip{background:var(--navy);color:#fff;padding:9px 12px;border-radius:8px;display:flex;align-items:center;gap:10px;}
 
+/* ---------- training variant (Aug 25 training) ----------
+   Ella, 8/24: run the Aug 25 training without the Blood Pressure Log QR
+   (the printable log sheet does not exist yet) and without the placeholder
+   video QR (video still in production). The two remaining codes both resolve
+   today, and dropping to a 2-up grid makes them larger and easier to scan. */
+body.training .qr-video,
+body.training .qr-bplog{display:none !important;}
+body.training .qrgrid{grid-template-columns:repeat(2,1fr);gap:16px;max-width:70%;margin:0 auto;}
+body.training .qrgrid .cap{font-size:6.6pt;}
+
 @page{size:11in 8.5in;margin:0;}
 @media print{
   html,body{background:#fff;}
@@ -110,7 +120,8 @@ table.dom tr:last-child td{border-bottom:0;}
 <div class="bar">
   <span class="pill">Draft</span>
   <h1>CHW Pocket Guide — Insert</h1>
-  <button onclick="window.print()">Save as PDF</button>
+  <button id="variant-btn" onclick="toggleVariant()" style="margin-left:auto;background:#fff;color:#1B365D;">Switch to training version (2 QR codes)</button>
+  <button onclick="window.print()" style="margin-left:0;">Save as PDF</button>
 </div>
 
 <div class="note">
@@ -177,7 +188,7 @@ table.dom tr:last-child td{border-bottom:0;}
       <div style="margin-top:auto;">
         <h3 class="sec" style="color:var(--navy);justify-content:center;">Resources to share</h3>
         <div class="qrgrid">
-          <div class="qrcell">
+          <div class="qrcell qr-video">
             <div class="qrpend"><span>Training video<br>link pending</span></div>
             <div class="cap">Watch the<br>training video</div>
           </div>
@@ -185,7 +196,7 @@ table.dom tr:last-child td{border-bottom:0;}
             <svg viewBox="0 0 29 29" shape-rendering="crispEdges" aria-label="QR code to livehealthychi.com"><rect width="29" height="29" fill="#fff"/><path fill="#1B365D" d="M2 2h7v1h-7zM10 2h2v1h-2zM14 2h1v1h-1zM16 2h1v1h-1zM20 2h7v1h-7zM2 3h1v1h-1zM8 3h1v1h-1zM11 3h4v1h-4zM20 3h1v1h-1zM26 3h1v1h-1zM2 4h1v1h-1zM4 4h3v1h-3zM8 4h1v1h-1zM10 4h3v1h-3zM14 4h4v1h-4zM20 4h1v1h-1zM22 4h3v1h-3zM26 4h1v1h-1zM2 5h1v1h-1zM4 5h3v1h-3zM8 5h1v1h-1zM11 5h2v1h-2zM15 5h2v1h-2zM18 5h1v1h-1zM20 5h1v1h-1zM22 5h3v1h-3zM26 5h1v1h-1zM2 6h1v1h-1zM4 6h3v1h-3zM8 6h1v1h-1zM11 6h4v1h-4zM20 6h1v1h-1zM22 6h3v1h-3zM26 6h1v1h-1zM2 7h1v1h-1zM8 7h1v1h-1zM10 7h1v1h-1zM12 7h2v1h-2zM20 7h1v1h-1zM26 7h1v1h-1zM2 8h7v1h-7zM10 8h1v1h-1zM12 8h1v1h-1zM14 8h1v1h-1zM16 8h1v1h-1zM18 8h1v1h-1zM20 8h7v1h-7zM16 9h1v1h-1zM18 9h1v1h-1zM2 10h1v1h-1zM4 10h1v1h-1zM8 10h2v1h-2zM12 10h1v1h-1zM14 10h1v1h-1zM18 10h1v1h-1zM21 10h1v1h-1zM24 10h1v1h-1zM26 10h1v1h-1zM3 11h3v1h-3zM9 11h2v1h-2zM14 11h1v1h-1zM17 11h2v1h-2zM20 11h2v1h-2zM23 11h1v1h-1zM25 11h2v1h-2zM3 12h1v1h-1zM8 12h4v1h-4zM13 12h1v1h-1zM16 12h2v1h-2zM19 12h1v1h-1zM21 12h4v1h-4zM26 12h1v1h-1zM3 13h2v1h-2zM6 13h1v1h-1zM9 13h3v1h-3zM13 13h1v1h-1zM16 13h1v1h-1zM19 13h1v1h-1zM21 13h3v1h-3zM3 14h3v1h-3zM7 14h3v1h-3zM11 14h1v1h-1zM14 14h1v1h-1zM17 14h2v1h-2zM20 14h2v1h-2zM26 14h1v1h-1zM4 15h4v1h-4zM10 15h1v1h-1zM15 15h1v1h-1zM17 15h5v1h-5zM25 15h2v1h-2zM2 16h2v1h-2zM8 16h1v1h-1zM10 16h4v1h-4zM15 16h3v1h-3zM20 16h1v1h-1zM23 16h2v1h-2zM26 16h1v1h-1zM4 17h1v1h-1zM6 17h1v1h-1zM11 17h2v1h-2zM14 17h1v1h-1zM18 17h1v1h-1zM20 17h4v1h-4zM2 18h11v1h-11zM14 18h1v1h-1zM17 18h6v1h-6zM25 18h1v1h-1zM10 19h1v1h-1zM13 19h3v1h-3zM18 19h1v1h-1zM22 19h1v1h-1zM26 19h1v1h-1zM2 20h7v1h-7zM10 20h4v1h-4zM15 20h2v1h-2zM18 20h1v1h-1zM20 20h1v1h-1zM22 20h1v1h-1zM26 20h1v1h-1zM2 21h1v1h-1zM8 21h1v1h-1zM11 21h1v1h-1zM13 21h2v1h-2zM16 21h3v1h-3zM22 21h1v1h-1zM26 21h1v1h-1zM2 22h1v1h-1zM4 22h3v1h-3zM8 22h1v1h-1zM11 22h1v1h-1zM14 22h1v1h-1zM16 22h7v1h-7zM25 22h1v1h-1zM2 23h1v1h-1zM4 23h3v1h-3zM8 23h1v1h-1zM11 23h5v1h-5zM19 23h1v1h-1zM22 23h1v1h-1zM24 23h2v1h-2zM2 24h1v1h-1zM4 24h3v1h-3zM8 24h1v1h-1zM10 24h1v1h-1zM12 24h2v1h-2zM17 24h1v1h-1zM19 24h1v1h-1zM21 24h3v1h-3zM25 24h2v1h-2zM2 25h1v1h-1zM8 25h1v1h-1zM12 25h2v1h-2zM18 25h2v1h-2zM21 25h2v1h-2zM2 26h7v1h-7zM10 26h5v1h-5zM18 26h1v1h-1zM20 26h1v1h-1zM23 26h1v1h-1zM26 26h1v1h-1z"/></svg>
             <div class="cap">Live Healthy<br>Chicago</div>
           </div>
-          <div class="qrcell">
+          <div class="qrcell qr-bplog">
             <svg viewBox="0 0 33 33" shape-rendering="crispEdges" aria-label="QR code to livehealthychi.com/check"><rect width="33" height="33" fill="#fff"/><path fill="#1B365D" d="M2 2h7v1h-7zM10 2h1v1h-1zM12 2h2v1h-2zM19 2h2v1h-2zM22 2h1v1h-1zM24 2h7v1h-7zM2 3h1v1h-1zM8 3h1v1h-1zM12 3h3v1h-3zM18 3h2v1h-2zM21 3h1v1h-1zM24 3h1v1h-1zM30 3h1v1h-1zM2 4h1v1h-1zM4 4h3v1h-3zM8 4h1v1h-1zM11 4h1v1h-1zM13 4h1v1h-1zM15 4h1v1h-1zM17 4h3v1h-3zM24 4h1v1h-1zM26 4h3v1h-3zM30 4h1v1h-1zM2 5h1v1h-1zM4 5h3v1h-3zM8 5h1v1h-1zM10 5h1v1h-1zM12 5h3v1h-3zM16 5h3v1h-3zM20 5h2v1h-2zM24 5h1v1h-1zM26 5h3v1h-3zM30 5h1v1h-1zM2 6h1v1h-1zM4 6h3v1h-3zM8 6h1v1h-1zM10 6h1v1h-1zM12 6h5v1h-5zM18 6h1v1h-1zM20 6h1v1h-1zM24 6h1v1h-1zM26 6h3v1h-3zM30 6h1v1h-1zM2 7h1v1h-1zM8 7h1v1h-1zM10 7h3v1h-3zM15 7h3v1h-3zM19 7h4v1h-4zM24 7h1v1h-1zM30 7h1v1h-1zM2 8h7v1h-7zM10 8h1v1h-1zM12 8h1v1h-1zM14 8h1v1h-1zM16 8h1v1h-1zM18 8h1v1h-1zM20 8h1v1h-1zM22 8h1v1h-1zM24 8h7v1h-7zM10 9h1v1h-1zM12 9h2v1h-2zM16 9h1v1h-1zM19 9h2v1h-2zM2 10h1v1h-1zM6 10h1v1h-1zM8 10h3v1h-3zM15 10h5v1h-5zM22 10h6v1h-6zM30 10h1v1h-1zM2 11h1v1h-1zM5 11h3v1h-3zM11 11h1v1h-1zM14 11h1v1h-1zM19 11h2v1h-2zM24 11h7v1h-7zM5 12h1v1h-1zM8 12h1v1h-1zM15 12h3v1h-3zM20 12h1v1h-1zM22 12h2v1h-2zM30 12h1v1h-1zM2 13h1v1h-1zM4 13h1v1h-1zM6 13h2v1h-2zM10 13h2v1h-2zM13 13h1v1h-1zM15 13h1v1h-1zM17 13h5v1h-5zM23 13h2v1h-2zM27 13h1v1h-1zM29 13h2v1h-2zM5 14h2v1h-2zM8 14h2v1h-2zM11 14h2v1h-2zM14 14h2v1h-2zM19 14h1v1h-1zM21 14h3v1h-3zM29 14h1v1h-1zM2 15h1v1h-1zM7 15h1v1h-1zM12 15h1v1h-1zM15 15h2v1h-2zM18 15h3v1h-3zM24 15h7v1h-7zM5 16h2v1h-2zM8 16h2v1h-2zM13 16h2v1h-2zM18 16h3v1h-3zM22 16h1v1h-1zM24 16h5v1h-5zM30 16h1v1h-1zM5 17h2v1h-2zM10 17h2v1h-2zM14 17h1v1h-1zM16 17h1v1h-1zM19 17h2v1h-2zM24 17h1v1h-1zM29 17h2v1h-2zM3 18h1v1h-1zM8 18h4v1h-4zM14 18h4v1h-4zM19 18h2v1h-2zM23 18h1v1h-1zM25 18h1v1h-1zM29 18h1v1h-1zM2 19h2v1h-2zM6 19h1v1h-1zM12 19h1v1h-1zM19 19h2v1h-2zM24 19h4v1h-4zM29 19h2v1h-2zM4 20h1v1h-1zM7 20h2v1h-2zM11 20h1v1h-1zM15 20h3v1h-3zM20 20h1v1h-1zM23 20h2v1h-2zM28 20h1v1h-1zM30 20h1v1h-1zM6 21h1v1h-1zM9 21h1v1h-1zM11 21h5v1h-5zM18 21h3v1h-3zM24 21h3v1h-3zM29 21h2v1h-2zM2 22h7v1h-7zM10 22h2v1h-2zM13 22h1v1h-1zM15 22h1v1h-1zM17 22h1v1h-1zM19 22h1v1h-1zM22 22h6v1h-6zM30 22h1v1h-1zM10 23h4v1h-4zM15 23h4v1h-4zM20 23h3v1h-3zM26 23h1v1h-1zM30 23h1v1h-1zM2 24h7v1h-7zM10 24h2v1h-2zM17 24h1v1h-1zM21 24h2v1h-2zM24 24h1v1h-1zM26 24h3v1h-3zM30 24h1v1h-1zM2 25h1v1h-1zM8 25h1v1h-1zM12 25h1v1h-1zM14 25h1v1h-1zM16 25h1v1h-1zM18 25h5v1h-5zM26 25h1v1h-1zM29 25h2v1h-2zM2 26h1v1h-1zM4 26h3v1h-3zM8 26h1v1h-1zM10 26h3v1h-3zM15 26h2v1h-2zM19 26h1v1h-1zM21 26h7v1h-7zM2 27h1v1h-1zM4 27h3v1h-3zM8 27h1v1h-1zM12 27h3v1h-3zM17 27h7v1h-7zM30 27h1v1h-1zM2 28h1v1h-1zM4 28h3v1h-3zM8 28h1v1h-1zM11 28h2v1h-2zM14 28h1v1h-1zM16 28h2v1h-2zM19 28h1v1h-1zM21 28h1v1h-1zM23 28h1v1h-1zM27 28h4v1h-4zM2 29h1v1h-1zM8 29h1v1h-1zM12 29h1v1h-1zM14 29h1v1h-1zM17 29h1v1h-1zM19 29h1v1h-1zM21 29h2v1h-2zM25 29h1v1h-1zM27 29h1v1h-1zM29 29h2v1h-2zM2 30h7v1h-7zM10 30h3v1h-3zM14 30h1v1h-1zM19 30h1v1h-1zM22 30h1v1h-1zM25 30h1v1h-1zM27 30h1v1h-1zM29 30h1v1h-1z"/></svg>
             <div class="cap">Log a blood<br>pressure check</div>
           </div>
@@ -404,5 +415,14 @@ table.dom tr:last-child td{border-bottom:0;}
 </div>
 
 <div class="tailpad" style="height:40px;"></div>
+<script>
+  function toggleVariant(){
+    var on=document.body.classList.toggle('training');
+    document.getElementById('variant-btn').textContent =
+      on ? 'Switch to full version (4 QR codes)' : 'Switch to training version (2 QR codes)';
+  }
+  if(location.search.indexOf('training')>-1){document.body.classList.add('training');
+    document.getElementById('variant-btn').textContent='Switch to full version (4 QR codes)';}
+</script>
 </body>
 </html>
