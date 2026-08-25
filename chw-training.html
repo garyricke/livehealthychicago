@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Blood Pressure Training for Community Health Workers &middot; Live Healthy Chicago</title>
+<meta name="description" content="A five-module blood pressure training for Chicago community health workers, with Ella, RN. Watch the modules, scan the reference material, or listen to the whole thing.">
+<link rel="canonical" href="https://livehealthychicago.org/chw-training">
+<meta property="og:title" content="Blood Pressure Training for Community Health Workers">
+<meta property="og:description" content="Five modules with Ella, RN &mdash; understanding, preventing, measuring, emergencies, and the conversation itself.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://res.cloudinary.com/dsbllwpbh/video/upload/so_8,f_auto,q_auto,w_720/lhc/chw-bp-training/module-1-understanding-high-blood-pressure.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;800;900&family=Open+Sans:wght@400;600&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box}
+:root{
+  --navy:#1B365D; --navy-d:#0E2040; --red:#E5202F; --sky:#46B7E5;
+  --yellow:#FFB81C; --teal:#48C9B0; --char:#2D2D2D; --gray:#7A8A9A;
+  --paper:#FBF7F0; --paper-2:#F4EEE4; --line:#E6DDCE; --white:#fff;
+  --ink:#241f1a;
+  --f-d:'Montserrat',system-ui,sans-serif;
+  --f-u:'Poppins',system-ui,sans-serif;
+  --f-b:'Open Sans',Georgia,serif;
+  --wrap:1220px; --r:14px;
+  --sh:0 1px 2px rgba(36,31,26,.05),0 8px 24px -12px rgba(36,31,26,.16);
+}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--f-b);font-size:17px;line-height:1.62;
+  background-image:radial-gradient(circle at 12% 8%,rgba(70,183,229,.07),transparent 45%),
+    radial-gradient(circle at 92% 4%,rgba(255,184,28,.09),transparent 40%);
+  background-attachment:fixed}
+.sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 28px}
+.ic{width:24px;height:24px;flex:0 0 auto}
+.ic-sm{width:18px;height:18px}.ic-lg{width:32px;height:32px}
+h1,h2,h3,h4,h5{font-family:var(--f-d);font-weight:800;line-height:1.1;letter-spacing:-.02em;margin:0}
+a{color:inherit}
+button{font:inherit;color:inherit;cursor:pointer;background:none;border:0}
+:focus-visible{outline:3px solid var(--sky);outline-offset:3px;border-radius:4px}
+
+/* ---- skip + nav ---- */
+.skip{position:absolute;left:-9999px;top:0;z-index:100;background:var(--navy);color:#fff;padding:12px 20px;border-radius:0 0 10px 0}
+.skip:focus{left:0}
+.top{position:sticky;top:0;z-index:60;background:rgba(251,247,240,.93);
+  backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.top-in{max-width:var(--wrap);margin:0 auto;padding:0 28px;display:flex;align-items:center;gap:26px;height:62px}
+.brand{font-family:var(--f-d);font-weight:900;font-size:14px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--navy);white-space:nowrap;text-decoration:none;display:flex;gap:9px;align-items:center}
+.brand::before{content:"";width:11px;height:11px;border-radius:50%;background:var(--red);flex:0 0 auto}
+.top nav{display:flex;gap:2px;margin-left:auto;overflow-x:auto;scrollbar-width:none}
+.top nav::-webkit-scrollbar{display:none}
+.top nav a{font-family:var(--f-u);font-size:12.5px;font-weight:600;color:var(--gray);
+  text-decoration:none;padding:8px 11px;border-radius:99px;white-space:nowrap;
+  display:flex;gap:7px;align-items:center;transition:.16s}
+.top nav a span{font-variant-numeric:tabular-nums;color:var(--red);font-weight:700}
+.top nav a:hover{background:var(--paper-2);color:var(--navy)}
+
+/* ---- hero ---- */
+.hero{padding:74px 0 20px;position:relative}
+.eyebrow{font-family:var(--f-u);font-size:12px;font-weight:600;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--red);margin:0 0 20px;display:flex;align-items:center;gap:12px}
+.eyebrow::after{content:"";height:1px;flex:1;background:var(--line);max-width:180px}
+h1{font-size:clamp(2.6rem,6.4vw,4.9rem);letter-spacing:-.035em;max-width:16ch;color:var(--navy)}
+h1 em{font-style:normal;color:var(--red)}
+.hero-sub{font-size:clamp(1.05rem,1.9vw,1.28rem);max-width:56ch;margin:26px 0 0;color:#4a423a}
+.hero-meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px}
+.pill{font-family:var(--f-u);font-size:12.5px;font-weight:600;padding:7px 15px;border-radius:99px;
+  background:var(--white);border:1px solid var(--line);color:var(--navy);display:flex;gap:8px;align-items:center}
+.pill b{color:var(--red);font-variant-numeric:tabular-nums}
+
+/* ---- reading motif ---- */
+.reading{position:absolute;right:28px;top:64px;text-align:center;font-family:var(--f-d);
+  color:var(--navy);opacity:.1;pointer-events:none;user-select:none}
+.reading span{display:block;font-size:5.6rem;font-weight:900;line-height:.86;letter-spacing:-.05em}
+.reading hr{border:0;border-top:5px solid currentColor;margin:8px auto;width:78%}
+@media(max-width:1080px){.reading{display:none}}
+
+/* ---- audio player ---- */
+.ap{margin:52px 0 8px;background:var(--navy);color:#fff;border-radius:20px;overflow:hidden;
+  box-shadow:0 24px 60px -28px rgba(27,54,93,.6)}
+.ap-top{padding:28px 30px 24px;display:grid;grid-template-columns:auto 1fr;gap:22px;align-items:center}
+.ap-play{width:66px;height:66px;border-radius:50%;background:var(--red);color:#fff;
+  display:grid;place-items:center;transition:.18s;flex:0 0 auto}
+.ap-play:hover{transform:scale(1.06)}
+.ap-play svg{width:28px;height:28px;fill:currentColor;stroke:none;margin-left:2px}
+.ap-play[data-p="1"] svg{margin-left:0}
+.ap-meta h2{font-size:1.32rem;color:#fff;letter-spacing:-.02em}
+.ap-meta p{margin:5px 0 0;font-size:14px;color:rgba(255,255,255,.68);font-family:var(--f-u)}
+.ap-bar{padding:0 30px 22px}
+.ap-track{height:7px;border-radius:99px;background:rgba(255,255,255,.17);position:relative;cursor:pointer}
+.ap-fill{position:absolute;inset:0 auto 0 0;width:0;border-radius:99px;background:var(--yellow)}
+.ap-mk{position:absolute;top:-4px;width:2px;height:15px;background:rgba(255,255,255,.42)}
+.ap-times{display:flex;justify-content:space-between;margin-top:9px;font-family:var(--f-u);
+  font-size:12px;color:rgba(255,255,255,.62);font-variant-numeric:tabular-nums}
+.ap-now{color:var(--yellow);font-weight:600}
+.ap-list{border-top:1px solid rgba(255,255,255,.13);max-height:0;overflow:hidden;transition:max-height .38s ease}
+.ap.open .ap-list{max-height:1400px;overflow-y:auto}
+.ap-toggle{width:100%;padding:15px 30px;display:flex;align-items:center;gap:10px;
+  font-family:var(--f-u);font-size:13px;font-weight:600;color:rgba(255,255,255,.85);
+  border-top:1px solid rgba(255,255,255,.13)}
+.ap-toggle .acc-c{margin-left:auto;transition:.25s}
+.ap.open .ap-toggle .acc-c{transform:rotate(180deg)}
+.ap-g{border-bottom:1px solid rgba(255,255,255,.08)}
+.ap-gh{width:100%;display:flex;align-items:center;gap:14px;padding:14px 30px;text-align:left}
+.ap-gn{font-family:var(--f-d);font-weight:900;font-size:12px;color:var(--yellow);font-variant-numeric:tabular-nums}
+.ap-gt{font-family:var(--f-u);font-size:14px;font-weight:600;color:#fff}
+.ap-gd{margin-left:auto;font-family:var(--f-u);font-size:12px;color:rgba(255,255,255,.5);font-variant-numeric:tabular-nums}
+.ap-gh .acc-c{transition:.25s;color:rgba(255,255,255,.55)}
+.ap-gh[aria-expanded="true"] .acc-c{transform:rotate(180deg)}
+.ap-gp{max-height:0;overflow:hidden;transition:max-height .3s ease}
+.ap-gp ul{list-style:none;margin:0;padding:0 0 10px}
+.ap-t{width:100%;display:flex;gap:14px;padding:8px 30px 8px 62px;text-align:left;
+  font-size:14px;color:rgba(255,255,255,.72);transition:.14s;font-family:var(--f-b)}
+.ap-t:hover{background:rgba(255,255,255,.07);color:#fff}
+.ap-t.on{color:var(--yellow)}
+.ap-tc{font-family:var(--f-u);font-size:12px;font-variant-numeric:tabular-nums;
+  color:rgba(255,255,255,.42);flex:0 0 46px}
+.ap-t.on .ap-tc{color:var(--yellow)}
+
+/* ---- module ---- */
+.mod{padding:72px 0 8px;scroll-margin-top:74px}
+.mod-rule{display:flex;align-items:baseline;gap:18px;padding-bottom:16px;border-bottom:2px solid var(--navy)}
+.mod-num{font-family:var(--f-d);font-weight:900;font-size:clamp(2.6rem,6vw,4.2rem);
+  line-height:.8;color:var(--navy);letter-spacing:-.05em;font-variant-numeric:tabular-nums}
+.mod-crit .mod-num{color:var(--red)}
+.mod-kick{font-family:var(--f-u);font-size:13.5px;font-weight:600;color:var(--gray);flex:1}
+.mod-dur{font-family:var(--f-u);font-size:13px;font-weight:600;color:var(--navy);
+  font-variant-numeric:tabular-nums;background:var(--white);border:1px solid var(--line);
+  padding:5px 13px;border-radius:99px}
+.mod-grid{display:grid;grid-template-columns:340px 1fr;gap:52px;padding-top:34px;align-items:start}
+.mod-media{position:sticky;top:82px}
+.vwrap{border-radius:var(--r);overflow:hidden;background:#0d0d0d;box-shadow:var(--sh);aspect-ratio:9/16}
+.vid{width:100%;height:100%;display:block;object-fit:cover}
+.mod-body h3{font-size:clamp(1.9rem,3.4vw,2.7rem);color:var(--navy);margin-bottom:16px}
+.lede{font-size:1.14rem;line-height:1.6;color:#4a423a;margin:0 0 34px;max-width:60ch}
+.lede em{font-style:italic;color:var(--navy)}
+
+/* jump chips */
+.jump{margin-top:14px;background:var(--white);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.jump summary{list-style:none;padding:11px 15px;display:flex;align-items:center;gap:9px;
+  font-family:var(--f-u);font-size:13px;font-weight:600;color:var(--navy);cursor:pointer}
+.jump summary::-webkit-details-marker{display:none}
+.jump-c{margin-left:auto;background:var(--paper-2);border-radius:99px;padding:2px 9px;font-size:11px;color:var(--gray)}
+.chips{padding:0 9px 11px;max-height:280px;overflow-y:auto}
+.chip{display:flex;gap:11px;width:100%;text-align:left;padding:7px 9px;border-radius:8px;
+  font-size:13.5px;line-height:1.35;color:#4a423a;transition:.14s}
+.chip:hover{background:var(--paper-2);color:var(--navy)}
+.chip.on{background:var(--navy);color:#fff}
+.chip-t{font-family:var(--f-u);font-size:11.5px;font-variant-numeric:tabular-nums;
+  color:var(--red);flex:0 0 38px;padding-top:1px}
+.chip.on .chip-t{color:var(--yellow)}
+
+/* ---- generic block ---- */
+.blk{margin:0 0 34px}
+.blk-h{display:flex;align-items:baseline;gap:14px;margin-bottom:16px}
+.blk-h h4{font-size:1.07rem;color:var(--navy);letter-spacing:-.005em}
+.blk-note{font-family:var(--f-u);font-size:11.5px;font-weight:600;color:var(--gray);
+  text-transform:uppercase;letter-spacing:.09em;margin-left:auto;white-space:nowrap}
+.blk-intro{margin:-8px 0 15px;color:var(--gray);font-size:.96rem}
+.blk-foot{margin:15px 0 0;font-size:.94rem;color:#5d554c;line-height:1.55}
+.blk-foot em{color:var(--navy);font-style:italic}
+
+/* flip cards */
+.flips{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:15px}
+.flip{perspective:1200px;height:206px;padding:0;display:block;width:100%}
+.flip-in{position:relative;width:100%;height:100%;transform-style:preserve-3d;
+  transition:transform .62s cubic-bezier(.4,.05,.2,1);display:block}
+.flip[aria-pressed="true"] .flip-in{transform:rotateY(180deg)}
+.flip-f,.flip-b{position:absolute;inset:0;backface-visibility:hidden;border-radius:var(--r);
+  padding:22px;display:flex;flex-direction:column;border:1px solid var(--line);text-align:left}
+.flip-f{background:var(--white);color:var(--navy);justify-content:space-between;box-shadow:var(--sh)}
+.flip-t{font-family:var(--f-d);font-weight:800;font-size:1.16rem;letter-spacing:-.015em;margin-top:auto}
+.flip-hint{font-family:var(--f-u);font-size:10.5px;font-weight:600;letter-spacing:.11em;
+  text-transform:uppercase;color:var(--gray);margin-top:9px}
+.flip-b{background:var(--navy);color:rgba(255,255,255,.93);transform:rotateY(180deg);
+  align-items:center;justify-content:center;font-size:.93rem;line-height:1.52;overflow-y:auto}
+
+/* accordion */
+.accs{border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--white)}
+.acc+.acc{border-top:1px solid var(--line)}
+.acc-b{width:100%;padding:15px 18px;display:flex;align-items:center;gap:14px;text-align:left;
+  font-family:var(--f-u);font-weight:600;font-size:.96rem;color:var(--navy);transition:.14s}
+.acc-b:hover{background:var(--paper)}
+.acc-c{margin-left:auto;color:var(--gray);transition:transform .25s}
+.acc-b[aria-expanded="true"] .acc-c{transform:rotate(180deg)}
+.acc-b[aria-expanded="true"]{background:var(--paper)}
+.acc-p{max-height:0;overflow:hidden;transition:max-height .3s ease}
+.acc-i{padding:0 18px 17px;font-size:.96rem;color:#5d554c;line-height:1.58}
+.acc-i em{font-style:italic;color:var(--navy)}
+
+/* split */
+.splits{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.sp{border-radius:var(--r);padding:20px 22px;border:1px solid var(--line);background:var(--white)}
+.sp h5{font-family:var(--f-u);font-size:11.5px;font-weight:700;text-transform:uppercase;
+  letter-spacing:.1em;margin-bottom:13px}
+.sp-navy{border-top:4px solid var(--navy)} .sp-navy h5{color:var(--navy)}
+.sp-teal{border-top:4px solid var(--teal)} .sp-teal h5{color:#2c9c86}
+.sp ul{margin:0;padding-left:19px;font-size:.93rem;line-height:1.55;color:#5d554c}
+.sp li+li{margin-top:7px}
+
+/* note */
+.note{display:flex;gap:15px;padding:19px 21px;border-radius:var(--r);margin:0 0 34px;
+  font-size:.97rem;line-height:1.57;align-items:flex-start}
+.note p{margin:0}
+.note-ochre{background:#FDF6E6;border:1px solid #F0DFB4;color:#6b5320}
+.note-ochre .ic{color:var(--yellow)}
+.note-navy{background:#EDF3FA;border:1px solid #CFE0F2;color:#26405f}
+.note-navy .ic{color:var(--navy)}
+.note-red{background:#FDECEC;border:1px solid #F5C7C9;color:#8a1f26}
+.note-red .ic{color:var(--red)}
+
+/* stat */
+.stat{display:flex;gap:24px;align-items:center;width:100%;text-align:left;background:var(--white);
+  border:1px solid var(--line);border-left:5px solid var(--red);border-radius:var(--r);
+  padding:24px 26px;transition:.18s;box-shadow:var(--sh)}
+.stat:hover{transform:translateY(-2px)}
+.stat-v{font-family:var(--f-d);font-weight:900;font-size:3.3rem;line-height:.9;color:var(--red);
+  letter-spacing:-.045em;font-variant-numeric:tabular-nums;white-space:nowrap}
+.stat-v em{font-style:normal;font-size:1.15rem;margin-left:3px}
+.stat-l{font-family:var(--f-u);font-size:.97rem;font-weight:600;color:var(--navy);line-height:1.4}
+.stat-s{display:block;font-weight:400;color:#5d554c;font-family:var(--f-b);font-size:.9rem;margin-top:6px}
+.stat-cta{display:flex;align-items:center;gap:6px;margin-top:11px;font-size:12px;color:var(--red);font-weight:600}
+.rot{transform:rotate(-90deg)}
+
+/* reframe */
+.rfs{list-style:none;margin:0;padding:0;display:grid;gap:11px}
+.rf{display:grid;grid-template-columns:1fr auto 1fr;gap:15px;align-items:center;
+  background:var(--white);border:1px solid var(--line);border-radius:var(--r);padding:17px 20px}
+.rf-a,.rf-b{font-size:.95rem;line-height:1.45}
+.rf-a{color:var(--gray)} .rf-b{color:var(--navy);font-weight:600}
+.rf em{display:block;font-family:var(--f-u);font-size:10.5px;font-weight:700;font-style:normal;
+  text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px}
+.rf-a em{color:#b9a68c} .rf-b em{color:var(--teal)}
+.rf-arrow{color:var(--red);font-size:1.3rem}
+
+/* bp table */
+.bp-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:var(--white)}
+.bp{width:100%;border-collapse:collapse;font-size:.94rem;min-width:430px}
+.bp thead th{font-family:var(--f-u);font-size:11px;font-weight:700;text-transform:uppercase;
+  letter-spacing:.09em;color:var(--gray);text-align:left;padding:13px 16px;border-bottom:1px solid var(--line)}
+.bp tbody th{text-align:left;font-family:var(--f-u);font-weight:600;color:var(--navy);
+  padding:13px 16px;display:flex;align-items:center;gap:10px}
+.bp td{padding:13px 16px;color:#5d554c;font-variant-numeric:tabular-nums}
+.bp-op{font-family:var(--f-u);font-size:11px;text-transform:uppercase;color:var(--gray);letter-spacing:.06em}
+.bp tbody tr+tr{border-top:1px solid var(--line)}
+.bp-dot{width:11px;height:11px;border-radius:3px;flex:0 0 auto}
+.bp-normal .bp-dot{background:var(--teal)} .bp-elevated .bp-dot{background:var(--yellow)}
+.bp-stage1 .bp-dot{background:#F09030} .bp-stage2 .bp-dot{background:var(--red)}
+.bp-crisis .bp-dot{background:#8a1f26}
+.bp-crisis{background:#FDECEC} .bp-crisis th{color:#8a1f26}
+
+/* checklists */
+.cls{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px}
+.cl{background:var(--white);border:1px solid var(--line);border-radius:var(--r);padding:19px 20px}
+.cl-h{display:flex;align-items:center;gap:10px;margin-bottom:14px;color:var(--navy)}
+.cl-h h5{font-family:var(--f-u);font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.11em}
+.cl-l{list-style:none;margin:0;padding:0;font-size:.92rem;line-height:1.45;color:#5d554c}
+.cl-l li{display:flex;gap:10px;align-items:flex-start}
+.cl-l li+li{margin-top:9px}
+.ck{width:15px;height:15px;border:1.5px solid var(--teal);border-radius:4px;flex:0 0 auto;margin-top:3px;position:relative}
+.ck::after{content:"";position:absolute;left:4px;top:.5px;width:4px;height:8px;
+  border:solid var(--teal);border-width:0 1.5px 1.5px 0;transform:rotate(42deg)}
+
+/* emergency flow */
+.flow{background:var(--white);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh)}
+.flow-top{background:var(--red);color:#fff;padding:20px 24px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.flow-n{font-family:var(--f-d);font-weight:900;font-size:2.5rem;letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+.flow-n em{font-style:normal;opacity:.55;margin:0 2px}
+.flow-lab{font-family:var(--f-u);font-size:.95rem;font-weight:600}
+.flow-s{list-style:none;margin:0;padding:22px 24px;display:grid;gap:18px}
+.flow-s li{display:flex;gap:15px}
+.fs-n{width:29px;height:29px;border-radius:50%;background:var(--navy);color:#fff;flex:0 0 auto;
+  display:grid;place-items:center;font-family:var(--f-d);font-weight:800;font-size:14px}
+.flow-s strong{font-family:var(--f-u);font-size:.98rem;color:var(--navy);display:block}
+.flow-s p{margin:5px 0 0;font-size:.93rem;color:#5d554c}
+.flow-sym{margin:10px 0 0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:7px}
+.flow-sym li{font-family:var(--f-u);font-size:12px;background:var(--paper-2);border-radius:99px;padding:4px 12px;color:#5d554c}
+.flow-fork{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border-top:1px solid var(--line)}
+.fk{padding:20px 24px;background:var(--white)}
+.fk h5{display:flex;align-items:center;gap:9px;font-family:var(--f-u);font-size:.95rem;margin-bottom:9px}
+.fk p{margin:0;font-size:.92rem;line-height:1.55;color:#5d554c}
+.fk-red h5{color:var(--red)} .fk-red{background:#FFF7F7}
+.fk-amber h5{color:#9a6b12} .fk-amber{background:#FFFBF2}
+
+/* BE FAST */
+.bfs{display:grid;grid-template-columns:repeat(auto-fit,minmax(148px,1fr));gap:12px}
+.bf{perspective:900px;height:132px;padding:0;width:100%;display:block}
+.bf-in{position:relative;width:100%;height:100%;transform-style:preserve-3d;
+  transition:transform .55s cubic-bezier(.4,.05,.2,1);display:block}
+.bf[aria-pressed="true"] .bf-in{transform:rotateY(180deg)}
+.bf-f,.bf-b{position:absolute;inset:0;backface-visibility:hidden;border-radius:12px;
+  display:flex;flex-direction:column;justify-content:center;align-items:center;padding:14px;text-align:center}
+.bf-f{background:var(--white);border:1px solid var(--line);border-bottom:4px solid var(--red)}
+.bf-l{font-family:var(--f-d);font-weight:900;font-size:2.6rem;line-height:1;color:var(--red);letter-spacing:-.04em}
+.bf-w{font-family:var(--f-u);font-size:12.5px;font-weight:600;color:var(--navy);margin-top:6px}
+.bf-b{background:var(--navy);color:rgba(255,255,255,.93);transform:rotateY(180deg);
+  font-size:.87rem;line-height:1.45}
+.bf:last-child .bf-f{border-bottom-color:var(--navy)}
+.bf:last-child .bf-l{color:var(--navy)}
+
+/* toolbox */
+.tb{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:11px}
+.tb li{display:flex;gap:13px;align-items:center;background:var(--white);border:1px solid var(--line);
+  border-radius:12px;padding:15px 17px;font-size:.94rem;color:var(--navy);font-family:var(--f-u);font-weight:500}
+.tb .ic{color:var(--red)}
+
+/* remember */
+.remember{background:var(--navy);color:#fff;border-radius:var(--r);padding:28px 30px;
+  position:relative;overflow:hidden;margin-top:38px}
+.remember::before{content:"";position:absolute;right:-40px;top:-40px;width:190px;height:190px;
+  border-radius:50%;background:rgba(255,184,28,.13)}
+.rm-l{font-family:var(--f-u);font-size:10.5px;font-weight:700;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--yellow);display:block;margin-bottom:11px}
+.remember p{margin:0;font-size:1.1rem;line-height:1.55;position:relative;font-family:var(--f-d);font-weight:600;letter-spacing:-.012em}
+.remember em{font-style:italic;color:var(--yellow)}
+
+/* modal */
+.mdl{position:fixed;inset:0;z-index:200;display:none;place-items:center;padding:24px}
+.mdl.on{display:grid}
+.mdl-bg{position:absolute;inset:0;background:rgba(20,16,12,.62);backdrop-filter:blur(4px)}
+.mdl-box{position:relative;background:var(--paper);border-radius:20px;max-width:560px;width:100%;
+  padding:36px;box-shadow:0 30px 80px -20px rgba(0,0,0,.5);max-height:86vh;overflow-y:auto}
+.mdl-x{position:absolute;right:16px;top:16px;width:36px;height:36px;border-radius:50%;
+  display:grid;place-items:center;color:var(--gray);background:var(--paper-2)}
+.mdl-box h4{font-size:1.5rem;color:var(--navy);margin-bottom:14px;padding-right:40px}
+.mdl-box p{font-size:1rem;line-height:1.6;color:#5d554c;margin:0 0 13px}
+.spoon{display:flex;align-items:center;gap:22px;background:var(--white);border:1px solid var(--line);
+  border-radius:var(--r);padding:22px;margin:18px 0}
+.spoon-n{font-family:var(--f-d);font-weight:900;font-size:2.7rem;color:var(--red);line-height:.9;letter-spacing:-.04em}
+.spoon-n em{font-style:normal;font-size:.95rem;display:block;color:var(--navy);margin-top:5px;letter-spacing:0}
+
+/* footer */
+.foot{margin-top:76px;border-top:1px solid var(--line);padding:44px 0 64px;color:var(--gray);font-size:13.5px}
+.foot-g{display:grid;grid-template-columns:1fr auto;gap:26px;align-items:start}
+.foot h5{font-family:var(--f-u);font-size:11px;font-weight:700;text-transform:uppercase;
+  letter-spacing:.12em;color:var(--navy);margin-bottom:9px}
+.foot p{margin:0 0 8px;max-width:62ch;line-height:1.6}
+.dl{display:flex;flex-direction:column;gap:8px}
+.dl a{font-family:var(--f-u);font-size:13px;font-weight:600;color:var(--navy);text-decoration:none;
+  display:flex;gap:9px;align-items:center;padding:9px 15px;background:var(--white);
+  border:1px solid var(--line);border-radius:10px;transition:.15s;white-space:nowrap}
+.dl a:hover{border-color:var(--navy)}
+
+@media(max-width:960px){
+  .mod-grid{grid-template-columns:1fr;gap:26px}
+  .mod-media{position:static}
+  .vwrap{max-width:300px;margin:0 auto}
+  .splits,.flow-fork{grid-template-columns:1fr}
+  .rf{grid-template-columns:1fr;gap:9px}
+  .rf-arrow{transform:rotate(90deg);justify-self:start}
+  .foot-g{grid-template-columns:1fr}
+}
+@media(max-width:640px){
+  body{font-size:16px}
+  .wrap,.top-in{padding:0 18px}
+  .hero{padding:48px 0 12px}
+  .ap-top{grid-template-columns:auto 1fr;gap:16px;padding:22px 20px 18px}
+  .ap-play{width:56px;height:56px}
+  .ap-bar,.ap-toggle,.ap-gh{padding-left:20px;padding-right:20px}
+  .ap-t{padding-left:44px;padding-right:20px}
+  .stat{flex-direction:column;align-items:flex-start;gap:14px}
+  .mod-rule{flex-wrap:wrap;gap:10px}
+  .mdl-box{padding:26px 22px}
+}
+
+/* ---- team review gate (same password as the status + plan pages) ---- */
+#gate{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,#0f1f3d 0%,#1B365D 60%,#0d2847 100%);padding:24px}
+#gate.fade-out{opacity:0;transition:opacity .45s ease;pointer-events:none}
+.gate-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);border-radius:20px;
+  padding:44px 40px;max-width:420px;width:100%;text-align:center;backdrop-filter:blur(8px)}
+.gate-card h2{font-family:var(--f-d);font-weight:800;font-size:1.5rem;color:#fff;letter-spacing:-.02em}
+.gate-card p{font-family:var(--f-u);font-size:.92rem;color:rgba(255,255,255,.66);margin:10px 0 26px}
+.gate-card input{width:100%;padding:14px 16px;border-radius:11px;border:1px solid rgba(255,255,255,.22);
+  background:rgba(0,0,0,.22);color:#fff;font-family:var(--f-u);font-size:1rem;text-align:center}
+.gate-card input:focus{outline:2px solid var(--sky);outline-offset:2px}
+.gate-card button{margin-top:14px;width:100%;padding:14px;border-radius:11px;background:var(--red);
+  color:#fff;font-family:var(--f-u);font-weight:600;font-size:1rem;transition:.16s}
+.gate-card button:hover{filter:brightness(1.08)}
+#gate-error{min-height:20px;margin-top:12px;font-family:var(--f-u);font-size:.85rem;color:#ffb4b8}
+
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition-duration:.01ms!important}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+<div id="gate">
+  <div class="gate-card">
+    <h2>Live Healthy Chicago</h2>
+    <p>CHW blood pressure training &mdash; team review</p>
+    <input id="pw-input" type="password" placeholder="Team password" aria-label="Team password" autocomplete="current-password">
+    <button type="button" onclick="checkPassword()">View the training</button>
+    <div id="gate-error" role="status"></div>
+  </div>
+</div>
+<div id="app" style="display:none">
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="top">
+  <div class="top-in">
+    <a class="brand" href="#top">Live Healthy Chicago</a>
+    <nav aria-label="Modules"><a href="#module-1" title="Understanding High Blood Pressure"><span>01</span>Understanding</a><a href="#module-2" title="Preventing and Managing"><span>02</span>Preventing</a><a href="#module-3" title="Know Your Numbers"><span>03</span>Your Numbers</a><a href="#module-4" title="Recognising an Emergency"><span>04</span>Emergencies</a><a href="#module-5" title="Turning Knowledge into Action"><span>05</span>In Practice</a><a href="#module-6" title="Continue Your Learning"><span>06</span>Conclusion</a></nav>
+  </div>
+</header>
+
+<main id="main">
+<div class="wrap" id="top">
+
+  <section class="hero">
+    <div class="reading" aria-hidden="true"><span>120</span><hr><span>80</span></div>
+    <p class="eyebrow">Community Health Worker Training</p>
+    <h1>Blood pressure, <em>explained like a colleague would</em>.</h1>
+    <p class="hero-sub">Five modules with <strong>Ella</strong>, a registered nurse and nurse educator, on what
+      high blood pressure is, how to help people manage it, how to measure it properly, when it becomes an
+      emergency, and the part only a community health worker can do. Watch it, skim it, or listen to it.</p>
+    <div class="hero-meta">
+      <span class="pill"><b>5</b> modules + conclusion</span>
+      <span class="pill"><b>36:53</b> total</span>
+      <span class="pill"><b>78</b> topics you can jump to</span>
+      <span class="pill">Content approved by Allie</span>
+    </div>
+  </section>
+
+  <section class="ap" aria-label="Listen to the full training">
+    <audio id="au" preload="metadata" src="https://res.cloudinary.com/dsbllwpbh/video/upload/lhc/chw-bp-training/chw-bp-training-full-audio.mp3"></audio>
+    <script type="application/json" id="chapters">[{"t": 0, "n": "Module 1"}, {"t": 582.5, "n": "Module 2"}, {"t": 1212.3, "n": "Module 3"}, {"t": 1512.3, "n": "Module 4"}, {"t": 1729.2, "n": "Module 5"}, {"t": 2082.2, "n": "Conclusion"}]</script>
+    <div class="ap-top">
+      <button class="ap-play" type="button" aria-label="Play the full training"></button>
+      <div class="ap-meta">
+        <h2>Listen to the whole training</h2>
+        <p>Audio only &middot; 36:53 &middot; jump straight to any chapter or topic</p>
+      </div>
+    </div>
+    <div class="ap-bar">
+      <div class="ap-track" role="slider" tabindex="0" aria-label="Seek"
+           aria-valuemin="0" aria-valuemax="2213" aria-valuenow="0"><div class="ap-fill"></div></div>
+      <div class="ap-times"><span class="ap-now">0:00</span>
+        <span class="ap-ch">Module 1</span><span class="ap-dur">36:53</span></div>
+    </div>
+    <button class="ap-toggle" type="button" aria-expanded="false">
+      <svg class="ic ic-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></svg> Chapters &amp; topics <svg class="ic acc-c" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+    <div class="ap-list"><div class="ap-g"><button class="ap-gh" type="button" aria-expanded="false"><span class="ap-gn">01</span><span class="ap-gt">Understanding High Blood Pressure</span><span class="ap-gd">9:42</span><svg class="ic acc-c" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button><div class="ap-gp"><ul><li><button type="button" class="ap-t" data-t="0.0"><span class="ap-tc">0:00</span><span>Gary: welcome + introduces Ella</span></button></li><li><button type="button" class="ap-t" data-t="43.0"><span class="ap-tc">0:43</span><span>Ella: thank you / why this matters</span></button></li><li><button type="button" class="ap-t" data-t="79.5"><span class="ap-tc">1:19</span><span>Gary Q: what does blood pressure mean?</span></button></li><li><button type="button" class="ap-t" data-t="90.6"><span class="ap-tc">1:30</span><span>Ella: garden hose analogy</span></button></li><li><button type="button" class="ap-t" data-t="127.5"><span class="ap-tc">2:07</span><span>Ella: what blood pressure does</span></button></li><li><button type="button" class="ap-t" data-t="140.1"><span class="ap-tc">2:20</span><span>Ella: AHA definition / do we need BP?</span></button></li><li><button type="button" class="ap-t" data-t="153.8"><span class="ap-tc">2:33</span><span>Gary Q + Ella: hypertension = high blood pressure</span></button></li><li><button type="button" class="ap-t" data-t="191.4"><span class="ap-tc">3:11</span><span>Ella: why regular checks matter</span></button></li><li><button type="button" class="ap-t" data-t="204.2"><span class="ap-tc">3:24</span><span>Gary Q + Ella: the hidden leak analogy</span></button></li><li><button type="button" class="ap-t" data-t="239.0"><span class="ap-tc">3:58</span><span>Ella: organ-by-organ complications</span></button></li><li><button type="button" class="ap-t" data-t="278.4"><span class="ap-tc">4:38</span><span>Ella: good news / AHA recommendations</span></button></li><li><button type="button" class="ap-t" data-t="327.4"><span class="ap-tc">5:27</span><span>Ella: lifestyle changes</span></button></li><li><button type="button" class="ap-t" data-t="341.7"><span class="ap-tc">5:41</span><span>Ella: who it affects / risk factors</span></button></li><li><button type="button" class="ap-t" data-t="375.3"><span class="ap-tc">6:15</span><span>Ella: why CHWs need to know the difference</span></button></li><li><button type="button" class="ap-t" data-t="397.5"><span class="ap-tc">6:37</span><span>Gary Q: risk factors we can't change</span></button></li><li><button type="button" class="ap-t" data-t="401.8"><span class="ap-tc">6:41</span><span>Ella: non-modifiable risk factors</span></button></li><li><button type="button" class="ap-t" data-t="430.7"><span class="ap-tc">7:10</span><span>Ella: not one single factor</span></button></li><li><button type="button" class="ap-t" data-t="447.8"><span class="ap-tc">7:27</span><span>Ella: the important message</span></button></li><li><button type="button" class="ap-t" data-t="469.0"><span class="ap-tc">7:49</span><span>Gary Q + Ella: risk factors we can change</span></button></li><li><button type="button" class="ap-t" data-t="519.5"><span class="ap-tc">8:39</span><span>Ella: small changes / progress not perfection</span></button></li><li><button type="button" class="ap-t" data-t="546.3"><span class="ap-tc">9:06</span><span>Gary Q: one message to remember</span></button></li><li><button type="button" class="ap-t" data-t="554.5"><span class="ap-tc">9:14</span><span>Ella: Module 1 closer</span></button></li></ul></div></div><div class="ap-g"><button class="ap-gh" type="button" aria-expanded="false"><span class="ap-gn">02</span><span class="ap-gt">Preventing and Managing</span><span class="ap-gd">10:29</span><svg class="ic acc-c" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button><div class="ap-gp"><ul><li><button type="button" class="ap-t" data-t="582.5"><span class="ap-tc">9:42</span><span>Gary Q: the first conversation</span></button></li><li><button type="button" class="ap-t" data-t="597.3"><span class="ap-tc">9:57</span><span>Ella: start with lifestyle</span></button></li><li><button type="button" class="ap-t" data-t="627.0"><span class="ap-tc">10:26</span><span>Gary Q + Ella: sodium / the teaspoon</span></button></li><li><button type="button" class="ap-t" data-t="704.8"><span class="ap-tc">11:44</span><span>Gary: what about my salt shaker?</span></button></li><li><button type="button" class="ap-t" data-t="711.8"><span class="ap-tc">11:51</span><span>Ella: where the sodium hides</span></button></li><li><button type="button" class="ap-t" data-t="735.8"><span class="ap-tc">12:15</span><span>Gary Q + Ella: culture and food</span></button></li><li><button type="button" class="ap-t" data-t="865.4"><span class="ap-tc">14:25</span><span>Gary Q + Ella: real-world barriers</span></button></li><li><button type="button" class="ap-t" data-t="943.3"><span class="ap-tc">15:43</span><span>Gary Q + Ella: moving your body</span></button></li><li><button type="button" class="ap-t" data-t="1026.5"><span class="ap-tc">17:06</span><span>Gary Q + Ella: I work two jobs</span></button></li><li><button type="button" class="ap-t" data-t="1079.5"><span class="ap-tc">17:59</span><span>Gary Q + Ella: stress, sleep, medications</span></button></li><li><button type="button" class="ap-t" data-t="1192.1"><span class="ap-tc">19:52</span><span>Gary Q: one message to remember</span></button></li><li><button type="button" class="ap-t" data-t="1199.0"><span class="ap-tc">19:59</span><span>Ella: Module 2 closer</span></button></li></ul></div></div><div class="ap-g"><button class="ap-gh" type="button" aria-expanded="false"><span class="ap-gn">03</span><span class="ap-gt">Know Your Numbers</span><span class="ap-gd">4:59</span><svg class="ic acc-c" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button><div class="ap-gp"><ul><li><button type="button" class="ap-t" data-t="1212.3"><span class="ap-tc">20:12</span><span>Gary Q + Ella: systolic & diastolic</span></button></li><li><button type="button" class="ap-t" data-t="1281.9"><span class="ap-tc">21:21</span><span>Gary Q: normal or high?</span></button></li><li><button type="button" class="ap-t" data-t="1287.3"><span class="ap-tc">21:27</span><span>Ella: the AHA categories</span></button></li><li><button type="button" class="ap-t" data-t="1311.9"><span class="ap-tc">21:51</span><span>Ella: don't memorize / consistently high</span></button></li><li><button type="button" class="ap-t" data-t="1327.5"><span class="ap-tc">22:07</span><span>Ella: extremely high - next module</span></button></li><li><button type="button" class="ap-t" data-t="1336.2"><span class="ap-tc">22:16</span><span>Gary Q + Ella: proper technique</span></button></li><li><button type="button" class="ap-t" data-t="1379.6"><span class="ap-tc">22:59</span><span>Gary Q: before the reading</span></button></li><li><button type="button" class="ap-t" data-t="1384.1"><span class="ap-tc">23:04</span><span>Ella: BEFORE steps</span></button></li><li><button type="button" class="ap-t" data-t="1407.2"><span class="ap-tc">23:27</span><span>Gary Q + Ella: DURING steps</span></button></li><li><button type="button" class="ap-t" data-t="1441.6"><span class="ap-tc">24:01</span><span>Gary Q + Ella: AFTER the reading</span></button></li><li><button type="button" class="ap-t" data-t="1469.0"><span class="ap-tc">24:29</span><span>Gary Q + Ella: Module 3 closer</span></button></li></ul></div></div><div class="ap-g"><button class="ap-gh" type="button" aria-expanded="false"><span class="ap-gn">04</span><span class="ap-gt">Recognising an Emergency</span><span class="ap-gd">3:36</span><svg class="ic acc-c" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button><div class="ap-gp"><ul><li><button type="button" class="ap-t" data-t="1512.3"><span class="ap-tc">25:12</span><span>Gary Q: when is it an emergency?</span></button></li><li><button type="button" class="ap-t" data-t="1525.0"><span class="ap-tc">25:25</span><span>Ella: not every reading / recheck</span></button></li><li><button type="button" class="ap-t" data-t="1556.4"><span class="ap-tc">25:56</span><span>Gary Q + Ella: the symptoms</span></button></li><li><button type="button" class="ap-t" data-t="1572.1"><span class="ap-tc">26:12</span><span>Ella: what those symptoms mean</span></button></li><li><button type="button" class="ap-t" data-t="1584.7"><span class="ap-tc">26:24</span><span>Gary Q + Ella: severe hypertension</span></button></li><li><button type="button" class="ap-t" data-t="1620.0"><span class="ap-tc">26:59</span><span>Gary Q + Ella: call 911</span></button></li><li><button type="button" class="ap-t" data-t="1636.1"><span class="ap-tc">27:16</span><span>Ella: every minute matters</span></button></li><li><button type="button" class="ap-t" data-t="1641.2"><span class="ap-tc">27:21</span><span>Gary Q + Ella: BE FAST</span></button></li><li><button type="button" class="ap-t" data-t="1663.4"><span class="ap-tc">27:43</span><span>Ella: T is for Time</span></button></li><li><button type="button" class="ap-t" data-t="1689.0"><span class="ap-tc">28:09</span><span>Gary Q: one message to remember</span></button></li><li><button type="button" class="ap-t" data-t="1692.8"><span class="ap-tc">28:12</span><span>Ella: Module 4 closer</span></button></li></ul></div></div><div class="ap-g"><button class="ap-gh" type="button" aria-expanded="false"><span class="ap-gn">05</span><span class="ap-gt">Turning Knowledge into Action</span><span class="ap-gd">5:53</span><svg class="ic acc-c" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button><div class="ap-gp"><ul><li><button type="button" class="ap-t" data-t="1729.2"><span class="ap-tc">28:49</span><span>Gary Q: turning knowledge into action</span></button></li><li><button type="button" class="ap-t" data-t="1748.2"><span class="ap-tc">29:08</span><span>Ella: relationships and trust</span></button></li><li><button type="button" class="ap-t" data-t="1793.7"><span class="ap-tc">29:53</span><span>Gary Q + Ella: ask the question differently</span></button></li><li><button type="button" class="ap-t" data-t="1851.1"><span class="ap-tc">30:51</span><span>Gary Q + Ella: the teach-back method</span></button></li><li><button type="button" class="ap-t" data-t="1896.7"><span class="ap-tc">31:36</span><span>Gary Q + Ella: one realistic goal</span></button></li><li><button type="button" class="ap-t" data-t="1999.8"><span class="ap-tc">33:19</span><span>Gary Q + Ella: what got in the way</span></button></li><li><button type="button" class="ap-t" data-t="2038.3"><span class="ap-tc">33:58</span><span>Ella: knowledge, respect, being heard</span></button></li><li><button type="button" class="ap-t" data-t="2055.2"><span class="ap-tc">34:15</span><span>Ella: one check, one meal, one walk</span></button></li><li><button type="button" class="ap-t" data-t="2065.2"><span class="ap-tc">34:25</span><span>Ella: one person who finally feels heard</span></button></li><li><button type="button" class="ap-t" data-t="2068.6"><span class="ap-tc">34:28</span><span>Ella: closing thank you</span></button></li></ul></div></div><div class="ap-g"><button class="ap-gh" type="button" aria-expanded="false"><span class="ap-gn">06</span><span class="ap-gt">Continue Your Learning</span><span class="ap-gd">2:11</span><svg class="ic acc-c" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button><div class="ap-gp"><ul><li><button type="button" class="ap-t" data-t="2082.2"><span class="ap-tc">34:42</span><span>Gary Q: what resources are available?</span></button></li><li><button type="button" class="ap-t" data-t="2095.2"><span class="ap-tc">34:55</span><span>Ella: connect people with trusted resources</span></button></li><li><button type="button" class="ap-t" data-t="2105.9"><span class="ap-tc">35:05</span><span>Ella: you don't have to memorize everything</span></button></li><li><button type="button" class="ap-t" data-t="2119.8"><span class="ap-tc">35:19</span><span>Ella: the Live Healthy Chicago pamphlet</span></button></li><li><button type="button" class="ap-t" data-t="2130.8"><span class="ap-tc">35:30</span><span>Ella: what the QR code links you to</span></button></li><li><button type="button" class="ap-t" data-t="2149.7"><span class="ap-tc">35:49</span><span>Ella: explore them, share them</span></button></li><li><button type="button" class="ap-t" data-t="2162.7"><span class="ap-tc">36:02</span><span>Gary: today's training doesn't end here</span></button></li><li><button type="button" class="ap-t" data-t="2169.1"><span class="ap-tc">36:09</span><span>Ella: learning is an ongoing journey</span></button></li><li><button type="button" class="ap-t" data-t="2173.7"><span class="ap-tc">36:13</span><span>Ella: the QR codes are there long after</span></button></li><li><button type="button" class="ap-t" data-t="2190.8"><span class="ap-tc">36:30</span><span>Ella: remember - every conversation</span></button></li><li><button type="button" class="ap-t" data-t="2203.8"><span class="ap-tc">36:43</span><span>Ella: the potential to save a life</span></button></li><li><button type="button" class="ap-t" data-t="2209.7"><span class="ap-tc">36:49</span><span>Ella: thank you for everything you do</span></button></li></ul></div></div></div>
+  </section>
+
+  
+<section class="mod" id="module-1" aria-labelledby="m1-h">
+  <div class="mod-rule"><span class="mod-num">01</span>
+    <span class="mod-kick">What it is, why it hides, and who it reaches</span><span class="mod-dur">9:42</span></div>
+  <div class="mod-grid">
+    <div class="mod-media">
+      <div class="vwrap">
+        <video class="vid" preload="none" playsinline controls
+          poster="https://res.cloudinary.com/dsbllwpbh/video/upload/so_8,f_auto,q_auto,w_720/lhc/chw-bp-training/module-1-understanding-high-blood-pressure.jpg" data-mod="1">
+          <source src="https://res.cloudinary.com/dsbllwpbh/video/upload/lhc/chw-bp-training/module-1-understanding-high-blood-pressure.mp4" type="video/mp4">
+        </video>
+      </div>
+      <details class="jump"><summary><svg class="ic ic-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></svg> Jump to a topic
+        <span class="jump-c">22</span></summary>
+        <div class="chips"><button class="chip" type="button" data-t="0.0"><span class="chip-t">0:00</span>Gary: welcome + introduces Ella</button><button class="chip" type="button" data-t="43.0"><span class="chip-t">0:43</span>Ella: thank you / why this matters</button><button class="chip" type="button" data-t="79.5"><span class="chip-t">1:19</span>Gary Q: what does blood pressure mean?</button><button class="chip" type="button" data-t="90.6"><span class="chip-t">1:30</span>Ella: garden hose analogy</button><button class="chip" type="button" data-t="127.5"><span class="chip-t">2:07</span>Ella: what blood pressure does</button><button class="chip" type="button" data-t="140.1"><span class="chip-t">2:20</span>Ella: AHA definition / do we need BP?</button><button class="chip" type="button" data-t="153.8"><span class="chip-t">2:33</span>Gary Q + Ella: hypertension = high blood pressure</button><button class="chip" type="button" data-t="191.4"><span class="chip-t">3:11</span>Ella: why regular checks matter</button><button class="chip" type="button" data-t="204.2"><span class="chip-t">3:24</span>Gary Q + Ella: the hidden leak analogy</button><button class="chip" type="button" data-t="239.0"><span class="chip-t">3:58</span>Ella: organ-by-organ complications</button><button class="chip" type="button" data-t="278.4"><span class="chip-t">4:38</span>Ella: good news / AHA recommendations</button><button class="chip" type="button" data-t="327.4"><span class="chip-t">5:27</span>Ella: lifestyle changes</button><button class="chip" type="button" data-t="341.7"><span class="chip-t">5:41</span>Ella: who it affects / risk factors</button><button class="chip" type="button" data-t="375.3"><span class="chip-t">6:15</span>Ella: why CHWs need to know the difference</button><button class="chip" type="button" data-t="397.5"><span class="chip-t">6:37</span>Gary Q: risk factors we can't change</button><button class="chip" type="button" data-t="401.8"><span class="chip-t">6:41</span>Ella: non-modifiable risk factors</button><button class="chip" type="button" data-t="430.7"><span class="chip-t">7:10</span>Ella: not one single factor</button><button class="chip" type="button" data-t="447.8"><span class="chip-t">7:27</span>Ella: the important message</button><button class="chip" type="button" data-t="469.0"><span class="chip-t">7:49</span>Gary Q + Ella: risk factors we can change</button><button class="chip" type="button" data-t="519.5"><span class="chip-t">8:39</span>Ella: small changes / progress not perfection</button><button class="chip" type="button" data-t="546.3"><span class="chip-t">9:06</span>Gary Q: one message to remember</button><button class="chip" type="button" data-t="554.5"><span class="chip-t">9:14</span>Ella: Module 1 closer</button></div></details>
+    </div>
+    <div class="mod-body">
+      <h3 id="m1-h">Understanding High&nbsp;Blood Pressure</h3>
+      <p class="lede">Blood pressure is the force your blood uses to move through your vessels. You need it. The goal was never <em>low</em> blood pressure &mdash; it&rsquo;s <em>healthy</em> blood pressure.</p>
+      <div class="blk"><div class="blk-h"><h4>Two ways to explain it</h4>
+      <span class="blk-note">Tap a card</span></div>
+      <div class="flips"><button class="flip" type="button" aria-pressed="false">
+        <span class="flip-in">
+          <span class="flip-f"><svg class="ic ic-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20c0-6 3-9 8-9s6-2 6-5V4"/><circle cx="18" cy="3" r="1.6"/></svg><span class="flip-t">The garden hose</span>
+            <span class="flip-hint">Tap</span></span>
+          <span class="flip-b"><span>Water flows smoothly at the right pressure. Keep the pressure too high, day after day, and the hose stretches and weakens. Blood vessels behave the same way.</span></span>
+        </span></button><button class="flip" type="button" aria-pressed="false">
+        <span class="flip-in">
+          <span class="flip-f"><svg class="ic ic-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3s6 6.5 6 10.5A6 6 0 0 1 6 13.5C6 9.5 12 3 12 3Z"/></svg><span class="flip-t">The leak behind the wall</span>
+            <span class="flip-hint">Tap</span></span>
+          <span class="flip-b"><span>At first everything looks normal. You don&rsquo;t see it or hear it. But it quietly weakens the wall long before anyone notices. Most people feel perfectly fine while damage is happening.</span></span>
+        </span></button></div></div><div class="blk"><div class="blk-h"><h4>What uncontrolled high blood pressure damages</h4></div><div class="accs"><div class="acc"><button class="acc-b" type="button" aria-expanded="false">
+        <span>Heart</span><svg class="ic acc-c" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+        <div class="acc-p"><div class="acc-i">Raises the risk of heart attack and heart failure.</div></div></div><div class="acc"><button class="acc-b" type="button" aria-expanded="false">
+        <span>Brain</span><svg class="ic acc-c" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+        <div class="acc-p"><div class="acc-i">Raises the risk of stroke, and problems with memory and thinking.</div></div></div><div class="acc"><button class="acc-b" type="button" aria-expanded="false">
+        <span>Kidneys</span><svg class="ic acc-c" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+        <div class="acc-p"><div class="acc-i">Makes it harder for them to filter waste out of the blood.</div></div></div><div class="acc"><button class="acc-b" type="button" aria-expanded="false">
+        <span>Eyes</span><svg class="ic acc-c" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+        <div class="acc-p"><div class="acc-i">Can lead to vision problems, and even vision loss.</div></div></div><div class="acc"><button class="acc-b" type="button" aria-expanded="false">
+        <span>Blood vessels</span><svg class="ic acc-c" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+        <div class="acc-p"><div class="acc-i">Makes it harder for blood to reach the organs that need it.</div></div></div></div></div><div class="blk"><div class="blk-h"><h4>Risk factors</h4></div><div class="splits"><div class="sp sp-navy"><h5>Can&rsquo;t be changed</h5><ul><li>Getting older</li><li>Family history</li><li>Certain conditions &mdash; diabetes, chronic kidney disease</li><li>Population risk &mdash; African American adults often develop it younger, with more severe complications</li></ul></div><div class="sp sp-teal"><h5>Can be changed</h5><ul><li>Eating a heart-healthy diet</li><li>Reducing sodium</li><li>Being physically active</li><li>Managing stress</li><li>Getting enough sleep</li><li>Avoiding tobacco</li><li>Limiting alcohol</li><li>Taking medication as prescribed</li><li>Keeping healthcare appointments</li></ul></div></div><p class="blk-foot">Having a risk factor doesn&rsquo;t mean someone <em>will</em> develop high blood pressure. It means knowing their numbers matters even more.</p></div><div class="note note-ochre"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4 2.5 20h19Z"/><path d="M12 10v4M12 17h.01"/></svg><p>This isn&rsquo;t caused by one single thing. Genetics, chronic stress, economic conditions, access to healthcare and other social factors all shape someone&rsquo;s blood pressure.</p></div>
+      <div class="remember"><span class="rm-l">The one message to remember</span>
+        <p>High blood pressure is common, and once people know their numbers, understand their risk, and feel supported, there&rsquo;s no reason they can&rsquo;t protect their body.</p></div>
+    </div>
+  </div>
+</section>
+<section class="mod" id="module-2" aria-labelledby="m2-h">
+  <div class="mod-rule"><span class="mod-num">02</span>
+    <span class="mod-kick">Food, movement, stress, sleep, medication</span><span class="mod-dur">10:29</span></div>
+  <div class="mod-grid">
+    <div class="mod-media">
+      <div class="vwrap">
+        <video class="vid" preload="none" playsinline controls
+          poster="https://res.cloudinary.com/dsbllwpbh/video/upload/so_8,f_auto,q_auto,w_720/lhc/chw-bp-training/module-2-preventing-and-managing.jpg" data-mod="2">
+          <source src="https://res.cloudinary.com/dsbllwpbh/video/upload/lhc/chw-bp-training/module-2-preventing-and-managing.mp4" type="video/mp4">
+        </video>
+      </div>
+      <details class="jump"><summary><svg class="ic ic-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></svg> Jump to a topic
+        <span class="jump-c">12</span></summary>
+        <div class="chips"><button class="chip" type="button" data-t="0.0"><span class="chip-t">0:00</span>Gary Q: the first conversation</button><button class="chip" type="button" data-t="14.8"><span class="chip-t">0:14</span>Ella: start with lifestyle</button><button class="chip" type="button" data-t="44.4"><span class="chip-t">0:44</span>Gary Q + Ella: sodium / the teaspoon</button><button class="chip" type="button" data-t="122.3"><span class="chip-t">2:02</span>Gary: what about my salt shaker?</button><button class="chip" type="button" data-t="129.3"><span class="chip-t">2:09</span>Ella: where the sodium hides</button><button class="chip" type="button" data-t="153.2"><span class="chip-t">2:33</span>Gary Q + Ella: culture and food</button><button class="chip" type="button" data-t="282.9"><span class="chip-t">4:42</span>Gary Q + Ella: real-world barriers</button><button class="chip" type="button" data-t="360.8"><span class="chip-t">6:00</span>Gary Q + Ella: moving your body</button><button class="chip" type="button" data-t="444.0"><span class="chip-t">7:24</span>Gary Q + Ella: I work two jobs</button><button class="chip" type="button" data-t="496.9"><span class="chip-t">8:16</span>Gary Q + Ella: stress, sleep, medications</button><button class="chip" type="button" data-t="609.6"><span class="chip-t">10:09</span>Gary Q: one message to remember</button><button class="chip" type="button" data-t="616.5"><span class="chip-t">10:16</span>Ella: Module 2 closer</button></div></details>
+    </div>
+    <div class="mod-body">
+      <h3 id="m2-h">Preventing and Managing</h3>
+      <p class="lede">Nobody has to change everything at once. Small, consistent changes become lasting habits far more reliably than trying to overhaul a life overnight.</p>
+      <div class="blk"><button class="stat" type="button" data-modal="teaspoon">
+      <span class="stat-v">2,300<em>mg</em></span>
+      <span class="stat-l">the daily sodium limit for most adults<span class="stat-s">An ideal goal for many adults with high blood pressure is <strong>1,500&nbsp;mg</strong>.</span>
+      <span class="stat-cta">See what that looks like <svg class="ic ic-sm rot" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span></span></button></div><div class="blk"><div class="blk-h"><h4>Where the sodium is actually hiding</h4></div><p class="blk-intro">Most of it never comes from the salt shaker.</p><div class="accs"><div class="acc"><button class="acc-b" type="button" aria-expanded="false">
+        <span>Packaged and canned foods</span><svg class="ic acc-c" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+        <div class="acc-p"><div class="acc-i">Check labels. Rinsing canned beans or vegetables cuts sodium further.</div></div></div><div class="acc"><button class="acc-b" type="button" aria-expanded="false">
+        <span>Frozen meals</span><svg class="ic acc-c" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+        <div class="acc-p"><div class="acc-i">Often a full day&rsquo;s sodium in a single tray.</div></div></div><div class="acc"><button class="acc-b" type="button" aria-expanded="false">
+        <span>Restaurant and fast food</span><svg class="ic acc-c" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+        <div class="acc-p"><div class="acc-i">A breakfast sandwich alone can be half the daily limit.</div></div></div><div class="acc"><button class="acc-b" type="button" aria-expanded="false">
+        <span>By lunchtime</span><svg class="ic acc-c" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+        <div class="acc-p"><div class="acc-i">A deli sandwich and chips can push someone past the whole day&rsquo;s recommendation.</div></div></div></div></div><div class="blk"><div class="blk-h"><h4>Honouring the food, changing the method</h4>
+      <span class="blk-note">Tap a card</span></div>
+      <div class="flips"><button class="flip" type="button" aria-pressed="false">
+        <span class="flip-in">
+          <span class="flip-f"><svg class="ic ic-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9h16v6a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4V9Z"/><path d="M20 11h2M2 11h2M9 6V4M15 6V4"/></svg><span class="flip-t">Soul food</span>
+            <span class="flip-hint">Tap</span></span>
+          <span class="flip-b"><span>Bake or air-fry instead of deep-frying. Season greens with smoked turkey instead of ham hocks. Black-eyed peas, beans, sweet potatoes and leafy greens are already heart-healthy.</span></span>
+        </span></button><button class="flip" type="button" aria-pressed="false">
+        <span class="flip-in">
+          <span class="flip-f"><svg class="ic ic-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20c0-9 7-14 16-14 0 9-6 14-16 14Z"/><path d="M4 20 14 10"/></svg><span class="flip-t">Latino kitchens</span>
+            <span class="flip-hint">Tap</span></span>
+          <span class="flip-b"><span>Beans, avocado, fresh salsa, fruit, vegetables and corn tortillas all belong in a heart-healthy pattern. Bake plantains instead of frying; take a smaller portion of rice.</span></span>
+        </span></button><button class="flip" type="button" aria-pressed="false">
+        <span class="flip-in">
+          <span class="flip-f"><svg class="ic ic-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v6M12 15v6M3 12h6M15 12h6"/><path d="m6.5 6.5 3 3M14.5 14.5l3 3M17.5 6.5l-3 3M9.5 14.5l-3 3"/></svg><span class="flip-t">Seasoning</span>
+            <span class="flip-hint">Tap</span></span>
+          <span class="flip-b"><span>Garlic, onion, paprika, thyme, oregano, rosemary, black pepper, cayenne. Flavour without salt.</span></span>
+        </span></button></div><p class="blk-foot">Healthy eating isn&rsquo;t about changing someone&rsquo;s culture. It&rsquo;s about cooking the food they love in a way that loves them back.</p></div><div class="blk"><div class="blk-h"><h4>Start by listening</h4></div><ul class="rfs"><li class="rf"><span class="rf-a"><em>Instead of</em>Why aren&rsquo;t you eating healthier?</span>
+        <span class="rf-arrow" aria-hidden="true">&rarr;</span>
+        <span class="rf-b"><em>Try</em>What&rsquo;s making healthy eating difficult for you?</span></li></ul><p class="blk-foot">That one question changes the conversation. Once you understand the barrier, you can help find a realistic solution &mdash; frozen vegetables, low-sodium canned goods, a rotisserie chicken and microwave rice on a long shift.</p></div><div class="blk"><div class="blk-h"><h4>Movement, stress, sleep and medication</h4></div><div class="accs"><div class="acc"><button class="acc-b" type="button" aria-expanded="false">
+        <span>Movement is medicine</span><svg class="ic acc-c" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+        <div class="acc-p"><div class="acc-i">Walking, stairs, gardening, dancing, playing with grandchildren, chair exercises. Three 10-minute walks count. Every minute counts.</div></div></div><div class="acc"><button class="acc-b" type="button" aria-expanded="false">
+        <span>&ldquo;I work two jobs.&rdquo;</span><svg class="ic acc-c" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+        <div class="acc-p"><div class="acc-i">Don&rsquo;t ask them to change their schedule. Ask where five or ten minutes could fit &mdash; marching during a call, dancing while cooking dinner.</div></div></div><div class="acc"><button class="acc-b" type="button" aria-expanded="false">
+        <span>Stress</span><svg class="ic acc-c" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+        <div class="acc-p"><div class="acc-i">Constant stress releases hormones that raise blood pressure, and makes every other habit harder.</div></div></div><div class="acc"><button class="acc-b" type="button" aria-expanded="false">
+        <span>Sleep</span><svg class="ic acc-c" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+        <div class="acc-p"><div class="acc-i">Aim for 7&ndash;9 hours. Poor sleep and sleep apnea make blood pressure harder to control.</div></div></div><div class="acc"><button class="acc-b" type="button" aria-expanded="false">
+        <span>&ldquo;I feel fine, so I stopped taking my medicine.&rdquo;</span><svg class="ic acc-c" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+        <div class="acc-p"><div class="acc-i">Blood pressure medicine controls high blood pressure &mdash; it doesn&rsquo;t cure it. If cost or side effects are the problem, get them to their provider or pharmacist before they stop.</div></div></div></div></div>
+      <div class="remember"><span class="rm-l">The one message to remember</span>
+        <p>Healthy habits don&rsquo;t have to be perfect. They have to be realistic, consistent and sustainable. Help people pick <em>one</em> change they can start today.</p></div>
+    </div>
+  </div>
+</section>
+<section class="mod" id="module-3" aria-labelledby="m3-h">
+  <div class="mod-rule"><span class="mod-num">03</span>
+    <span class="mod-kick">Reading them, and reading them correctly</span><span class="mod-dur">4:59</span></div>
+  <div class="mod-grid">
+    <div class="mod-media">
+      <div class="vwrap">
+        <video class="vid" preload="none" playsinline controls
+          poster="https://res.cloudinary.com/dsbllwpbh/video/upload/so_8,f_auto,q_auto,w_720/lhc/chw-bp-training/module-3-know-your-numbers.jpg" data-mod="3">
+          <source src="https://res.cloudinary.com/dsbllwpbh/video/upload/lhc/chw-bp-training/module-3-know-your-numbers.mp4" type="video/mp4">
+        </video>
+      </div>
+      <details class="jump"><summary><svg class="ic ic-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></svg> Jump to a topic
+        <span class="jump-c">11</span></summary>
+        <div class="chips"><button class="chip" type="button" data-t="0.0"><span class="chip-t">0:00</span>Gary Q + Ella: systolic & diastolic</button><button class="chip" type="button" data-t="69.5"><span class="chip-t">1:09</span>Gary Q: normal or high?</button><button class="chip" type="button" data-t="74.9"><span class="chip-t">1:14</span>Ella: the AHA categories</button><button class="chip" type="button" data-t="99.6"><span class="chip-t">1:39</span>Ella: don't memorize / consistently high</button><button class="chip" type="button" data-t="115.2"><span class="chip-t">1:55</span>Ella: extremely high - next module</button><button class="chip" type="button" data-t="123.9"><span class="chip-t">2:03</span>Gary Q + Ella: proper technique</button><button class="chip" type="button" data-t="167.3"><span class="chip-t">2:47</span>Gary Q: before the reading</button><button class="chip" type="button" data-t="171.8"><span class="chip-t">2:51</span>Ella: BEFORE steps</button><button class="chip" type="button" data-t="194.9"><span class="chip-t">3:14</span>Gary Q + Ella: DURING steps</button><button class="chip" type="button" data-t="229.3"><span class="chip-t">3:49</span>Gary Q + Ella: AFTER the reading</button><button class="chip" type="button" data-t="256.7"><span class="chip-t">4:16</span>Gary Q + Ella: Module 3 closer</button></div></details>
+    </div>
+    <div class="mod-body">
+      <h3 id="m3-h">Know Your Numbers</h3>
+      <p class="lede">Clap your hands. When they come together, that&rsquo;s the heart squeezing &mdash; the top number. When they separate, that&rsquo;s the heart relaxing &mdash; the bottom number.</p>
+      <div class="blk"><div class="blk-h"><h4>The American Heart Association categories</h4></div>
+      <div class="bp-wrap"><table class="bp">
+      <caption class="sr">Blood pressure categories, systolic over diastolic, in mmHg</caption>
+      <thead><tr><th scope="col">Category</th><th scope="col">Systolic</th>
+      <th scope="col"><span class="sr">and/or</span></th><th scope="col">Diastolic</th></tr></thead>
+      <tbody><tr class="bp-normal"><th scope="row"><span class="bp-dot"></span>Normal</th>
+        <td>Less than 120</td><td class="bp-op">and</td><td>Less than 80</td></tr><tr class="bp-elevated"><th scope="row"><span class="bp-dot"></span>Elevated</th>
+        <td>120&ndash;129</td><td class="bp-op">and</td><td>Less than 80</td></tr><tr class="bp-stage1"><th scope="row"><span class="bp-dot"></span>Stage 1 hypertension</th>
+        <td>130&ndash;139</td><td class="bp-op">or</td><td>80&ndash;89</td></tr><tr class="bp-stage2"><th scope="row"><span class="bp-dot"></span>Stage 2 hypertension</th>
+        <td>140 or higher</td><td class="bp-op">or</td><td>90 or higher</td></tr><tr class="bp-crisis"><th scope="row"><span class="bp-dot"></span>Hypertensive crisis</th>
+        <td>Higher than 180</td><td class="bp-op">and/or</td><td>Higher than 120</td></tr></tbody></table></div><p class="blk-foot">Your role isn&rsquo;t to diagnose. It&rsquo;s to recognise when someone should follow up &mdash; and when a reading needs attention right now.</p></div><div class="blk"><div class="blk-h"><h4>Taking an accurate reading</h4></div><div class="cls"><div class="cl"><div class="cl-h"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><h5>Before</h5></div><ul class="cl-l"><li><span class="ck"></span>Rest quietly for 5 minutes</li><li><span class="ck"></span>No smoking for 30 minutes</li><li><span class="ck"></span>No caffeine for 30 minutes</li><li><span class="ck"></span>No exercise for 30 minutes</li><li><span class="ck"></span>Empty your bladder</li></ul></div><div class="cl"><div class="cl-h"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 4v9h12V4"/><path d="M4 13h16M8 13v7M16 13v7"/></svg><h5>During</h5></div><ul class="cl-l"><li><span class="ck"></span>Back supported</li><li><span class="ck"></span>Feet flat on the floor</li><li><span class="ck"></span>Legs uncrossed</li><li><span class="ck"></span>Arm resting at heart level</li><li><span class="ck"></span>Cuff on a bare arm, not over clothing</li><li><span class="ck"></span>Correct cuff size</li><li><span class="ck"></span>Don&rsquo;t talk</li></ul></div><div class="cl"><div class="cl-h"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h9a3 3 0 0 1 3 3v13a3 3 0 0 0-3-3H4Z"/><path d="M20 4h-4v13h4Z"/></svg><h5>After</h5></div><ul class="cl-l"><li><span class="ck"></span>Record it &mdash; notebook, phone app, or the monitor&rsquo;s memory</li><li><span class="ck"></span>Bring the readings to appointments</li><li><span class="ck"></span>One reading is a snapshot; several tell the real story</li></ul></div></div></div><div class="note note-navy"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4 2.5 20h19Z"/><path d="M12 10v4M12 17h.01"/></svg><p>Don&rsquo;t worry about memorising every number. Aim for normal. If it stays high over time, help them get to a provider. If it&rsquo;s extremely high, act &mdash; that&rsquo;s Module&nbsp;4.</p></div>
+      <div class="remember"><span class="rm-l">The one message to remember</span>
+        <p>Knowing your numbers matters, but only if they&rsquo;re accurate. The steps before, during and after a reading are what make it reliable enough to act on.</p></div>
+    </div>
+  </div>
+</section>
+<section class="mod mod-crit" id="module-4" aria-labelledby="m4-h">
+  <div class="mod-rule"><span class="mod-num">04</span>
+    <span class="mod-kick">Over 180/120 &mdash; and what to do next</span><span class="mod-dur">3:36</span></div>
+  <div class="mod-grid">
+    <div class="mod-media">
+      <div class="vwrap">
+        <video class="vid" preload="none" playsinline controls
+          poster="https://res.cloudinary.com/dsbllwpbh/video/upload/so_8,f_auto,q_auto,w_720/lhc/chw-bp-training/module-4-recognizing-an-emergency.jpg" data-mod="4">
+          <source src="https://res.cloudinary.com/dsbllwpbh/video/upload/lhc/chw-bp-training/module-4-recognizing-an-emergency.mp4" type="video/mp4">
+        </video>
+      </div>
+      <details class="jump"><summary><svg class="ic ic-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></svg> Jump to a topic
+        <span class="jump-c">11</span></summary>
+        <div class="chips"><button class="chip" type="button" data-t="-0.0"><span class="chip-t">0:00</span>Gary Q: when is it an emergency?</button><button class="chip" type="button" data-t="12.7"><span class="chip-t">0:12</span>Ella: not every reading / recheck</button><button class="chip" type="button" data-t="44.0"><span class="chip-t">0:44</span>Gary Q + Ella: the symptoms</button><button class="chip" type="button" data-t="59.8"><span class="chip-t">0:59</span>Ella: what those symptoms mean</button><button class="chip" type="button" data-t="72.4"><span class="chip-t">1:12</span>Gary Q + Ella: severe hypertension</button><button class="chip" type="button" data-t="107.7"><span class="chip-t">1:47</span>Gary Q + Ella: call 911</button><button class="chip" type="button" data-t="123.8"><span class="chip-t">2:03</span>Ella: every minute matters</button><button class="chip" type="button" data-t="128.9"><span class="chip-t">2:08</span>Gary Q + Ella: BE FAST</button><button class="chip" type="button" data-t="151.1"><span class="chip-t">2:31</span>Ella: T is for Time</button><button class="chip" type="button" data-t="176.7"><span class="chip-t">2:56</span>Gary Q: one message to remember</button><button class="chip" type="button" data-t="180.5"><span class="chip-t">3:00</span>Ella: Module 4 closer</button></div></details>
+    </div>
+    <div class="mod-body">
+      <h3 id="m4-h">Recognising an Emergency</h3>
+      <p class="lede">Not every high reading is an emergency. But a reading over 180/120 needs attention, and what happens next depends entirely on whether the person has symptoms.</p>
+      <div class="blk"><div class="flow">
+      <div class="flow-top"><span class="flow-n">180<em>/</em>120</span>
+        <span class="flow-lab">Higher than this? Start here.</span></div>
+      <ol class="flow-s">
+        <li><span class="fs-n">1</span><div><strong>Stay calm. Wait one minute. Check again.</strong>
+          <p>A second reading is often lower once someone has rested.</p></div></li>
+        <li><span class="fs-n">2</span><div><strong>Still above 180/120? Look for symptoms.</strong>
+          <ul class="flow-sym"><li>Chest pain</li><li>Shortness of breath</li><li>Back pain</li><li>Numbness</li><li>Weakness</li><li>Vision changes</li><li>Difficulty speaking</li></ul></div></li>
+      </ol>
+      <div class="flow-fork">
+        <div class="fk fk-red"><h5><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4 2.5 20h19Z"/><path d="M12 10v4M12 17h.01"/></svg>Symptoms present</h5>
+          <p><strong>Call 911 immediately.</strong> Don&rsquo;t wait to see if it comes down on its own.
+          This may be a hypertensive emergency, and every minute matters.</p></div>
+        <div class="fk fk-amber"><h5><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h4l2 5-3 2a12 12 0 0 0 5 5l2-3 5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 4 5a2 2 0 0 1 2-2Z"/></svg>No symptoms</h5>
+          <p>This is <em>severe hypertension</em>. It usually doesn&rsquo;t need 911, but it does need prompt
+          medical attention &mdash; help them contact their provider as soon as possible.</p></div>
+      </div></div></div><div class="blk"><div class="blk-h"><h4>BE FAST</h4>
+      <span class="blk-note">The stroke warning signs. Tap a letter.</span></div><div class="bfs"><button class="bf" type="button" aria-pressed="false"><span class="bf-in">
+        <span class="bf-f"><span class="bf-l">B</span><span class="bf-w">Balance</span></span>
+        <span class="bf-b">Sudden loss of balance or coordination</span></span></button><button class="bf" type="button" aria-pressed="false"><span class="bf-in">
+        <span class="bf-f"><span class="bf-l">E</span><span class="bf-w">Eyes</span></span>
+        <span class="bf-b">Sudden vision changes</span></span></button><button class="bf" type="button" aria-pressed="false"><span class="bf-in">
+        <span class="bf-f"><span class="bf-l">F</span><span class="bf-w">Face</span></span>
+        <span class="bf-b">Does one side of the face droop?</span></span></button><button class="bf" type="button" aria-pressed="false"><span class="bf-in">
+        <span class="bf-f"><span class="bf-l">A</span><span class="bf-w">Arms</span></span>
+        <span class="bf-b">Does one arm drift downward?</span></span></button><button class="bf" type="button" aria-pressed="false"><span class="bf-in">
+        <span class="bf-f"><span class="bf-l">S</span><span class="bf-w">Speech</span></span>
+        <span class="bf-b">Is speech slurred or hard to understand?</span></span></button><button class="bf" type="button" aria-pressed="false"><span class="bf-in">
+        <span class="bf-f"><span class="bf-l">T</span><span class="bf-w">Time</span></span>
+        <span class="bf-b">Time to call 911 immediately.</span></span></button></div></div><div class="note note-red"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4 2.5 20h19Z"/><path d="M12 10v4M12 17h.01"/></svg><p>The most important letter is <strong>T</strong>. Time. Don&rsquo;t drive someone to the hospital yourself unless it&rsquo;s the only option &mdash; call 911 so treatment can start on arrival.</p></div>
+      <div class="remember"><span class="rm-l">The one message to remember</span>
+        <p>High blood pressure doesn&rsquo;t always mean an emergency &mdash; but it should never be ignored. Knowing what to do in those first few minutes can save a life.</p></div>
+    </div>
+  </div>
+</section>
+<section class="mod" id="module-5" aria-labelledby="m5-h">
+  <div class="mod-rule"><span class="mod-num">05</span>
+    <span class="mod-kick">The part only a community health worker can do</span><span class="mod-dur">5:53</span></div>
+  <div class="mod-grid">
+    <div class="mod-media">
+      <div class="vwrap">
+        <video class="vid" preload="none" playsinline controls
+          poster="https://res.cloudinary.com/dsbllwpbh/video/upload/so_8,f_auto,q_auto,w_720/lhc/chw-bp-training/module-5-turning-knowledge-into-action.jpg" data-mod="5">
+          <source src="https://res.cloudinary.com/dsbllwpbh/video/upload/lhc/chw-bp-training/module-5-turning-knowledge-into-action.mp4" type="video/mp4">
+        </video>
+      </div>
+      <details class="jump"><summary><svg class="ic ic-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></svg> Jump to a topic
+        <span class="jump-c">10</span></summary>
+        <div class="chips"><button class="chip" type="button" data-t="-0.0"><span class="chip-t">0:00</span>Gary Q: turning knowledge into action</button><button class="chip" type="button" data-t="19.0"><span class="chip-t">0:19</span>Ella: relationships and trust</button><button class="chip" type="button" data-t="64.5"><span class="chip-t">1:04</span>Gary Q + Ella: ask the question differently</button><button class="chip" type="button" data-t="121.9"><span class="chip-t">2:01</span>Gary Q + Ella: the teach-back method</button><button class="chip" type="button" data-t="167.6"><span class="chip-t">2:47</span>Gary Q + Ella: one realistic goal</button><button class="chip" type="button" data-t="270.6"><span class="chip-t">4:30</span>Gary Q + Ella: what got in the way</button><button class="chip" type="button" data-t="309.1"><span class="chip-t">5:09</span>Ella: knowledge, respect, being heard</button><button class="chip" type="button" data-t="326.1"><span class="chip-t">5:26</span>Ella: one check, one meal, one walk</button><button class="chip" type="button" data-t="336.1"><span class="chip-t">5:36</span>Ella: one person who finally feels heard</button><button class="chip" type="button" data-t="339.4"><span class="chip-t">5:39</span>Ella: closing thank you</button></div></details>
+    </div>
+    <div class="mod-body">
+      <h3 id="m5-h">Turning Knowledge into Action</h3>
+      <p class="lede">Community health workers do much more than share information. You build relationships. You earn trust. You help people feel heard &mdash; and people change when they feel respected and understood.</p>
+      <div class="blk"><div class="blk-h"><h4>Change the question, change the answer</h4></div><ul class="rfs"><li class="rf"><span class="rf-a"><em>Instead of</em>Why aren&rsquo;t you taking your medication?</span>
+        <span class="rf-arrow" aria-hidden="true">&rarr;</span>
+        <span class="rf-b"><em>Try</em>What&rsquo;s making it difficult to take your medication?</span></li><li class="rf"><span class="rf-a"><em>Instead of</em>Why aren&rsquo;t you eating healthier?</span>
+        <span class="rf-arrow" aria-hidden="true">&rarr;</span>
+        <span class="rf-b"><em>Try</em>What makes healthy eating difficult for you?</span></li><li class="rf"><span class="rf-a"><em>Instead of</em>Do you understand?</span>
+        <span class="rf-arrow" aria-hidden="true">&rarr;</span>
+        <span class="rf-b"><em>Try</em>Can you tell me, in your own words, what you&rsquo;ll do when you get home?</span></li><li class="rf"><span class="rf-a"><em>Instead of</em>Why didn&rsquo;t you do it?</span>
+        <span class="rf-arrow" aria-hidden="true">&rarr;</span>
+        <span class="rf-b"><em>Try</em>What got in the way?</span></li></ul><p class="blk-foot">Introducing the word <em>difficult</em> makes a question land as help rather than judgement.</p></div><div class="blk"><div class="blk-h"><h4>The teach-back method</h4></div><div class="accs"><div class="acc"><button class="acc-b" type="button" aria-expanded="false">
+        <span>It isn&rsquo;t a test</span><svg class="ic acc-c" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+        <div class="acc-p"><div class="acc-i">Teach-back checks whether <em>you</em> explained it clearly &mdash; not whether they were paying attention.</div></div></div><div class="acc"><button class="acc-b" type="button" aria-expanded="false">
+        <span>How to ask</span><svg class="ic acc-c" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+        <div class="acc-p"><div class="acc-i">&ldquo;Just so I know I explained it clearly, can you tell me in your own words what you&rsquo;ll do when you get home?&rdquo;</div></div></div><div class="acc"><button class="acc-b" type="button" aria-expanded="false">
+        <span>If it doesn&rsquo;t land</span><svg class="ic acc-c" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+        <div class="acc-p"><div class="acc-i">Try a different way. That&rsquo;s the whole point of asking.</div></div></div></div></div><div class="blk"><div class="blk-h"><h4>The CHW toolbox</h4></div><ul class="tb"><li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-9.5A3.9 3.9 0 0 1 12 8a3.9 3.9 0 0 1 7 2.5C19 15.6 12 20 12 20Z"/></svg><span>Listen first.</span></li><li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H9l-5 4V5Z"/></svg><span>Teach in simple language.</span></li><li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9a8 8 0 0 1 13-3l3 3"/><path d="M20 15a8 8 0 0 1-13 3l-3-3"/><path d="M20 4v5h-5M4 20v-5h5"/></svg><span>Use teach-back.</span></li><li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/></svg><span>Help people choose one realistic goal.</span></li><li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 13V6a1.6 1.6 0 0 1 3.2 0v5"/><path d="M10.2 11V4.6a1.6 1.6 0 0 1 3.2 0V11"/><path d="M13.4 11V6.4a1.6 1.6 0 0 1 3.2 0V15a5 5 0 0 1-5 5H10a5 5 0 0 1-5-5v-1.5a1.6 1.6 0 0 1 3-.8Z"/></svg><span>Encourage progress, not perfection.</span></li><li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h4l2 5-3 2a12 12 0 0 0 5 5l2-3 5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 4 5a2 2 0 0 1 2-2Z"/></svg><span>Know when to refer to a provider.</span></li></ul></div><div class="blk"><div class="blk-h"><h4>When to refer to a healthcare provider</h4></div><div class="accs"><div class="acc"><button class="acc-b" type="button" aria-expanded="false">
+        <span>Readings stay high over time</span><svg class="ic acc-c" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+        <div class="acc-p"><div class="acc-i">Encourage them to contact their provider.</div></div></div><div class="acc"><button class="acc-b" type="button" aria-expanded="false">
+        <span>Questions about medications</span><svg class="ic acc-c" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+        <div class="acc-p"><div class="acc-i">Provider or pharmacist &mdash; before they stop taking anything.</div></div></div><div class="acc"><button class="acc-b" type="button" aria-expanded="false">
+        <span>Side effects</span><svg class="ic acc-c" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+        <div class="acc-p"><div class="acc-i">There may be other options that work better for them.</div></div></div><div class="acc"><button class="acc-b" type="button" aria-expanded="false">
+        <span>New symptoms</span><svg class="ic acc-c" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+        <div class="acc-p"><div class="acc-i">Anything new is worth a call.</div></div></div><div class="acc"><button class="acc-b" type="button" aria-expanded="false">
+        <span>Over 180/120 with symptoms</span><svg class="ic acc-c" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+        <div class="acc-p"><div class="acc-i">Call 911 immediately. Don&rsquo;t wait.</div></div></div></div></div>
+      <div class="remember"><span class="rm-l">The one message to remember</span>
+        <p>Knowledge matters, but how we share it matters just as much. Never underestimate the power of a conversation. One blood pressure check. One healthier meal. One person who finally feels heard.</p></div>
+    </div>
+  </div>
+</section>
+<section class="mod" id="module-6" aria-labelledby="m6-h">
+  <div class="mod-rule"><span class="mod-num">06</span>
+    <span class="mod-kick">Where to find trusted information, long after today</span><span class="mod-dur">2:11</span></div>
+  <div class="mod-grid">
+    <div class="mod-media">
+      <div class="vwrap">
+        <video class="vid" preload="none" playsinline controls
+          poster="https://res.cloudinary.com/dsbllwpbh/video/upload/so_8,f_auto,q_auto,w_720/lhc/chw-bp-training/module-6-conclusion.jpg" data-mod="6">
+          <source src="https://res.cloudinary.com/dsbllwpbh/video/upload/lhc/chw-bp-training/module-6-conclusion.mp4" type="video/mp4">
+        </video>
+      </div>
+      <details class="jump"><summary><svg class="ic ic-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></svg> Jump to a topic
+        <span class="jump-c">12</span></summary>
+        <div class="chips"><button class="chip" type="button" data-t="0.0"><span class="chip-t">0:00</span>Gary Q: what resources are available?</button><button class="chip" type="button" data-t="12.9"><span class="chip-t">0:12</span>Ella: connect people with trusted resources</button><button class="chip" type="button" data-t="23.7"><span class="chip-t">0:23</span>Ella: you don't have to memorize everything</button><button class="chip" type="button" data-t="37.5"><span class="chip-t">0:37</span>Ella: the Live Healthy Chicago pamphlet</button><button class="chip" type="button" data-t="48.6"><span class="chip-t">0:48</span>Ella: what the QR code links you to</button><button class="chip" type="button" data-t="67.4"><span class="chip-t">1:07</span>Ella: explore them, share them</button><button class="chip" type="button" data-t="80.4"><span class="chip-t">1:20</span>Gary: today's training doesn't end here</button><button class="chip" type="button" data-t="86.8"><span class="chip-t">1:26</span>Ella: learning is an ongoing journey</button><button class="chip" type="button" data-t="91.4"><span class="chip-t">1:31</span>Ella: the QR codes are there long after</button><button class="chip" type="button" data-t="108.6"><span class="chip-t">1:48</span>Ella: remember - every conversation</button><button class="chip" type="button" data-t="121.6"><span class="chip-t">2:01</span>Ella: the potential to save a life</button><button class="chip" type="button" data-t="127.4"><span class="chip-t">2:07</span>Ella: thank you for everything you do</button></div></details>
+    </div>
+    <div class="mod-body">
+      <h3 id="m6-h">Continue Your Learning</h3>
+      <p class="lede">You don&rsquo;t have to memorise everything, and you don&rsquo;t have to have every answer. Knowing where to find trusted information is just as important.</p>
+      <div class="blk"><div class="blk-h"><h4>What the QR code links you to</h4></div><p class="blk-intro">In the Live Healthy Chicago pamphlet that comes with your toolkit.</p><div class="accs"><div class="acc"><button class="acc-b" type="button" aria-expanded="false">
+        <span>Understanding high blood pressure</span><svg class="ic acc-c" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+        <div class="acc-p"><div class="acc-i">What it is, why it usually has no symptoms, and what it does over time.</div></div></div><div class="acc"><button class="acc-b" type="button" aria-expanded="false">
+        <span>Healthy eating &amp; reducing sodium</span><svg class="ic acc-c" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+        <div class="acc-p"><div class="acc-i">Where sodium hides, and how to cook the food people love in a healthier way.</div></div></div><div class="acc"><button class="acc-b" type="button" aria-expanded="false">
+        <span>Physical activity</span><svg class="ic acc-c" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+        <div class="acc-p"><div class="acc-i">Movement that fits a real life &mdash; not a gym membership.</div></div></div><div class="acc"><button class="acc-b" type="button" aria-expanded="false">
+        <span>Home blood pressure monitoring</span><svg class="ic acc-c" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+        <div class="acc-p"><div class="acc-i">How to take an accurate reading and what to record.</div></div></div><div class="acc"><button class="acc-b" type="button" aria-expanded="false">
+        <span>Community programs &amp; local resources</span><svg class="ic acc-c" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+        <div class="acc-p"><div class="acc-i">Screenings, events and services near the people you serve.</div></div></div><div class="acc"><button class="acc-b" type="button" aria-expanded="false">
+        <span>American Heart Association</span><svg class="ic acc-c" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+        <div class="acc-p"><div class="acc-i">Evidence-based guidance from a trusted national organisation.</div></div></div></div></div><div class="note note-navy"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4 2.5 20h19Z"/><path d="M12 10v4M12 17h.01"/></svg><p>The QR codes in your pamphlet are there to support you long after today &mdash; a quick refresher, materials to share with community members, or more on high blood pressure whenever you need it.</p></div>
+      <div class="remember"><span class="rm-l">The one message to remember</span>
+        <p>Every conversation you have, every question you answer, every blood pressure screening you encourage, and every person you connect with a trusted resource has the potential to improve someone&rsquo;s health &mdash; and even save a life.</p></div>
+    </div>
+  </div>
+</section>
+
+  <footer class="foot">
+    <div class="foot-g">
+      <div>
+        <h5>About this training</h5>
+        <p>Recorded with Ella, RN, nurse educator, for Live Healthy Chicago. Clinical content follows American
+          Heart Association guidance. Community health workers educate and support &mdash; they don&rsquo;t
+          diagnose conditions or change treatment plans.</p>
+        <p><strong>If someone has a reading over 180/120 with chest pain, shortness of breath, weakness,
+          vision changes or difficulty speaking &mdash; call 911 immediately.</strong></p>
+      </div>
+      <div>
+        <h5>Take it with you</h5>
+        <div class="dl">
+          <a href="https://res.cloudinary.com/dsbllwpbh/video/upload/lhc/chw-bp-training/chw-bp-training-full-audio.mp3" download><svg class="ic ic-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9v6h4l5 4V5L9 9Z"/><path d="M17 9a4 4 0 0 1 0 6"/></svg> Full audio (MP3, 34 MB)</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
+</main>
+
+<div class="mdl" id="mdl-teaspoon" role="dialog" aria-modal="true" aria-labelledby="ts-h">
+  <div class="mdl-bg"></div>
+  <div class="mdl-box">
+    <button class="mdl-x" type="button" aria-label="Close"><svg class="ic ic-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button>
+    <h4 id="ts-h">One teaspoon. A whole day.</h4>
+    <p>Milligrams don&rsquo;t mean much to most people. So make it something they can hold.</p>
+    <div class="spoon">
+      <span class="spoon-n">1<em>teaspoon of table salt</em></span>
+      <span class="spoon-n">=<em>&nbsp;</em></span>
+      <span class="spoon-n">2,300<em>mg of sodium</em></span>
+    </div>
+    <p>That is the <strong>maximum</strong> most adults should have in an entire day. Not one meal &mdash;
+      the whole day. Most people are surprised.</p>
+    <p>A fast-food breakfast sandwich alone can be about half of it. Add a deli sandwich and chips at lunch,
+      and many people are already over the limit before the afternoon starts.</p>
+    <p>And most of it never came from the salt shaker &mdash; it came from packaged food, canned food,
+      frozen meals and restaurant meals. Once people know where the sodium is hiding, they can start
+      making different choices.</p>
+  </div>
+</div>
+
+</div>
+<script>
+const HASH='279b8fbaf4bcc0cd38315426d9a523c6b12370c9d241d0b8fcff4eb276b9f37e';
+async function sha256(m){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(m));
+  return Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,'0')).join('');}
+async function checkPassword(){
+  const h=await sha256(document.getElementById('pw-input').value);
+  if(h===HASH){ sessionStorage.setItem('lhc_auth','1'); reveal(); }
+  else { document.getElementById('gate-error').textContent='Incorrect password.'; }
+}
+function reveal(){
+  const g=document.getElementById('gate');
+  g.classList.add('fade-out');
+  document.getElementById('app').style.display='';
+  setTimeout(function(){ g.style.display='none'; },450);
+}
+document.getElementById('pw-input').addEventListener('keydown',function(e){ if(e.key==='Enter') checkPassword(); });
+if(sessionStorage.getItem('lhc_auth')==='1'){
+  document.getElementById('gate').style.display='none';
+  document.getElementById('app').style.display='';
+}
+</script>
+<script>
+(function(){
+  var $=function(s,c){return (c||document).querySelector(s)},
+      $$=function(s,c){return Array.prototype.slice.call((c||document).querySelectorAll(s))};
+
+  /* ---- accordions (module + audio groups) ---- */
+  function wireAcc(btn, panel){
+    btn.addEventListener('click',function(){
+      var open = btn.getAttribute('aria-expanded')==='true';
+      btn.setAttribute('aria-expanded', open?'false':'true');
+      panel.style.maxHeight = open ? null : panel.scrollHeight+'px';
+    });
+  }
+  $$('.acc').forEach(function(a){ wireAcc($('.acc-b',a), $('.acc-p',a)); });
+  $$('.ap-g').forEach(function(g){ wireAcc($('.ap-gh',g), $('.ap-gp',g)); });
+
+  /* ---- flip cards (click + keyboard, aria-pressed carries state) ---- */
+  $$('.flip,.bf').forEach(function(c){
+    c.addEventListener('click',function(){
+      c.setAttribute('aria-pressed', c.getAttribute('aria-pressed')==='true'?'false':'true');
+    });
+  });
+
+  /* ---- modals ---- */
+  var lastFocus=null;
+  function openM(id){
+    var m=$('#mdl-'+id); if(!m) return;
+    lastFocus=document.activeElement; m.classList.add('on');
+    document.body.style.overflow='hidden';
+    var x=$('.mdl-x',m); if(x) x.focus();
+  }
+  function closeM(){
+    var m=$('.mdl.on'); if(!m) return;
+    m.classList.remove('on'); document.body.style.overflow='';
+    if(lastFocus) lastFocus.focus();
+  }
+  $$('[data-modal]').forEach(function(b){
+    b.addEventListener('click',function(){ openM(b.getAttribute('data-modal')); });
+  });
+  $$('.mdl-x,.mdl-bg').forEach(function(b){ b.addEventListener('click',closeM); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeM(); });
+
+  /* ---- per-module video: topic chips seek the video ---- */
+  $$('.mod').forEach(function(sec){
+    var v=$('.vid',sec), chips=$$('.chip',sec);
+    if(!v) return;
+    /* Seeking needs metadata loaded first; with preload="none" readyState is 0 and
+       setting currentTime is either ignored or throws, which reads as "restarts". */
+    function seekTo(t){
+      function doSeek(){
+        try { v.currentTime = t; } catch(e) { return false; }
+        v.play().catch(function(){});
+        /* if the seek was clamped back to the start, try once more when we have data */
+        if (t > 1 && v.currentTime < 0.5) {
+          v.addEventListener('canplay', function(){
+            try { v.currentTime = t; } catch(e){}
+          }, {once:true});
+        }
+        return true;
+      }
+      if (v.readyState >= 1) { doSeek(); return; }
+      v.preload = 'auto';
+      v.addEventListener('loadedmetadata', doSeek, {once:true});
+      if (v.networkState === 0 || v.readyState === 0) { v.load(); }
+    }
+    chips.forEach(function(ch){
+      ch.addEventListener('click',function(){
+        seekTo(parseFloat(ch.getAttribute('data-t')));
+      });
+    });
+    v.addEventListener('timeupdate',function(){
+      var t=v.currentTime, best=null;
+      chips.forEach(function(ch){
+        if(parseFloat(ch.getAttribute('data-t'))<=t+0.25) best=ch;
+      });
+      chips.forEach(function(ch){ ch.classList.toggle('on', ch===best); });
+    });
+    /* only one video plays at a time; pause the audio too */
+    v.addEventListener('play',function(){
+      $$('.vid').forEach(function(o){ if(o!==v) o.pause(); });
+      if(AU && !AU.paused) AU.pause();
+    });
+  });
+
+  /* ---- chaptered audio player ---- */
+  var AU=$('#au'), ap=$('.ap');
+  if(AU){
+    var play=$('.ap-play'), fill=$('.ap-fill'), track=$('.ap-track'),
+        cur=$('.ap-now'), tot=$('.ap-dur'), lab=$('.ap-ch'),
+        tbtn=$('.ap-toggle'), tops=$$('.ap-t'),
+        CH=JSON.parse($('#chapters').textContent);
+
+    /* known from the render; the player must not depend on metadata arriving */
+    var DUR=2213.35;
+    function dur(){ return (AU.duration && isFinite(AU.duration)) ? AU.duration : DUR; }
+    function fmt(s){ if(!isFinite(s)) return '0:00';
+      s=Math.floor(s); var m=Math.floor(s/60); return m+':'+String(s%60).padStart(2,'0'); }
+    /* draw chapter markers immediately rather than waiting on loadedmetadata */
+    CH.forEach(function(c){
+      var mk=document.createElement('span'); mk.className='ap-mk';
+      mk.style.left=(c.t/DUR*100)+'%'; track.appendChild(mk);
+    });
+
+    function setIcon(p){
+      play.setAttribute('data-p', p?'1':'0');
+      play.innerHTML = p
+        ? '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5h3v14H8zM13 5h3v14h-3z"/></svg>'
+        : '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7Z"/></svg>';
+      play.setAttribute('aria-label', p?'Pause':'Play the full training');
+    }
+    play.addEventListener('click',function(){
+      if(AU.paused){ $$('.vid').forEach(function(v){v.pause();}); AU.play(); }
+      else AU.pause();
+    });
+    AU.addEventListener('play',function(){ setIcon(true); });
+    AU.addEventListener('pause',function(){ setIcon(false); });
+    AU.addEventListener('loadedmetadata',function(){ tot.textContent=fmt(AU.duration); });
+    AU.addEventListener('timeupdate',function(){
+      var d=dur();
+      fill.style.width=(AU.currentTime/d*100)+'%';
+      cur.textContent=fmt(AU.currentTime);
+      var c=CH[0]; CH.forEach(function(x){ if(x.t<=AU.currentTime+0.25) c=x; });
+      lab.textContent=c.n;
+      var best=null;
+      tops.forEach(function(b){ if(parseFloat(b.getAttribute('data-t'))<=AU.currentTime+0.25) best=b; });
+      tops.forEach(function(b){ b.classList.toggle('on', b===best); });
+    });
+    function seek(e){
+      var r=track.getBoundingClientRect();
+      var x=((e.touches?e.touches[0].clientX:e.clientX)-r.left)/r.width;
+      AU.currentTime=Math.max(0,Math.min(1,x))*dur();
+    }
+    track.addEventListener('click',seek);
+    tbtn.addEventListener('click',function(){
+      var open=ap.classList.toggle('open');
+      tbtn.setAttribute('aria-expanded',open?'true':'false');
+    });
+    tops.forEach(function(b){
+      b.addEventListener('click',function(){
+        $$('.vid').forEach(function(v){v.pause();});
+        AU.currentTime=parseFloat(b.getAttribute('data-t'));
+        AU.play().catch(function(){});
+      });
+    });
+    setIcon(false);
+  }
+
+  /* ---- nav: highlight the module in view ---- */
+  var links={}; $$('.top nav a').forEach(function(a){ links[a.getAttribute('href').slice(1)]=a; });
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        var a=links[e.target.id]; if(!a) return;
+        if(e.isIntersecting){
+          $$('.top nav a').forEach(function(x){x.style.background='';x.style.color='';});
+          a.style.background='#1B365D'; a.style.color='#fff';
+        }
+      });
+    },{rootMargin:'-45% 0px -50% 0px'});
+    $$('.mod').forEach(function(s){ io.observe(s); });
+  }
+})();
+</script>
+</body>
+</html>
