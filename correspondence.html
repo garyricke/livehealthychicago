@@ -1,399 +1,1485 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Correspondence — Live Healthy Chicago</title>
-  <link rel="icon" type="image/png" href="https://res.cloudinary.com/dsbllwpbh/image/upload/v1771612857/favicon-live-healthy-chicago_e7o6el.png">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Correspondence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <style>
-    :root {
-      --navy:#1B365D; --blue:#46B7E5; --teal:#48C9B0; --red:#E5202F;
-      --yellow:#FFB81C; --green:#48BB78; --charcoal:#2D2D2D; --gray:#64748b;
-      --muted:#94a3b8; --bg:#F0F4F8; --surface:#fff; --line:#e2e8f0;
-    }
-    * { margin:0; padding:0; box-sizing:border-box; }
-    html { scroll-behavior:smooth; }
-    body { font-family:'Open Sans',sans-serif; background:var(--bg); color:var(--charcoal); -webkit-font-smoothing:antialiased; }
-    h1,h2,h3,h4 { font-family:'Montserrat',sans-serif; }
-
-    /* ── Gate ──────────────────────────────────────── */
-    #gate { position:fixed; inset:0; z-index:9999; display:flex; align-items:center; justify-content:center;
-      background:linear-gradient(135deg,#0f1f3d 0%,#1B365D 60%,#0d2847 100%); }
-    #gate.fade-out { opacity:0; transition:opacity .45s ease; pointer-events:none; }
-    .gate-card { background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); backdrop-filter:blur(16px);
-      border-radius:20px; padding:48px 40px; width:100%; max-width:380px; text-align:center; }
-    .gate-logo { height:44px; margin:0 auto 28px; }
-    .gate-card h2 { color:#fff; font-size:1.2rem; font-weight:800; margin-bottom:6px; }
-    .gate-card p { color:rgba(255,255,255,0.5); font-size:0.85rem; margin-bottom:26px; }
-    .gate-input { width:100%; padding:13px 16px; border-radius:12px; background:rgba(255,255,255,0.09);
-      border:1px solid rgba(255,255,255,0.18); color:#fff; font-size:1rem; font-family:'Open Sans',sans-serif;
-      outline:none; margin-bottom:12px; letter-spacing:0.05em; transition:border-color .2s; }
-    .gate-input:focus { border-color:var(--blue); }
-    .gate-input::placeholder { color:rgba(255,255,255,0.3); }
-    .gate-btn { width:100%; padding:13px; border-radius:12px; border:none;
-      background:linear-gradient(90deg,var(--blue),var(--teal)); color:#fff; font-weight:700; font-size:0.95rem;
-      cursor:pointer; font-family:'Montserrat',sans-serif; transition:opacity .2s; }
-    .gate-btn:hover { opacity:0.88; }
-    .gate-error { color:#fc8181; font-size:0.8rem; margin-top:10px; min-height:18px; }
-
-    /* ── Header ────────────────────────────────────── */
-    .header { background:linear-gradient(135deg,#0f1f3d 0%,#1B365D 60%,#0d2847 100%); color:#fff; padding:38px 24px 34px; }
-    .header-inner { max-width:920px; margin:0 auto; }
-    .header-eyebrow { display:inline-flex; align-items:center; gap:8px; font-size:0.72rem; font-weight:700;
-      letter-spacing:0.14em; text-transform:uppercase; color:var(--blue); margin-bottom:14px; }
-    .header h1 { font-size:1.9rem; font-weight:800; margin-bottom:8px; letter-spacing:-0.01em; }
-    .header p { color:rgba(255,255,255,0.62); font-size:0.95rem; max-width:640px; }
-    .header-back { display:inline-block; margin-top:18px; color:rgba(255,255,255,0.6); font-size:0.82rem;
-      text-decoration:none; border:1px solid rgba(255,255,255,0.18); padding:7px 14px; border-radius:8px; transition:all .2s; }
-    .header-back:hover { color:#fff; border-color:rgba(255,255,255,0.4); }
-
-    /* ── List ──────────────────────────────────────── */
-    .wrap { max-width:920px; margin:0 auto; padding:32px 24px 80px; }
-    .count-row { display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; flex-wrap:wrap; gap:10px; }
-    .count-pill { font-size:0.78rem; font-weight:700; color:var(--navy); background:#fff; border:1px solid var(--line);
-      padding:6px 14px; border-radius:999px; }
-    .count-hint { font-size:0.82rem; color:var(--gray); }
-
-    .cor-card { background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:20px 22px;
-      margin-bottom:14px; box-shadow:0 1px 2px rgba(16,32,64,0.04); transition:box-shadow .2s, border-color .2s; }
-    .cor-card:hover { box-shadow:0 6px 20px rgba(16,32,64,0.08); border-color:#cfd8e3; }
-    .cor-top { display:flex; align-items:flex-start; gap:16px; }
-    .cor-date { flex-shrink:0; width:64px; text-align:center; background:#f4f8fc; border:1px solid var(--line);
-      border-radius:10px; padding:8px 4px; }
-    .cor-date .m { display:block; font-family:'Montserrat',sans-serif; font-size:0.66rem; font-weight:700;
-      letter-spacing:0.08em; text-transform:uppercase; color:var(--blue); }
-    .cor-date .d { display:block; font-family:'Montserrat',sans-serif; font-size:1.35rem; font-weight:800; color:var(--navy); line-height:1.1; }
-    .cor-body { flex:1; min-width:0; }
-    .cor-title { font-family:'Montserrat',sans-serif; font-size:1.06rem; font-weight:700; color:var(--navy); margin-bottom:4px; }
-    .cor-meta { font-size:0.8rem; color:var(--gray); margin-bottom:8px; }
-    .cor-meta .to { color:var(--charcoal); font-weight:600; }
-    .cor-tag { display:inline-block; font-size:0.66rem; font-weight:700; letter-spacing:0.05em; text-transform:uppercase;
-      padding:3px 9px; border-radius:6px; margin-left:8px; vertical-align:middle; }
-    .tag-agenda { background:#e8f4fd; color:#0362BC; }
-    .tag-budget { background:#eafaf1; color:#1a7f4b; }
-    .tag-project { background:#fef4e6; color:#b7791f; }
-    .tag-partner { background:#f0ecfd; color:#6b46c1; }
-    .cor-desc { font-size:0.9rem; color:#475569; margin-bottom:14px; }
-    .cor-actions { display:flex; gap:10px; flex-wrap:wrap; }
-    .cor-btn { display:inline-flex; align-items:center; gap:7px; font-family:'Montserrat',sans-serif; font-size:0.82rem;
-      font-weight:600; border-radius:8px; padding:8px 14px; cursor:pointer; text-decoration:none; border:1px solid transparent; transition:all .18s; }
-    .cor-btn svg { width:15px; height:15px; }
-    .cor-btn-primary { background:#0362BC; color:#fff; }
-    .cor-btn-primary:hover { background:#024a8f; }
-    .cor-btn-ghost { background:#fff; color:var(--navy); border-color:var(--line); }
-    .cor-btn-ghost:hover { border-color:var(--blue); color:var(--blue); }
-    .cor-status { font-size:0.78rem; font-weight:600; align-self:center; }
-
-    .empty { text-align:center; color:var(--gray); padding:60px 20px; }
-    @media (max-width:560px){
-      .cor-top { gap:12px; }
-      .cor-date { width:54px; }
-      .header h1 { font-size:1.5rem; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --red:#6B7A90; --red-soft:#9AA8BC; --ink:#f2f2f2; }
+    body { font-family:'Inter',system-ui,sans-serif; background:linear-gradient(165deg,#1e1e1e 0%,#161616 45%,#0d0d0d 100%); color:var(--ink); min-height:100vh; padding:40px 20px 80px; }
+    .wrap { width:100%; max-width:760px; margin:0 auto; }
+    .page-head { text-align:center; margin-bottom:26px; }
+    .page-head img { height:38px; margin:0 auto 16px; display:block; }
+    .page-head .eyebrow { font-family:'Inter',system-ui,sans-serif; font-size:11px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; color:var(--red-soft); margin-bottom:8px; }
+    .page-head h1 { font-family:'Inter',system-ui,sans-serif; font-size:28px; font-weight:800; color:#fff; letter-spacing:0.02em; }
+    .page-head p.sub { font-size:13.5px; color:rgba(242,242,242,0.5); margin-top:8px; }
+    .backlink { display:inline-flex; align-items:center; gap:7px; margin-top:16px; font-family:'Inter',system-ui,sans-serif; font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:rgba(242,242,242,0.5); text-decoration:none; }
+    .backlink:hover { color:var(--red); }
+    .index { border:1px solid rgba(255,255,255,0.08); background:rgba(255,255,255,0.03); border-radius:12px; padding:16px 18px; margin-bottom:30px; }
+    .index .lbl { font-family:'Inter',system-ui,sans-serif; font-size:10.5px; font-weight:700; letter-spacing:0.16em; text-transform:uppercase; color:rgba(242,242,242,0.4); margin-bottom:10px; }
+    .index ol { list-style:none; display:flex; flex-direction:column; gap:2px; }
+    .index a { display:flex; gap:12px; padding:7px 8px; border-radius:8px; text-decoration:none; color:var(--ink); font-size:13.5px; transition:background .15s; }
+    .index a:hover { background:rgba(107,122,144,0.12); }
+    .index a .d { flex:none; width:64px; color:rgba(242,242,242,0.45); font-variant-numeric:tabular-nums; }
+    .index a .t { color:#fff; }
+    .stack { display:flex; flex-direction:column; gap:34px; }
+    .letter { scroll-margin-top:20px; }
+    .letter-head { display:flex; align-items:flex-start; gap:14px; margin-bottom:12px; }
+    .letter-head .meta { flex:1; min-width:0; }
+    .letter-head .date { font-family:'Inter',system-ui,sans-serif; font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--red-soft); }
+    .letter-head h2 { font-family:'Inter',system-ui,sans-serif; font-size:18px; font-weight:800; color:#fff; margin:3px 0; line-height:1.25; }
+    .letter-head .to { font-size:12.5px; color:rgba(242,242,242,0.5); }
+    .copy { flex:none; display:inline-flex; align-items:center; gap:7px; background:var(--red); color:#fff; border:none; border-radius:8px; padding:9px 14px; font-family:'Inter',system-ui,sans-serif; font-size:12px; font-weight:700; letter-spacing:0.04em; cursor:pointer; transition:background .15s; }
+    .copy:hover { background:#55637A; }
+    .copy svg { width:14px; height:14px; }
+    .status { display:block; font-size:11.5px; color:rgba(242,242,242,0.5); min-height:15px; margin:-4px 0 8px; text-align:right; }
+    .paper { background:#fff; border-radius:14px; padding:30px 32px; box-shadow:0 18px 50px rgba(0,0,0,0.45); overflow-x:auto; }
+    .paper .email-body { margin:0 auto; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif; color:#1a2535; line-height:1.6; }
+    .paper img { max-width:100%; height:auto; }
+    .empty { text-align:center; color:rgba(242,242,242,0.5); padding:60px 0; }
+    @media (max-width:560px) {
+      .letter-head { flex-direction:column; }
+      .status { text-align:left; }
+      .paper { padding:22px 18px; }
     }
   </style>
 </head>
 <body>
-
-  <!-- ── Password gate (shares the site's lhc_auth session) ── -->
-  <div id="gate">
-    <div class="gate-card">
-      <img class="gate-logo" src="https://assets.codepen.io/3457845/logo-Live-Healthy-Chicago.png" alt="Live Healthy Chicago">
-      <h2>Correspondence</h2>
-      <p>Internal — enter the password to continue.</p>
-      <input id="gate-input" class="gate-input" type="password" placeholder="Password" autocomplete="current-password">
-      <button class="gate-btn" onclick="checkGate()">Enter</button>
-      <div id="gate-error" class="gate-error"></div>
-    </div>
-  </div>
-
-  <!-- ── Header ── -->
-  <header class="header">
-    <div class="header-inner">
-      <span class="header-eyebrow">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        Live Healthy Chicago · Internal
-      </span>
+  <div class="wrap">
+    <div class="page-head">
+      
+      <div class="eyebrow">Internal</div>
       <h1>Correspondence</h1>
-      <p>Every email we've sent the team, stacked in one place — newest first. Open any one to review it, or copy it straight to your clipboard to resend or forward.</p>
-      <a class="header-back" href="/status.html">&larr; Back to status dashboard</a>
+      <p class="sub">Every response email — read or copy any one to resend.</p>
+      <br />
+      <a class="backlink" href="index.html"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg> Back to the site</a>
     </div>
-  </header>
-
-  <!-- ── List ── -->
-  <main class="wrap">
-    <div class="count-row">
-      <span class="count-pill" id="count-pill">—</span>
-      <span class="count-hint">&ldquo;Copy email&rdquo; puts the formatted message on your clipboard — paste into Gmail or Outlook.</span>
-    </div>
-    <div id="cor-list"></div>
-  </main>
-
-  <script>
-    /* ─────────────────────────────────────────────────────────────
-       CORRESPONDENCE LIST
-       To add a new email: drop the HTML into /plan/, then add one
-       entry to the top of this array. Newest goes first.
-       tag: agenda | budget | project | partner
-    ───────────────────────────────────────────────────────────────*/
-    const CORRESPONDENCE = [
-      {
-        file: 'plan/lhc-pocket-guide-training-version-email-2026-08-24.html',
-        title: 'Reply to Ella — training version of the pocket guide for the Aug 25 session',
-        date: '2026-08-24', tag: 'project',
-        to: 'Ella Lawal (cc Allie Sontag)',
-        desc: 'Answers Ella\'s 8/24 question — she did not want to hand out the final pamphlet before Allie had weighed in, and asked whether dropping the Blood Pressure Log QR and the placeholder video QR would make it usable at her Aug 25 CHW training. Yes: a training variant of the pocket guide (insert.html?training) hides both of those cells and reflows the grid two-up, so the two codes that actually resolve — livehealthychi.com and the partner portal — print larger and scan more reliably. No other content changed, and the tri-fold needed no change at all because every QR code lives on the pocket guide. Also warns her that the “Community resources” code lands on the portal sign-in rather than the materials, and includes the read-only portal password so her CHWs can get in (redacted in this archive copy; it was in the sent email). Still open and unchanged: Allie on the race-and-ethnicity line and the red-flags box placement, the printable log sheet, the video QR, and Rebecca\'s clinical sign-off before printing. Training video update promised for 8/25.'
-      },
-      {
-        file: 'plan/chw-pamphlet-drafts-email-2026-08-18.html',
-        title: 'To Ella & Allie — CHW tri-fold + pocket guide drafts',
-        date: '2026-08-18', tag: 'project',
-        to: 'Ella Lawal (cc Allie Sontag)',
-        desc: 'Sends both print drafts as PDFs — the six-panel community tri-fold ("Know Your Numbers. Protect Your Heart.") and the CHW pocket guide insert, a half-fold 5.5×8.5 booklet that tucks inside it. Flags five copy changes made to Allie-approved text: "silent killer/silent condition" dropped per the do-not-use list, the Elevated row corrected to "120–129 and less than 80", the risk lists relabeled with a line explaining race and ethnicity as unequal access rather than biology (called out as Gary\'s judgment call), the "people prides" typo fixed, and the 180/120 protocol left untouched. Still open: the training-video QR (Gary is producing the video, expected end of week), confirming the "Blood Pressure Log" QR now points to /check, Rebecca\'s clinical sign-off, and whether the coalition partner-logo strip — added by Gary, not in Ella\'s original — is worth keeping before he reworks it.'
-      },
-      {
-        file: 'plan/lhc-pamphlet-po-reply-email-2026-08-18.html',
-        title: 'Reply to Allie — pamphlet draft today, amendment executed, PO needed',
-        date: '2026-08-18', tag: 'budget',
-        to: 'Allie Sontag',
-        desc: 'Answers Allie’s 8/17 ask for a pamphlet draft so Ella can submit Wednesday — tri-fold draft promised by end of day, CHW community insert right behind it. Tells her the Rush amendment is fully executed (Ansell signed 8/16, Gary 8/18), which she didn’t yet know. Asks whether Docusign envelope &ldquo;# 22467&rdquo; is the PO number to put on the $5,000 QuickBooks invoice or whether Rush issues a separate one, and who owns that on the Rush side.'
-      },
-      {
-        file: 'plan/lhc-health-for-all-event-email-2026-08-07.html',
-        title: 'Reply to Alisha — Health for All mobile mammography event added',
-        date: '2026-08-07', tag: 'partner',
-        to: 'Alisha Harris (cc Allie)',
-        desc: 'Confirms the two-week Health for All event is live on the events page — Aug 24–Sep 4 weekdays, Humboldt Park Boathouse, with the (312) 942-2027 scheduling line in the card copy. Notes this is the first multi-day event, so the page now tracks a start and an end date and the card stays up through the last day. Asks whether Spanish-speaking staff will be onsite (she sent an English and a Spanish flyer) before adding a bilingual line, and re-raises the two open items from 7/28: the Brain Freedom address (Peoria vs. Honore) and the MSI sports-physical registration link.'
-      },
-      {
-        file: 'plan/lhc-mobile-qr-schedule-email-2026-07-31.html',
-        title: 'Reply to Laurie, Rebecca & Porcha — mobile calendar QR + schedule',
-        date: '2026-07-31', tag: 'partner',
-        to: 'Laurie Ouding, Rebecca Dawar, Porcha Davis (cc Allie)',
-        desc: 'The Mobile Health Calendar QR already existed (livehealthychi.com/mobile) — sends the PNG and explains the short link means printed codes never need reprinting. Porcha’s new calendar is live: five sites, Bethel time shifted, three old sites removed, two non-weekly sites flagged. Points Laurie at the live page for her changes and asks the team for one phone photo per stop to replace the placeholder images.'
-      },
-      {
-        file: 'plan/lhc-team-agenda-email-2026-07-28.html',
-        title: 'Team agenda — July 28 check-in',
-        date: '2026-07-28', tag: 'agenda',
-        to: 'Allie Sontag, Rebecca Dawar, Rachel Reichlin',
-        desc: 'Where the SOW amendment landed, the three decisions Ella’s shoot needs this week, what’s actually blocking the portal trial, two open event items, and the password/domain housekeeping from last week.'
-      },
-      {
-        file: 'plan/lhc-rachel-access-reply-email-2026-07-28.html',
-        title: 'Reply to Rachel — tracker & Celebrate data',
-        date: '2026-07-28', tag: 'project',
-        to: 'Rachel Reichlin (cc Allie, Rebecca)',
-        desc: 'Confirms the 2 PM check-in and points her to the two pages she couldn’t find: the project tracker, and the submissions dashboard filtered to celebrate-survey.'
-      },
-      {
-        file: 'plan/lhc-events-added-email-2026-07-28.html',
-        title: 'Reply to Alisha — four more events live',
-        date: '2026-07-28', tag: 'project',
-        to: 'Alisha Harris (UCM)',
-        desc: 'Her 7/24 batch is up: Madison Corridor Recovery Festival, Health Fair & Wellness Market in Englewood, Uplift Our Future at Brookfield Zoo, and the Brain Freedom Party. Flags the Peoria-vs-Honore address and the past-dated Welch fair.'
-      },
-      {
-        file: 'plan/lhc-events-confirm-email-2026-07-21.html',
-        title: 'Reply to Alisha — event confirmations applied',
-        date: '2026-07-21', tag: 'project',
-        to: 'Alisha Harris (UCM)',
-        desc: 'Healthy Hues locked to the flyer (11 AM–4 PM, 1402 S. Sacramento Dr.) and MSI Back to School updated to a free event with free sports physicals — registration link to follow.'
-      },
-      {
-        file: 'plan/lhc-shipped-update-email-2026-07-17.html',
-        title: 'Update to Allie — three of four items shipped',
-        date: '2026-07-17', tag: 'project',
-        to: 'Allie Sontag',
-        desc: 'Coalition-first hero live on the public homepage, portal sign-ups now visible and filterable by role, and the new gated team how-to guide. Includes the new portal password.'
-      },
-      {
-        file: 'plan/ella-script-notes-timeline-email-2026-07-17.html',
-        title: 'Ella — script notes & recording timeline',
-        date: '2026-07-17', tag: 'project',
-        to: 'Houefa "Ella" Lawal',
-        desc: 'Production notes on her CHW training script (content already signed off by Allie), the no-AI-host decision, the look & feel page, and the path to the Aug 25 training date.'
-      },
-      {
-        file: 'plan/lhc-events-added-email-2026-07-17.html',
-        title: 'Reply to Alisha — August events added',
-        date: '2026-07-17', tag: 'project',
-        to: 'Alisha Harris (UCM)',
-        desc: 'Four new August events live (Mattie Hunter, Englewood Community Health Fair, Healthy Hues, MSI Back to School), with two Healthy Hues mismatches flagged and a question on MSI ticketing.'
-      },
-      {
-        file: 'plan/lhc-sow-amendment-email-2026-07-16.html',
-        title: 'SOW Amendment No. 1 — cover note',
-        date: '2026-07-16', tag: 'budget',
-        to: 'Allie Sontag',
-        desc: 'Points Allie to the gated amendment page with its Copy for Rush and Save as PDF buttons, and pulls out the two things worth knowing before she reads it.'
-      },
-      {
-        file: 'plan/lhc-team-agenda-email-2026-07-14.html',
-        title: 'Team agenda — July 14 check-in',
-        date: '2026-07-14', tag: 'agenda',
-        to: 'Allie Sontag, Rebecca Dawar, Rachel Reichlin, Ella Lawal',
-        desc: 'One SOW amendment covering both maintenance and Ella’s project, with the prepay sliding scale laid out so nobody has to do math on the call. Ella joins for her piece.'
-      },
-      {
-        file: 'plan/lhc-team-agenda-email-2026-07-07.html',
-        title: 'Team agenda — July 7 check-in',
-        date: '2026-07-07', tag: 'agenda',
-        to: 'Allie Sontag, Rebecca Dawar, Rachel Reichlin',
-        desc: 'Coalition-first hero direction is coming together (tagline "Our City. Our Values. Our Health.", Rachel’s overview flyer, Allie’s messaging house). Maintenance decision, Ella funding path, status round.'
-      },
-      {
-        file: 'plan/lhc-team-agenda-email-2026-06-30.html',
-        title: 'Team agenda — June 30 check-in',
-        date: '2026-06-30', tag: 'agenda',
-        to: 'Allie Sontag, Rebecca Dawar, Rachel Reichlin',
-        desc: 'End of the original SOW. $5k prepay maintenance recommendation, Ella’s CHW direction & funding, closing out the SOW, status round.'
-      },
-      {
-        file: 'plan/lhc-maintenance-prepay-ella-budget-email-2026-06-30.html',
-        title: 'Maintenance & budget recommendation',
-        date: '2026-06-30', tag: 'budget',
-        to: 'Allie Sontag, Rebecca Dawar',
-        desc: 'The numbers ahead of the meeting: $5,000 prepay package ($75/hr, ~67 hrs), split ~$1,500 for Ella’s set and ~$3,500 for ongoing edits.'
-      },
-      {
-        file: 'plan/ella-chw-training-ai-direction-email-2026-06-30.html',
-        title: 'Ella — CHW training AI direction',
-        date: '2026-06-30', tag: 'project',
-        to: 'Houefa "Ella" Lawal',
-        desc: 'The approach: not an AI narrator — AI amplifying the human. Interview Ella on camera, cut a ~15-min refresher plus short clips, design the pamphlet.'
-      },
-      {
-        file: 'plan/celebrate-the-check-updates-email-2026-06-29.html',
-        title: 'Celebrate the Check — updates + QR',
-        date: '2026-06-29', tag: 'project',
-        to: 'Team (reply-all)',
-        desc: 'Simplifications done per the 6/23 check-in, on-brand QR + print-ready one-pager for the field pilots, and a request for the base counter number.'
-      },
-      {
-        file: 'plan/lhc-team-agenda-email-2026-06-23.html',
-        title: 'Team agenda — June 23 check-in',
-        date: '2026-06-23', tag: 'agenda',
-        to: 'Allie Sontag, Rebecca Dawar, Rachel Reichlin',
-        desc: 'Portal & Celebrate access, audience tags demo, submissions dashboard, form routing, Community Voice Phase 2, budget/maintenance tier, content we’re waiting on.'
-      },
-      {
-        file: 'plan/lhc-maintenance-correction-email-2026-06-23.html',
-        title: 'Maintenance options — quick correction',
-        date: '2026-06-23', tag: 'budget',
-        to: 'Allie Sontag, Rebecca Dawar',
-        desc: 'Correcting the maintenance figures to the full prepay sliding scale.'
-      },
-      {
-        file: 'plan/nuna-jini-final-edit-reply-email-2026-06-12.html',
-        title: 'Reply to Erik (Nuna) — Jini final edit',
-        date: '2026-06-12', tag: 'partner',
-        to: 'Erik Fiske (Nuna)',
-        desc: 'Applied Nuna’s final edit (real app screen in section 08) and shared proof links — green-lit to publish.'
-      },
-      {
-        file: 'plan/nuna-jini-feedback-reply-email-2026-06-10.html',
-        title: 'Reply to Erik (Nuna) — Jini interview updates',
-        date: '2026-06-10', tag: 'partner',
-        to: 'Erik Fiske (Nuna)',
-        desc: 'Applied the 6/10 feedback on the Jini Kim interview article — promoted app screenshots, real headshot, brother’s name.'
-      }
-    ];
-
-    const TAG_LABEL = { agenda:'Agenda', budget:'Budget', project:'Project', partner:'Partner' };
-    const MONTHS = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
-
-    function esc(s){ return String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
-
-    function renderList(){
-      const list = document.getElementById('cor-list');
-      const pill = document.getElementById('count-pill');
-      pill.textContent = CORRESPONDENCE.length + ' email' + (CORRESPONDENCE.length === 1 ? '' : 's');
-      list.innerHTML = CORRESPONDENCE.map((c, i) => {
-        const [y, m, d] = c.date.split('-');
-        const mon = MONTHS[parseInt(m, 10) - 1];
-        return `
-        <div class="cor-card">
-          <div class="cor-top">
-            <div class="cor-date"><span class="m">${mon}</span><span class="d">${parseInt(d,10)}</span></div>
-            <div class="cor-body">
-              <div class="cor-title">${esc(c.title)}<span class="cor-tag tag-${c.tag}">${TAG_LABEL[c.tag]||c.tag}</span></div>
-              <div class="cor-meta">To: <span class="to">${esc(c.to)}</span> &middot; ${y}</div>
-              <div class="cor-desc">${esc(c.desc)}</div>
-              <div class="cor-actions">
-                <a class="cor-btn cor-btn-primary" href="/${c.file}" target="_blank" rel="noopener">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-                  Open email
-                </a>
-                <button class="cor-btn cor-btn-ghost" onclick="copyEmail(${i}, this)">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-                  Copy email
-                </button>
-                <span class="cor-status" id="cor-status-${i}"></span>
-              </div>
-            </div>
+    <nav class="index"><div class="lbl">25 messages</div><ol>
+        <li><a href="#c-chw-training-first-pass-email-2026-08-25-html"><span class="d">Aug 25</span><span class="t">Ella — CHW training, first pass (Aug 25, 2026)</span></a></li>
+        <li><a href="#c-lhc-pocket-guide-training-version-email-2026-08-24-html"><span class="d">Aug 24</span><span class="t">Reply to Ella — training version of the pocket guide (archived copy)</span></a></li>
+        <li><a href="#c-chw-school-version-email-2026-08-19-html"><span class="d">Aug 19</span><span class="t">School Version Ready — Reply to Ella (August 19, 2026)</span></a></li>
+        <li><a href="#c-chw-pamphlet-drafts-email-2026-08-18-html"><span class="d">Aug 18</span><span class="t">CHW Pamphlet + Insert Drafts — Email to Ella (August 18, 2026)</span></a></li>
+        <li><a href="#c-lhc-pamphlet-po-reply-email-2026-08-18-html"><span class="d">Aug 18</span><span class="t">Pamphlet Draft + Amendment Executed — Reply to Allie (August 18, 2026)</span></a></li>
+        <li><a href="#c-lhc-health-for-all-event-email-2026-08-07-html"><span class="d">Aug 7</span><span class="t">Health for All Event Added — Reply to Alisha (August 7, 2026)</span></a></li>
+        <li><a href="#c-lhc-mobile-qr-schedule-email-2026-07-31-html"><span class="d">Jul 31</span><span class="t">LHC — Mobile Calendar QR + updated schedule (Jul 31, 2026)</span></a></li>
+        <li><a href="#c-lhc-events-added-email-2026-07-28-html"><span class="d">Jul 28</span><span class="t">LHC Events Added — Reply to Alisha (July 28, 2026)</span></a></li>
+        <li><a href="#c-lhc-rachel-access-reply-email-2026-07-28-html"><span class="d">Jul 28</span><span class="t">Reply to Rachel — tracker + Celebrate data (July 28, 2026)</span></a></li>
+        <li><a href="#c-lhc-team-agenda-email-2026-07-28-html"><span class="d">Jul 28</span><span class="t">Team agenda — July 28, 2026 check-in</span></a></li>
+        <li><a href="#c-lhc-events-confirm-email-2026-07-21-html"><span class="d">Jul 21</span><span class="t">Reply to Alisha — Events confirmed</span></a></li>
+        <li><a href="#c-ella-script-notes-timeline-email-2026-07-17-html"><span class="d">Jul 17</span><span class="t">Ella — Script notes &amp; production timeline (July 17, 2026)</span></a></li>
+        <li><a href="#c-lhc-events-added-email-2026-07-17-html"><span class="d">Jul 17</span><span class="t">LHC — August events added (July 17, 2026)</span></a></li>
+        <li><a href="#c-lhc-shipped-update-email-2026-07-17-html"><span class="d">Jul 17</span><span class="t">LHC — Shipped this week (July 17, 2026)</span></a></li>
+        <li><a href="#c-lhc-sow-amendment-email-2026-07-16-html"><span class="d">Jul 16</span><span class="t">LHC — SOW Amendment No. 1 (July 16, 2026)</span></a></li>
+        <li><a href="#c-lhc-team-agenda-email-2026-07-14-html"><span class="d">Jul 14</span><span class="t">LHC Agenda — July 14, 2026</span></a></li>
+        <li><a href="#c-lhc-team-agenda-email-2026-07-07-html"><span class="d">Jul 7</span><span class="t">LHC Agenda — July 7, 2026</span></a></li>
+        <li><a href="#c-ella-chw-training-ai-direction-email-2026-06-30-html"><span class="d">Jun 30</span><span class="t">Reply to Ella — CHW training direction</span></a></li>
+        <li><a href="#c-lhc-maintenance-prepay-ella-budget-email-2026-06-30-html"><span class="d">Jun 30</span><span class="t">Budget follow-up — Allie &amp; Rebecca</span></a></li>
+        <li><a href="#c-lhc-team-agenda-email-2026-06-30-html"><span class="d">Jun 30</span><span class="t">LHC Agenda — June 30, 2026</span></a></li>
+        <li><a href="#c-celebrate-the-check-updates-email-2026-06-29-html"><span class="d">Jun 29</span><span class="t">Celebrate the Check — updates + QR</span></a></li>
+        <li><a href="#c-lhc-maintenance-correction-email-2026-06-23-html"><span class="d">Jun 23</span><span class="t">Maintenance options — quick correction</span></a></li>
+        <li><a href="#c-lhc-team-agenda-email-2026-06-23-html"><span class="d">Jun 23</span><span class="t">LHC Agenda — June 23, 2026</span></a></li>
+        <li><a href="#c-nuna-jini-final-edit-reply-email-2026-06-12-html"><span class="d">Jun 12</span><span class="t">Reply to Erik — Jini interview final edit</span></a></li>
+        <li><a href="#c-nuna-jini-feedback-reply-email-2026-06-10-html"><span class="d">Jun 10</span><span class="t">Reply to Erik — Jini interview updates</span></a></li>
+      </ol></nav>
+    <main class="stack">
+      <article class="letter" id="c-chw-training-first-pass-email-2026-08-25-html">
+        <div class="letter-head">
+          <div class="meta">
+            <span class="date">Aug 25, 2026</span>
+            <h2>Ella — CHW training, first pass (Aug 25, 2026)</h2>
+            <span class="to">To: Hi Ella</span>
           </div>
-        </div>`;
-      }).join('');
-    }
+          <button class="copy" data-target="body-chw-training-first-pass-email-2026-08-25-html" title="Copy this email">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            Copy email
+          </button>
+        </div>
+        <span class="status"></span>
+        <div class="paper">
+          <div id="body-chw-training-first-pass-email-2026-08-25-html" class="email-body"><p style="margin:0 0 18px;">Hi Ella,</p>
 
-    /* Fetch the standalone email, pull out its #email-body, copy as rich HTML + text. */
-    async function copyEmail(i, btn){
-      const c = CORRESPONDENCE[i];
-      const status = document.getElementById('cor-status-' + i);
-      status.style.color = '#64748b';
-      status.textContent = 'Copying…';
+  <p style="margin:0 0 18px;">Your training is cut together and up on a page you can both click through. This is a <strong>first pass</strong> — I want your eyes on it before I do a cleanup round, and I'll flag below exactly where it still needs one.</p>
+
+  <p style="margin:0 0 12px;">
+    <a href="https://livehealthychi.com/chw-training" style="color:#1B365D;"><img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto:good,w_1100/v1787678183/orbis/chw-training-page-hero.png" alt="The CHW blood pressure training page" style="display:block; width:100%; max-width:600px; height:auto; border:1px solid #dce3ed; border-radius:10px;"></a>
+  </p>
+  <p style="margin:0 0 20px; font-size:13px; color:#4a5568;">Five modules plus a conclusion, with the reference material alongside each one.</p>
+
+  <p style="margin:0 0 26px;">
+    <a href="https://livehealthychi.com/chw-training" style="display:inline-block; background:#E5202F; color:#ffffff; text-decoration:none; font-weight:600; font-size:15px; padding:12px 22px; border-radius:8px;">Review the training page &rarr;</a>
+  </p>
+
+  <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 26px; border-collapse:collapse;">
+    <tr>
+      <td style="border-left:3px solid #1B365D; padding:10px 0 10px 14px; font-size:14px; color:#4a5568; line-height:1.5;">
+        Team password: <strong style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:15px; color:#1a2535;">[redacted in this archive copy &mdash; it was in the sent email]</strong><br>
+        The same one you use for the plan and status pages.
+      </td>
+    </tr>
+  </table>
+
+  <h3 style="margin:0 0 10px; font-size:17px; color:#1B365D;">What we shot, and what came out</h3>
+
+  <p style="margin:0 0 18px;">You gave a lot that day. We were recording from <strong>9:43 in the morning until about 1:45 in the afternoon</strong> — a solid four hours on location, finishing with the conclusion. In that window the camera rolled <strong>126 separate times</strong> and we captured <strong>1 hour 14 minutes</strong> of material, so roughly a third of the day was actually recording and the rest was resets, repositioning and finding the light.</p>
+
+  <p style="margin:0 0 18px;">The five modules came out of that at <strong>34 minutes 42 seconds</strong> — 66 cuts drawn from 63 of the 126 takes. About half the footage came out. Where you gave the same answer more than once, I kept the take that landed best, not necessarily the last one.</p>
+
+  <p style="margin:0 0 18px;">With the conclusion on the end, the finished training runs <strong>36 minutes 53 seconds</strong>.</p>
+
+  <h3 style="margin:0 0 10px; font-size:17px; color:#1B365D;">The part I want to be straight about</h3>
+
+  <p style="margin:0 0 18px;"><strong>There are still some false starts and restarts in there that I haven't caught.</strong> You'll both hear them. I'd rather you see the shape of the whole thing now than wait another few days for me to polish.</p>
+
+  <p style="margin:0 0 18px;"><strong>You don't need to hunt for them.</strong> Finding and fixing every rough cut is my job, and I'm doing a full pass on all of it — please don't spend your time logging them or writing them up. If one really grates on you, mention it; otherwise leave it with me.</p>
+
+  <p style="margin:0 0 18px;">One content note worth a second opinion, since it's clinical: at the end of Module 1 the line comes out as <em>"blood pressure actually is not dangerous, it's very common."</em> Your script had it as high blood pressure being <em>common but not inevitably dangerous</em>. Both takes have it the same way, so I can't fix it in the edit — worth deciding whether it's fine as spoken or wants a pickup. Might be one for Rebecca.</p>
+
+  <h3 style="margin:0 0 10px; font-size:17px; color:#1B365D;">A few things you'll notice</h3>
+
+  <p style="margin:0 0 14px;"><strong>The conclusion is audio only.</strong> We recorded the resources section at the end of the day without the camera, so I built visuals from your pamphlet to sit behind it — the real front cover, the real QR code, and the six resource areas appearing as you name them. It runs 2:11.</p>
+
+  <p style="margin:0 0 22px;"><strong>You can listen instead of watch.</strong> There's an audio-only version of the whole thing at the top of the page, with all 78 topics listed — click any one and it jumps straight there. Same for each module video.</p>
+
+  <h3 style="margin:0 0 10px; font-size:17px; color:#1B365D;">What would help most</h3>
+
+  <p style="margin:0 0 18px;">Watch or listen straight through once and tell me about the <strong>content</strong> — anything that isn't accurate, anything where the meaning drifted from what you meant to say, anything missing that a community health worker would need. Allie, the same from you on the content side.</p>
+
+  <p style="margin:0 0 18px;">That's the part only you two can do. The edit itself — the cuts, the restarts, the polish — is on me.</p>
+
+  <p style="margin:0 0 6px;">Thanks — it's genuinely good material.</p>
+  <p style="margin:0 0 4px;">Gary</p></div>
+        </div>
+      </article>
+      <article class="letter" id="c-lhc-pocket-guide-training-version-email-2026-08-24-html">
+        <div class="letter-head">
+          <div class="meta">
+            <span class="date">Aug 24, 2026</span>
+            <h2>Reply to Ella — training version of the pocket guide (archived copy)</h2>
+            <span class="to">To: Hi Ella</span>
+          </div>
+          <button class="copy" data-target="body-lhc-pocket-guide-training-version-email-2026-08-24-html" title="Copy this email">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            Copy email
+          </button>
+        </div>
+        <span class="status"></span>
+        <div class="paper">
+          <div id="body-lhc-pocket-guide-training-version-email-2026-08-24-html" class="email-body"><p style="margin:0 0 16px;">Hi Ella,</p>
+
+    <p style="margin:0 0 16px;">Yes — that works, and it's the right call. Removing those two codes doesn't leave a gap in the piece; it just means everything printed on it resolves to something real. <strong>The training version is attached and ready for tomorrow.</strong></p>
+
+    <p style="margin:0 0 10px;">What changed, and only this:</p>
+    <ul style="margin:0 0 20px; padding-left:22px;">
+      <li style="margin-bottom:7px;">The <strong>Blood Pressure Log</strong> QR is out, since the printable log sheet doesn't exist yet.</li>
+      <li style="margin-bottom:7px;">The <strong>training video</strong> placeholder box is out.</li>
+      <li style="margin-bottom:7px;">The two remaining codes — <strong>Live Healthy Chicago</strong> and <strong>Community resources</strong> — are now larger and easier to scan, since they have the space to themselves.</li>
+    </ul>
+
+    <p style="margin:0 0 16px;">Everything else is untouched, including the 180/120 protocol. The tri-fold needs no change at all — the QR codes only ever lived on the pocket guide, so the school version you already have is the one to use.</p>
+
+    <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto:good,w_1100/v1787578804/orbis/lhc-pocket-guide-training-aug25.png" alt="The training version of the CHW pocket guide — back cover and front cover, with two QR codes" style="display:block; width:100%; max-width:600px; height:auto; border:1px solid #dce3ed; border-radius:10px;">
+    <p style="margin:8px 0 24px; font-size:13px; color:#4a5568;">The outside sheet — back cover at left with the two working codes, front cover at right.</p>
+
+    <p style="margin:0 0 12px;"><strong>One thing to know before tomorrow.</strong></p>
+
+    <p style="margin:0 0 16px;">The Community resources code opens the partner portal, which does have resources in it — but it asks people to sign in first. So a CHW who scans it in the room lands on a sign-in screen rather than going straight to the materials. Worth knowing so it doesn't catch you mid-sentence. Framed as "this is where your resources live, let's get you signed up," it works in your favor.</p>
+
+    <p style="margin:0 0 16px;">So your CHWs can actually get in tomorrow, here is the portal password:</p>
+
+    <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 16px; border-collapse:collapse;"><tr><td style="background:#f4f7fb; border:1px solid #dce3ed; border-radius:8px; padding:14px 18px;">
+      <div style="font-size:13px; color:#4a5568; margin-bottom:4px;">Partner portal &mdash; livehealthychi.com/portal</div>
+      <div style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:17px; font-weight:700; color:#94a3b8; letter-spacing:0.02em;">[password redacted in the archive &mdash; it was included in the sent email]</div>
+    </td></tr></table>
+
+    <p style="margin:0 0 16px;">That one is read-only and meant to be handed out &mdash; put it on a slide, share it with the whole group. It only opens the resource library; it does not reach anything internal, so there is nothing to be careful about here.</p>
+
+    <p style="margin:0 0 16px;">I'm heads-down on the training video today and will send you an update on it tomorrow.</p>
+
+    <p style="margin:0 0 16px;">Still open and unchanged: Allie's read on the race and ethnicity line and where the red-flags box belongs, the printable log sheet once she confirms the direction, the video QR code, and Rebecca's clinical sign-off before anything goes to a printer. None of that blocks tomorrow.</p>
+
+    <p style="margin:0 0 16px;">Good luck with the training — send me anything that comes out of it.</p>
+
+    <p style="margin:0 0 4px;">Thanks,</p>
+    <p style="margin:0 0 0;">Gary</p></div>
+        </div>
+      </article>
+      <article class="letter" id="c-chw-school-version-email-2026-08-19-html">
+        <div class="letter-head">
+          <div class="meta">
+            <span class="date">Aug 19, 2026</span>
+            <h2>School Version Ready — Reply to Ella (August 19, 2026)</h2>
+            <span class="to">To: Hi Ella</span>
+          </div>
+          <button class="copy" data-target="body-chw-school-version-email-2026-08-19-html" title="Copy this email">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            Copy email
+          </button>
+        </div>
+        <span class="status"></span>
+        <div class="paper">
+          <div id="body-chw-school-version-email-2026-08-19-html" class="email-body"><p style="margin:0 0 16px;">Hi Ella,</p>
+
+    <p style="margin:0 0 16px;">Great notes &mdash; thank you. Your <strong>school version is attached and ready to use now</strong>, so you're not waiting on anyone. It has the coalition partner-logo strip removed and describes Live Healthy Chicago in neutral third person. The pocket guide needed no changes for the school version &mdash; it never described the coalition in first person and had no logo strip &mdash; so it's the same file for both.</p>
+
+    <p style="margin:0 0 16px;">Also done, in both versions:</p>
+
+    <ul style="margin:0 0 24px; padding-left:20px; color:#4a5568;">
+      <li style="margin:0 0 8px;"><strong>"Know This Cold" is now "Red flags &mdash; get help right away."</strong> You were right that it was a label I added; yours is clearer.</li>
+      <li style="margin:0 0 8px;"><strong>The Elevated row now fits on one line</strong> &mdash; "120&ndash;129 and less than 80."</li>
+    </ul>
+
+    <p style="margin:0 0 16px;">I've also built the dissemination version, which keeps Live Healthy Chicago's own voice and the partner logos. It's attached too, but treat it as a draft &mdash; the logos still need Allie and the partners to approve.</p>
+
+    <p style="margin:0 0 8px;"><strong>Three things I'm holding for Allie</strong></p>
+    <p style="margin:0 0 12px; color:#4a5568;">None of these block your submission today &mdash; they're all quick changes once she weighs in:</p>
+
+    <ul style="margin:0 0 24px; padding-left:20px; color:#4a5568;">
+      <li style="margin:0 0 8px;"><strong>The race and ethnicity line.</strong> It's in the attached versions and stays unless Allie says otherwise.</li>
+      <li style="margin:0 0 8px;"><strong>Where the red-flags box lives.</strong> It's in the pocket guide for now. Moving it to the tri-fold is easy either way.</li>
+      <li style="margin:0 0 8px;"><strong>The blood pressure log.</strong> You're right and I had it wrong &mdash; you meant a printable sheet for tracking readings over time, not Celebrate the Check. That sheet doesn't exist yet. Once Allie confirms that's the direction, I'll build it and point the code at it.</li>
+    </ul>
+
+    <p style="margin:0 0 16px;">On the training video QR &mdash; I'm producing that video and expect it this week. When I add the link I'll route it through a Live Healthy Chicago address that forwards to the video, so we can count scans and the printed code never has to change if the video ever moves. That covers the tracking you asked for.</p>
+
+    <p style="margin:0 0 24px;">And agreed on Rebecca reviewing both before anything is printed.</p>
+
+    <p style="margin:0 0 4px;">Thanks,</p>
+    <p style="margin:0;">Gary</p></div>
+        </div>
+      </article>
+      <article class="letter" id="c-chw-pamphlet-drafts-email-2026-08-18-html">
+        <div class="letter-head">
+          <div class="meta">
+            <span class="date">Aug 18, 2026</span>
+            <h2>CHW Pamphlet + Insert Drafts — Email to Ella (August 18, 2026)</h2>
+            <span class="to">To: Hi Ella</span>
+          </div>
+          <button class="copy" data-target="body-chw-pamphlet-drafts-email-2026-08-18-html" title="Copy this email">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            Copy email
+          </button>
+        </div>
+        <span class="status"></span>
+        <div class="paper">
+          <div id="body-chw-pamphlet-drafts-email-2026-08-18-html" class="email-body"><p style="margin:0 0 16px;">Hi Ella,</p>
+
+    <p style="margin:0 0 16px;">Both drafts are attached &mdash; the community tri-fold and the CHW pocket guide insert. Your content is all there; what I did was turn the layouts into real print pieces, so they're set up to go straight to a printer rather than being mockups.</p>
+
+    <p style="margin:0 0 16px;">The photography is pulled from the live Live Healthy Chicago site, so it's already approved and on-brand. I did rebalance which image goes where &mdash; the screening photo was carrying three different panels of the tri-fold, so the coalition panel now uses a North Lawndale neighborhood shot instead. No image repeats within a piece now.</p>
+
+    <p style="margin:0 0 6px;"><strong>1. Community tri-fold</strong> &mdash; "Know Your Numbers. Protect Your Heart."</p>
+    <p style="margin:0 0 16px; color:#4a5568;">Standard letter tri-fold, printed double-sided and folded twice. Your six panels in your order.</p>
+
+    <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto:good,w_1100/v1787082974/orbis/lhc-chw-trifold-draft-2026-08-18.png" alt="The community tri-fold, outside and inside" style="display:block; width:100%; max-width:600px; height:auto; border:1px solid #dce3ed; border-radius:10px;">
+    <p style="margin:8px 0 24px; font-size:13px; color:#4a5568;">Outside on top (front cover at right), inside spread below.</p>
+
+    <p style="margin:0 0 6px;"><strong>2. CHW pocket guide insert</strong></p>
+    <p style="margin:0 0 16px; color:#4a5568;">Your mockup called it a pocket guide, so I built it as one &mdash; a single sheet folded once into a 5.5&times;8.5 booklet that tucks inside the folded tri-fold. Your four panels became a front cover, an inside spread, and a back cover. Each section is color-coded so a CHW can thumb straight to the page they need.</p>
+
+    <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto:good,w_1100/v1787082301/orbis/lhc-chw-insert-draft-2026-08-18.png" alt="The CHW pocket guide insert, outside and inside" style="display:block; width:100%; max-width:600px; height:auto; border:1px solid #dce3ed; border-radius:10px;">
+    <p style="margin:8px 0 24px; font-size:13px; color:#4a5568;">Cover and back on top, inside spread below.</p>
+
+    <p style="margin:0 0 8px;"><strong>Small copy changes &mdash; please check these</strong></p>
+    <p style="margin:0 0 12px; color:#4a5568;">A handful of edits to text Allie already approved, so I want them seen rather than slipped in:</p>
+
+    <ul style="margin:0 0 24px; padding-left:20px; color:#4a5568;">
+      <li style="margin:0 0 8px;">Dropped the <strong>"silent killer" / "silent condition"</strong> phrasing in both pieces &mdash; it's on Live Healthy Chicago's do-not-use list. It now reads "you can feel fine and still have high blood pressure," which says the same thing.</li>
+      <li style="margin:0 0 8px;">The Elevated row read <strong>120&ndash;129 / &lt; 80</strong>. A slash reads as "or," and the AHA rule needs both, so it's now "120&ndash;129 <strong>and</strong> less than 80." I also added the rule about using the higher category when the two numbers disagree.</li>
+      <li style="margin:0 0 8px;">Relabeled the risk lists <strong>"Risks you cannot change" / "Risks you can change,"</strong> and added one line noting race and ethnicity are on the list because of unequal access to care, food, and safe places to be active &mdash; not biology. <strong>Allie, that one is a judgment call and easy to remove if you'd rather it not be there.</strong></li>
+      <li style="margin:0 0 8px;">Fixed a typo on the insert: "Respect people prides and culture" &rarr; <strong>"Respect people's pride and culture."</strong></li>
+      <li style="margin:0 0 8px;">The <strong>180/120 protocol is untouched</strong> &mdash; with symptoms vs. without, word for word. That's the clinical piece and not mine to edit.</li>
+    </ul>
+
+    <p style="margin:0 0 8px;"><strong>Still open</strong></p>
+
+    <ul style="margin:0 0 24px; padding-left:20px; color:#4a5568;">
+      <li style="margin:0 0 8px;"><strong>The training video QR &mdash; that one's on me.</strong> Three of the four QR codes on the insert work today: Live Healthy Chicago, the resource portal, and logging a blood pressure check. The fourth is a marked "link pending" box, because a QR code that goes nowhere is worse than an obvious blank. I'm producing that video and expect to have it ready by the end of this week, then I'll drop the code straight in.</li>
+      <li style="margin:0 0 8px;"><strong>One thing to confirm:</strong> your "Blood Pressure Log" QR now points to Celebrate the Check, which is where someone records a reading after a screening. If you meant something else &mdash; a printable log sheet, say &mdash; tell me and I'll build it.</li>
+      <li style="margin:0 0 8px;"><strong>Clinical sign-off.</strong> Worth having Rebecca look at both before anything prints.</li>
+    </ul>
+
+    <p style="margin:0 0 8px;"><strong>One open question &mdash; the partner logos</strong></p>
+    <p style="margin:0 0 16px; color:#4a5568;">You'll see a strip of coalition partner logos on the inside right panel of the tri-fold. That wasn't in your original &mdash; I added it because there was empty space and partner names lend real credibility to a piece someone is handed on the street.</p>
+    <p style="margin:0 0 16px; color:#4a5568;">That said, <strong>I think it's too crowded as it stands</strong> and I'd like another pass at it. Before I spend the time: does it belong at all? If you both see the value, I'll rework it &mdash; likely fewer logos, larger, easier to read. If it's not worth it, I'll pull it and use the space differently. Either answer is fine.</p>
+    <p style="margin:0 0 24px; color:#4a5568;">If we do keep it, someone should confirm the partners are okay with their logos on a printed community piece &mdash; that's a different permission than being listed on the website.</p>
+
+    <p style="margin:0 0 24px;">Ella, this should be enough for your submission tomorrow. Send changes whenever you have them and I'll turn them around.</p>
+
+    <p style="margin:0 0 4px;">Thanks,</p>
+    <p style="margin:0;">Gary</p></div>
+        </div>
+      </article>
+      <article class="letter" id="c-lhc-pamphlet-po-reply-email-2026-08-18-html">
+        <div class="letter-head">
+          <div class="meta">
+            <span class="date">Aug 18, 2026</span>
+            <h2>Pamphlet Draft + Amendment Executed — Reply to Allie (August 18, 2026)</h2>
+            <span class="to">To: Hi Allie</span>
+          </div>
+          <button class="copy" data-target="body-lhc-pamphlet-po-reply-email-2026-08-18-html" title="Copy this email">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            Copy email
+          </button>
+        </div>
+        <span class="status"></span>
+        <div class="paper">
+          <div id="body-lhc-pamphlet-po-reply-email-2026-08-18-html" class="email-body"><p style="margin:0 0 16px;">Hi Allie &mdash;</p>
+
+    <p style="margin:0 0 20px;">Yes. I'm working on the pamphlet today and will get you and Ella a draft of the tri-fold before end of day so she has it in hand for Wednesday. The CHW community insert will follow right behind it.</p>
+
+    <p style="margin:0 0 20px;">Good news on the other front: the Rush amendment is fully executed as of this morning. David Ansell signed on the 16th and I signed today, so that's closed.</p>
+
+    <p style="margin:0 0 20px;">One thing I need from you to get the retainer moving. I'll send the $5,000 invoice through QuickBooks as usual for you to route &mdash; but it looks like Rush needs an official PO on it before I can bill. Their Docusign envelope was labeled &ldquo;# 22467.&rdquo; Is that the PO number I should reference, or does Rush issue a separate one? If you can point me to whoever handles that on their side, I'll take it from there.</p>
+
+    <p style="margin:0 0 4px;">Thanks</p>
+    <p style="margin:0;">Gary</p></div>
+        </div>
+      </article>
+      <article class="letter" id="c-lhc-health-for-all-event-email-2026-08-07-html">
+        <div class="letter-head">
+          <div class="meta">
+            <span class="date">Aug 7, 2026</span>
+            <h2>Health for All Event Added — Reply to Alisha (August 7, 2026)</h2>
+            <span class="to">To: Hi Alisha</span>
+          </div>
+          <button class="copy" data-target="body-lhc-health-for-all-event-email-2026-08-07-html" title="Copy this email">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            Copy email
+          </button>
+        </div>
+        <span class="status"></span>
+        <div class="paper">
+          <div id="body-lhc-health-for-all-event-email-2026-08-07-html" class="email-body"><p style="margin:0 0 16px;">Hi Alisha,</p>
+
+    <p style="margin:0 0 16px;">Great news on the coverage — <strong>Health for All</strong> is up on the events page now:</p>
+
+    <ul style="margin:0 0 20px; padding-left:20px;">
+      <li style="margin:0 0 8px;"><strong>Aug 24 &ndash; Sep 4</strong>, weekdays only, 8:30 AM&ndash;4:00 PM</li>
+      <li style="margin:0 0 8px;">Humboldt Park Boathouse parking lot, 1301 N. Humboldt Dr.</li>
+      <li style="margin:0 0 8px;">The (312) 942-2027 scheduling line is right in the card copy, so nobody has to open the details to find it</li>
+    </ul>
+
+    <p style="margin:0 0 20px;">This is the first multi-day event we've put on the page, so I had to teach it a new trick — until now a card disappeared the morning after its date. It now knows the difference between a start and an end, which means this one stays visible through the last day instead of vanishing on the 25th.</p>
+
+    <a href="https://livehealthychi.com/#events" style="text-decoration:none;"><img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto:good,w_1100/v1786127917/orbis/lhc-health-for-all-aug-2026-added.png" alt="The Health for All card on the Live Healthy Chicago events page" style="display:block; width:100%; max-width:600px; height:auto; border:1px solid #dce3ed; border-radius:10px;"></a>
+    <p style="margin:8px 0 24px; font-size:13px; color:#4a5568;">Health for All, sitting between MSI Back to School and the Brain Freedom Party.</p>
+
+    <p style="margin:0 0 24px;">
+      <a href="https://livehealthychi.com/#events" style="display:inline-block; background:#0362BC; color:#ffffff; text-decoration:none; font-weight:600; font-size:15px; padding:12px 22px; border-radius:8px;">See it live on the events page &rarr;</a>
+    </p>
+
+    <p style="margin:0 0 20px;">The flyer carried more than the email did, so the details view now lists the free mammograms, blood pressure checks, and oral cancer screenings, the informational screenings for colorectal, GI, lung, and cervical cancer and HPV, Equal Hope being onsite, and the closure on Saturday the 29th and Sunday the 30th.</p>
+
+    <p style="margin:0 0 6px;"><strong>One question &mdash; the Spanish flyer</strong></p>
+    <p style="margin:0 0 20px;">You sent both an English and a Spanish version, which I'd guess means there's Spanish-speaking staff at the coach. The site is English-only today, so I didn't want to promise anything on your behalf. If Spanish-speaking help will be there, tell me and I'll add a line to the card &mdash; that's a real reason for a Humboldt Park neighbor to show up.</p>
+
+    <p style="margin:0 0 6px;"><strong>Still open from my last note</strong></p>
+    <p style="margin:0 0 20px;">Two small things from July 28, no rush on either:</p>
+
+    <ul style="margin:0 0 24px; padding-left:20px;">
+      <li style="margin:0 0 8px;"><strong>Brain Freedom Party address</strong> &mdash; your email said 6407 S. Peoria St. and the flyer said 6407 S. Honore St. The flyer version is what's posted; say the word if Peoria is right.</li>
+      <li style="margin:0 0 8px;"><strong>MSI sports-physical registration link</strong> &mdash; the card currently says "coming soon." Whenever it comes through I'll drop it in.</li>
+    </ul>
+
+    <p style="margin:0 0 24px;">And as always, if anything about the Health for All hours or services shifts between now and the 24th, send it over and I'll update the card.</p>
+
+    <p style="margin:0 0 4px;">Thanks as always,</p>
+    <p style="margin:0;">Gary</p></div>
+        </div>
+      </article>
+      <article class="letter" id="c-lhc-mobile-qr-schedule-email-2026-07-31-html">
+        <div class="letter-head">
+          <div class="meta">
+            <span class="date">Jul 31, 2026</span>
+            <h2>LHC — Mobile Calendar QR + updated schedule (Jul 31, 2026)</h2>
+            <span class="to">To: Hi all</span>
+          </div>
+          <button class="copy" data-target="body-lhc-mobile-qr-schedule-email-2026-07-31-html" title="Copy this email">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            Copy email
+          </button>
+        </div>
+        <span class="status"></span>
+        <div class="paper">
+          <div id="body-lhc-mobile-qr-schedule-email-2026-07-31-html" class="email-body"><p style="margin:0 0 16px;">Hi all,</p>
+
+    <p style="margin:0 0 16px;">Two things — the QR code Rebecca asked about, and Porcha's calendar, which is already up.</p>
+
+    <p style="margin:0 0 12px;"><strong>The QR code already exists</strong>, and it goes straight to the Mobile Team Schedule:</p>
+
+    <p style="margin:0 0 16px;">
+      <a href="https://livehealthychi.com/mobile" style="color:#0362BC; font-weight:600;">livehealthychi.com/mobile</a>
+    </p>
+
+    <p style="margin:0 0 12px;">
+      <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto:good,w_260/v1776795060/lhc-qr/mobile-screenings.png" alt="QR code to the LHC Mobile Team Schedule" width="200" style="display:block; width:200px; max-width:200px; height:auto; border:1px solid #dce3ed; border-radius:10px;">
+    </p>
+    <p style="margin:0 0 20px; font-size:13px; color:#4a5568;">
+      Right-click to save, or grab the print-quality file here:
+      <a href="https://res.cloudinary.com/dsbllwpbh/image/upload/fl_attachment:LHC-QR-Mobile-Screenings/lhc-qr/mobile-screenings.png" style="color:#0362BC;">download the PNG</a>.
+    </p>
+
+    <p style="margin:0 0 24px;">One useful thing about how it's built: the code points at a short link, not at a fixed page. So whenever the schedule changes, the same printed QR keeps working — <strong>nothing already printed ever needs reprinting.</strong></p>
+
+    <p style="margin:0 0 16px;">Porcha — thank you for the calendar. I've rebuilt the schedule section around it, and it's live now:</p>
+
+    <p style="margin:0 0 12px;">
+      <a href="https://livehealthychi.com/mobile"><img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto:good,w_1100/v1785524933/orbis/lhc-mobile-team-schedule-2026-07-31.png" alt="The updated Mobile Team Schedule on livehealthychi.com" style="display:block; width:100%; max-width:600px; height:auto; border:1px solid #dce3ed; border-radius:10px;"></a>
+    </p>
+    <p style="margin:0 0 20px; font-size:13px; color:#4a5568;">The Mobile Team Schedule as it now appears on the site.</p>
+
+    <p style="margin:0 0 24px;">
+      <a href="https://livehealthychi.com/mobile" style="display:inline-block; background:#0362BC; color:#ffffff; text-decoration:none; font-weight:600; font-size:15px; padding:12px 22px; border-radius:8px;">Review the live schedule &rarr;</a>
+    </p>
+
+    <p style="margin:0 0 24px;">Laurie — Rebecca mentioned you'd have changes. Rather than mark up the table, it may be easier to just open that link and tell me what's off; I can turn edits around same-day.</p>
+
+    <p style="margin:0 0 12px;">Two sites don't run every week, so I gave them their own line on the card rather than burying it — the last thing we want is someone making the trip on an off week:</p>
+
+    <ul style="margin:0 0 24px; padding-left:20px; color:#1a2535;">
+      <li style="margin:0 0 6px;"><strong>United for Better Living</strong> — 2nd &amp; 4th week of every month</li>
+      <li style="margin:0 0 6px;"><strong>Westside Health Authority</strong> — 3rd Tuesday &amp; last Friday, marked as a floating site rather than a weekday</li>
+    </ul>
+
+    <p style="margin:0 0 12px;">Three things worth confirming, since they're public now:</p>
+
+    <ol style="margin:0 0 24px; padding-left:20px; color:#1a2535;">
+      <li style="margin:0 0 10px;"><strong>Marillac spelling.</strong> The calendar reads "Marrilac" — I used <strong>Marillac St. Vincent</strong>, which is how the organization spells it. Shout if that's wrong.</li>
+      <li style="margin:0 0 10px;"><strong>Three sites came off.</strong> Healthy Hood, Taller de José, and Hope Community Church were on the old schedule and aren't on the new calendar, so I removed those cards. If any of them are still running and just weren't on the sheet, let me know and I'll put them back today. (Their logos in the Coalition section are untouched.)</li>
+      <li style="margin:0 0 10px;"><strong>The site photos are stand-ins.</strong> None of the five are photographs of the actual buildings — they're generic images holding the space until we have real ones.</li>
+    </ol>
+
+    <p style="margin:0 0 16px;">On that last point, a small ask that would make a real difference. The team is standing at all five of these locations every week — <strong>if whoever is on site could take one phone photo of each building from the sidewalk, that's all I need.</strong> Nothing staged; a plain shot of the entrance people are looking for is genuinely better than anything I can source, because it's what they'll actually see when they arrive.</p>
+
+    <p style="margin:0 0 24px;">Sankofa especially. It's a beautiful new building and it deserves its own photo on that page rather than a stand-in.</p>
+
+    <p style="margin:0 0 24px;">Happy to add a printable one-pager with the QR and the schedule side by side if that would help in the field — that one's quick.</p>
+
+    <p style="margin:0 0 4px;">Thanks,<br>Gary</p></div>
+        </div>
+      </article>
+      <article class="letter" id="c-lhc-events-added-email-2026-07-28-html">
+        <div class="letter-head">
+          <div class="meta">
+            <span class="date">Jul 28, 2026</span>
+            <h2>LHC Events Added — Reply to Alisha (July 28, 2026)</h2>
+            <span class="to">To: Hi Alisha</span>
+          </div>
+          <button class="copy" data-target="body-lhc-events-added-email-2026-07-28-html" title="Copy this email">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            Copy email
+          </button>
+        </div>
+        <span class="status"></span>
+        <div class="paper">
+          <div id="body-lhc-events-added-email-2026-07-28-html" class="email-body"><p style="margin:0 0 16px;">Hi Alisha,</p>
+
+    <p style="margin:0 0 16px;">Hope you had a good weekend — thanks for getting these over before your day out. Four of the five are up on the site now:</p>
+
+    <ul style="margin:0 0 20px; padding-left:20px;">
+      <li style="margin:0 0 8px;"><strong>Aug 1</strong> — Madison Corridor Recovery Festival (10 AM&ndash;4:30 PM, 4132 W. Madison St.)</li>
+      <li style="margin:0 0 8px;"><strong>Aug 1</strong> — Health Fair &amp; Wellness Market in Englewood (10 AM&ndash;2 PM, The Englewood Breakroom) — with your Eventbrite link on the card</li>
+      <li style="margin:0 0 8px;"><strong>Aug 1</strong> — 17th Annual Uplift Our Future Back to School Event (2&ndash;4 PM, Brookfield Zoo Discovery Center)</li>
+      <li style="margin:0 0 8px;"><strong>Aug 29</strong> — Brain Freedom Party (11 AM&ndash;3 PM, Imagine Englewood If Peace Campus)</li>
+    </ul>
+
+    <p style="margin:0 0 20px;">The flyers filled in a lot of nice detail — free admission, parking, and the 1 PM check-in for the Uplift event, and the line dancing, live jazz, brain-health conversations, Dementia Friend training, and provided lunch for Brain Freedom.</p>
+
+    <a href="https://livehealthychi.com/#events" style="text-decoration:none;"><img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto:good,w_1100/v1785248773/orbis/lhc-events-aug-2026-added.png" alt="New August events on the Live Healthy Chicago events page" style="display:block; width:100%; max-width:600px; height:auto; border:1px solid #dce3ed; border-radius:10px;"></a>
+    <p style="margin:8px 0 24px; font-size:13px; color:#4a5568;">The August 1 events as they appear now on the events page.</p>
+
+    <p style="margin:0 0 24px;">
+      <a href="https://livehealthychi.com/#events" style="display:inline-block; background:#0362BC; color:#ffffff; text-decoration:none; font-weight:600; font-size:15px; padding:12px 22px; border-radius:8px;">See the events live &rarr;</a>
+    </p>
+
+    <p style="margin:0 0 6px;"><strong>One address to confirm — Brain Freedom Party</strong></p>
+    <p style="margin:0 0 20px;">Your email lists <strong>6407 S. Peoria St.</strong>, and the flyer says <strong>6407 S. Honore St., 60636</strong>. I went with the flyer for now, same as we did with Healthy Hues — just say the word if Peoria is the right one and I'll switch it.</p>
+
+    <p style="margin:0 0 6px;"><strong>The Welch Back to School Health Fair</strong></p>
+    <p style="margin:0 0 20px;">That one was <strong>July 25</strong>, so it had already passed by the time this reached me — I left it off since the page only shows upcoming events. No issue at all; if there's another one on the calendar later this year, send it over and it'll go right up.</p>
+
+    <p style="margin:0 0 24px;">And whenever the <strong>MSI sports-physical registration link</strong> comes through, pass it along and I'll drop it into that card.</p>
+
+    <p style="margin:0 0 4px;">Thanks as always,</p>
+    <p style="margin:0;">Gary</p></div>
+        </div>
+      </article>
+      <article class="letter" id="c-lhc-rachel-access-reply-email-2026-07-28-html">
+        <div class="letter-head">
+          <div class="meta">
+            <span class="date">Jul 28, 2026</span>
+            <h2>Reply to Rachel — tracker + Celebrate data (July 28, 2026)</h2>
+            <span class="to">To: Good morning Rachel</span>
+          </div>
+          <button class="copy" data-target="body-lhc-rachel-access-reply-email-2026-07-28-html" title="Copy this email">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            Copy email
+          </button>
+        </div>
+        <span class="status"></span>
+        <div class="paper">
+          <div id="body-lhc-rachel-access-reply-email-2026-07-28-html" class="email-body"><p style="margin:0 0 16px;">Good morning Rachel,</p>
+
+    <p style="margin:0 0 20px;">We came through the storms fine, thank you — hope you did too.</p>
+
+    <p style="margin:0 0 20px;"><strong>Yes, we're on for 2:00 today.</strong> I'm sending the agenda around separately in a few minutes.</p>
+
+    <p style="margin:0 0 16px;">On the two things you couldn't find — neither one lives on the staging page, which is why they seem to have disappeared. They're their own pages, and you can go straight to them:</p>
+
+    <p style="margin:0 0 6px;"><strong>1. The project tracker</strong></p>
+    <p style="margin:0 0 16px;">This is the running change log and the open-items list, and it's current as of this morning. It takes the <strong>same password you use for the staging site</strong>.</p>
+    <p style="margin:0 0 24px;">
+      <a href="https://livehealthychi.com/status.html" style="display:inline-block; background:#0362BC; color:#ffffff; text-decoration:none; font-weight:600; font-size:15px; padding:12px 22px; border-radius:8px;">Open the project tracker &rarr;</a>
+    </p>
+
+    <p style="margin:0 0 6px;"><strong>2. Celebrate the Check responses</strong></p>
+    <p style="margin:0 0 16px;">All form entries land in one dashboard. Open it, then set the <strong>Form</strong> dropdown to <strong>celebrate-survey</strong> to see just the Celebrate responses — there's a search box and a <strong>CSV export</strong> if you want to pull it into a spreadsheet.</p>
+    <p style="margin:0 0 8px;">One catch that has tripped up more than one of us: this page uses a <em>different</em> password than the rest of the site. I'm sending it to you in a separate message rather than putting it in email alongside the link.</p>
+    <p style="margin:0 0 24px;">
+      <a href="https://livehealthychi.com/submissions.html" style="display:inline-block; background:#0362BC; color:#ffffff; text-decoration:none; font-weight:600; font-size:15px; padding:12px 22px; border-radius:8px;">Open the submissions dashboard &rarr;</a>
+    </p>
+
+    <p style="margin:0 0 20px;">That two-password split is deliberate — it lets people reach the admin pages without also being able to edit the partner portal — but it clearly isn't written down anywhere findable. Allie hit the same wall last week, so I'm adding a plain "which password opens what" section to the team guide this week.</p>
+
+    <p style="margin:0 0 24px;">If either link gives you trouble, tell me before 2 and I'll just screen-share it.</p>
+
+    <p style="margin:0 0 4px;">See you this afternoon,</p>
+    <p style="margin:0;">Gary</p></div>
+        </div>
+      </article>
+      <article class="letter" id="c-lhc-team-agenda-email-2026-07-28-html">
+        <div class="letter-head">
+          <div class="meta">
+            <span class="date">Jul 28, 2026</span>
+            <h2>Team agenda — July 28, 2026 check-in</h2>
+            <span class="to">To: Hi all</span>
+          </div>
+          <button class="copy" data-target="body-lhc-team-agenda-email-2026-07-28-html" title="Copy this email">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            Copy email
+          </button>
+        </div>
+        <span class="status"></span>
+        <div class="paper">
+          <div id="body-lhc-team-agenda-email-2026-07-28-html" class="email-body"><p style="margin:0 0 16px;">Hi all,</p>
+
+    <p style="margin:0 0 20px;">Agenda for our check-in this afternoon, <strong>Tuesday July 28 at 2:00 PM CST</strong>. Short list — most of it is confirming things are moving rather than deciding anything new. The one item that actually needs decisions today is Ella's shoot, because recording is about a week out.</p>
+
+    <a href="https://livehealthychi.com/status.html" style="text-decoration:none;"><img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto:good,w_1100/v1785253042/orbis/lhc-status-tracker-2026-07-28.png" alt="Live Healthy Chicago project status dashboard" style="display:block; width:100%; max-width:600px; height:auto; border:1px solid #dce3ed; border-radius:10px;"></a>
+    <p style="margin:8px 0 24px; font-size:13px; color:#4a5568;">The tracker is current through today — every item below has detail there.</p>
+
+    <p style="margin:0 0 6px;"><strong>1. SOW Amendment No. 1 — where did it land?</strong></p>
+    <p style="margin:0 0 20px;">Allie approved it on our call last Tuesday and was sending it to Rebecca that day. Just want to confirm it reached <strong>Rush contracting</strong> and find out whether anything is needed from me to keep it moving. No changes to the document from my end.</p>
+
+    <p style="margin:0 0 6px;"><strong>2. Ella's CHW training — decisions needed today</strong></p>
+    <p style="margin:0 0 8px;">Ella is back <strong>August 1</strong> and the training is <strong>August 25</strong>, so we record the week of August 3. Looking at that week honestly, there's really only one day: I'm <strong>traveling Tuesday 8/4 and Wednesday 8/5</strong>, and <strong>Friday 8/7 is booked solid</strong> from 9 to 5. That leaves <strong>Thursday, August 6</strong>, which is wide open — or Monday 8/3, which is Ella's first day back and has a midday commitment.</p>
+    <ul style="margin:0 0 20px; padding-left:20px;">
+      <li style="margin:0 0 8px;"><strong>Let's lock Thursday, August 6.</strong> It's the only full day open on my side that week, and given Ella's irregular Malcolm X schedule I'd rather claim it now than negotiate later. Monday 8/3 afternoon is the fallback.</li>
+      <li style="margin:0 0 8px;"><strong>Where we shoot.</strong> Leaning toward Ella coming to me, which she offered and which saves the most time.</li>
+      <li style="margin:0 0 8px;"><strong>Graphics scope.</strong> Her script calls for six graphics. Worth agreeing on how finished those need to be.</li>
+      <li style="margin:0 0 8px;"><strong>Rebecca's clinical sign-off.</strong> Allie approved the content; the clinical read is still open and shouldn't wait until after we've filmed.</li>
+    </ul>
+
+    <p style="margin:0 0 6px;"><strong>3. Portal — what's blocking the trial</strong></p>
+    <p style="margin:0 0 20px;">Everything technical is done: sign-ups are captured and filterable by role, the team guide is written, the portal has its own password, and the footer link works. The only thing left is <strong>seeding a starter set of resources in each category</strong> — that's a content task, not a build task. Allie wants to trial it with a small CHW group without announcing it, so we just need to agree who loads what, and by when. The top-nav link goes in after that.</p>
+
+    <p style="margin:0 0 6px;"><strong>4. Events — two loose ends with Alisha</strong></p>
+    <p style="margin:0 0 20px;">Four more events went up today (three on Aug 1, plus the Brain Freedom Party Aug 29). Two things still open on her side: the <strong>MSI sports-physical registration link</strong>, and the <strong>Brain Freedom address</strong> — her email says Peoria, the flyer says Honore. We're running the flyer version for now.</p>
+
+    <p style="margin:0 0 6px;"><strong>5. Two housekeeping items from last week</strong></p>
+    <ul style="margin:0 0 24px; padding-left:20px;">
+      <li style="margin:0 0 8px;"><strong>Passwords.</strong> Two people have now lost time locked out of the right page. I'm adding a plain "which password opens what" section to the team guide.</li>
+      <li style="margin:0 0 8px;"><strong>Domain ownership.</strong> Allie's point from last week — worth confirming who controls livehealthychi.com and making sure it sits with a shared account and more than one person, not an individual's name.</li>
+    </ul>
+
+    <p style="margin:0 0 20px;">One scheduling note: <strong>next Tuesday's check-in (8/4) falls while I'm traveling</strong> and double-books against a client day. Happy to skip that one and pick back up on the 11th, or move it — whichever is easier for everyone.</p>
+
+    <p style="margin:0 0 24px;">
+      <a href="https://livehealthychi.com/status.html" style="display:inline-block; background:#0362BC; color:#ffffff; text-decoration:none; font-weight:600; font-size:15px; padding:12px 22px; border-radius:8px;">Open the project tracker &rarr;</a>
+    </p>
+
+    <p style="margin:0 0 4px;">See you at 2,</p>
+    <p style="margin:0;">Gary</p></div>
+        </div>
+      </article>
+      <article class="letter" id="c-lhc-events-confirm-email-2026-07-21-html">
+        <div class="letter-head">
+          <div class="meta">
+            <span class="date">Jul 21, 2026</span>
+            <h2>Reply to Alisha — Events confirmed</h2>
+            <span class="to">To: Hi Alisha</span>
+          </div>
+          <button class="copy" data-target="body-lhc-events-confirm-email-2026-07-21-html" title="Copy this email">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            Copy email
+          </button>
+        </div>
+        <span class="status"></span>
+        <div class="paper">
+          <div id="body-lhc-events-confirm-email-2026-07-21-html" class="email-body"><p style="margin:0 0 16px;">Hi Alisha,</p>
+
+    <p style="margin:0 0 16px;">Perfect — thank you for the quick confirmations. Everything's squared away and live:</p>
+
+    <p style="margin:0 0 6px;"><strong>Healthy Hues (Aug 8)</strong></p>
+    <p style="margin:0 0 16px;">Locked to the flyer, as you confirmed — <strong>11 AM&ndash;4 PM</strong> at <strong>1402 S. Sacramento Dr.</strong> Good catch on both.</p>
+
+    <p style="margin:0 0 6px;"><strong>MSI Back to School (Aug 22)</strong></p>
+    <p style="margin:0 0 16px;">Updated to note it's a <strong>free event</strong>, with <strong>free sports physicals available with registration</strong>. I added a "registration link coming soon" line — just send the link over whenever it's ready and I'll drop it right in.</p>
+
+    <p style="margin:0 0 24px;">That's everything on my end. Both are showing on the events page now.</p>
+
+    <p style="margin:0 0 24px;">
+      <a href="https://livehealthychi.com/#events" style="display:inline-block; background:#0362BC; color:#ffffff; text-decoration:none; font-weight:600; font-size:15px; padding:12px 22px; border-radius:8px;">See the events live &rarr;</a>
+    </p>
+
+    <p style="margin:0 0 4px;">Thanks as always,</p>
+    <p style="margin:0;">Gary</p></div>
+        </div>
+      </article>
+      <article class="letter" id="c-ella-script-notes-timeline-email-2026-07-17-html">
+        <div class="letter-head">
+          <div class="meta">
+            <span class="date">Jul 17, 2026</span>
+            <h2>Ella — Script notes &amp; production timeline (July 17, 2026)</h2>
+            <span class="to">To: Hi Ella</span>
+          </div>
+          <button class="copy" data-target="body-ella-script-notes-timeline-email-2026-07-17-html" title="Copy this email">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            Copy email
+          </button>
+        </div>
+        <span class="status"></span>
+        <div class="paper">
+          <div id="body-ella-script-notes-timeline-email-2026-07-17-html" class="email-body"><p style="margin:0 0 16px;">Hi Ella,</p>
+
+    <p style="margin:0 0 16px;">I read your script closely — it's really good. It's clear, it's warm, and it's genuinely built for the people doing the work. The analogies do a lot of heavy lifting (the garden hose, the leak behind the wall, a teaspoon of salt being a whole day's sodium, clapping your hands for the top and bottom numbers), and the culturally-specific nutrition section is the kind of thing most trainings skip entirely. Allie has already signed off on the content, so nothing below changes what you're teaching — these are just production notes to make it land on camera.</p>
+
+    <p style="margin:0 0 10px;">Here's the format your five modules will become — a chaptered piece people can listen to like this one:</p>
+    <p style="margin:0 0 24px;">
+      <a href="https://livehealthychi.com/news/jini-kim-nuna.html" style="display:inline-block; background:#0362BC; color:#ffffff; text-decoration:none; font-weight:600; font-size:15px; padding:12px 22px; border-radius:8px;">See the chaptered format &rarr;</a>
+    </p>
+
+    <p style="margin:0 0 10px;">I also pulled everything into one page you and the team can click through — the look and feel of the shoot, where we might film it, and your full script with these notes in context:</p>
+    <p style="margin:0 0 24px;">
+      <a href="https://livehealthychi.com/chw-plan" style="display:inline-block; background:#1B365D; color:#ffffff; text-decoration:none; font-weight:600; font-size:15px; padding:12px 22px; border-radius:8px;">Review the plan &amp; script &rarr;</a>
+      <span style="display:block; font-size:13px; color:#4a5568; margin-top:8px;">Same team password you use for the status page.</span>
+    </p>
+
+    <p style="margin:0 0 20px;">One decision I&rsquo;ve made to keep it simple and human: <strong>I&rsquo;ll ask you the questions myself — no AI host.</strong> Your script reads as a clean back-and-forth already, so it barely changes; the interviewer lines just become my questions, and you stay the expert on screen throughout.</p>
+
+    <p style="margin:0 0 8px; font-weight:700; font-size:17px;">Script notes</p>
+
+    <p style="margin:0 0 14px;">The one piece of direction from Allie was to <strong>tighten where we can without losing content</strong> — keep everything, just don't let it run longer than it needs to. A few specific ways to do that:</p>
+
+    <ul style="margin:0 0 18px; padding-left:20px;">
+      <li style="margin:0 0 10px;"><strong>Let the graphics carry the lists.</strong> A few spots read a full list out loud — the organ-by-organ complications in Module 1, the modifiable risk factors, the before/during/after steps in Module 3. On screen, you can say two or three examples and let the on-screen graphic show the full list. It shortens the spoken runtime and puts your graphics to work at the same time.</li>
+      <li style="margin:0 0 10px;"><strong>Vary the module closers.</strong> Each module ends with a lovely &ldquo;the one message I&rsquo;d like every CHW to remember&rdquo; beat — but a couple land on the same idea (&ldquo;small, consistent changes&rdquo; closes both Module 1 and Module 2). Keeping them distinct will make each ending feel earned rather than repeated.</li>
+      <li style="margin:0 0 10px;"><strong>Trim the light repeats.</strong> A handful of points are stated and then restated a beat later (for example, &ldquo;healthy eating isn&rsquo;t about changing someone&rsquo;s culture&rdquo; lands twice close together). Picking the stronger version of each keeps the momentum up.</li>
+      <li style="margin:0 0 0;"><strong>Your &ldquo;reframe&rdquo; lines are the keepers.</strong> &ldquo;What&rsquo;s making healthy eating difficult for you?&rdquo;, &ldquo;movement is medicine,&rdquo; &ldquo;progress, not perfection&rdquo; — those are the moments that will become the short standalone clips. I&rsquo;ll build one short, headlined clip per module around beats like these.</li>
+    </ul>
+
+    <p style="margin:0 0 8px; font-weight:700; font-size:17px;">A couple of things to sort out</p>
+
+    <ul style="margin:0 0 20px; padding-left:20px;">
+      <li style="margin:0 0 10px;"><strong>Graphics.</strong> I count six on-screen graphics (the AHA category table, the before/during/after checklists, BE FAST, the over-180/120 flow, the CHW toolbox, and the QR resource card). I can design all of them. Worth deciding: build all five modules at once, or start with Modules 1&ndash;3 and follow with 4&ndash;5?</li>
+      <li style="margin:0 0 10px;"><strong>Where we film.</strong> I&rsquo;m after a warm, quiet room that feels like the community &mdash; ideally close to you on the South or West Side, so it&rsquo;s an easy trip. If you or the team know a space like that, send it my way. If nothing fits, I have a spot out in Batavia that looks the part (a longer drive for you, so we&rsquo;d record everything in one day). Both options are laid out on the plan page.</li>
+      <li style="margin:0 0 0;"><strong>Rebecca&rsquo;s clinical sign-off.</strong> Since it&rsquo;s all clinical guidance, I&rsquo;d want Rebecca&rsquo;s okay on the final script before we record — just so nothing has to be re-shot. Can you and Allie loop her in, or would you like me to?</li>
+    </ul>
+
+    <p style="margin:0 0 8px; font-weight:700; font-size:17px;">Timeline</p>
+
+    <p style="margin:0 0 12px;">You&rsquo;re traveling next week and back August 1, and the real deadline is the <strong>August 25 training</strong> — so we have room. Here&rsquo;s the plan:</p>
+
+    <div style="border:1px solid #dce3ed; border-radius:10px; padding:16px 20px; margin:0 0 22px;">
+      <table style="width:100%; border-collapse:collapse; font-size:15px;">
+        <tr><td style="padding:5px 0; color:#4a5568; white-space:nowrap; vertical-align:top;"><strong>Now &ndash; Jul 19</strong></td><td style="padding:5px 0 5px 14px;">You send me the pamphlet + community insert whenever they&rsquo;re ready &mdash; and please loop me in on anything you or the team design so we keep it all on-brand. I start on the graphics.</td></tr>
+        <tr><td style="padding:5px 0; color:#4a5568; white-space:nowrap; vertical-align:top;"><strong>Jul 20 &ndash; Aug 1</strong></td><td style="padding:5px 0 5px 14px;">You&rsquo;re away — no rush. Answer the open questions above whenever you get a quiet moment.</td></tr>
+        <tr><td style="padding:5px 0; color:#4a5568; white-space:nowrap; vertical-align:top;"><strong>Week of Aug 3</strong></td><td style="padding:5px 0 5px 14px;">We record — one session, all five modules. We&rsquo;ll lock the date and place once you&rsquo;re back and I know how long we&rsquo;ll need. Final script confirmed with Rebecca before we roll.</td></tr>
+        <tr><td style="padding:5px 0; color:#4a5568; white-space:nowrap; vertical-align:top;"><strong>Aug 4 &ndash; Aug 22</strong></td><td style="padding:5px 0 5px 14px;">I edit the chaptered refresher + the short per-module clips and finish the graphics and pamphlet.</td></tr>
+        <tr><td style="padding:5px 0; color:#4a5568; white-space:nowrap; vertical-align:top;"><strong>By Aug 25</strong></td><td style="padding:5px 0 5px 14px;">Delivered, ahead of the training.</td></tr>
+      </table>
+    </div>
+
+    <p style="margin:0 0 16px;">No need to do anything before you leave — enjoy the time with your parents. Whenever you&rsquo;re good, I&rsquo;m good, and I&rsquo;ll have the graphics moving in the meantime.</p>
+
+    <p style="margin:0 0 16px;">Thanks,</p>
+
+    <p style="margin:0;">Gary</p></div>
+        </div>
+      </article>
+      <article class="letter" id="c-lhc-events-added-email-2026-07-17-html">
+        <div class="letter-head">
+          <div class="meta">
+            <span class="date">Jul 17, 2026</span>
+            <h2>LHC — August events added (July 17, 2026)</h2>
+            <span class="to">To: Hi Alisha</span>
+          </div>
+          <button class="copy" data-target="body-lhc-events-added-email-2026-07-17-html" title="Copy this email">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            Copy email
+          </button>
+        </div>
+        <span class="status"></span>
+        <div class="paper">
+          <div id="body-lhc-events-added-email-2026-07-17-html" class="email-body"><p style="margin:0 0 16px;">Hi Alisha,</p>
+
+    <p style="margin:0 0 16px;">All set — the August events are up on the site. Thanks for sending them over.</p>
+
+    <a href="https://livehealthychi.com/#events" style="text-decoration:none;">
+      <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto:good,w_1100/v1784319411/orbis/lhc-aug-events-collage.jpg" alt="The four new August events now live on the Live Healthy Chicago website" style="display:block; width:100%; max-width:600px; height:auto; border:1px solid #dce3ed; border-radius:10px; margin:0 0 8px;">
+    </a>
+    <p style="margin:0 0 18px; font-size:13px; color:#4a5568;">The four new August events, now live on the Events page.</p>
+
+    <p style="margin:0 0 24px;">
+      <a href="https://livehealthychi.com/#events" style="display:inline-block; background:#0362BC; color:#ffffff; text-decoration:none; font-weight:600; font-size:15px; padding:12px 22px; border-radius:8px;">See them live &rarr;</a>
+    </p>
+
+    <p style="margin:0 0 6px;">Here's what's posted:</p>
+    <ul style="margin:0 0 22px; padding-left:20px; color:#1a2535;">
+      <li style="margin:0 0 6px;"><strong>Aug 1</strong> — Sen. Mattie Hunter's 21st Annual Back to School Health Fair</li>
+      <li style="margin:0 0 6px;"><strong>Aug 7</strong> — 11th Annual Englewood Community Health Fair</li>
+      <li style="margin:0 0 6px;"><strong>Aug 8</strong> — Healthy Hues: Wellness Day in the Park</li>
+      <li style="margin:0 0 0;"><strong>Aug 22</strong> — MSI Back to School</li>
+    </ul>
+
+    <p style="margin:0 0 16px;">A few small things I want to flag so everything's accurate:</p>
+
+    <div style="border:1px solid #f0d68a; background:#fdf7e6; border-radius:10px; padding:16px 20px; margin:0 0 20px;">
+      <p style="margin:0 0 10px; font-weight:600;">Healthy Hues (Aug 8) — quick check</p>
+      <p style="margin:0 0 10px;">Your email and the event flyer don't quite match, so I went with the flyer for now. Can you confirm which is right?</p>
+      <ul style="margin:0; padding-left:20px;">
+        <li style="margin:0 0 6px;"><strong>Time</strong> — your note said 10 AM&ndash;2 PM; the flyer says <strong>11 AM&ndash;4 PM</strong> (using the flyer).</li>
+        <li style="margin:0;"><strong>Address</strong> — your note said 1401 S. Sacramento; the flyer says <strong>1402 S. Sacramento Dr.</strong> (using the flyer).</li>
+      </ul>
+    </div>
+
+    <p style="margin:0 0 16px;"><strong>Walk for Wellness (Final Ceremony), Aug 22</strong> — this one was already on the site from the earlier batch, so I didn't add a duplicate. It's live and good to go.</p>
+
+    <p style="margin:0 0 20px;"><strong>MSI Back to School, Aug 22</strong> — I listed it as the Griffin Museum of Science and Industry (formerly MSI). One question: is this a free/walk-up event, or does it need a ticket or registration link? I kept the details neutral for now — just let me know and I'll add whatever's needed.</p>
+
+    <p style="margin:0 0 16px;">That's everything. Let me know on the Healthy Hues time and address and the MSI question whenever you get a chance, and thanks as always for keeping these coming.</p>
+
+    <p style="margin:0 0 16px;">Thanks,</p>
+
+    <p style="margin:0;">Gary</p></div>
+        </div>
+      </article>
+      <article class="letter" id="c-lhc-shipped-update-email-2026-07-17-html">
+        <div class="letter-head">
+          <div class="meta">
+            <span class="date">Jul 17, 2026</span>
+            <h2>LHC — Shipped this week (July 17, 2026)</h2>
+            <span class="to">To: Hi Allie</span>
+          </div>
+          <button class="copy" data-target="body-lhc-shipped-update-email-2026-07-17-html" title="Copy this email">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            Copy email
+          </button>
+        </div>
+        <span class="status"></span>
+        <div class="paper">
+          <div id="body-lhc-shipped-update-email-2026-07-17-html" class="email-body"><p style="margin:0 0 16px;">Hi Allie,</p>
+
+    <p style="margin:0 0 16px;">Separate from the SOW note — a good chunk of your list is already done and live. Mostly just so you can see the progress; the one thing to hold onto is the new portal password further down.</p>
+
+    <p style="margin:0 0 10px;"><strong>1. The coalition-first hero is live.</strong> The homepage now leads with Live Healthy Chicago as a whole — "Our City. Our Values. Our Health." — rather than opening on blood pressure. This is item 1 from your note.</p>
+
+    <a href="https://livehealthychi.com" style="text-decoration:none;">
+      <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto:good,w_1100/v1784301651/orbis/lhc-coalition-hero-live.png" alt="The new Live Healthy Chicago homepage hero: Our City. Our Values. Our Health." style="display:block; width:100%; max-width:600px; height:auto; border:1px solid #dce3ed; border-radius:10px; margin:0 0 8px;">
+    </a>
+    <p style="margin:0 0 18px; font-size:13px; color:#4a5568;">The new homepage hero, now live at livehealthychi.com.</p>
+
+    <p style="margin:0 0 24px;">
+      <a href="https://livehealthychi.com" style="display:inline-block; background:#0362BC; color:#ffffff; text-decoration:none; font-weight:600; font-size:15px; padding:12px 22px; border-radius:8px;">See it live &rarr;</a>
+    </p>
+
+    <p style="margin:0 0 10px;"><strong>2. You can now see who's signed up for the portal — and filter by role.</strong> Every sign-up is captured with name, email, role, and organization. On the submissions page there's now an <strong>All roles</strong> filter, so you can pull just the CHWs, or just the MDs, and export any view to a spreadsheet. That's the "who's signing up, filter by job type" piece you asked for, ready for when the portal goes live.</p>
+
+    <p style="margin:0 0 24px;">
+      <a href="https://livehealthychi.com/submissions.html" style="display:inline-block; background:#0362BC; color:#ffffff; text-decoration:none; font-weight:600; font-size:15px; padding:12px 22px; border-radius:8px;">Open the signups view &rarr;</a>
+    </p>
+
+    <p style="margin:0 0 10px;"><strong>3. There's a short team guide for updating the site.</strong> A plain-language, point-and-click walkthrough — how to load resources into the portal, how to see your signups, and how to get events and news posted. This is the start of item 3 (a workflow you can share with others). I kept passwords off the page on purpose.</p>
+
+    <p style="margin:0 0 26px;">
+      <a href="https://livehealthychi.com/training.html" style="display:inline-block; background:#0362BC; color:#ffffff; text-decoration:none; font-weight:600; font-size:15px; padding:12px 22px; border-radius:8px;">Read the team guide &rarr;</a>
+    </p>
+
+    <p style="margin:0 0 10px;"><strong>4. The portal now has its own password.</strong> Until now the portal used the same password as our internal pages, which meant sharing portal access also opened the status and contract pages. I've given the portal its own separate key, so you can hand it out to partners freely without exposing anything internal. Here's the new one to share with anyone trialing the portal:</p>
+
+    <div style="margin:0 0 24px; padding:16px 20px; background:#f2f7fc; border:1px solid #dce3ed; border-radius:10px;">
+      <div style="font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:#4a5568; font-weight:700; margin-bottom:4px;">Portal password</div>
+      <div style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:19px; font-weight:700; color:#1a2535; letter-spacing:.04em;">[redacted in this archive copy &mdash; it was in the sent email]</div>
+    </div>
+
+    <p style="margin:0 0 16px;">The signups view and team guide still use the team logins you already have — only the portal key changed.</p>
+
+    <p style="margin:0 0 16px;">The one thing left before the portal fully opens is loading a starter set of resources into each category so partners find full shelves rather than empty ones. The team guide above walks through exactly how, and I'm glad to help seed it. Finishing the portal stays part of the original project — not maintenance.</p>
+
+    <p style="margin:0 0 16px;">Thanks,</p>
+
+    <p style="margin:0;">Gary</p></div>
+        </div>
+      </article>
+      <article class="letter" id="c-lhc-sow-amendment-email-2026-07-16-html">
+        <div class="letter-head">
+          <div class="meta">
+            <span class="date">Jul 16, 2026</span>
+            <h2>LHC — SOW Amendment No. 1 (July 16, 2026)</h2>
+            <span class="to">To: Hi Allie</span>
+          </div>
+          <button class="copy" data-target="body-lhc-sow-amendment-email-2026-07-16-html" title="Copy this email">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            Copy email
+          </button>
+        </div>
+        <span class="status"></span>
+        <div class="paper">
+          <div id="body-lhc-sow-amendment-email-2026-07-16-html" class="email-body"><p style="margin:0 0 16px;">Hi Allie,</p>
+
+    <p style="margin:0 0 16px;">Thank you — and thanks for getting the funding sorted on your end. The amendment is up on the site at the link below. It follows your four items directly, so it should read exactly like the conversation we had.</p>
+
+    <p style="margin:0 0 24px;">There's a <strong>Copy for Rush</strong> button at the top of it — one click puts the whole thing on your clipboard, formatting intact, so you can paste it straight into a document and send it on. There's a Save as PDF button too if that's easier. Same password as the status dashboard.</p>
+
+    <p style="margin:0 0 24px;">
+      <a href="https://livehealthychi.com/sow-amendment.html" style="display:inline-block; background:#0362BC; color:#ffffff; text-decoration:none; font-weight:600; font-size:15px; padding:12px 22px; border-radius:8px;">Read the amendment &rarr;</a>
+    </p>
+
+    <p style="margin:0 0 16px;">Two things worth pulling out of it before you read.</p>
+
+    <p style="margin:0 0 16px;"><strong>The portal isn't in the maintenance package.</strong> Turning it on, the sign-ups view you asked for, and the training so your team can update things without me — I'm finishing all of that under the original SOW at no additional charge. Same for the coalition-first hero. Those belong to the project you already paid for, and I want it to feel finished. The package starts after that.</p>
+
+    <p style="margin:0 0 16px;">On the sign-ups view: it's the spreadsheet-style list you described — name, email, organization, and role — filterable by role, so you can pull just the CHWs, or just the MDs, when you're pushing something out. (Role is a set list — CHW, Nurse, MD / DO, NP / PA, Healthcare Admin — so it stays clean to filter on.)</p>
+
+    <p style="margin:0 0 20px;"><strong>On Ella's number, I want to be straight with you.</strong> The $1,500 I quoted on June 30 assumed a ~15-minute refresher. Her actual script is considerably more than that — five modules, about 32 minutes, six on-screen graphics packages, plus the pamphlet and the community insert. Realistically that's closer to $2,500 of work.</p>
+
+    <p style="margin:0 0 20px;"><strong>I'm holding it at $1,500 anyway.</strong> I put that number in writing and I'd rather absorb the difference than re-trade it — I'm capping what I'll eat at $1,000, and nothing in her current script comes close to testing that cap. Your cost is $1,500. I'm flagging it only so nobody's surprised later, and so you know the scope grew because her work got better, not because it drifted.</p>
+
+    <div style="border:1px solid #dce3ed; border-radius:10px; padding:18px 20px; margin:0 0 24px;">
+      <p style="margin:0 0 12px; font-size:12px; letter-spacing:0.06em; text-transform:uppercase; color:#4a5568; font-weight:600;">$5,000 prepay &middot; 67 hrs @ $75/hr</p>
+      <table style="width:100%; border-collapse:collapse; font-size:15px;">
+        <tr>
+          <td style="padding:6px 0; color:#1a2535;">CHW training set (fixed fee)</td>
+          <td style="padding:6px 0; text-align:right; color:#4a5568; white-space:nowrap;">20 hrs</td>
+          <td style="padding:6px 0; text-align:right; font-weight:600; white-space:nowrap;">$1,500</td>
+        </tr>
+        <tr>
+          <td style="padding:6px 0; color:#1a2535;">Ongoing maintenance</td>
+          <td style="padding:6px 0; text-align:right; color:#4a5568; white-space:nowrap;">47 hrs</td>
+          <td style="padding:6px 0; text-align:right; font-weight:600; white-space:nowrap;">$3,500</td>
+        </tr>
+        <tr>
+          <td style="padding:10px 0 0; border-top:1px solid #dce3ed; font-weight:600;">Total</td>
+          <td style="padding:10px 0 0; border-top:1px solid #dce3ed; text-align:right; font-weight:600; white-space:nowrap;">67 hrs</td>
+          <td style="padding:10px 0 0; border-top:1px solid #dce3ed; text-align:right; font-weight:600; white-space:nowrap;">$5,000</td>
+        </tr>
+      </table>
+      <p style="margin:14px 0 0; font-size:14px; color:#4a5568;">Maintenance covers routine edits (event ads and news items, roughly $50&ndash;$150 each and less when batched), brand guide updates as your comms consultant develops it, messaging alignment with them, and general upkeep. Unused hours carry forward.</p>
+    </div>
+
+    <p style="margin:0 0 16px;">Ella's timeline is comfortable. Her script is locked and you've signed off on the content, so we record in a single session the week of <strong>August 3</strong> once she's back from Benin, and deliver well ahead of the <strong>August 25</strong> training. I'm sending her my notes and a production schedule separately this week.</p>
+
+    <p style="margin:0 0 24px;">Have a look and tell me if anything needs to change before it goes to Rush. If it reads right, it's ready to go.</p>
+
+    <p style="margin:0 0 16px;">Thanks,</p>
+
+    <p style="margin:0;">Gary</p></div>
+        </div>
+      </article>
+      <article class="letter" id="c-lhc-team-agenda-email-2026-07-14-html">
+        <div class="letter-head">
+          <div class="meta">
+            <span class="date">Jul 14, 2026</span>
+            <h2>LHC Agenda — July 14, 2026</h2>
+            <span class="to">To: Hi all</span>
+          </div>
+          <button class="copy" data-target="body-lhc-team-agenda-email-2026-07-14-html" title="Copy this email">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            Copy email
+          </button>
+        </div>
+        <span class="status"></span>
+        <div class="paper">
+          <div id="body-lhc-team-agenda-email-2026-07-14-html" class="email-body"><p style="margin:0 0 16px;">Hi all,</p>
+
+    <p style="margin:0 0 16px;">Agenda for our check-in this afternoon, <strong>Tuesday July&nbsp;14 at 2:00&nbsp;PM CST</strong>. <strong>Ella is joining us</strong> for her piece. Allie asked that we use this time to update the SOW so it reflects both Ella&rsquo;s project and the ongoing maintenance work &mdash; so that&rsquo;s the main event, and I&rsquo;ve laid out below exactly what you&rsquo;d be choosing between so nobody has to do math on the call.</p>
+
+    <!-- 1 -->
+    <p style="margin:0 0 6px; font-size:17px; font-weight:700; color:#0a1f44;">1. Updating the SOW &mdash; maintenance + Ella&rsquo;s project <span style="font-size:13px; font-weight:600; color:#b42318;">(decision)</span></p>
+    <p style="margin:0 0 12px;">The original $25,000 SOW is essentially complete &mdash; we&rsquo;re at about <strong>98% used</strong>. Rather than two separate paperwork exercises, Allie&rsquo;s instinct is right: <strong>one amendment that covers both the ongoing maintenance and Ella&rsquo;s project.</strong> Two pieces to it.</p>
+
+    <p style="margin:0 0 8px;"><strong>a) Ongoing maintenance &mdash; a prepay block.</strong> This is how I handle all ongoing work: you prepay a block of hours, and the more you prepay, the lower the hourly rate. Nothing expires on a clock &mdash; you draw it down as we go (edits, new events, new stories, portal support, fixes).</p>
+    <table role="presentation" cellpadding="0" cellspacing="0" style="border-collapse:collapse; width:100%; max-width:420px; margin:0 0 8px; font-size:14px;">
+      <tr style="background:#f4f7fb;">
+        <th align="left" style="padding:8px 12px; border:1px solid #dce3ed; font-weight:700; color:#0a1f44;">Prepay</th>
+        <th align="left" style="padding:8px 12px; border:1px solid #dce3ed; font-weight:700; color:#0a1f44;">Hours</th>
+        <th align="left" style="padding:8px 12px; border:1px solid #dce3ed; font-weight:700; color:#0a1f44;">Per hour</th>
+      </tr>
+      <tr><td style="padding:8px 12px; border:1px solid #dce3ed;"><strong>$5,000</strong></td><td style="padding:8px 12px; border:1px solid #dce3ed;">67 hrs</td><td style="padding:8px 12px; border:1px solid #dce3ed;"><strong>$75</strong> &mdash; best rate</td></tr>
+      <tr><td style="padding:8px 12px; border:1px solid #dce3ed;">$4,000</td><td style="padding:8px 12px; border:1px solid #dce3ed;">50 hrs</td><td style="padding:8px 12px; border:1px solid #dce3ed;">$80</td></tr>
+      <tr><td style="padding:8px 12px; border:1px solid #dce3ed;">$3,000</td><td style="padding:8px 12px; border:1px solid #dce3ed;">34 hrs</td><td style="padding:8px 12px; border:1px solid #dce3ed;">$88</td></tr>
+      <tr><td style="padding:8px 12px; border:1px solid #dce3ed;">$2,500</td><td style="padding:8px 12px; border:1px solid #dce3ed;">27 hrs</td><td style="padding:8px 12px; border:1px solid #dce3ed;">$93</td></tr>
+      <tr><td style="padding:8px 12px; border:1px solid #dce3ed;">$2,000</td><td style="padding:8px 12px; border:1px solid #dce3ed;">20 hrs</td><td style="padding:8px 12px; border:1px solid #dce3ed;">$100</td></tr>
+      <tr><td style="padding:8px 12px; border:1px solid #dce3ed;">$1,500</td><td style="padding:8px 12px; border:1px solid #dce3ed;">13 hrs</td><td style="padding:8px 12px; border:1px solid #dce3ed;">$115</td></tr>
+      <tr><td style="padding:8px 12px; border:1px solid #dce3ed;">$1,000</td><td style="padding:8px 12px; border:1px solid #dce3ed;">8 hrs</td><td style="padding:8px 12px; border:1px solid #dce3ed;">$125</td></tr>
+      <tr><td style="padding:8px 12px; border:1px solid #dce3ed;">$600</td><td style="padding:8px 12px; border:1px solid #dce3ed;">4 hrs</td><td style="padding:8px 12px; border:1px solid #dce3ed;">$150</td></tr>
+    </table>
+    <p style="margin:0 0 12px; font-size:13px; color:#4a5568;">Pick whichever block matches what you can commit &mdash; the scale does the rest.</p>
+
+    <p style="margin:0 0 8px;"><strong>b) Ella&rsquo;s project &mdash; a separate line item.</strong> It can either sit on its own line, or come out of a prepay block &mdash; whichever is easier on your end. One honest note: I&rsquo;ve now read Ella&rsquo;s script, and <strong>it&rsquo;s stronger and quite a bit bigger than what we sketched</strong> when I gave the rough $1,500 figure. That number assumed a single ~15-minute refresher; the script is five modules, ~32 minutes, plus on-screen graphics and the pamphlet. That&rsquo;s a good problem &mdash; but it means we should right-size it together on the call rather than pretend the original figure still fits. Item&nbsp;2 lays out the choices.</p>
+
+    <p style="margin:0 0 8px;">And on the original SOW: <strong>if anything is still nagging at you, bring it today.</strong> I&rsquo;d rather eat the time and have the original project feel genuinely <em>finished</em> than have it end on a technicality.</p>
+    <p style="margin:0 0 16px;">Once you tell me the block, I&rsquo;ll turn the amendment around this week.</p>
+
+    <!-- 2 -->
+    <p style="margin:0 0 6px; font-size:17px; font-weight:700; color:#0a1f44;">2. Ella&rsquo;s CHW training project &mdash; scope + recording <span style="font-size:13px; font-weight:600; color:#4a5568;">(Ella joins)</span></p>
+    <p style="margin:0 0 12px;"><strong>Ella &mdash; I&rsquo;ve read your script, and it&rsquo;s genuinely good.</strong> The analogies do a lot of work (the garden hose, the slow leak behind the wall), the nutrition section respects people&rsquo;s food and culture instead of lecturing them, and it&rsquo;s AHA-cited throughout. The interview structure means it will sound like a conversation, not a lecture. Nice work.</p>
+    <p style="margin:0 0 8px;">For everyone else, here&rsquo;s the shape of it &mdash; <strong>five modules, about 32 minutes</strong>:</p>
+    <ul style="margin:0 0 12px; padding-left:22px;">
+      <li style="margin:0 0 4px;"><strong>1. Understanding High Blood Pressure</strong> &mdash; 6 min</li>
+      <li style="margin:0 0 4px;"><strong>2. Preventing &amp; Managing</strong> (nutrition, movement, stress, sleep, medications) &mdash; 9 min</li>
+      <li style="margin:0 0 4px;"><strong>3. Know Your Numbers</strong> (the two numbers, AHA categories, how to measure correctly) &mdash; 8&ndash;9 min</li>
+      <li style="margin:0 0 4px;"><strong>4. Recognizing an Emergency</strong> (over 180/120, BE FAST) &mdash; 4&ndash;5 min</li>
+      <li style="margin:0 0 4px;"><strong>5. The CHW&rsquo;s Role</strong> (listening, teach-back, one realistic goal) &mdash; 4&ndash;5 min</li>
+    </ul>
+    <p style="margin:0 0 12px;">That structure is a gift, actually &mdash; five modules become <strong>five chapters</strong> in the same format as the Nuna interview, and each one yields a short, headlined clip a CHW can watch on the bus before a home visit.</p>
+    <p style="margin:0 0 16px;">
+      <a href="https://livehealthychi.com/news/jini-kim-nuna.html" style="display:inline-block; background:#0362BC; color:#ffffff; text-decoration:none; font-weight:600; font-size:15px; padding:12px 22px; border-radius:8px;">See the format we&rsquo;d reuse &rarr;</a>
+      <span style="display:block; font-size:13px; color:#4a5568; margin-top:6px;">A real Zoom interview, rebuilt into a chaptered, studio-style piece.</span>
+    </p>
+
+    <p style="margin:0 0 8px; font-weight:700; color:#0a1f44;">Three things to settle today</p>
+    <ul style="margin:0 0 12px; padding-left:22px;">
+      <li style="margin:0 0 8px;"><strong>Who asks the questions?</strong> Ella wrote it with an AI host named &ldquo;Alex.&rdquo; That&rsquo;s a real option &mdash; and it very literally satisfies the &ldquo;AI is integrated&rdquo; requirement in her proposal. The other option is that <strong>I ask the questions and Ella answers a real person</strong>, which almost always sounds warmer and more natural, with AI doing the heavy lifting behind the scenes (research, question design, pamphlet, editing). <strong>Either way Ella&rsquo;s script stands as written</strong> &mdash; it&rsquo;s already a clean Q&amp;A, so this is a casting decision, not a rewrite. Let&rsquo;s just pick one.</li>
+      <li style="margin:0 0 8px;"><strong>How far do we take the graphics?</strong> The script calls for six on-screen graphics &mdash; the AHA category table, the before/during measurement checklists, BE FAST, the over-180/120 decision flow, the CHW toolbox, and the QR resource card. These are the difference between &ldquo;a recorded conversation&rdquo; and &ldquo;a training piece,&rdquo; and they&rsquo;re also the bulk of the production cost. We can go full, or keep them simple. Worth noting we can reuse LHC brand assets rather than build from zero.</li>
+      <li style="margin:0 0 8px;"><strong>Clinical sign-off &mdash; Rebecca.</strong> It&rsquo;s all clinical guidance, so I&rsquo;d want your eyes on it <em>before</em> we record, not after. Re-recording is expensive; editing a doc is free.</li>
+    </ul>
+    <p style="margin:0 0 16px;">Then we lock a <strong>recording date</strong>. Ella, whichever way we go, you&rsquo;ll get the questions and your prep notes ahead of time &mdash; you won&rsquo;t be working from memory, you&rsquo;ll just talk. One more nice tie-in: the QR codes in your pamphlet can point straight at the Live Healthy Chicago site and the resource portal, so the training doesn&rsquo;t dead-end when the recording stops.</p>
+
+    <!-- 3 -->
+    <p style="margin:0 0 6px; font-size:17px; font-weight:700; color:#0a1f44;">3. Coalition-first hero &mdash; two things to close it out</p>
+    <p style="margin:0 0 12px;">The first pass has been live on staging for a week. It&rsquo;s the shift from a blood-pressure-first homepage to one about <strong>the coalition as a whole</strong>. Two open items, both quick:</p>
+    <ul style="margin:0 0 12px; padding-left:22px;">
+      <li style="margin:0 0 6px;"><strong>Tagline sign-off</strong> &mdash; it&rsquo;s built around <strong>&ldquo;Our City. Our Values. Our Health.&rdquo;</strong> Allie liked it at the CAB, Rebecca voted for it, Rachel deferred. A thumbs-up today locks it.</li>
+      <li style="margin:0 0 6px;"><strong>Real photos</strong> &mdash; this is the one real dependency. The placeholders are there so you can see the concept, but the hero won&rsquo;t feel like Chicago until it&rsquo;s real faces. Let&rsquo;s agree on the fastest way to get a handful of usable shots.</li>
+    </ul>
+    <p style="margin:0 0 20px;">
+      <a href="https://livehealthychi.com/index-stage.html" style="display:inline-block; background:#0362BC; color:#ffffff; text-decoration:none; font-weight:600; font-size:15px; padding:12px 22px; border-radius:8px;">See the hero on staging &rarr;</a>
+      <span style="display:block; font-size:13px; color:#4a5568; margin-top:6px;">Password: <strong>livehealthychi</strong></span>
+    </p>
+
+    <!-- 4 -->
+    <p style="margin:0 0 6px; font-size:17px; font-weight:700; color:#0a1f44;">4. Quick status round</p>
+    <ul style="margin:0 0 20px; padding-left:22px;">
+      <li style="margin:0 0 6px;"><strong>Celebrate the Check</strong> &mdash; live and in the field. Still waiting on the <strong>base counter number</strong> from you both &mdash; send it and the counter starts ticking for real.</li>
+      <li style="margin:0 0 6px;"><strong>Portal</strong> &mdash; up and functional; what&rsquo;s left is training the team to load resources.</li>
+      <li style="margin:0 0 6px;"><strong>News &amp; stories</strong> &mdash; all eight now have their own pages, which speeds up the site and helps us get found in search and AI answers. Nothing needed from you.</li>
+    </ul>
+
+    <p style="margin:0 0 24px;">
+      <a href="https://livehealthychi.com/status.html" style="display:inline-block; background:#0362BC; color:#ffffff; text-decoration:none; font-weight:600; font-size:15px; padding:12px 22px; border-radius:8px;">Open the live status dashboard &rarr;</a>
+    </p>
+
+    <p style="margin:0 0 16px;">Nothing here needs deciding over email &mdash; I just wanted the picture in front of you going in. See you at 2.</p>
+
+    <p style="margin:0 0 4px;">Thanks,</p>
+    <p style="margin:0; font-weight:600;">Gary</p></div>
+        </div>
+      </article>
+      <article class="letter" id="c-lhc-team-agenda-email-2026-07-07-html">
+        <div class="letter-head">
+          <div class="meta">
+            <span class="date">Jul 7, 2026</span>
+            <h2>LHC Agenda — July 7, 2026</h2>
+            <span class="to">To: Hi all</span>
+          </div>
+          <button class="copy" data-target="body-lhc-team-agenda-email-2026-07-07-html" title="Copy this email">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            Copy email
+          </button>
+        </div>
+        <span class="status"></span>
+        <div class="paper">
+          <div id="body-lhc-team-agenda-email-2026-07-07-html" class="email-body"><p style="margin:0 0 16px;">Hi all,</p>
+
+    <p style="margin:0 0 16px;">Quick agenda for our check-in this afternoon, <strong>Tuesday July&nbsp;7 at 2:00&nbsp;PM CST</strong>. Good news since last time: I took the overview flyer, Allie&rsquo;s messaging house, and the tagline you all landed on and <strong>built a first pass of the new coalition-first hero &mdash; it&rsquo;s live on staging now</strong> (link below). So today is mostly about looking at that together, plus landing the maintenance decision so we keep things moving.</p>
+
+    <!-- 1 -->
+    <p style="margin:0 0 6px; font-size:17px; font-weight:700; color:#0a1f44;">1. Coalition-first hero &mdash; a first pass is live on staging</p>
+    <p style="margin:0 0 12px;">This is the shift from a blood-pressure-first homepage to one about <strong>the coalition as a whole</strong> &mdash; how we work and why it matters. <strong>Good news: I&rsquo;ve already built a first pass, and it&rsquo;s live on staging for you to look at.</strong> It leads with the tagline, draws its framing from Rachel&rsquo;s overview flyer and Allie&rsquo;s messaging house, and uses placeholder photos for now. Have a look before the call:</p>
+    <p style="margin:0 0 16px;">
+      <a href="https://livehealthychi.com/index-stage.html" style="display:inline-block; background:#0362BC; color:#ffffff; text-decoration:none; font-weight:600; font-size:15px; padding:12px 22px; border-radius:8px;">See the new hero on staging &rarr;</a>
+      <span style="display:block; font-size:13px; color:#4a5568; margin-top:6px;">Password: <strong>livehealthychi</strong></span>
+    </p>
+    <p style="margin:0 0 8px;">What&rsquo;s in it &mdash; and the two things I still need from you:</p>
+    <ul style="margin:0 0 12px; padding-left:22px;">
+      <li style="margin:0 0 6px;"><strong>Tagline</strong> &mdash; I built it around <strong>&ldquo;Our City. Our Values. Our Health.&rdquo;</strong> (Allie liked it at the CAB; Rebecca voted for it). A quick thumbs-up locks it &mdash; or tell me to steer.</li>
+      <li style="margin:0 0 6px;"><strong>Framing</strong> &mdash; the subtitle and stats pull from the overview flyer and Allie&rsquo;s three pillars (Systemic Impact / Resource Alignment / Community Trust), translated into plain, public-facing language (no internal terms like &ldquo;wellness gap,&rdquo; per Rachel).</li>
+      <li style="margin:0 0 6px;"><strong>Photos</strong> &mdash; right now two placeholder images gently cross-fade behind the headline so you can see the concept. <strong>The one real dependency is real photos/video</strong> to make it feel like Chicago, not a template &mdash; let&rsquo;s talk about the fastest way to get a few usable ones.</li>
+    </ul>
+    <p style="margin:0 0 16px;">All of this fits <strong>without a scope extension.</strong></p>
+
+    <!-- 2 -->
+    <p style="margin:0 0 6px; font-size:17px; font-weight:700; color:#0a1f44;">2. Maintenance plan + closing out the SOW <span style="font-size:13px; font-weight:600; color:#b42318;">(decision &mdash; Allie &amp; Rebecca)</span></p>
+    <p style="margin:0 0 8px;">Rachel kindly deferred to you two on what&rsquo;s needed to finalize the scope, so this is the one item where a decision keeps things moving. Nothing&rsquo;s changed on my recommendation: the <strong>$5,000 prepay maintenance package</strong> &mdash; best rate on the sliding scale (<strong>$75/hour, ~67 hours</strong>), a long runway for ongoing edits. Two things to settle:</p>
+    <ul style="margin:0 0 12px; padding-left:22px;">
+      <li style="margin:0 0 6px;"><strong>Which open items close out the original SOW</strong> vs. carry into maintenance &mdash; I&rsquo;m glad to eat time so the original project feels <em>finished</em>, and let anything net-new flow into maintenance.</li>
+      <li style="margin:0 0 6px;"><strong>How Ella&rsquo;s project fits</strong> (item&nbsp;3) &mdash; a slice of a prepay package is one clean way to fund it.</li>
+    </ul>
+
+    <!-- 3 -->
+    <p style="margin:0 0 6px; font-size:17px; font-weight:700; color:#0a1f44;">3. Ella&rsquo;s CHW training project &mdash; funding path</p>
+    <p style="margin:0 0 12px;">No pressure here &mdash; Allie was candid that UCM doesn&rsquo;t have funds for it right now, and that&rsquo;s completely fine. The options still stand (fold a slice into maintenance / Rush or another source / scope it down to just the pamphlet first / DIY with light guidance). And regardless of funding, <strong>my offer to give Ella free feedback on her pamphlet and script stands</strong> so her DNP work keeps moving either way.</p>
+
+    <!-- 4 -->
+    <p style="margin:0 0 6px; font-size:17px; font-weight:700; color:#0a1f44;">4. Quick status round</p>
+    <ul style="margin:0 0 20px; padding-left:22px;">
+      <li style="margin:0 0 6px;"><strong>Celebrate the Check</strong> &mdash; live and in the field. Still waiting on the <strong>base counter number</strong> from you both; send it and it ticks up for real.</li>
+      <li style="margin:0 0 6px;"><strong>Portal</strong> &mdash; up and functional; remaining work is training the team to load resources.</li>
+      <li style="margin:0 0 6px;"><strong>News &amp; stories &rarr; standalone pages</strong> &mdash; done. Every news story now has its own page instead of a homepage pop-up, which speeds up the site and helps us get found in search and AI answers. Housekeeping &mdash; nothing needed from you.</li>
+      <li style="margin:0 0 6px;"><strong>New &ldquo;Correspondence&rdquo; tab</strong> &mdash; I added a page in the admin menu that stacks our recent emails in one place, each with a one-click copy. Just so everything we&rsquo;ve sent is easy to find.</li>
+    </ul>
+
+    <p style="margin:0 0 24px;">
+      <a href="https://livehealthychi.com/status.html" style="display:inline-block; background:#0362BC; color:#ffffff; text-decoration:none; font-weight:600; font-size:15px; padding:12px 22px; border-radius:8px;">Open the live status dashboard &rarr;</a>
+    </p>
+
+    <p style="margin:0 0 16px;">Nothing here needs deciding over email &mdash; I just wanted the picture in front of you going in. See you at 2.</p>
+
+    <p style="margin:0 0 4px;">Thanks,</p>
+    <p style="margin:0; font-weight:600;">Gary</p></div>
+        </div>
+      </article>
+      <article class="letter" id="c-ella-chw-training-ai-direction-email-2026-06-30-html">
+        <div class="letter-head">
+          <div class="meta">
+            <span class="date">Jun 30, 2026</span>
+            <h2>Reply to Ella — CHW training direction</h2>
+            <span class="to">To: Hi Ella</span>
+          </div>
+          <button class="copy" data-target="body-ella-chw-training-ai-direction-email-2026-06-30-html" title="Copy this email">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            Copy email
+          </button>
+        </div>
+        <span class="status"></span>
+        <div class="paper">
+          <div id="body-ella-chw-training-ai-direction-email-2026-06-30-html" class="email-body"><p style="margin:0 0 16px;">Hi Ella,</p>
+
+    <p style="margin:0 0 16px;">So good talking with you — your energy is contagious, and honestly the project is right in my wheelhouse. I&rsquo;ve been thinking about it since we hung up, and I want to give you a clear point of view, because I think there&rsquo;s a way to do this that checks your &ldquo;AI is integrated&rdquo; requirement <em>and</em> ends up being the strongest, most authentic version of the training.</p>
+
+    <p style="margin:0 0 16px;"><strong>Here&rsquo;s the reframe I&rsquo;d gently push you toward.</strong> The most powerful way to show AI in this project isn&rsquo;t to <em>replace</em> the human with an AI voice or an AI persona — it&rsquo;s to show how AI can <em>amplify</em> the human. Not AI in a generative sense (a synthetic narrator), but AI in a <strong>design and research sense</strong>, doing all the heavy lifting in the background so the human part shines.</p>
+
+    <p style="margin:0 0 10px;">Concretely, that looks like AI doing things like:</p>
+    <ul style="margin:0 0 16px; padding-left:22px;">
+      <li style="margin:0 0 8px;"><strong>Drafting the interview questions</strong> — and aligning them precisely to everything we&rsquo;ve already built and collected for the Live Healthy Chicago site, so the conversation reinforces the same story, voice, and brand rather than drifting from it.</li>
+      <li style="margin:0 0 8px;"><strong>Doing the research</strong> behind the content — so what the CHWs hear is accurate and tightly scoped.</li>
+      <li style="margin:0 0 8px;"><strong>Prepping you to answer</strong> — I can have AI generate the questions <em>and</em> a set of suggested ways to answer each one, so you&rsquo;re not working from memory; you&rsquo;ve had time to study the best way to land each point, but it&rsquo;s still you, in your own words.</li>
+      <li style="margin:0 0 8px;"><strong>Designing the pamphlet</strong> — the layout, the on-brand copy, the 7th&ndash;9th-grade reading level, the imagery — all locked to the LHC brand and narrative instead of reverse-engineered by eye.</li>
+      <li style="margin:0 0 0;"><strong>Editing the audio and video</strong> afterward — cleanup, chaptering, pulling short clips. This is where AI is genuinely magical.</li>
+    </ul>
+
+    <p style="margin:0 0 16px;">Your instinct about a conversational format is exactly right, and your &ldquo;AI asks, I answer&rdquo; idea is close — I&rsquo;d just take it one step further. Rather than an AI persona asking the questions, <strong>let me interview you — on audio and video.</strong> People sound a thousand times more natural answering a real person than narrating to a camera. The AI writes me the questions (aligned to the site) and preps your answers; you just talk; then AI edits it into a clean ~15-minute refresher plus a handful of short, watch-on-the-bus &ldquo;TikTok&rdquo; clips, each with its own headline so a CHW can pick exactly the topic they need before a home visit.</p>
+
+    <p style="margin:0 0 16px;">For what the finished thing can feel like, here&rsquo;s the Nuna interview I showed you — a Zoom conversation that AI turned into a chaptered, studio-looking piece. Same engine, applied to your CHW content:</p>
+
+    <a href="https://livehealthychi.com/news/jini-kim-nuna.html" style="text-decoration:none; color:inherit;">
+      <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto:good,w_1100/v1782831359/orbis/nuna-interview-example-hero.png" alt="Live Healthy Chicago Nuna interview — chaptered audio player and magazine layout" style="display:block; width:100%; max-width:600px; height:auto; border:1px solid #dce3ed; border-radius:10px;">
+    </a>
+    <p style="margin:8px 0 18px; font-size:13px; color:#4a5568;">A real Zoom interview, rebuilt by AI into a chaptered, studio-style training piece.</p>
+
+    <p style="margin:0 0 24px;">
+      <a href="https://livehealthychi.com/news/jini-kim-nuna.html" style="display:inline-block; background:#0362BC; color:#ffffff; text-decoration:none; font-weight:600; font-size:15px; padding:12px 22px; border-radius:8px;">See the live example &rarr;</a>
+    </p>
+
+    <p style="margin:0 0 16px;">So &mdash; <strong>send me the script/content whenever you&rsquo;re ready</strong> (after your meeting with Allie is perfect). Once I see it, I&rsquo;ll come back with a concrete recommendation on format and a plan for how we&rsquo;d shoot and build it. There are a couple of logistics to sort out on my end before we lock a recording date, but I want you to know I&rsquo;m genuinely excited about this one.</p>
+
+    <p style="margin:0 0 16px;">Talk soon,</p>
+
+    <p style="margin:0;">Gary</p></div>
+        </div>
+      </article>
+      <article class="letter" id="c-lhc-maintenance-prepay-ella-budget-email-2026-06-30-html">
+        <div class="letter-head">
+          <div class="meta">
+            <span class="date">Jun 30, 2026</span>
+            <h2>Budget follow-up — Allie &amp; Rebecca</h2>
+            <span class="to">To: Hi Allie and Rebecca</span>
+          </div>
+          <button class="copy" data-target="body-lhc-maintenance-prepay-ella-budget-email-2026-06-30-html" title="Copy this email">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            Copy email
+          </button>
+        </div>
+        <span class="status"></span>
+        <div class="paper">
+          <div id="body-lhc-maintenance-prepay-ella-budget-email-2026-06-30-html" class="email-body"><p style="margin:0 0 16px;">Hi Allie and Rebecca,</p>
+
+    <p style="margin:0 0 16px;">Following up from the check-in, and on the thread with Ella you&rsquo;re now copied on. We&rsquo;re essentially at the end of the original statement of work (about $688 of the $25k left), so I want to give you a simple way to think about what comes next &mdash; both for Ella&rsquo;s CHW training project and for routine upkeep going forward.</p>
+
+    <p style="margin:0 0 16px;">My recommendation is the <strong>$5,000 prepay maintenance package</strong>. It carries the best rate on the sliding scale &mdash; <strong>$75/hour, ~67 hours</strong> &mdash; and it cleanly funds Ella&rsquo;s project plus a long runway of ongoing edits. Pricing everything off that one rate, here&rsquo;s the picture:</p>
+
+    <div style="border:1px solid #dce3ed; border-radius:10px; padding:18px 20px; margin:0 0 18px; background:#f8fafc;">
+      <p style="margin:0 0 10px; font-size:13px; font-weight:700; letter-spacing:0.04em; text-transform:uppercase; color:#0362BC;">$5,000 prepay &middot; ~67 hrs @ $75/hr</p>
+      <p style="margin:0 0 8px;"><strong>~$1,500</strong> &mdash; Ella&rsquo;s CHW training set: the AI-built interview refresher (~15 min), a handful of short clips, and a professionally designed print pamphlet (more on that below).</p>
+      <p style="margin:0 0 8px;"><strong>~$3,500 remaining</strong> &mdash; ongoing maintenance for the rest of the year.</p>
+      <p style="margin:0;">Most routine edits are <strong>event ads or news items</strong>, which run roughly <strong>$50&ndash;$150 each</strong> &mdash; lower when we batch several at once. So that remaining balance covers a lot of regular upkeep.</p>
+    </div>
+
+    <p style="margin:0 0 16px;">A note on Ella&rsquo;s estimate: it&rsquo;s a solid number, not a hedge. The interview is a simple, single-session conversation &mdash; no reshoots &mdash; and the chaptered format already exists from the Nuna stories, which needed essentially no heavy editing, so I don&rsquo;t anticipate any here either. This is largely reuse rather than a new build.</p>
+
+    <p style="margin:0 0 16px;">The piece I&rsquo;m most excited to fold in is the <strong>print pamphlet</strong>. I&rsquo;ve been doing a lot of print design with these AI tools for other clients lately, and it&rsquo;s genuinely remarkable how well they handle layout, typography, and on-brand copy &mdash; so Ella&rsquo;s tri-fold won&rsquo;t just be functional, it&rsquo;ll be a polished, professional, on-brand piece the CHWs are proud to hand out. That&rsquo;s included in the $1,500.</p>
+
+    <p style="margin:0 0 16px;">Separately, whenever you&rsquo;re ready, we should also decide what officially <strong>closes out the original SOW</strong> &mdash; which of the remaining open items we call done versus carry into maintenance. Happy to walk through that list whenever works.</p>
+
+    <p style="margin:0 0 16px;">No need to decide over email &mdash; since we&rsquo;re meeting this afternoon, let&rsquo;s just talk it through then. I wanted you to have the numbers in front of you going in. Once we land on a direction, I&rsquo;ll get Ella&rsquo;s project moving as soon as she sends her script.</p>
+
+    <p style="margin:0 0 16px;">Thanks,</p>
+
+    <p style="margin:0;">Gary</p></div>
+        </div>
+      </article>
+      <article class="letter" id="c-lhc-team-agenda-email-2026-06-30-html">
+        <div class="letter-head">
+          <div class="meta">
+            <span class="date">Jun 30, 2026</span>
+            <h2>LHC Agenda — June 30, 2026</h2>
+            <span class="to">To: Hi all</span>
+          </div>
+          <button class="copy" data-target="body-lhc-team-agenda-email-2026-06-30-html" title="Copy this email">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            Copy email
+          </button>
+        </div>
+        <span class="status"></span>
+        <div class="paper">
+          <div id="body-lhc-team-agenda-email-2026-06-30-html" class="email-body"><p style="margin:0 0 16px;">Hi all,</p>
+
+    <p style="margin:0 0 16px;">Quick agenda for our check-in this afternoon, <strong>Tuesday June&nbsp;30 at 2:00&nbsp;PM CST</strong>. We&rsquo;re essentially at the end of the original statement of work (about <strong>$688 of the $25k left</strong>), so most of this is about deciding what comes next. Nothing here is urgent &mdash; the maintenance plan (item&nbsp;1) is the one spot where a decision keeps things moving.</p>
+
+    <!-- 1 -->
+    <p style="margin:0 0 6px; font-size:17px; font-weight:700; color:#0a1f44;">1. Maintenance plan going forward <span style="font-size:13px; font-weight:600; color:#b42318;">(decision)</span></p>
+    <p style="margin:0 0 8px;">I sent the numbers earlier today so you&rsquo;d have them going in. My recommendation is the <strong>$5,000 prepay maintenance package</strong> &mdash; it carries the best rate on the sliding scale (<strong>$75/hour, ~67 hours</strong>) and cleanly covers a long runway of ongoing edits. Rough split:</p>
+    <ul style="margin:0 0 16px; padding-left:22px;">
+      <li style="margin:0 0 6px;"><strong>~$1,500</strong> &mdash; Ella&rsquo;s CHW training set (see item&nbsp;2).</li>
+      <li style="margin:0 0 6px;"><strong>~$3,500</strong> &mdash; ongoing maintenance for the rest of the year. Most routine edits (event ads, news items) run <strong>~$50&ndash;$150 each</strong>, lower when we batch them.</li>
+    </ul>
+
+    <!-- 2 -->
+    <p style="margin:0 0 6px; font-size:17px; font-weight:700; color:#0a1f44;">2. Ella&rsquo;s CHW training project &mdash; direction &amp; funding</p>
+    <p style="margin:0 0 12px;">Allie &mdash; thanks for the candid heads-up that <strong>UCM doesn&rsquo;t have funds to support this right now</strong>. No pressure at all on my end; I just want to lay out the options so it&rsquo;s easy to decide whenever the time is right. A few ways this could go, in no particular order:</p>
+    <ul style="margin:0 0 12px; padding-left:22px;">
+      <li style="margin:0 0 6px;"><strong>Fold a slice into maintenance</strong> &mdash; if you go with a prepay package, part of it could cover Ella&rsquo;s set.</li>
+      <li style="margin:0 0 6px;"><strong>Rush / another source</strong> &mdash; if there&rsquo;s funding on Rebecca&rsquo;s side, great.</li>
+      <li style="margin:0 0 6px;"><strong>Scope it down</strong> &mdash; e.g. start with just the AI-designed pamphlet and add the refresher later.</li>
+      <li style="margin:0 0 6px;"><strong>DIY with light guidance</strong> &mdash; Ella records a simpler version herself and I help shape it.</li>
+    </ul>
+    <p style="margin:0 0 12px;">For context on what a fully-produced version looks like: rather than an AI &ldquo;narrator,&rdquo; we&rsquo;d let <strong>AI amplify the human</strong> &mdash; drafting interview questions aligned to the LHC site, doing the research, prepping Ella&rsquo;s answers, designing the pamphlet, and editing the audio/video. I&rsquo;d interview Ella on camera and cut it into a ~15-min refresher plus a few short clips (the Nuna chaptered format). That&rsquo;s the <strong>~$1,500</strong> end &mdash; largely reuse, not a new build.</p>
+    <p style="margin:0 0 16px;">And regardless of what you decide on funding: <strong>I&rsquo;m glad to give Ella feedback on her pamphlet and script for free</strong> so she can keep moving on her DNP project either way. No need to resolve this today.</p>
+
+    <!-- 3 -->
+    <p style="margin:0 0 6px; font-size:17px; font-weight:700; color:#0a1f44;">3. Closing out the original SOW</p>
+    <p style="margin:0 0 12px;">Most important thing here: <strong>I want this to feel finished &mdash; complete within the scope of what you hoped for when we started.</strong> So I&rsquo;m genuinely open to whatever you&rsquo;d like wrapped up to call it done. If there&rsquo;s anything still nagging at you, bring it to the list and let&rsquo;s get it across the line.</p>
+    <p style="margin:0 0 16px;">I&rsquo;m happy to <strong>eat the extra time</strong> to make that happen &mdash; this isn&rsquo;t about nickel-and-diming the last few hours. Let&rsquo;s just walk the open items together so we leave the original project feeling whole, and anything net-new from here flows into maintenance.</p>
+
+    <!-- 4 -->
+    <p style="margin:0 0 6px; font-size:17px; font-weight:700; color:#0a1f44;">4. Quick status round</p>
+    <ul style="margin:0 0 20px; padding-left:22px;">
+      <li style="margin:0 0 6px;"><strong>Celebrate the Check</strong> &mdash; live and in the field this week (Sarah&rsquo;s Fillmore + Sankofa pilots). One thing still open: the <strong>base counter number</strong> from you both, then it ticks up for real and I reply-all that it&rsquo;s fully live.</li>
+      <li style="margin:0 0 6px;"><strong>Coalition-first hero</strong> &mdash; the new landing focus (LHC as a whole, not centered on blood pressure). Doable without an extension; it&rsquo;s tied to the real photos/videos we&rsquo;ve been wanting to get on the site.</li>
+      <li style="margin:0 0 6px;"><strong>Portal</strong> &mdash; up and functional; remaining work is training the team to load resources.</li>
+    </ul>
+
+    <p style="margin:0 0 24px;">
+      <a href="https://livehealthychi.com/status.html" style="display:inline-block; background:#0362BC; color:#ffffff; text-decoration:none; font-weight:600; font-size:15px; padding:12px 22px; border-radius:8px;">Open the live status dashboard &rarr;</a>
+    </p>
+
+    <p style="margin:0 0 16px;">No need to decide anything over email &mdash; I just wanted the picture in front of you going in. See you at 2.</p>
+
+    <p style="margin:0 0 4px;">Thanks,</p>
+    <p style="margin:0; font-weight:600;">Gary</p></div>
+        </div>
+      </article>
+      <article class="letter" id="c-celebrate-the-check-updates-email-2026-06-29-html">
+        <div class="letter-head">
+          <div class="meta">
+            <span class="date">Jun 29, 2026</span>
+            <h2>Celebrate the Check — updates + QR</h2>
+            <span class="to">To: Hi all</span>
+          </div>
+          <button class="copy" data-target="body-celebrate-the-check-updates-email-2026-06-29-html" title="Copy this email">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            Copy email
+          </button>
+        </div>
+        <span class="status"></span>
+        <div class="paper">
+          <div id="body-celebrate-the-check-updates-email-2026-06-29-html" class="email-body"><p style="margin:0 0 16px;">Hi all,</p>
+
+    <p style="margin:0 0 16px;">All of today's updates to <strong>Celebrate the Check</strong> are done (from the 6/23 check-in and Rachel's 6/26 note):</p>
+
+    <ul style="margin:0 0 16px; padding-left:20px;">
+      <li style="margin-bottom:7px;">Removed the <strong>music / all audio</strong>.</li>
+      <li style="margin-bottom:7px;">Removed the <strong>heart animation</strong>.</li>
+      <li style="margin-bottom:7px;">Removed the one survey question — <em>"What could have made today better?"</em> — so it's now <strong>6 quick questions</strong>.</li>
+      <li style="margin-bottom:0;">Added a <strong>/celebrate</strong> short link, so <a href="https://livehealthychi.com/celebrate" style="color:#0362BC;">livehealthychi.com/celebrate</a> now works (in addition to the QR).</li>
+    </ul>
+
+    <p style="margin:0 0 16px;"><strong>QR code is attached</strong> — it points to <a href="https://livehealthychi.com/celebrate" style="color:#0362BC;">livehealthychi.com/celebrate</a>. I also attached a <strong>ready-to-print, letter-size one-pager</strong> (LHC logo, the "Celebrate the Check!" title, the QR, and the URL) so it can be printed and laminated at the BP station right away. Sarah / Laurie — feel free to use it as-is or tweak it.</p>
+
+    <p style="margin:0 0 18px;">
+      <a href="https://livehealthychi.com/celebrate" style="display:inline-block; background:#DA291C; color:#ffffff; text-decoration:none; font-weight:600; font-size:15px; padding:12px 22px; border-radius:8px;">Open Celebrate the Check &rarr;</a>
+    </p>
+
+    <a href="https://livehealthychi.com/celebrate" style="text-decoration:none;">
+      <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto:good,w_1100/v1782748416/orbis/celebrate-check-onepager.png" alt="Celebrate the Check one-pager with QR code" style="display:block; width:100%; max-width:340px; height:auto; border:1px solid #dce3ed; border-radius:10px;">
+    </a>
+    <p style="margin:7px 0 18px; font-size:13px; color:#4a5568;">The printable one-pager (attached as a PDF and PNG).</p>
+
+    <p style="margin:0 0 16px;"><strong>For the field</strong> (Sarah — Fillmore Wed 12–3, Sankofa Thu 2–5): the survey is intentionally <em>not</em> linked from the main website, so reach it through the QR or the <a href="https://livehealthychi.com/celebrate" style="color:#0362BC;">/celebrate</a> link.</p>
+
+    <p style="margin:0 0 16px;">One last piece before I call it <strong>fully live</strong>: the on-screen counter currently shows a <strong>500</strong> placeholder. Send me the real <strong>starting number</strong> (and a start date if you have one) and I'll set the base so it ticks up with each submission — then I'll reply-all to confirm.</p>
+
+    <p style="margin:0 0 4px;">Thanks all,</p>
+    <p style="margin:0;">Gary</p></div>
+        </div>
+      </article>
+      <article class="letter" id="c-lhc-maintenance-correction-email-2026-06-23-html">
+        <div class="letter-head">
+          <div class="meta">
+            <span class="date">Jun 23, 2026</span>
+            <h2>Maintenance options — quick correction</h2>
+            <span class="to">To: Hi all</span>
+          </div>
+          <button class="copy" data-target="body-lhc-maintenance-correction-email-2026-06-23-html" title="Copy this email">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            Copy email
+          </button>
+        </div>
+        <span class="status"></span>
+        <div class="paper">
+          <div id="body-lhc-maintenance-correction-email-2026-06-23-html" class="email-body"><p style="margin:0 0 14px;">Hi all,</p>
+
+    <p style="margin:0 0 14px;">One quick correction to the agenda I just sent — on <strong>item 6 (budget &amp; maintenance)</strong>. I oversimplified it to two options; the maintenance is actually a <strong>prepay block on a sliding scale</strong>: the more you prepay, the lower the hourly rate. Here's the full menu:</p>
+
+    <table role="presentation" cellpadding="0" cellspacing="0" style="border-collapse:collapse; width:100%; max-width:380px; margin:0 0 16px; font-size:14px;">
+      <thead>
+        <tr>
+          <th align="left"  style="padding:8px 10px; border-bottom:2px solid #dce3ed; color:#0d6a8f; font-size:12px; text-transform:uppercase; letter-spacing:.4px;">Prepay</th>
+          <th align="left"  style="padding:8px 10px; border-bottom:2px solid #dce3ed; color:#0d6a8f; font-size:12px; text-transform:uppercase; letter-spacing:.4px;">Hours</th>
+          <th align="right" style="padding:8px 10px; border-bottom:2px solid #dce3ed; color:#0d6a8f; font-size:12px; text-transform:uppercase; letter-spacing:.4px;">Per hour</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td style="padding:7px 10px; border-bottom:1px solid #eef2f7;"><strong>$5,000</strong></td><td style="padding:7px 10px; border-bottom:1px solid #eef2f7;">67 hrs</td><td align="right" style="padding:7px 10px; border-bottom:1px solid #eef2f7;">$75</td></tr>
+        <tr><td style="padding:7px 10px; border-bottom:1px solid #eef2f7;"><strong>$4,000</strong></td><td style="padding:7px 10px; border-bottom:1px solid #eef2f7;">50 hrs</td><td align="right" style="padding:7px 10px; border-bottom:1px solid #eef2f7;">$80</td></tr>
+        <tr><td style="padding:7px 10px; border-bottom:1px solid #eef2f7;"><strong>$3,000</strong></td><td style="padding:7px 10px; border-bottom:1px solid #eef2f7;">34 hrs</td><td align="right" style="padding:7px 10px; border-bottom:1px solid #eef2f7;">$88</td></tr>
+        <tr><td style="padding:7px 10px; border-bottom:1px solid #eef2f7;"><strong>$2,500</strong></td><td style="padding:7px 10px; border-bottom:1px solid #eef2f7;">27 hrs</td><td align="right" style="padding:7px 10px; border-bottom:1px solid #eef2f7;">$93</td></tr>
+        <tr><td style="padding:7px 10px; border-bottom:1px solid #eef2f7;"><strong>$2,000</strong></td><td style="padding:7px 10px; border-bottom:1px solid #eef2f7;">20 hrs</td><td align="right" style="padding:7px 10px; border-bottom:1px solid #eef2f7;">$100</td></tr>
+        <tr><td style="padding:7px 10px; border-bottom:1px solid #eef2f7;"><strong>$1,500</strong></td><td style="padding:7px 10px; border-bottom:1px solid #eef2f7;">13 hrs</td><td align="right" style="padding:7px 10px; border-bottom:1px solid #eef2f7;">$115</td></tr>
+        <tr><td style="padding:7px 10px; border-bottom:1px solid #eef2f7;"><strong>$1,000</strong></td><td style="padding:7px 10px; border-bottom:1px solid #eef2f7;">8 hrs</td><td align="right" style="padding:7px 10px; border-bottom:1px solid #eef2f7;">$125</td></tr>
+        <tr><td style="padding:7px 10px;"><strong>$600</strong></td><td style="padding:7px 10px;">4 hrs</td><td align="right" style="padding:7px 10px;">$150</td></tr>
+      </tbody>
+    </table>
+
+    <p style="margin:0 0 14px;">No need to decide on the spot — just wanted you to have the real options in front of you for that part of the conversation. Happy to talk through which makes sense given the pace of ongoing requests.</p>
+
+    <p style="margin:0 0 2px;">Thanks,<br>Gary</p>
+    <p style="margin:0; font-size:13px; color:#4a5568;">Gary Ricke · Orbis Design</p></div>
+        </div>
+      </article>
+      <article class="letter" id="c-lhc-team-agenda-email-2026-06-23-html">
+        <div class="letter-head">
+          <div class="meta">
+            <span class="date">Jun 23, 2026</span>
+            <h2>LHC Agenda — June 23, 2026</h2>
+            <span class="to">To: Hi all</span>
+          </div>
+          <button class="copy" data-target="body-lhc-team-agenda-email-2026-06-23-html" title="Copy this email">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            Copy email
+          </button>
+        </div>
+        <span class="status"></span>
+        <div class="paper">
+          <div id="body-lhc-team-agenda-email-2026-06-23-html" class="email-body"><p style="margin:0 0 14px;">Hi all,</p>
+
+    <p style="margin:0 0 14px;">Quick agenda for our check-in <strong>today, Tuesday June&nbsp;23, at 2:00&nbsp;PM CST</strong>. A few items need a decision so we can keep things moving — I've flagged those.</p>
+
+    <!-- 1 -->
+    <p style="margin:20px 0 6px; font-size:16px; font-weight:700; color:#1B365D;">1. Portal &amp; Celebrate the Check — already live <span style="display:inline-block; font-size:11px; font-weight:700; color:#0d6a8f; background:rgba(70,183,229,.16); border-radius:20px; padding:2px 9px; vertical-align:middle; letter-spacing:.3px;">Access only</span></p>
+    <p style="margin:0 0 8px;">Following up on Rachel's 6/17 note: both are <strong>technically live and reachable right now</strong> — the resource portal at <strong>livehealthychi.com/portal</strong> and Celebrate the Check at <strong>livehealthychi.com/check</strong> (with a working QR). So there isn't really a go/no-go decision here — the only open question is whether we want to <strong>change access in some way</strong> (who can reach them, gating, or how we promote them).</p>
+
+    <!-- 2 -->
+    <p style="margin:20px 0 6px; font-size:16px; font-weight:700; color:#1B365D;">2. Portal demo — audience tags are live</p>
+    <p style="margin:0 0 8px;">Instead of hard "segment by user type" (which would bury cross-role resources), I built lightweight <strong>audience tags</strong>: each resource can carry several — Clinicians, CHWs, Health Educators, Patients &amp; Community, Comms&nbsp;/&nbsp;Social, Admin&nbsp;/&nbsp;Operations — with a <strong>"Filter by audience"</strong> view that narrows <em>without hiding</em>. I'll demo it and we can agree on tagging the rest of the library.</p>
+
+    <!-- 3 -->
+    <p style="margin:20px 0 6px; font-size:16px; font-weight:700; color:#1B365D;">3. Celebrate the Check — open items</p>
+    <ul style="margin:0 0 8px; padding-left:20px;">
+      <li style="margin-bottom:5px;"><strong>Animation</strong> — Rachel's read after testing with the CAB: keep, tone down, or cut. <span style="color:#b8740a; font-weight:600;">(decision)</span></li>
+      <li style="margin-bottom:5px;"><strong>Raffle copy</strong> — Rush legal clearance before it can go back on (Rebecca&nbsp;/&nbsp;Ofu).</li>
+      <li style="margin-bottom:0;"><strong>Live counter</strong> — need a real <strong>starting number + start date</strong> to switch on real logging.</li>
+    </ul>
+
+    <!-- 4 -->
+    <p style="margin:20px 0 6px; font-size:16px; font-weight:700; color:#1B365D;">4. Form notifications &amp; new submissions dashboard</p>
+    <p style="margin:0 0 8px;">All website form submissions now route to <strong>LiveHealthyChi@uchicagomedicine.org</strong> (Allie's personal address removed, per her request). Quick confirm that's the right shared inbox — and note we can split recipients per form if that's ever useful.</p>
+    <p style="margin:0 0 8px;">New this week: there's also an <strong>admin dashboard at livehealthychi.com/submissions</strong> (in the admin menu) where you can see <strong>every form submission in one place</strong> — filter by form, search, and export CSV — instead of downloading separate CSVs from Netlify. It's admin-access only since it holds people's contact info. I'll demo it.</p>
+
+    <!-- 5 -->
+    <p style="margin:20px 0 6px; font-size:16px; font-weight:700; color:#1B365D;">5. Community Voice — Phase 2</p>
+    <p style="margin:0 0 8px;">Now that the June&nbsp;8 steering committee has passed, let's plan how we capture CAB photos and testimonials to replace the current placeholders.</p>
+
+    <!-- 6 -->
+    <p style="margin:20px 0 6px; font-size:16px; font-weight:700; color:#1B365D;">6. Budget &amp; maintenance tier <span style="display:inline-block; font-size:11px; font-weight:700; color:#b8740a; background:rgba(244,160,48,.15); border-radius:20px; padding:2px 9px; vertical-align:middle; letter-spacing:.3px;">Decision needed</span></p>
+    <p style="margin:0 0 8px;">The initial <strong>$25,000</strong> SOW is about <strong>96.5% used</strong> (~$875 / ~3.5% left). To keep ongoing work flowing, we'll want to set up a <strong>prepay maintenance block</strong> — a sliding scale where the more you prepay, the lower the hourly rate (from $600 / 4&nbsp;hrs at $150/hr up to $5,000 / 67&nbsp;hrs at $75/hr). Full options in my follow-up note.</p>
+
+    <!-- 7 -->
+    <p style="margin:20px 0 6px; font-size:16px; font-weight:700; color:#1B365D;">7. Content we're waiting on — quick round</p>
+    <ul style="margin:0 0 8px; padding-left:20px;">
+      <li style="margin-bottom:5px;">CAB photos &amp; testimonials</li>
+      <li style="margin-bottom:5px;">Comms-team photo shoot (to replace AI imagery)</li>
+      <li style="margin-bottom:5px;">Medically-accurate BP imagery (Rebecca)</li>
+      <li style="margin-bottom:5px;">The 3 remaining story videos (4 of 7 are live)</li>
+      <li style="margin-bottom:0;">Portal support email + the team loading real resources into the portal</li>
+    </ul>
+
+    <p style="margin:20px 0 14px;">If there's anything you'd like to add, send it my way before 2&nbsp;and I'll work it in. Talk soon.</p>
+
+    <p style="margin:0 0 2px;">Best,<br>Gary</p>
+    <p style="margin:0; font-size:13px; color:#4a5568;">Gary Ricke · Orbis Design</p></div>
+        </div>
+      </article>
+      <article class="letter" id="c-nuna-jini-final-edit-reply-email-2026-06-12-html">
+        <div class="letter-head">
+          <div class="meta">
+            <span class="date">Jun 12, 2026</span>
+            <h2>Reply to Erik — Jini interview final edit</h2>
+            <span class="to">To: Hi Erik</span>
+          </div>
+          <button class="copy" data-target="body-nuna-jini-final-edit-reply-email-2026-06-12-html" title="Copy this email">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            Copy email
+          </button>
+        </div>
+        <span class="status"></span>
+        <div class="paper">
+          <div id="body-nuna-jini-final-edit-reply-email-2026-06-12-html" class="email-body"><p style="margin:0 0 16px;">Hi Erik,</p>
+
+    <p style="margin:0 0 16px;">Thank you — that genuinely means a lot, and it's been a pleasure working with you and the team on this. The piece is better for the care you all put into the review.</p>
+
+    <p style="margin:0 0 16px;">Done on the last item. I swapped the <strong>"08. The Real Work Is In Between"</strong> graphic for the one you sent, with a real Nuna app screen in the moment: the produce aisle, recipe pulled up, voice control right there. It's a much stronger image for that beat than the placeholder, and it's live on the staging proof now.</p>
+
+    <a href="https://www.livehealthychi.com/news/jini-kim-nuna.html" target="_blank" style="text-decoration:none; color:inherit;">
+      <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto:good,w_1100/v1781270158/lhc-news/jini-between-visits-app.jpg" alt="The Nuna app open to a roasted-carrots recipe while shopping in the produce aisle" style="display:block; width:100%; max-width:600px; height:auto; border:1px solid #dce3ed; border-radius:10px;">
+    </a>
+    <p style="margin:8px 0 20px; font-size:13px; color:#4a5568;">The new section 08 graphic — a real Nuna app screen in the produce aisle. <a href="https://www.livehealthychi.com/news/jini-kim-nuna.html" target="_blank" style="color:#0362BC; text-decoration:none;">See it live →</a></p>
+
+    <p style="margin:0 0 16px;">That was your last item, so we're ready to publish on your word. I'll move it from staging to the public site and <strong>let you know the moment it's live</strong> so you and Jini can plug it on your end.</p>
+
+    <p style="margin:0 0 6px;">Here's the proof again for convenience:</p>
+    <p style="margin:0 0 4px;"><strong>Interview proof</strong> &nbsp;<a href="https://www.livehealthychi.com/news/jini-kim-nuna.html" target="_blank" style="color:#0362BC; text-decoration:none;">livehealthychi.com/news/jini-kim-nuna.html</a></p>
+    <p style="margin:0 0 4px;"><strong>Full staging site</strong> &nbsp;<a href="https://www.livehealthychi.com/index-stage.html" target="_blank" style="color:#0362BC; text-decoration:none;">livehealthychi.com/index-stage.html</a> <span style="color:#4a5568;">(article pinned at the top of the News feed)</span></p>
+    <p style="margin:0 0 20px;"><strong>Password</strong> &nbsp;<code style="background:#f1f5f9; padding:2px 6px; border-radius:4px; font-size:13px;">livehealthychi</code></p>
+
+    <p style="margin:0 0 16px;">Thanks again for the careful read on this one — it made the piece better.</p>
+
+    <p style="margin:0 0 4px;">Best,</p>
+    <p style="margin:0;">Gary</p></div>
+        </div>
+      </article>
+      <article class="letter" id="c-nuna-jini-feedback-reply-email-2026-06-10-html">
+        <div class="letter-head">
+          <div class="meta">
+            <span class="date">Jun 10, 2026</span>
+            <h2>Reply to Erik — Jini interview updates</h2>
+            <span class="to">To: Hi Erik</span>
+          </div>
+          <button class="copy" data-target="body-nuna-jini-feedback-reply-email-2026-06-10-html" title="Copy this email">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            Copy email
+          </button>
+        </div>
+        <span class="status"></span>
+        <div class="paper">
+          <div id="body-nuna-jini-feedback-reply-email-2026-06-10-html" class="email-body"><p style="margin:0 0 16px;">Hi Erik,</p>
+
+    <p style="margin:0 0 16px;">Thank you — this was exactly the kind of feedback that makes a piece better. Your note about the phone-in-hand loop in particular was a good call. I've worked through everything, and all of it is now live on the staging proof for you to review.</p>
+
+    <p style="margin:0 0 10px;">Here's what changed:</p>
+
+    <ul style="margin:0 0 18px; padding-left:20px;">
+      <li style="margin-bottom:10px;"><strong>Real headshot.</strong> Swapped in the photo you sent — no more AI-looking portrait. It now appears in the audio player and the bio card.</li>
+      <li style="margin-bottom:10px;"><strong>App section, rebuilt.</strong> Per your main note, I dropped the looped phone-in-hand video and promoted the three app screenshots to the main visual. Each now carries its own title and description: <strong>Dynamic Coaching</strong>, <strong>Always-On Support</strong>, and <strong>Knowledge Paths</strong> — so the visuals match the substance of the interview.</li>
+      <li style="margin-bottom:10px;"><strong>Kimong.</strong> Added Jini's brother's name to the header, and left it out of the rest of the body as you suggested.</li>
+      <li style="margin-bottom:10px;"><strong>"How Nuna works today."</strong> Retitled the section and reworded the subtitle to <em>"AI native, designed to feel human, so that people can always feel supported."</em></li>
+      <li style="margin-bottom:10px;"><strong>"Satisfying and motivating."</strong> Updated the gamification card from "fun" — I agree it lands a little less saccharine.</li>
+      <li style="margin-bottom:0;"><strong>Dr. David Ansell.</strong> Added the title so it aligns with Dr. Pallok.</li>
+    </ul>
+
+    <p style="margin:0 0 8px; font-size:13px; letter-spacing:0.06em; text-transform:uppercase; color:#1B365D; font-weight:700;">The rebuilt app section</p>
+    <a href="https://www.livehealthychi.com" style="text-decoration:none;">
+      <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto:good,w_1100/v1781134156/orbis/jini-app-showcase-2026-06-10.png" alt="The rebuilt Nuna app section showing the three app screenshots with their own titles and descriptions" style="display:block; width:100%; max-width:600px; height:auto; border:1px solid #dce3ed; border-radius:10px;">
+    </a>
+    <p style="margin:8px 0 18px; font-size:13px; color:#4a5568;">The three screenshots now cycle as the lead visual, each with its own caption (shown: Dynamic Coaching).</p>
+
+    <p style="margin:0 0 16px;">One small thing worth flagging: in the switching-card copy I lightly cleaned two phrasings from the draft — "Always-On <em>to</em> Support" and "Immediate feedback <em>and</em> to support." Easy to put back to your exact wording if you'd prefer it verbatim.</p>
+
+    <p style="margin:0 0 12px;">The proof is on staging at the same review link — here it is again for convenience, along with the password:</p>
+
+    <table role="presentation" cellpadding="0" cellspacing="0" style="width:100%; max-width:600px; margin:0 0 18px; border:1px solid #dce3ed; border-radius:10px; border-collapse:separate; overflow:hidden;">
+      <tr>
+        <td style="padding:16px 18px; background:#f7f9fc;">
+          <p style="margin:0 0 4px; font-size:12px; letter-spacing:0.07em; text-transform:uppercase; color:#1B365D; font-weight:700;">Interview proof</p>
+          <p style="margin:0 0 14px;"><a href="https://www.livehealthychi.com/news/jini-kim-nuna.html" style="color:#1B365D; font-weight:600; word-break:break-all;">livehealthychi.com/news/jini-kim-nuna.html</a></p>
+          <p style="margin:0 0 4px; font-size:12px; letter-spacing:0.07em; text-transform:uppercase; color:#1B365D; font-weight:700;">Full staging site</p>
+          <p style="margin:0 0 14px;"><a href="https://www.livehealthychi.com/index-stage.html" style="color:#1B365D; font-weight:600; word-break:break-all;">livehealthychi.com/index-stage.html</a> <span style="color:#4a5568;">(the article is pinned at the top of the News feed)</span></p>
+          <p style="margin:0; font-size:14px; color:#1a2535;"><span style="font-size:12px; letter-spacing:0.07em; text-transform:uppercase; color:#1B365D; font-weight:700;">Password</span> &nbsp; <code style="background:#fff; border:1px solid #dce3ed; border-radius:5px; padding:3px 8px; font-size:14px; color:#1a2535;">livehealthychi</code></p>
+        </td>
+      </tr>
+    </table>
+
+    <p style="margin:0 0 16px;">Once you and Jini give the word, we're ready to publish.</p>
+
+    <p style="margin:0 0 4px;">Best,</p>
+    <p style="margin:0 0 2px;"><strong>Gary Ricke</strong></p>
+    <p style="margin:0; color:#4a5568; font-size:14px;">Orbis Design</p></div>
+        </div>
+      </article>
+    </main>
+  </div>
+  <script>
+    function setStatus(el, m, ok) { el.textContent = m; el.style.color = ok ? '#7Ce08a' : '#ff9a9a'; }
+    function selectFallback(el, status) {
       try {
-        const res = await fetch('/' + c.file);
-        if (!res.ok) throw new Error('fetch failed');
-        const html = await res.text();
-        const doc = new DOMParser().parseFromString(html, 'text/html');
-        const body = doc.getElementById('email-body') || doc.body;
-        const htmlStr = body.outerHTML;
-        const textStr = body.innerText || body.textContent || '';
-        if (navigator.clipboard && window.ClipboardItem){
-          await navigator.clipboard.write([new ClipboardItem({
-            'text/html': new Blob([htmlStr], {type:'text/html'}),
-            'text/plain': new Blob([textStr], {type:'text/plain'})
-          })]);
-          status.style.color = '#1a7f37';
-          status.textContent = '✓ Copied — paste into your email';
-        } else {
-          throw new Error('no clipboard');
-        }
-      } catch (e) {
-        status.style.color = '#b42318';
-        status.textContent = 'Open the email and use its Copy button';
-      }
-      setTimeout(() => { status.textContent = ''; }, 4000);
+        var r = document.createRange(); r.selectNode(el);
+        var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+        var ok = document.execCommand('copy'); s.removeAllRanges();
+        setStatus(status, ok ? '✓ Copied — paste into your email' : 'Press ⌘C to copy', ok);
+      } catch (e) { setStatus(status, 'Select the email and press ⌘C', false); }
     }
-
-    /* ── Gate logic (SHA-256 of the site password, shared session) ── */
-    const GATE_HASH = '279b8fbaf4bcc0cd38315426d9a523c6b12370c9d241d0b8fcff4eb276b9f37e';
-    async function sha256(str){
-      const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
-      return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
-    }
-    async function checkGate(){
-      const input = document.getElementById('gate-input');
-      const err = document.getElementById('gate-error');
-      const hash = await sha256(input.value);
-      if (hash === GATE_HASH){
-        sessionStorage.setItem('lhc_auth', '1');
-        unlock();
-      } else {
-        err.textContent = 'Incorrect password.';
-        input.value = '';
-      }
-    }
-    function unlock(){
-      const gate = document.getElementById('gate');
-      gate.classList.add('fade-out');
-      setTimeout(() => { gate.style.display = 'none'; }, 450);
-      renderList();
-    }
-    document.getElementById('gate-input').addEventListener('keydown', e => { if (e.key === 'Enter') checkGate(); });
-    if (sessionStorage.getItem('lhc_auth') === '1'){ unlock(); }
+    document.querySelectorAll('.copy').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var el = document.getElementById(btn.getAttribute('data-target'));
+        var status = btn.closest('.letter').querySelector('.status');
+        if (navigator.clipboard && window.ClipboardItem) {
+          var d = [new ClipboardItem({
+            'text/html': new Blob([el.outerHTML], { type: 'text/html' }),
+            'text/plain': new Blob([el.innerText], { type: 'text/plain' })
+          })];
+          navigator.clipboard.write(d).then(
+            function () { setStatus(status, '✓ Copied — paste into your email (formatting included)', true); },
+            function () { selectFallback(el, status); }
+          );
+        } else { selectFallback(el, status); }
+      });
+    });
   </script>
 </body>
 </html>
