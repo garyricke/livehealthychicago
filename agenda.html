@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>Check-In Agenda &middot; September 8, 2026 &middot; Live Healthy Chicago</title>
+<link rel="canonical" href="https://livehealthychi.com/agenda">
+<link rel="icon" type="image/png" href="https://res.cloudinary.com/dsbllwpbh/image/upload/v1771612857/favicon-live-healthy-chicago_e7o6el.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Open+Sans:wght@400;600;700&display=swap">
+<style>
+:root{
+  --navy:#1B365D; --navy-d:#0E2040;
+  --red:#E5202F; --amber:#B37700; --teal:#1F8F79;
+  --ground:#FBF7F0; --surface:#FFFFFF; --surface-2:#F4EEE4;
+  --ink:#22303F; --ink-2:#5A6779; --ink-3:#8A8172;
+  --line:#E6DDCE; --line-2:#D8D0C1;
+  --chip-ship-bg:#E8F5F0; --chip-ship-fg:#136953;
+  --chip-dec-bg:#FDECEE; --chip-dec-fg:#B31220;
+  --chip-wait-bg:#FDF3DC; --chip-wait-fg:#8A6100;
+  --rail:#CDBFA8;
+  --f-d:'Montserrat',system-ui,-apple-system,sans-serif;
+  --f-b:'Open Sans',system-ui,-apple-system,sans-serif;
+}
+
+*{box-sizing:border-box}
+body{
+  background:var(--ground); color:var(--ink);
+  font-family:var(--f-b); font-size:16px; line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:820px;margin:0 auto;padding:40px 24px 72px}
+
+/* ---------- masthead ---------- */
+.mast{border-bottom:2px solid var(--navy);padding-bottom:20px;margin-bottom:8px}
+.eyebrow{
+  font-family:var(--f-d);font-size:11px;font-weight:800;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--ink-3);margin:0 0 10px
+}
+h1{
+  font-family:var(--f-d);font-weight:900;font-size:clamp(28px,4.6vw,40px);
+  line-height:1.05;letter-spacing:-.02em;color:var(--navy);
+  margin:0 0 14px;text-wrap:balance
+}
+.meta{display:flex;flex-wrap:wrap;gap:6px 22px;font-size:13.5px;color:var(--ink-2)}
+.meta b{font-family:var(--f-d);font-weight:700;color:var(--ink)}
+
+.roster{
+  display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 0;padding:0;list-style:none
+}
+.who{
+  display:inline-flex;align-items:baseline;gap:7px;
+  background:var(--surface);border:1px solid var(--line);
+  border-radius:999px;padding:5px 13px;font-size:13px
+}
+.who b{font-family:var(--f-d);font-weight:700;font-size:12.5px}
+.who span{color:var(--ink-3);font-size:12px}
+.who.new{border-color:var(--line-2);background:var(--surface-2)}
+.who.new span{color:var(--amber);font-weight:700}
+
+.standfirst{
+  margin:26px 0 0;padding:16px 18px;background:var(--surface);
+  border-left:3px solid var(--amber);border-radius:0 8px 8px 0;
+  font-size:14.5px;line-height:1.6;color:var(--ink-2)
+}
+.standfirst b{color:var(--ink)}
+
+/* ---------- agenda blocks ---------- */
+.block{
+  display:grid;grid-template-columns:76px 1fr;gap:0 22px;
+  padding-top:34px;margin-top:34px;border-top:1px solid var(--line)
+}
+.time{
+  font-family:var(--f-d);font-weight:800;font-size:13px;
+  color:var(--navy);letter-spacing:.01em;font-variant-numeric:tabular-nums;
+  padding-top:3px;border-right:2px solid var(--rail);padding-right:16px;text-align:right
+}
+.time small{display:block;font-weight:600;font-size:11px;color:var(--ink-3);margin-top:3px}
+h2{
+  font-family:var(--f-d);font-weight:800;font-size:20px;letter-spacing:-.01em;
+  color:var(--ink);margin:0 0 4px;text-wrap:balance
+}
+.sub{margin:0 0 16px;font-size:14px;color:var(--ink-2)}
+
+/* ---------- item lists ---------- */
+.items{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px}
+.items li{font-size:14.5px;line-height:1.55}
+.items li > b{font-family:var(--f-d);font-weight:700;color:var(--ink);font-size:14.5px}
+.items .say{
+  display:block;margin-top:4px;font-size:13.5px;color:var(--ink-2)
+}
+.items .ask{
+  display:block;margin-top:6px;font-size:13.5px;color:var(--red);font-weight:600
+}
+.num{font-variant-numeric:tabular-nums}
+
+/* shipped list — tighter, with a rule between */
+.ship{list-style:none;margin:0;padding:0}
+.ship li{
+  display:grid;grid-template-columns:auto 1fr;gap:4px 14px;
+  padding:11px 0;border-bottom:1px solid var(--line);font-size:14px
+}
+.ship li:last-child{border-bottom:0;padding-bottom:0}
+.ship .d{
+  font-family:var(--f-d);font-weight:700;font-size:11.5px;color:var(--ink-3);
+  letter-spacing:.05em;text-transform:uppercase;padding-top:3px;
+  font-variant-numeric:tabular-nums;white-space:nowrap
+}
+.ship .t b{font-family:var(--f-d);font-weight:700;color:var(--ink)}
+.ship .t{color:var(--ink-2);line-height:1.5}
+.ship code{
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;
+  background:var(--surface-2);padding:1px 5px;border-radius:4px;color:var(--ink)
+}
+
+/* ---------- chips ---------- */
+.chip{
+  display:inline-block;font-family:var(--f-d);font-weight:800;font-size:10.5px;
+  letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;border-radius:4px;
+  vertical-align:2px;margin-right:8px
+}
+.c-ship{background:var(--chip-ship-bg);color:var(--chip-ship-fg)}
+.c-dec{background:var(--chip-dec-bg);color:var(--chip-dec-fg)}
+.c-wait{background:var(--chip-wait-bg);color:var(--chip-wait-fg)}
+
+/* ---------- flag callout ---------- */
+.flag{
+  margin:16px 0 0;padding:15px 17px;background:var(--chip-dec-bg);
+  border-radius:8px;font-size:14px;line-height:1.55;color:var(--ink)
+}
+.flag .h{
+  font-family:var(--f-d);font-weight:800;font-size:12px;letter-spacing:.07em;
+  text-transform:uppercase;color:var(--chip-dec-fg);margin-bottom:6px
+}
+.flag code{
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;
+  background:var(--surface);padding:1px 5px;border-radius:4px
+}
+
+/* ---------- waiting table ---------- */
+.waitwrap{overflow-x:auto}
+table.wait{width:100%;border-collapse:collapse;font-size:14px;min-width:420px}
+table.wait th{
+  font-family:var(--f-d);font-weight:800;font-size:10.5px;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--ink-3);text-align:left;
+  padding:0 14px 8px 0;border-bottom:1px solid var(--line-2)
+}
+table.wait td{
+  padding:11px 14px 11px 0;border-bottom:1px solid var(--line);
+  vertical-align:top;color:var(--ink-2)
+}
+table.wait td:first-child{
+  font-family:var(--f-d);font-weight:700;color:var(--ink);white-space:nowrap
+}
+table.wait td.due{font-variant-numeric:tabular-nums;color:var(--red);font-weight:600;white-space:nowrap}
+table.wait tr:last-child td{border-bottom:0}
+
+/* ---------- quick links ---------- */
+.links{
+  margin-top:26px;background:var(--surface);border:1px solid var(--line);
+  border-radius:10px;padding:20px 22px
+}
+.links h3{
+  font-family:var(--f-d);font-weight:800;font-size:11px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-3);margin:0 0 14px
+}
+.lgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:22px}
+.lgroup h4{
+  display:flex;align-items:center;gap:6px;
+  font-family:var(--f-d);font-weight:800;font-size:11px;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--ink-2);margin:0 0 9px
+}
+.lgroup ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:7px}
+.lgroup li{font-size:13.5px;line-height:1.4}
+.lgroup a{font-family:var(--f-d);font-weight:700;font-size:13.5px}
+.lgroup .n{display:block;color:var(--ink-3);font-size:12px;font-family:var(--f-b);font-weight:400}
+.lock{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;
+  stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto}
+.pw{
+  margin-top:16px;padding-top:14px;border-top:1px solid var(--line);
+  font-size:13px;color:var(--ink-2)
+}
+.pw code{
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;font-weight:700;
+  background:var(--surface-2);padding:2px 7px;border-radius:4px;color:var(--ink)
+}
+
+/* ---------- footer ---------- */
+.foot{
+  margin-top:44px;padding-top:20px;border-top:2px solid var(--navy);
+  font-size:13px;color:var(--ink-3);display:flex;flex-wrap:wrap;gap:6px 20px
+}
+.foot b{font-family:var(--f-d);font-weight:700;color:var(--ink-2)}
+
+a{color:var(--red);text-decoration:none;border-bottom:1px solid currentColor}
+a:hover{opacity:.75}
+a:focus-visible{outline:2px solid var(--red);outline-offset:3px;border-radius:2px}
+
+@media (max-width:620px){
+  .block{grid-template-columns:1fr;gap:0}
+  .time{
+    border-right:0;border-left:2px solid var(--rail);text-align:left;
+    padding-right:0;padding-left:12px;margin-bottom:12px
+  }
+  .time small{display:inline;margin-left:8px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+/* ---- team gate (same password as the status, scope and training pages) ---- */
+#gate{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;
+  background:#0E2040;padding:24px}
+#gate.fade-out{opacity:0;transition:opacity .45s ease;pointer-events:none}
+.gate-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);border-radius:20px;
+  padding:34px 30px;width:100%;max-width:390px;text-align:center}
+.gate-card h2{font-family:var(--f-d);font-weight:800;font-size:1.5rem;color:#fff;letter-spacing:-.02em;margin:0}
+.gate-card p{font-family:var(--f-b);font-size:.92rem;color:rgba(255,255,255,.66);margin:10px 0 26px}
+.gate-card input{width:100%;padding:14px 16px;border-radius:11px;border:1px solid rgba(255,255,255,.22);
+  background:rgba(255,255,255,.08);color:#fff;font-family:var(--f-b);font-size:1rem}
+.gate-card input::placeholder{color:rgba(255,255,255,.45)}
+.gate-card input:focus{outline:2px solid #46B7E5;outline-offset:2px}
+.gate-card button{margin-top:14px;width:100%;padding:14px;border-radius:11px;background:#E5202F;
+  color:#fff;border:0;font-family:var(--f-d);font-weight:800;font-size:.95rem;cursor:pointer}
+.gate-card button:hover{filter:brightness(1.08)}
+#gate-error{min-height:20px;margin-top:12px;font-family:var(--f-b);font-size:.85rem;color:#ffb4b8}
+</style>
+</head>
+<body>
+<div id="gate">
+  <div class="gate-card">
+    <h2>Live Healthy Chicago</h2>
+    <p>Check-in agenda &middot; September 8, 2026</p>
+    <input id="pw-input" type="password" placeholder="Team password" aria-label="Team password" autocomplete="current-password">
+    <button type="button" onclick="checkPassword()">Open the agenda</button>
+    <div id="gate-error" role="status"></div>
+  </div>
+</div>
+<div id="app" style="display:none">
+<div class="wrap">
+
+  <header class="mast">
+    <p class="eyebrow">Weekly check-in &middot; Agenda</p>
+    <h1>Live Healthy Chicago Check-In</h1>
+    <div class="meta">
+      <span><b>Tuesday, September 8, 2026</b></span>
+      <span>1:00 &ndash; 2:00 PM CT</span>
+      <span>Zoom &middot; 852 4679 7204</span>
+    </div>
+    <ul class="roster">
+      <li class="who"><b>Allie Sontag</b> <span>UChicago Medicine</span></li>
+      <li class="who new"><b>Jonah Ansell</b> <span>new</span></li>
+      <li class="who new"><b>Viviana Garcia</b> <span>new &middot; Rush</span></li>
+      <li class="who"><b>Gary Ricke</b> <span>Orbis</span></li>
+    </ul>
+    <p class="standfirst">
+      First check-in since the meetings were paused on <b>August 11</b>, pending the maintenance
+      retainer. The retainer is now executed and running, so this restarts the cadence &mdash; and
+      it is the first one with Jonah and Viviana in the room. Everything below is either shipped,
+      needs a decision today, or is waiting on someone here.
+    </p>
+
+    <div class="links">
+      <h3>Open anything on this agenda</h3>
+      <div class="lgrid">
+        <div class="lgroup">
+          <h4>Public &mdash; live now</h4>
+          <ul>
+            <li><a href="https://livehealthychi.com/#community-events">ECHO event card</a>
+              <span class="n">The new Upcoming Events listing</span></li>
+            <li><a href="https://livehealthychi.com/pamphlet">Community tri-fold</a>
+              <span class="n">Print piece &middot; new categories chart</span></li>
+            <li><a href="https://livehealthychi.com/insert">CHW pocket guide</a>
+              <span class="n">Print piece &middot; red-flags box replaced</span></li>
+            <li><a href="https://livehealthychi.com/mobile">Mobile screening schedule</a>
+              <span class="n">Five stops &middot; photos still placeholders</span></li>
+          </ul>
+        </div>
+        <div class="lgroup">
+          <h4>
+            <svg class="lock" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+            Team login
+          </h4>
+          <ul>
+            <li><a href="https://livehealthychi.com/chw-training">CHW training</a>
+              <span class="n">The five modules &middot; leave notes here</span></li>
+            <li><a href="https://livehealthychi.com/scope">Hours burn-down</a>
+              <span class="n">Maintenance Package 1, live from Clockify</span></li>
+            <li><a href="https://livehealthychi.com/portal">Partner portal</a>
+              <span class="n">Resource library &middot; Viviana takes this over</span></li>
+            <li><a href="https://livehealthychi.com/status">Project status</a>
+              <span class="n">Decisions and open items</span></li>
+          </ul>
+        </div>
+      </div>
+      <p class="pw">
+        The partner portal keeps its own viewer login &mdash; Jonah and Viviana, I will set yours up today.
+      </p>
+    </div>
+  </header>
+
+  <!-- 1 -->
+  <section class="block">
+    <div class="time">1:00<small>5 min</small></div>
+    <div>
+      <h2>Introductions and how the site works</h2>
+      <p class="sub">For Jonah and Viviana, who are new to the build.</p>
+      <ul class="items">
+        <li><b>Two front doors.</b>
+          <span class="say">The public site is <code>livehealthychi.com</code>. A password-gated staging copy sits behind it for anything the team needs to review before it goes public.</span>
+        </li>
+        <li><b>Where the internal pages live.</b>
+          <span class="say">A low-opacity &ldquo;A&rdquo; badge on the site opens the admin panel &mdash; status, scope, training, correspondence, and the partner portal all hang off it.</span>
+        </li>
+        <li><b>How work gets requested.</b>
+          <span class="say">Send it to me in writing and it lands in the correspondence archive, so nothing depends on anyone remembering what was said on a call.</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="block">
+    <div class="time">1:05<small>10 min</small></div>
+    <div>
+      <h2><span class="chip c-ship">Shipped</span>What went live</h2>
+      <p class="sub">Since the last check-in on August 11 &mdash; briefly, then on to the decisions.</p>
+      <ul class="ship">
+        <li>
+          <span class="d">Today</span>
+          <span class="t"><b><a href="https://livehealthychi.com/#community-events">ECHO-Chicago Hypertension series is on the site.</a></b> Allie&rsquo;s September 4 ask, now an Upcoming Events card &mdash; free 12-week virtual series for Illinois primary care providers, Tuesdays 8&ndash;9 AM CT from January 12, CME-certified. It stays up through the run and drops off by itself on March 30.</span>
+        </li>
+        <li>
+          <span class="d">Today</span>
+          <span class="t"><b>Blood pressure categories now split severe from emergency.</b> Allie&rsquo;s August 28 note, applied to the <a href="https://livehealthychi.com/chw-training">training page</a>, the <a href="https://livehealthychi.com/insert">CHW pocket guide</a>, and the <a href="https://livehealthychi.com/pamphlet">community tri-fold</a>. Above 180/120, the chart now says which one calls 911 and which one calls a provider.</span>
+        </li>
+        <li>
+          <span class="d">Aug 25</span>
+          <span class="t"><b>Ella&rsquo;s CHW training is cut and published</b> to <a href="https://livehealthychi.com/chw-training"><code>/chw-training</code></a> &mdash; five modules plus a conclusion, <span class="num">36:53</span> total, drawn from <span class="num">1h 14m</span> of footage across <span class="num">126</span> takes. There is an audio-only version with all <span class="num">78</span> topics as jump points.</span>
+        </li>
+        <li>
+          <span class="d">Aug 24</span>
+          <span class="t"><b>The <a href="https://livehealthychi.com/insert">pocket guide</a> and <a href="https://livehealthychi.com/pamphlet">community tri-fold</a> are live</b> &mdash; plus a school version for Ella&rsquo;s submission and a training variant that carries only the QR codes that resolve to something real.</span>
+        </li>
+        <li>
+          <span class="d">Aug 24</span>
+          <span class="t"><b><a href="https://livehealthychi.com/scope"><code>/scope</code></a> is now a live burn-down</b> of Maintenance Package 1, reading hours straight from Clockify rather than a hand-updated page. The original-SOW scope page moved to <code>/scope-archive</code>.</span>
+        </li>
+        <li>
+          <span class="d">Aug 18</span>
+          <span class="t"><b>Amendment #2 is fully executed</b>, the Rush PO came through, and the <span class="num">$5,000</span> invoice went out on August 24. Unused hours expire December 31, 2026.</span>
+        </li>
+        <li>
+          <span class="d">Aug 7</span>
+          <span class="t"><b>Health for All ran on the site</b> August 24 &ndash; September 4 &mdash; the first multi-day event the events system could handle.</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="block">
+    <div class="time">1:15<small>20 min</small></div>
+    <div>
+      <h2><span class="chip c-dec">Decide today</span>Open questions</h2>
+      <p class="sub">These are blocking work or sitting on a printer&rsquo;s doorstep. Each needs an answer, not a discussion.</p>
+
+      <div class="flag">
+        <div class="h">Allie &mdash; the ECHO flyer&rsquo;s QR code is broken</div>
+        It reads &ldquo;Scan or click to register,&rdquo; but it resolves to the ECHO-Chicago
+        <b>newsletter sign-up</b>, not registration. Anyone who scans that flyer joins a mailing
+        list and never registers. If it has already gone out, ECHO should hear about it today.
+        The site card links to their real registration form instead.
+      </div>
+
+      <ul class="items" style="margin-top:22px">
+        <li><b>Does provider training belong in Events?</b>
+          <span class="say">ECHO is CME for clinicians, on a site otherwise written for patients. It is the first item of its kind there.</span>
+          <span class="ask">Keep it in Events, or move it into the partner portal?</span>
+        </li>
+        <li><b>Module 1 has a clinical line that needs a ruling.</b>
+          <span class="say">In <a href="https://livehealthychi.com/chw-training#module-1">Module&nbsp;1</a>, Ella says &ldquo;blood pressure actually is not dangerous, it&rsquo;s very common.&rdquo; Her script had high blood pressure as common but not inevitably dangerous. Both takes are identical, so it cannot be fixed in the edit &mdash; it is either accepted as spoken or re-recorded as a pickup.</span>
+          <span class="ask">Accept, or schedule the pickup?</span>
+        </li>
+        <li><b>The <a href="https://livehealthychi.com/insert">pocket guide</a>&rsquo;s red-flags box became the categories chart.</b>
+          <span class="say">Allie&rsquo;s note said the red box problem is fixed &ldquo;by using this graphic instead.&rdquo; I read that as the chart absorbing the box, which also settles where that box belonged. Worth confirming I read it the way she meant.</span>
+          <span class="ask">Confirm, or put the box back?</span>
+        </li>
+        <li><b>The partner-logo strip on the <a href="https://livehealthychi.com/pamphlet">tri-fold</a>.</b>
+          <span class="say">My read is that it crowds the panel. I will rework it only if the team sees value in it.</span>
+          <span class="ask">Keep it, or cut it?</span>
+        </li>
+        <li><b>The blood pressure log does not exist yet.</b>
+          <span class="say">Its QR code was pulled from the training version because there was nothing to point it at. The fourth code, for the training video, is waiting on the video being published.</span>
+          <span class="ask">Confirm the log sheet is wanted, and I will build it and switch both codes on.</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="block">
+    <div class="time">1:35<small>15 min</small></div>
+    <div>
+      <h2>New workstreams</h2>
+      <p class="sub">Jonah and Viviana are both picking up work that touches the site.</p>
+      <ul class="items">
+        <li><b>Jonah &mdash; site updates ahead of the media work.</b>
+          <span class="say">Described so far only as &ldquo;minor updates in preparation for some media work.&rdquo; I need it specific enough to size.</span>
+          <span class="ask">What is changing, on which pages, and by when?</span>
+        </li>
+        <li><b>Viviana &mdash; taking over <a href="https://livehealthychi.com/portal">portal</a> updates and the newsletter.</b>
+          <span class="say">She needs the portal logins and a walkthrough of how resources are added, tagged by audience, and published.</span>
+          <span class="ask">I would rather rotate the portal passwords as part of this handoff than pass along the current ones &mdash; they have never been rotated. Any objection?</span>
+        </li>
+        <li><b><a href="https://livehealthychi.com/portal">Portal</a> go-live.</b>
+          <span class="say">The resource library already has content in it, so there is no starter set to seed. The signups view and the team guide are both done.</span>
+          <span class="ask">Anything left before we open it to partners?</span>
+        </li>
+        <li><b>How new requests get sized.</b>
+          <span class="say">Maintenance Package 1 is a fixed pot of hours with a live burn-down at <a href="https://livehealthychi.com/scope"><code>/scope</code></a>. Worth showing on screen so requests land against something visible.</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="block">
+    <div class="time">1:50<small>10 min</small></div>
+    <div>
+      <h2><span class="chip c-wait">Waiting</span>What I need back</h2>
+      <p class="sub">Nothing below is blocked on me. Each one has been asked for and has not come back.</p>
+      <div class="waitwrap">
+        <table class="wait">
+          <thead>
+            <tr><th>Who</th><th>What</th><th>Promised</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Ella</td>
+              <td><a href="https://livehealthychi.com/chw-training">Content notes on the training</a> &mdash; accuracy and meaning, not the edit</td>
+              <td class="due">Aug 28</td>
+            </tr>
+            <tr>
+              <td>Allie</td>
+              <td>Finish <a href="https://livehealthychi.com/chw-training">listening to the recording</a>; her read on the content</td>
+              <td class="due">Aug 31</td>
+            </tr>
+            <tr>
+              <td>Allie</td>
+              <td>Clinical sign-off routed to the UCM doctors, before anything is printed</td>
+              <td class="due">Open</td>
+            </tr>
+            <tr>
+              <td>Laurie</td>
+              <td>Changes to the <a href="https://livehealthychi.com/mobile">mobile screening schedule</a>; Marillac spelling</td>
+              <td class="due">Jul 31</td>
+            </tr>
+            <tr>
+              <td>Team</td>
+              <td>One phone photo per <a href="https://livehealthychi.com/mobile">mobile screening stop</a> &mdash; all five are placeholders</td>
+              <td class="due">Jul 31</td>
+            </tr>
+            <tr>
+              <td>Rachel</td>
+              <td>CAB photos and testimonials for Community at the Center</td>
+              <td class="due">Open</td>
+            </tr>
+            <tr>
+              <td>Rebecca</td>
+              <td>Medically accurate blood pressure imagery to replace the current illustrations</td>
+              <td class="due">Open</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="flag" style="background:var(--surface);border:1px solid var(--line)">
+        <div class="h" style="color:var(--ink-3)">One housekeeping item</div>
+        The <b>$5,000 invoice</b> went out August 24 with the Rush PO attached, and I have no
+        confirmation of payment yet.
+      </div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <span><b>Prepared by</b> Gary Ricke, Orbis Design</span>
+    <span><b>Live status</b> <a href="https://livehealthychi.com/status">livehealthychi.com/status</a></span>
+    <span><b>Hours</b> <a href="https://livehealthychi.com/scope">livehealthychi.com/scope</a></span>
+  </footer>
+
+</div>
+</div>
+<script>
+const HASH='279b8fbaf4bcc0cd38315426d9a523c6b12370c9d241d0b8fcff4eb276b9f37e';
+async function sha256(m){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(m));
+  return Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,'0')).join('');}
+async function checkPassword(){
+  const h=await sha256(document.getElementById('pw-input').value);
+  if(h===HASH){ sessionStorage.setItem('lhc_auth','1'); reveal(); }
+  else { document.getElementById('gate-error').textContent='Incorrect password.'; }
+}
+function reveal(){
+  const g=document.getElementById('gate');
+  g.classList.add('fade-out');
+  document.getElementById('app').style.display='';
+  setTimeout(function(){ g.style.display='none'; },450);
+}
+document.getElementById('pw-input').addEventListener('keydown',function(e){ if(e.key==='Enter') checkPassword(); });
+if(sessionStorage.getItem('lhc_auth')==='1'){
+  document.getElementById('gate').style.display='none';
+  document.getElementById('app').style.display='';
+}
+</script>
+</body>
+</html>
