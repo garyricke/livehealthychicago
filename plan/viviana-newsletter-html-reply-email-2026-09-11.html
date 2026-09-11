@@ -1,0 +1,40 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Reply to Viviana — newsletter HTML ready (2026-09-11)</title></head>
+<body style="margin:0; padding:24px; background:#ffffff; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif; color:#1a2535; line-height:1.6;">
+  <div class="copy-control" style="max-width:600px; margin:0 0 18px; display:flex; align-items:center; gap:12px;">
+    <button id="copy-btn" onclick="copyEmail()" style="display:inline-flex; align-items:center; gap:8px; background:#1B365D; color:#fff; border:none; border-radius:8px; padding:10px 16px; font-family:inherit; font-size:14px; font-weight:600; cursor:pointer;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+      Copy email
+    </button>
+    <span id="copy-status" style="font-size:13px; color:#4a5568;">Reply on "Re: Meeting Agenda" (Viviana; Allie + Jonah already on the thread).</span>
+  </div>
+  <div id="email-body" style="max-width:600px; margin:0; background:#ffffff;">
+    <p style="margin:0 0 16px;">Hi Viviana,</p>
+    <p style="margin:0 0 16px;">Sorry for the wait — the newsletter is ready, and it's a real HTML email now rather than a PDF, so it reads properly on a phone and survives being forwarded.</p>
+    <a href="https://livehealthychi.com/newsletter/september-2026-copy" style="text-decoration:none;"><img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto:good,w_1100/v1789149376/orbis/lhc-newsletter-sept-2026-preview.png" alt="Preview of the September newsletter as an HTML email" style="display:block; width:100%; max-width:600px; height:auto; border:1px solid #dce3ed; border-radius:10px;"></a><p style="margin:6px 0 18px; font-size:13px; color:#4a5568;">The September issue, rebuilt as an email.</p>
+    <p style="margin:0 0 24px;"><a href="https://livehealthychi.com/newsletter/september-2026-copy" style="display:inline-block; background:#1B365D; color:#ffffff; text-decoration:none; font-weight:600; font-size:15px; padding:12px 22px; border-radius:8px;">Open the copy-paste version &rarr;</a></p>
+    <p style="margin:0 0 6px; font-size:13px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:#1B365D;">How to send it</p>
+    <ol style="margin:0 0 16px; padding-left:20px;">
+      <li style="margin-bottom:6px;">Open the link above and click <strong>Copy newsletter</strong>.</li>
+      <li style="margin-bottom:6px;">Start a new message in Outlook and paste. The layout, colors, and links come with it.</li>
+      <li style="margin-bottom:6px;">Send yourself a test first and open it on your phone — that's the view most people will see.</li>
+    </ol>
+    <p style="margin:0 0 16px;">There's also a plain web version at <a href="https://livehealthychi.com/newsletter/september-2026" style="color:#1B365D;">livehealthychi.com/newsletter/september-2026</a>. The email links to it at the top ("View online"), so anyone whose mail client mangles things has a fallback.</p>
+    <p style="margin:0 0 6px; font-size:13px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:#1B365D;">What I changed from the PDF</p>
+    <ul style="margin:0 0 16px; padding-left:20px;">
+      <li style="margin-bottom:6px;"><strong>Added Allie's closing line</strong> as a banner at the bottom — "Sign up for LHC newsletter updates and more by registering for our partner portal" — with a button to the portal.</li>
+      <li style="margin-bottom:6px;"><strong>Fixed the All-Partners "Register Here" link</strong> on page 3. It pointed at the Google Form's <em>edit</em> page, which would have shown recipients a permission error. Both register buttons now use the public form link.</li>
+      <li style="margin-bottom:6px;"><strong>Cleaned the ECHO-Chicago link</strong> — it was wrapped in an Outlook safelinks redirect; it now goes straight to echo-chicago.org.</li>
+      <li style="margin-bottom:6px;">The Top 3 and the opportunity cards stack vertically so they work on a phone. The words are yours, unchanged.</li>
+    </ul>
+    <p style="margin:0 0 16px;">One heads-up: the "What's Your Why, Chi?" ad image in the PDF is small, so it's a little soft in the email. If Jonah can send a larger version I'll swap it in.</p>
+    <p style="margin:0 0 16px;">The Heart Walk and the CHW training are also on the website's events page now, so the "current schedule" link in the newsletter has something to land on.</p>
+    <p style="margin:0 0 4px;">Thanks,</p>
+    <p style="margin:0;">Gary</p>
+  </div>
+<script>
+  function setStatus(m,ok){var s=document.getElementById('copy-status');s.textContent=m;s.style.color=ok?'#1a7f37':'#b42318';}
+  function selectFallback(el){try{var r=document.createRange();r.selectNode(el);var s=window.getSelection();s.removeAllRanges();s.addRange(r);var ok=document.execCommand('copy');s.removeAllRanges();setStatus(ok?'✓ Copied — paste into your email':'Press ⌘C to copy the selected email',ok);}catch(e){setStatus('Select the email and press ⌘C',false);}}
+  function copyEmail(){var el=document.getElementById('email-body');if(navigator.clipboard&&window.ClipboardItem){var d=[new ClipboardItem({'text/html':new Blob([el.outerHTML],{type:'text/html'}),'text/plain':new Blob([el.innerText],{type:'text/plain'})})];navigator.clipboard.write(d).then(function(){setStatus('✓ Copied — paste into your email (formatting included)',true);},function(){selectFallback(el);});}else{selectFallback(el);}}
+</script>
+</body></html>
