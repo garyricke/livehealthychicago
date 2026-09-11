@@ -1,0 +1,37 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Email to Ella — Module 1 pickup line (2026-09-11)</title></head>
+<body style="margin:0; padding:24px; background:#ffffff; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif; color:#1a2535; line-height:1.6;">
+  <div class="copy-control" style="max-width:600px; margin:0 0 18px; display:flex; align-items:center; gap:12px;">
+    <button id="copy-btn" onclick="copyEmail()" style="display:inline-flex; align-items:center; gap:8px; background:#1B365D; color:#fff; border:none; border-radius:8px; padding:10px 16px; font-family:inherit; font-size:14px; font-weight:600; cursor:pointer;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+      Copy email
+    </button>
+    <span id="copy-status" style="font-size:13px; color:#4a5568;">New email to Ella (cc Allie). Subject: One line to re-record for Module 1</span>
+  </div>
+  <div id="email-body" style="max-width:600px; margin:0; background:#ffffff;">
+    <p style="margin:0 0 16px;">Hi Ella,</p>
+    <p style="margin:0 0 16px;">Allie's thrilled with the training — so am I. There's one line to fix before it goes on the portal, and it's a quick one.</p>
+    <p style="margin:0 0 16px;">At the end of Module 1 the line came out as <em>"blood pressure actually is not dangerous, it's very common."</em> Both takes have it that way, so I can't fix it in the edit. Your script had the right idea — common, but not something people are stuck with — so I'd like to record that one sentence again.</p>
+
+    <div style="border-left:4px solid #1B365D; background:#F2F6FA; padding:14px 18px; margin:0 0 16px; border-radius:0 8px 8px 0;">
+      <p style="margin:0 0 6px; font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:#1B365D;">The pickup line</p>
+      <p style="margin:0; font-size:17px; line-height:1.5; color:#1a2535;">"High blood pressure is very common — and it doesn't have to be dangerous. Once you know your numbers, understand your risk, and have support, you can protect your body."</p>
+    </div>
+    <p style="margin:0 0 16px;">Put it in your own words if that reads stiff — the point is just that <em>high</em> blood pressure is common, and that it's manageable, not harmless.</p>
+
+    <p style="margin:0 0 6px; font-size:13px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:#1B365D;">How to record it</p>
+    <ul style="margin:0 0 16px; padding-left:20px;">
+      <li style="margin-bottom:6px;">Your phone's voice memo app is perfect. A quiet room, phone about a hand's width from your mouth.</li>
+      <li style="margin-bottom:6px;">Say it three times in a row, with a pause between, at the same energy you had on the shoot day. I'll pick the best one.</li>
+      <li style="margin-bottom:6px;">Send me the file as-is — no need to trim anything.</li>
+    </ul>
+    <p style="margin:0 0 16px;">I'll lay it in over one of the Module 1 graphics so the cut is invisible, then publish the corrected version and let Allie know it's on the portal.</p>
+    <p style="margin:0 0 4px;">Thanks — nearly there.</p>
+    <p style="margin:0;">Gary</p>
+  </div>
+<script>
+  function setStatus(m,ok){var s=document.getElementById('copy-status');s.textContent=m;s.style.color=ok?'#1a7f37':'#b42318';}
+  function selectFallback(el){try{var r=document.createRange();r.selectNode(el);var s=window.getSelection();s.removeAllRanges();s.addRange(r);var ok=document.execCommand('copy');s.removeAllRanges();setStatus(ok?'✓ Copied — paste into your email':'Press ⌘C to copy the selected email',ok);}catch(e){setStatus('Select the email and press ⌘C',false);}}
+  function copyEmail(){var el=document.getElementById('email-body');if(navigator.clipboard&&window.ClipboardItem){var d=[new ClipboardItem({'text/html':new Blob([el.outerHTML],{type:'text/html'}),'text/plain':new Blob([el.innerText],{type:'text/plain'})})];navigator.clipboard.write(d).then(function(){setStatus('✓ Copied — paste into your email (formatting included)',true);},function(){selectFallback(el);});}else{selectFallback(el);}}
+</script>
+</body></html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Reply to Jonah — digital pilot landing page (2026-09-11)</title></head>
+<body style="margin:0; padding:24px; background:#ffffff; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif; color:#1a2535; line-height:1.6;">
+  <div class="copy-control" style="max-width:600px; margin:0 0 18px; display:flex; align-items:center; gap:12px;">
+    <button id="copy-btn" onclick="copyEmail()" style="display:inline-flex; align-items:center; gap:8px; background:#1B365D; color:#fff; border:none; border-radius:8px; padding:10px 16px; font-family:inherit; font-size:14px; font-weight:600; cursor:pointer;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+      Copy email
+    </button>
+    <span id="copy-status" style="font-size:13px; color:#4a5568;">Reply-all on "Connecting Around LHC Website" (Jonah; cc Allie, Viviana).</span>
+  </div>
+  <div id="email-body" style="max-width:600px; margin:0; background:#ffffff;">
+    <p style="margin:0 0 16px;">Hi Jonah,</p>
+    <p style="margin:0 0 16px;">Great to meet you too, and thanks for the concept — it's a clear brief. The shape is right for an ad landing page: one promise up top, a "What's Your Why, Chi?" moment, the six everyday tips, and three doors out. Most of those doors already exist on the site, so this is more assembly than invention.</p>
+
+    <p style="margin:0 0 6px; font-size:13px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:#1B365D;">How I'd build it</p>
+    <ul style="margin:0 0 16px; padding-left:20px;">
+      <li style="margin-bottom:8px;"><strong>Its own short URL</strong>, separate from the homepage, so the ads have a clean link and we can see exactly how many people arrive from the campaign versus everywhere else.</li>
+      <li style="margin-bottom:8px;"><strong>Built for a phone first.</strong> Nearly everyone who taps an ad will be on one. The six tips become a swipeable row, the three doors stack.</li>
+      <li style="margin-bottom:8px;"><strong>Real people in the photo.</strong> The image in the concept is a stand-in — I'd use one of the field photos already approved for the site, so the page matches the ads' neighborhoods.</li>
+      <li style="margin-bottom:8px;"><strong>The three doors:</strong> "Find a blood pressure check" goes to the live events and mobile-team schedule; "Get support" goes to the resources. "Find care near you" is the one we don't have yet — see below.</li>
+    </ul>
+
+    <p style="margin:0 0 6px; font-size:13px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:#1B365D;">What I need to know</p>
+    <ul style="margin:0 0 16px; padding-left:20px;">
+      <li style="margin-bottom:8px;"><strong>Timing.</strong> When do the ads start running, and for how long? That sets my deadline and how long the page should stay up as-is.</li>
+      <li style="margin-bottom:8px;"><strong>"Find care near you."</strong> What should be behind it — a list of coalition clinics, a CDPH locator, something else? If there's a partner list for the six pilot zip codes, that would do it.</li>
+      <li style="margin-bottom:8px;"><strong>Spanish.</strong> The pilot spans languages — will there be Spanish-language ads, and if so should the page have a Spanish version on day one?</li>
+      <li style="margin-bottom:8px;"><strong>Tracking.</strong> Does your team have UTM tags or a pixel you'll want on the page, so the ad platform and the site agree on the numbers?</li>
+    </ul>
+    <p style="margin:0 0 16px;">Send me what you have and I'll get a first version up for the group to click through. Looking forward to it.</p>
+    <p style="margin:0 0 4px;">Thanks,</p>
+    <p style="margin:0;">Gary</p>
+  </div>
+<script>
+  function setStatus(m,ok){var s=document.getElementById('copy-status');s.textContent=m;s.style.color=ok?'#1a7f37':'#b42318';}
+  function selectFallback(el){try{var r=document.createRange();r.selectNode(el);var s=window.getSelection();s.removeAllRanges();s.addRange(r);var ok=document.execCommand('copy');s.removeAllRanges();setStatus(ok?'✓ Copied — paste into your email':'Press ⌘C to copy the selected email',ok);}catch(e){setStatus('Select the email and press ⌘C',false);}}
+  function copyEmail(){var el=document.getElementById('email-body');if(navigator.clipboard&&window.ClipboardItem){var d=[new ClipboardItem({'text/html':new Blob([el.outerHTML],{type:'text/html'}),'text/plain':new Blob([el.innerText],{type:'text/plain'})})];navigator.clipboard.write(d).then(function(){setStatus('✓ Copied — paste into your email (formatting included)',true);},function(){selectFallback(el);});}else{selectFallback(el);}}
+</script>
+</body></html>

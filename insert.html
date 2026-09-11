@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex,nofollow">
-<title>CHW Pocket Guide — Insert (Draft)</title>
+<title>CHW Pocket Guide — Insert</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
@@ -112,15 +112,6 @@ table.dom tr:last-child td{border-bottom:0;}
 
 .footstrip{background:var(--navy);color:#fff;padding:9px 12px;border-radius:8px;display:flex;align-items:center;gap:10px;}
 
-/* ---------- training variant (Aug 25 training) ----------
-   Ella, 8/24: run the Aug 25 training without the Blood Pressure Log QR
-   (the printable log sheet does not exist yet) and without the placeholder
-   video QR (video still in production). The two remaining codes both resolve
-   today, and dropping to a 2-up grid makes them larger and easier to scan. */
-body.training .qr-video,
-body.training .qr-bplog{display:none !important;}
-body.training .qrgrid{grid-template-columns:repeat(2,1fr);gap:16px;max-width:70%;margin:0 auto;}
-body.training .qrgrid .cap{font-size:6.6pt;}
 
 @page{size:11in 8.5in;margin:0;}
 @media print{
@@ -136,10 +127,9 @@ body.training .qrgrid .cap{font-size:6.6pt;}
 <body>
 
 <div class="bar">
-  <span class="pill">Draft</span>
+  <span class="pill">Final</span>
   <h1>CHW Pocket Guide — Insert</h1>
-  <button id="variant-btn" onclick="toggleVariant()" style="margin-left:auto;background:#fff;color:#1B365D;">Switch to training version (2 QR codes)</button>
-  <button onclick="window.print()" style="margin-left:0;">Save as PDF</button>
+  <button onclick="window.print()">Save as PDF</button>
 </div>
 
 <div class="note">
@@ -207,7 +197,7 @@ body.training .qrgrid .cap{font-size:6.6pt;}
         <h3 class="sec" style="color:var(--navy);justify-content:center;">Resources to share</h3>
         <div class="qrgrid">
           <div class="qrcell qr-video">
-            <div class="qrpend"><span>Training video<br>link pending</span></div>
+            <svg viewBox="0 0 33 33" shape-rendering="crispEdges" aria-label="QR code to the CHW training video at livehealthychi.com/chw-training"><rect width="33" height="33" fill="#fff"/><path fill="#1B365D" d="M2 2h7v1h-7zM15 2h3v1h-3zM19 2h4v1h-4zM24 2h7v1h-7zM2 3h1v1h-1zM8 3h1v1h-1zM13 3h1v1h-1zM17 3h2v1h-2zM20 3h1v1h-1zM22 3h1v1h-1zM24 3h1v1h-1zM30 3h1v1h-1zM2 4h1v1h-1zM4 4h3v1h-3zM8 4h1v1h-1zM11 4h4v1h-4zM16 4h2v1h-2zM19 4h2v1h-2zM24 4h1v1h-1zM26 4h3v1h-3zM30 4h1v1h-1zM2 5h1v1h-1zM4 5h3v1h-3zM8 5h1v1h-1zM13 5h1v1h-1zM16 5h1v1h-1zM20 5h1v1h-1zM24 5h1v1h-1zM26 5h3v1h-3zM30 5h1v1h-1zM2 6h1v1h-1zM4 6h3v1h-3zM8 6h1v1h-1zM13 6h1v1h-1zM16 6h3v1h-3zM20 6h1v1h-1zM24 6h1v1h-1zM26 6h3v1h-3zM30 6h1v1h-1zM2 7h1v1h-1zM8 7h1v1h-1zM10 7h2v1h-2zM13 7h2v1h-2zM17 7h3v1h-3zM21 7h2v1h-2zM24 7h1v1h-1zM30 7h1v1h-1zM2 8h7v1h-7zM10 8h1v1h-1zM12 8h1v1h-1zM14 8h1v1h-1zM16 8h1v1h-1zM18 8h1v1h-1zM20 8h1v1h-1zM22 8h1v1h-1zM24 8h7v1h-7zM11 9h1v1h-1zM13 9h2v1h-2zM17 9h4v1h-4zM2 10h1v1h-1zM5 10h1v1h-1zM7 10h2v1h-2zM10 10h1v1h-1zM12 10h2v1h-2zM15 10h4v1h-4zM21 10h1v1h-1zM23 10h1v1h-1zM25 10h1v1h-1zM4 11h2v1h-2zM9 11h1v1h-1zM11 11h2v1h-2zM15 11h1v1h-1zM18 11h1v1h-1zM22 11h3v1h-3zM27 11h1v1h-1zM30 11h1v1h-1zM2 12h1v1h-1zM5 12h6v1h-6zM13 12h2v1h-2zM18 12h2v1h-2zM21 12h1v1h-1zM24 12h6v1h-6zM3 13h1v1h-1zM6 13h1v1h-1zM10 13h1v1h-1zM12 13h2v1h-2zM15 13h1v1h-1zM17 13h1v1h-1zM20 13h1v1h-1zM22 13h2v1h-2zM25 13h1v1h-1zM28 13h2v1h-2zM3 14h1v1h-1zM5 14h2v1h-2zM8 14h2v1h-2zM12 14h1v1h-1zM14 14h1v1h-1zM16 14h1v1h-1zM18 14h2v1h-2zM22 14h3v1h-3zM27 14h1v1h-1zM29 14h2v1h-2zM2 15h1v1h-1zM5 15h1v1h-1zM9 15h1v1h-1zM12 15h1v1h-1zM15 15h1v1h-1zM21 15h3v1h-3zM2 16h2v1h-2zM5 16h6v1h-6zM15 16h2v1h-2zM18 16h2v1h-2zM22 16h4v1h-4zM27 16h4v1h-4zM2 17h1v1h-1zM7 17h1v1h-1zM12 17h1v1h-1zM14 17h1v1h-1zM19 17h3v1h-3zM27 17h1v1h-1zM29 17h1v1h-1zM5 18h6v1h-6zM14 18h2v1h-2zM18 18h3v1h-3zM23 18h1v1h-1zM25 18h1v1h-1zM29 18h1v1h-1zM3 19h1v1h-1zM5 19h3v1h-3zM11 19h1v1h-1zM15 19h2v1h-2zM18 19h2v1h-2zM23 19h3v1h-3zM27 19h1v1h-1zM30 19h1v1h-1zM2 20h1v1h-1zM5 20h4v1h-4zM12 20h3v1h-3zM16 20h1v1h-1zM18 20h2v1h-2zM22 20h1v1h-1zM24 20h3v1h-3zM29 20h2v1h-2zM4 21h1v1h-1zM6 21h1v1h-1zM10 21h2v1h-2zM13 21h1v1h-1zM16 21h2v1h-2zM19 21h2v1h-2zM24 21h3v1h-3zM29 21h2v1h-2zM2 22h1v1h-1zM4 22h5v1h-5zM10 22h1v1h-1zM12 22h3v1h-3zM21 22h6v1h-6zM28 22h1v1h-1zM10 23h2v1h-2zM16 23h1v1h-1zM18 23h2v1h-2zM21 23h2v1h-2zM26 23h1v1h-1zM28 23h3v1h-3zM2 24h7v1h-7zM11 24h1v1h-1zM13 24h1v1h-1zM18 24h3v1h-3zM22 24h1v1h-1zM24 24h1v1h-1zM26 24h1v1h-1zM29 24h1v1h-1zM2 25h1v1h-1zM8 25h1v1h-1zM10 25h5v1h-5zM16 25h3v1h-3zM20 25h1v1h-1zM22 25h1v1h-1zM26 25h3v1h-3zM30 25h1v1h-1zM2 26h1v1h-1zM4 26h3v1h-3zM8 26h1v1h-1zM14 26h1v1h-1zM17 26h3v1h-3zM22 26h5v1h-5zM29 26h2v1h-2zM2 27h1v1h-1zM4 27h3v1h-3zM8 27h1v1h-1zM10 27h3v1h-3zM15 27h1v1h-1zM18 27h1v1h-1zM24 27h6v1h-6zM2 28h1v1h-1zM4 28h3v1h-3zM8 28h1v1h-1zM13 28h2v1h-2zM16 28h1v1h-1zM19 28h3v1h-3zM26 28h3v1h-3zM30 28h1v1h-1zM2 29h1v1h-1zM8 29h1v1h-1zM14 29h2v1h-2zM18 29h2v1h-2zM22 29h1v1h-1zM24 29h2v1h-2zM29 29h1v1h-1zM2 30h7v1h-7zM10 30h1v1h-1zM12 30h3v1h-3zM18 30h2v1h-2zM22 30h1v1h-1zM25 30h1v1h-1zM27 30h1v1h-1zM29 30h1v1h-1z"/></svg>
             <div class="cap">Watch the<br>training video</div>
           </div>
           <div class="qrcell">
@@ -215,8 +205,8 @@ body.training .qrgrid .cap{font-size:6.6pt;}
             <div class="cap">Live Healthy<br>Chicago</div>
           </div>
           <div class="qrcell qr-bplog">
-            <svg viewBox="0 0 33 33" shape-rendering="crispEdges" aria-label="QR code to livehealthychi.com/check"><rect width="33" height="33" fill="#fff"/><path fill="#1B365D" d="M2 2h7v1h-7zM10 2h1v1h-1zM12 2h2v1h-2zM19 2h2v1h-2zM22 2h1v1h-1zM24 2h7v1h-7zM2 3h1v1h-1zM8 3h1v1h-1zM12 3h3v1h-3zM18 3h2v1h-2zM21 3h1v1h-1zM24 3h1v1h-1zM30 3h1v1h-1zM2 4h1v1h-1zM4 4h3v1h-3zM8 4h1v1h-1zM11 4h1v1h-1zM13 4h1v1h-1zM15 4h1v1h-1zM17 4h3v1h-3zM24 4h1v1h-1zM26 4h3v1h-3zM30 4h1v1h-1zM2 5h1v1h-1zM4 5h3v1h-3zM8 5h1v1h-1zM10 5h1v1h-1zM12 5h3v1h-3zM16 5h3v1h-3zM20 5h2v1h-2zM24 5h1v1h-1zM26 5h3v1h-3zM30 5h1v1h-1zM2 6h1v1h-1zM4 6h3v1h-3zM8 6h1v1h-1zM10 6h1v1h-1zM12 6h5v1h-5zM18 6h1v1h-1zM20 6h1v1h-1zM24 6h1v1h-1zM26 6h3v1h-3zM30 6h1v1h-1zM2 7h1v1h-1zM8 7h1v1h-1zM10 7h3v1h-3zM15 7h3v1h-3zM19 7h4v1h-4zM24 7h1v1h-1zM30 7h1v1h-1zM2 8h7v1h-7zM10 8h1v1h-1zM12 8h1v1h-1zM14 8h1v1h-1zM16 8h1v1h-1zM18 8h1v1h-1zM20 8h1v1h-1zM22 8h1v1h-1zM24 8h7v1h-7zM10 9h1v1h-1zM12 9h2v1h-2zM16 9h1v1h-1zM19 9h2v1h-2zM2 10h1v1h-1zM6 10h1v1h-1zM8 10h3v1h-3zM15 10h5v1h-5zM22 10h6v1h-6zM30 10h1v1h-1zM2 11h1v1h-1zM5 11h3v1h-3zM11 11h1v1h-1zM14 11h1v1h-1zM19 11h2v1h-2zM24 11h7v1h-7zM5 12h1v1h-1zM8 12h1v1h-1zM15 12h3v1h-3zM20 12h1v1h-1zM22 12h2v1h-2zM30 12h1v1h-1zM2 13h1v1h-1zM4 13h1v1h-1zM6 13h2v1h-2zM10 13h2v1h-2zM13 13h1v1h-1zM15 13h1v1h-1zM17 13h5v1h-5zM23 13h2v1h-2zM27 13h1v1h-1zM29 13h2v1h-2zM5 14h2v1h-2zM8 14h2v1h-2zM11 14h2v1h-2zM14 14h2v1h-2zM19 14h1v1h-1zM21 14h3v1h-3zM29 14h1v1h-1zM2 15h1v1h-1zM7 15h1v1h-1zM12 15h1v1h-1zM15 15h2v1h-2zM18 15h3v1h-3zM24 15h7v1h-7zM5 16h2v1h-2zM8 16h2v1h-2zM13 16h2v1h-2zM18 16h3v1h-3zM22 16h1v1h-1zM24 16h5v1h-5zM30 16h1v1h-1zM5 17h2v1h-2zM10 17h2v1h-2zM14 17h1v1h-1zM16 17h1v1h-1zM19 17h2v1h-2zM24 17h1v1h-1zM29 17h2v1h-2zM3 18h1v1h-1zM8 18h4v1h-4zM14 18h4v1h-4zM19 18h2v1h-2zM23 18h1v1h-1zM25 18h1v1h-1zM29 18h1v1h-1zM2 19h2v1h-2zM6 19h1v1h-1zM12 19h1v1h-1zM19 19h2v1h-2zM24 19h4v1h-4zM29 19h2v1h-2zM4 20h1v1h-1zM7 20h2v1h-2zM11 20h1v1h-1zM15 20h3v1h-3zM20 20h1v1h-1zM23 20h2v1h-2zM28 20h1v1h-1zM30 20h1v1h-1zM6 21h1v1h-1zM9 21h1v1h-1zM11 21h5v1h-5zM18 21h3v1h-3zM24 21h3v1h-3zM29 21h2v1h-2zM2 22h7v1h-7zM10 22h2v1h-2zM13 22h1v1h-1zM15 22h1v1h-1zM17 22h1v1h-1zM19 22h1v1h-1zM22 22h6v1h-6zM30 22h1v1h-1zM10 23h4v1h-4zM15 23h4v1h-4zM20 23h3v1h-3zM26 23h1v1h-1zM30 23h1v1h-1zM2 24h7v1h-7zM10 24h2v1h-2zM17 24h1v1h-1zM21 24h2v1h-2zM24 24h1v1h-1zM26 24h3v1h-3zM30 24h1v1h-1zM2 25h1v1h-1zM8 25h1v1h-1zM12 25h1v1h-1zM14 25h1v1h-1zM16 25h1v1h-1zM18 25h5v1h-5zM26 25h1v1h-1zM29 25h2v1h-2zM2 26h1v1h-1zM4 26h3v1h-3zM8 26h1v1h-1zM10 26h3v1h-3zM15 26h2v1h-2zM19 26h1v1h-1zM21 26h7v1h-7zM2 27h1v1h-1zM4 27h3v1h-3zM8 27h1v1h-1zM12 27h3v1h-3zM17 27h7v1h-7zM30 27h1v1h-1zM2 28h1v1h-1zM4 28h3v1h-3zM8 28h1v1h-1zM11 28h2v1h-2zM14 28h1v1h-1zM16 28h2v1h-2zM19 28h1v1h-1zM21 28h1v1h-1zM23 28h1v1h-1zM27 28h4v1h-4zM2 29h1v1h-1zM8 29h1v1h-1zM12 29h1v1h-1zM14 29h1v1h-1zM17 29h1v1h-1zM19 29h1v1h-1zM21 29h2v1h-2zM25 29h1v1h-1zM27 29h1v1h-1zM29 29h2v1h-2zM2 30h7v1h-7zM10 30h3v1h-3zM14 30h1v1h-1zM19 30h1v1h-1zM22 30h1v1h-1zM25 30h1v1h-1zM27 30h1v1h-1zM29 30h1v1h-1z"/></svg>
-            <div class="cap">Log a blood<br>pressure check</div>
+            <svg viewBox="0 0 33 33" shape-rendering="crispEdges" aria-label="QR code to the blood pressure log at livehealthychi.com/bp-log"><rect width="33" height="33" fill="#fff"/><path fill="#1B365D" d="M2 2h7v1h-7zM10 2h3v1h-3zM14 2h4v1h-4zM20 2h1v1h-1zM22 2h1v1h-1zM24 2h7v1h-7zM2 3h1v1h-1zM8 3h1v1h-1zM14 3h1v1h-1zM17 3h1v1h-1zM19 3h2v1h-2zM22 3h1v1h-1zM24 3h1v1h-1zM30 3h1v1h-1zM2 4h1v1h-1zM4 4h3v1h-3zM8 4h1v1h-1zM10 4h2v1h-2zM15 4h1v1h-1zM19 4h4v1h-4zM24 4h1v1h-1zM26 4h3v1h-3zM30 4h1v1h-1zM2 5h1v1h-1zM4 5h3v1h-3zM8 5h1v1h-1zM11 5h1v1h-1zM13 5h2v1h-2zM17 5h5v1h-5zM24 5h1v1h-1zM26 5h3v1h-3zM30 5h1v1h-1zM2 6h1v1h-1zM4 6h3v1h-3zM8 6h1v1h-1zM11 6h3v1h-3zM17 6h4v1h-4zM24 6h1v1h-1zM26 6h3v1h-3zM30 6h1v1h-1zM2 7h1v1h-1zM8 7h1v1h-1zM10 7h2v1h-2zM14 7h3v1h-3zM18 7h2v1h-2zM24 7h1v1h-1zM30 7h1v1h-1zM2 8h7v1h-7zM10 8h1v1h-1zM12 8h1v1h-1zM14 8h1v1h-1zM16 8h1v1h-1zM18 8h1v1h-1zM20 8h1v1h-1zM22 8h1v1h-1zM24 8h7v1h-7zM11 9h2v1h-2zM14 9h2v1h-2zM20 9h1v1h-1zM2 10h1v1h-1zM4 10h1v1h-1zM8 10h2v1h-2zM13 10h1v1h-1zM15 10h1v1h-1zM17 10h2v1h-2zM22 10h1v1h-1zM25 10h1v1h-1zM28 10h1v1h-1zM30 10h1v1h-1zM6 11h2v1h-2zM11 11h4v1h-4zM18 11h2v1h-2zM21 11h2v1h-2zM24 11h2v1h-2zM29 11h2v1h-2zM2 12h2v1h-2zM6 12h3v1h-3zM13 12h1v1h-1zM15 12h2v1h-2zM18 12h1v1h-1zM21 12h1v1h-1zM23 12h1v1h-1zM26 12h3v1h-3zM30 12h1v1h-1zM4 13h2v1h-2zM10 13h3v1h-3zM16 13h3v1h-3zM20 13h2v1h-2zM25 13h1v1h-1zM27 13h1v1h-1zM2 14h1v1h-1zM4 14h1v1h-1zM6 14h6v1h-6zM14 14h3v1h-3zM18 14h1v1h-1zM21 14h2v1h-2zM24 14h2v1h-2zM30 14h1v1h-1zM2 15h3v1h-3zM6 15h1v1h-1zM10 15h1v1h-1zM12 15h5v1h-5zM19 15h1v1h-1zM21 15h2v1h-2zM24 15h2v1h-2zM29 15h2v1h-2zM6 16h1v1h-1zM8 16h2v1h-2zM17 16h1v1h-1zM19 16h1v1h-1zM21 16h1v1h-1zM24 16h2v1h-2zM30 16h1v1h-1zM7 17h1v1h-1zM12 17h1v1h-1zM15 17h1v1h-1zM17 17h2v1h-2zM20 17h1v1h-1zM23 17h1v1h-1zM25 17h1v1h-1zM3 18h4v1h-4zM8 18h1v1h-1zM11 18h1v1h-1zM13 18h3v1h-3zM17 18h2v1h-2zM20 18h1v1h-1zM24 18h1v1h-1zM30 18h1v1h-1zM7 19h1v1h-1zM11 19h1v1h-1zM13 19h2v1h-2zM17 19h3v1h-3zM21 19h2v1h-2zM24 19h2v1h-2zM28 19h3v1h-3zM2 20h2v1h-2zM6 20h1v1h-1zM8 20h1v1h-1zM10 20h1v1h-1zM13 20h5v1h-5zM21 20h4v1h-4zM26 20h2v1h-2zM30 20h1v1h-1zM4 21h2v1h-2zM14 21h1v1h-1zM16 21h3v1h-3zM20 21h1v1h-1zM23 21h1v1h-1zM26 21h1v1h-1zM2 22h4v1h-4zM7 22h3v1h-3zM11 22h1v1h-1zM13 22h4v1h-4zM18 22h1v1h-1zM22 22h6v1h-6zM29 22h1v1h-1zM10 23h2v1h-2zM13 23h1v1h-1zM15 23h4v1h-4zM22 23h1v1h-1zM26 23h3v1h-3zM30 23h1v1h-1zM2 24h7v1h-7zM10 24h1v1h-1zM13 24h2v1h-2zM17 24h2v1h-2zM20 24h1v1h-1zM22 24h1v1h-1zM24 24h1v1h-1zM26 24h1v1h-1zM30 24h1v1h-1zM2 25h1v1h-1zM8 25h1v1h-1zM12 25h1v1h-1zM14 25h2v1h-2zM18 25h1v1h-1zM21 25h2v1h-2zM26 25h1v1h-1zM29 25h1v1h-1zM2 26h1v1h-1zM4 26h3v1h-3zM8 26h1v1h-1zM12 26h1v1h-1zM15 26h1v1h-1zM18 26h1v1h-1zM21 26h7v1h-7zM29 26h2v1h-2zM2 27h1v1h-1zM4 27h3v1h-3zM8 27h1v1h-1zM14 27h2v1h-2zM17 27h2v1h-2zM20 27h1v1h-1zM23 27h1v1h-1zM26 27h3v1h-3zM30 27h1v1h-1zM2 28h1v1h-1zM4 28h3v1h-3zM8 28h1v1h-1zM10 28h3v1h-3zM17 28h1v1h-1zM19 28h2v1h-2zM22 28h2v1h-2zM26 28h1v1h-1zM29 28h2v1h-2zM2 29h1v1h-1zM8 29h1v1h-1zM12 29h1v1h-1zM14 29h1v1h-1zM16 29h1v1h-1zM18 29h1v1h-1zM21 29h4v1h-4zM27 29h1v1h-1zM2 30h7v1h-7zM10 30h2v1h-2zM14 30h1v1h-1zM18 30h1v1h-1zM20 30h1v1h-1zM22 30h3v1h-3zM27 30h1v1h-1zM30 30h1v1h-1z"/></svg>
+            <div class="cap">Blood pressure<br>log (EN / ES)</div>
           </div>
           <div class="qrcell">
             <svg viewBox="0 0 33 33" shape-rendering="crispEdges" aria-label="QR code to the resource portal"><rect width="33" height="33" fill="#fff"/><path fill="#1B365D" d="M2 2h7v1h-7zM11 2h2v1h-2zM14 2h1v1h-1zM16 2h1v1h-1zM19 2h4v1h-4zM24 2h7v1h-7zM2 3h1v1h-1zM8 3h1v1h-1zM10 3h2v1h-2zM14 3h2v1h-2zM20 3h3v1h-3zM24 3h1v1h-1zM30 3h1v1h-1zM2 4h1v1h-1zM4 4h3v1h-3zM8 4h1v1h-1zM11 4h4v1h-4zM17 4h1v1h-1zM20 4h1v1h-1zM22 4h1v1h-1zM24 4h1v1h-1zM26 4h3v1h-3zM30 4h1v1h-1zM2 5h1v1h-1zM4 5h3v1h-3zM8 5h1v1h-1zM11 5h1v1h-1zM14 5h2v1h-2zM18 5h1v1h-1zM20 5h1v1h-1zM24 5h1v1h-1zM26 5h3v1h-3zM30 5h1v1h-1zM2 6h1v1h-1zM4 6h3v1h-3zM8 6h1v1h-1zM10 6h1v1h-1zM12 6h1v1h-1zM15 6h1v1h-1zM18 6h1v1h-1zM20 6h2v1h-2zM24 6h1v1h-1zM26 6h3v1h-3zM30 6h1v1h-1zM2 7h1v1h-1zM8 7h1v1h-1zM14 7h1v1h-1zM16 7h3v1h-3zM21 7h1v1h-1zM24 7h1v1h-1zM30 7h1v1h-1zM2 8h7v1h-7zM10 8h1v1h-1zM12 8h1v1h-1zM14 8h1v1h-1zM16 8h1v1h-1zM18 8h1v1h-1zM20 8h1v1h-1zM22 8h1v1h-1zM24 8h7v1h-7zM11 9h1v1h-1zM17 9h1v1h-1zM19 9h3v1h-3zM2 10h1v1h-1zM4 10h1v1h-1zM6 10h1v1h-1zM8 10h1v1h-1zM18 10h2v1h-2zM21 10h2v1h-2zM26 10h1v1h-1zM29 10h1v1h-1zM2 11h3v1h-3zM7 11h1v1h-1zM10 11h2v1h-2zM15 11h1v1h-1zM17 11h2v1h-2zM22 11h3v1h-3zM27 11h1v1h-1zM30 11h1v1h-1zM4 12h9v1h-9zM14 12h1v1h-1zM16 12h4v1h-4zM25 12h2v1h-2zM28 12h3v1h-3zM2 13h2v1h-2zM6 13h1v1h-1zM11 13h1v1h-1zM13 13h4v1h-4zM18 13h3v1h-3zM23 13h1v1h-1zM29 13h1v1h-1zM3 14h1v1h-1zM6 14h1v1h-1zM8 14h1v1h-1zM11 14h3v1h-3zM16 14h4v1h-4zM22 14h3v1h-3zM27 14h1v1h-1zM29 14h2v1h-2zM2 15h2v1h-2zM5 15h3v1h-3zM9 15h2v1h-2zM12 15h1v1h-1zM16 15h2v1h-2zM22 15h3v1h-3zM27 15h1v1h-1zM30 15h1v1h-1zM2 16h1v1h-1zM6 16h1v1h-1zM8 16h1v1h-1zM10 16h3v1h-3zM14 16h2v1h-2zM18 16h1v1h-1zM23 16h2v1h-2zM27 16h1v1h-1zM29 16h2v1h-2zM3 17h5v1h-5zM10 17h1v1h-1zM12 17h1v1h-1zM14 17h1v1h-1zM17 17h5v1h-5zM27 17h1v1h-1zM29 17h1v1h-1zM3 18h1v1h-1zM5 18h2v1h-2zM8 18h1v1h-1zM10 18h1v1h-1zM13 18h2v1h-2zM17 18h5v1h-5zM23 18h3v1h-3zM27 18h1v1h-1zM29 18h2v1h-2zM4 19h1v1h-1zM6 19h2v1h-2zM10 19h2v1h-2zM13 19h1v1h-1zM15 19h1v1h-1zM18 19h1v1h-1zM22 19h3v1h-3zM27 19h2v1h-2zM30 19h1v1h-1zM2 20h1v1h-1zM4 20h3v1h-3zM8 20h1v1h-1zM11 20h1v1h-1zM16 20h1v1h-1zM19 20h1v1h-1zM22 20h1v1h-1zM24 20h3v1h-3zM29 20h2v1h-2zM3 21h1v1h-1zM5 21h1v1h-1zM7 21h1v1h-1zM14 21h4v1h-4zM19 21h3v1h-3zM25 21h3v1h-3zM29 21h1v1h-1zM2 22h1v1h-1zM4 22h1v1h-1zM6 22h3v1h-3zM10 22h1v1h-1zM12 22h1v1h-1zM14 22h1v1h-1zM16 22h1v1h-1zM18 22h2v1h-2zM21 22h6v1h-6zM10 23h2v1h-2zM16 23h1v1h-1zM18 23h5v1h-5zM26 23h1v1h-1zM28 23h3v1h-3zM2 24h7v1h-7zM14 24h2v1h-2zM18 24h1v1h-1zM20 24h3v1h-3zM24 24h1v1h-1zM26 24h2v1h-2zM29 24h2v1h-2zM2 25h1v1h-1zM8 25h1v1h-1zM11 25h3v1h-3zM17 25h3v1h-3zM22 25h1v1h-1zM26 25h2v1h-2zM2 26h1v1h-1zM4 26h3v1h-3zM8 26h1v1h-1zM10 26h1v1h-1zM12 26h3v1h-3zM19 26h1v1h-1zM22 26h5v1h-5zM30 26h1v1h-1zM2 27h1v1h-1zM4 27h3v1h-3zM8 27h1v1h-1zM12 27h2v1h-2zM15 27h1v1h-1zM18 27h1v1h-1zM21 27h1v1h-1zM25 27h2v1h-2zM28 27h3v1h-3zM2 28h1v1h-1zM4 28h3v1h-3zM8 28h1v1h-1zM10 28h2v1h-2zM13 28h2v1h-2zM18 28h2v1h-2zM21 28h2v1h-2zM25 28h3v1h-3zM30 28h1v1h-1zM2 29h1v1h-1zM8 29h1v1h-1zM14 29h1v1h-1zM19 29h2v1h-2zM22 29h1v1h-1zM24 29h2v1h-2zM29 29h1v1h-1zM2 30h7v1h-7zM10 30h2v1h-2zM15 30h1v1h-1zM19 30h1v1h-1zM21 30h2v1h-2zM24 30h2v1h-2zM29 30h2v1h-2z"/></svg>
@@ -231,7 +221,7 @@ body.training .qrgrid .cap{font-size:6.6pt;}
   <div class="page" style="background:linear-gradient(178deg,#fff 0%,#fff 58%,#F4F8FC 100%);">
     <div class="band"><span>Community Health Worker Pocket Guide</span></div>
     <div class="body">
-      <img class="logo" style="height:52px;" src="assets/logo-Live-Healthy-Chicago.png" alt="Live Healthy Chicago">
+      <img class="logo" style="height:52px;" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_800/lhc-brand/logo-live-healthy-chicago" alt="Live Healthy Chicago">
 
       <div style="margin-top:16px;">
         <div class="ptitle" style="font-size:23pt;color:var(--navy);">Communicate.<br>Coach. Connect.</div>
@@ -420,7 +410,7 @@ body.training .qrgrid .cap{font-size:6.6pt;}
         <p class="tiny" style="color:var(--gray);margin-top:6px;font-style:italic;">"I'll walk 10 minutes after dinner, three nights this week."</p>
       </div>
 
-      <img class="photo photo-fill" style="margin:4px 0 9px;min-height:.7in;" src="https://res.cloudinary.com/dsbllwpbh/image/upload/c_fill,g_auto,w_1200,h_620,q_90/lhc-community/cab-community-openai.jpg" alt="Neighbors talking together">
+      <img class="photo photo-fill" style="margin:4px 0 9px;min-height:.7in;object-position:50% 36%;" src="https://res.cloudinary.com/dsbllwpbh/image/upload/c_fill,g_auto,w_1200,h_620,q_90/lhc-community/cab-community-openai.jpg" alt="Neighbors talking together">
 
       <div class="pearl" style="background:var(--teal);">
         <svg class="ico" style="color:#fff;" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0-4 10.5V17h8v-3.5A6 6 0 0 0 12 3z"/><path d="M9 20h6"/></svg>
@@ -432,14 +422,5 @@ body.training .qrgrid .cap{font-size:6.6pt;}
 </div>
 
 <div class="tailpad" style="height:40px;"></div>
-<script>
-  function toggleVariant(){
-    var on=document.body.classList.toggle('training');
-    document.getElementById('variant-btn').textContent =
-      on ? 'Switch to full version (4 QR codes)' : 'Switch to training version (2 QR codes)';
-  }
-  if(location.search.indexOf('training')>-1){document.body.classList.add('training');
-    document.getElementById('variant-btn').textContent='Switch to full version (4 QR codes)';}
-</script>
 </body>
 </html>
