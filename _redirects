@@ -22,3 +22,7 @@
 /newsletter/september-2026  /newsletter/september-2026.html  200
 /start     /start.html                      200
 /empieza   /start.html?lang=es              302
+
+# Archived 2026-09-15 at Allie's request (CDPH politics) — keep the URL resolving
+/news/dr-ige-live-to-100.html  /index.html#news  301
+/news/dr-ige-live-to-100       /index.html#news  301
