@@ -48,8 +48,40 @@
       .paper { padding:22px 18px; }
     }
   </style>
+<style>
+    /* Gate */
+    #gate { position:fixed; inset:0; z-index:9999; display:flex; align-items:center; justify-content:center;
+      background:linear-gradient(135deg,#0f1f3d 0%,#1B365D 60%,#0d2847 100%); }
+    #gate.fade-out { opacity:0; transition:opacity .45s ease; pointer-events:none; }
+    .gate-card { background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12); backdrop-filter:blur(16px);
+      border-radius:20px; padding:48px 40px; width:100%; max-width:380px; text-align:center; }
+    .gate-logo { height:44px; margin:0 auto 28px; }
+    .gate-card h2 { color:#fff; font-size:1.35rem; font-weight:800; margin-bottom:8px; }
+    .gate-card p { color:rgba(255,255,255,.6); font-size:.9rem; margin-bottom:24px; }
+    .gate-input { width:100%; padding:13px 16px; border-radius:10px; border:1px solid rgba(255,255,255,.18);
+      background:rgba(255,255,255,.08); color:#fff; font-size:.95rem; font-family:inherit; outline:none; margin-bottom:12px; }
+    .gate-input::placeholder { color:rgba(255,255,255,.4); }
+    .gate-input:focus { border-color:#46B7E5; background:rgba(255,255,255,.12); }
+    .gate-btn { width:100%; padding:13px; border:none; border-radius:10px; cursor:pointer; background:#46B7E5;
+      color:#06263c; font-family:'Montserrat',sans-serif; font-size:.95rem; font-weight:700; transition:filter .2s; }
+    .gate-btn:hover { filter:brightness(1.08); }
+    .gate-error { color:#ff8f8f; font-size:.85rem; min-height:18px; margin:12px 0 0; }
+    html.locked body > *:not(#gate){display:none !important;}
+    html:not(.locked) #gate{display:none;}
+  </style>
+  <script>try{if(sessionStorage.getItem('lhc_auth')!=='1')document.documentElement.classList.add('locked');}catch(e){document.documentElement.classList.add('locked');}</script>
 </head>
 <body>
+<div id="gate">
+  <div class="gate-card">
+    <img class="gate-logo" src="https://assets.codepen.io/3457845/logo-Live-Healthy-Chicago.png" alt="Live Healthy Chicago">
+    <h2>Correspondence</h2>
+    <p>Internal &mdash; team only.</p>
+    <input id="pw-input" class="gate-input" type="password" placeholder="Password" autocomplete="current-password">
+    <button class="gate-btn" onclick="checkPassword()">Enter</button>
+    <p class="gate-error" id="gate-error"></p>
+  </div>
+</div>
   <div class="wrap">
     <div class="page-head">
       
@@ -59,7 +91,10 @@
       <br />
       <a class="backlink" href="index.html"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg> Back to the site</a>
     </div>
-    <nav class="index"><div class="lbl">25 messages</div><ol>
+    <nav class="index"><div class="lbl">28 messages</div><ol>
+        <li><a href="#c-lhc-pamphlet-print-links-reply-email-2026-09-28-html"><span class="d">Sep 28</span><span class="t">Print-ready pamphlet links — Reply to Allie (September 28, 2026)</span></a></li>
+        <li><a href="#c-lhc-ella-recording-print-size-reply-email-2026-09-28-html"><span class="d">Sep 28</span><span class="t">Recording never arrived + print size fix — Reply to Ella (September 28, 2026)</span></a></li>
+        <li><a href="#c-lhc-alisha-chw-training-oct13-reply-email-2026-09-28-html"><span class="d">Sep 28</span><span class="t">Oct 13 CHW Training Added — Reply to Alisha (September 28, 2026)</span></a></li>
         <li><a href="#c-chw-training-first-pass-email-2026-08-25-html"><span class="d">Aug 25</span><span class="t">Ella — CHW training, first pass (Aug 25, 2026)</span></a></li>
         <li><a href="#c-lhc-pocket-guide-training-version-email-2026-08-24-html"><span class="d">Aug 24</span><span class="t">Reply to Ella — training version of the pocket guide (archived copy)</span></a></li>
         <li><a href="#c-chw-school-version-email-2026-08-19-html"><span class="d">Aug 19</span><span class="t">School Version Ready — Reply to Ella (August 19, 2026)</span></a></li>
@@ -87,6 +122,57 @@
         <li><a href="#c-nuna-jini-feedback-reply-email-2026-06-10-html"><span class="d">Jun 10</span><span class="t">Reply to Erik — Jini interview updates</span></a></li>
       </ol></nav>
     <main class="stack">
+      <article class="letter" id="c-lhc-pamphlet-print-links-reply-email-2026-09-28-html">
+        <div class="letter-head">
+          <div class="meta">
+            <span class="date">Sep 28, 2026</span>
+            <h2>Print-ready pamphlet links — Reply to Allie (September 28, 2026)</h2>
+            <span class="to">To: Allie (cc Alisha, Ashley)</span>
+          </div>
+          <button class="copy" data-target="body-lhc-pamphlet-print-links-reply-email-2026-09-28-html" title="Copy this email">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            Copy email
+          </button>
+        </div>
+        <span class="status"></span>
+        <div class="paper">
+          <div id="body-lhc-pamphlet-print-links-reply-email-2026-09-28-html" class="email-body"><p style="margin:0 0 16px;">Hi Allie,</p><p style="margin:0 0 16px;">Sorry for the slow reply &mdash; I was in Alaska last week. Here are both training pieces, as print-ready PDFs:</p><table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 12px;"><tr><td bgcolor="#0362BC" style="background-color:#0362BC; border-radius:8px; padding:12px 22px;"><a href="https://res.cloudinary.com/dsbllwpbh/raw/upload/v1790610229/lhc-print/LHC-Know-Your-Numbers-TriFold.pdf" style="color:#ffffff; text-decoration:none; font-weight:600; font-size:15px;"><font color="#ffffff">Download the tri-fold (PDF) &rarr;</font></a></td></tr></table><table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 20px;"><tr><td bgcolor="#0362BC" style="background-color:#0362BC; border-radius:8px; padding:12px 22px;"><a href="https://res.cloudinary.com/dsbllwpbh/raw/upload/v1790610230/lhc-print/LHC-CHW-Pocket-Guide.pdf" style="color:#ffffff; text-decoration:none; font-weight:600; font-size:15px;"><font color="#ffffff">Download the CHW pocket guide (PDF) &rarr;</font></a></td></tr></table><p style="margin:0 0 16px;">The pocket guide is the insert that tucks inside the tri-fold. Each one is two pages &mdash; front and back of one sheet.</p><table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="margin:0 0 20px;"><tr><td bgcolor="#fdf3dc" style="background-color:#fdf3dc; padding:14px 18px;"><p style="margin:0 0 6px;"><b>Printer settings</b></p><p style="margin:0;">Regular <b>Letter paper (8.5&times;11)</b> &middot; <b>Actual size / 100%</b> (not &ldquo;Fit to page&rdquo;) &middot; <b>double-sided, flip on short edge</b>. Then fold &mdash; the tri-fold into thirds, the pocket guide once down the middle.</p></td></tr></table><p style="margin:0 0 16px;">Ella printed hers on 5&times;7 paper and the printer shrank everything to under half size. So each page now has a <b>Download print-ready PDF</b> button and these instructions right at the top. The pages are also the place to grab the school version of the tri-fold:</p><table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 8px;"><tr><td bgcolor="#eef2f7" style="background-color:#eef2f7; padding:8px;"><a href="https://livehealthychi.com/pamphlet"><img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto:good,w_1100/v1790610429/orbis/lhc-email-2026-09-28/pamphlet-print-page.png" width="584" alt="The tri-fold page, with the new printing instructions up front." style="display:block;width:584px;max-width:100%;height:auto;border:0;"></a></td></tr></table><p style="margin:0 0 20px; font-size:13px;"><font color="#4a5568">The tri-fold page, with the new printing instructions up front.</font></p><table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 12px;"><tr><td bgcolor="#1B365D" style="background-color:#1B365D; border-radius:8px; padding:12px 22px;"><a href="https://livehealthychi.com/pamphlet" style="color:#ffffff; text-decoration:none; font-weight:600; font-size:15px;"><font color="#ffffff">Open the tri-fold page &rarr;</font></a></td></tr></table><table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 20px;"><tr><td bgcolor="#1B365D" style="background-color:#1B365D; border-radius:8px; padding:12px 22px;"><a href="https://livehealthychi.com/insert" style="color:#ffffff; text-decoration:none; font-weight:600; font-size:15px;"><font color="#ffffff">Open the pocket guide page &rarr;</font></a></td></tr></table><p style="margin:0 0 16px;">Also, Alisha&rsquo;s Oct 13 CHW training is now on the events page, in case you&rsquo;re printing for that one.</p><p style="margin:0 0 4px;">Thanks,</p><p style="margin:0;">Gary</p></div>
+        </div>
+      </article>
+      <article class="letter" id="c-lhc-ella-recording-print-size-reply-email-2026-09-28-html">
+        <div class="letter-head">
+          <div class="meta">
+            <span class="date">Sep 28, 2026</span>
+            <h2>Recording never arrived + print size fix — Reply to Ella (September 28, 2026)</h2>
+            <span class="to">To: Ella (cc Allie)</span>
+          </div>
+          <button class="copy" data-target="body-lhc-ella-recording-print-size-reply-email-2026-09-28-html" title="Copy this email">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            Copy email
+          </button>
+        </div>
+        <span class="status"></span>
+        <div class="paper">
+          <div id="body-lhc-ella-recording-print-size-reply-email-2026-09-28-html" class="email-body"><p style="margin:0 0 16px;">Hi Ella,</p><p style="margin:0 0 16px;">Thanks for checking in, and sorry for the slow reply &mdash; I was traveling last week.</p><p style="margin:0 0 16px;"><b>The recording never reached me.</b> Nothing came through after your note on the 12th, so the video is still waiting on it. Could you send it again? If the file is too big for email, a Google Drive link works, or you can text it to me at 630-492-0642.</p><p style="margin:0 0 16px;">Here&rsquo;s the line again. Please say it three times, with a pause between:</p><table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="margin:0 0 20px;"><tr><td bgcolor="#fdf3dc" style="background-color:#fdf3dc; padding:14px 18px;"><p style="margin:0;"><i>&ldquo;High blood pressure is very common &mdash; and it doesn&rsquo;t have to be dangerous. Once you know your numbers, understand your risk, and have support, you can protect your body.&rdquo;</i></p></td></tr></table><p style="margin:0 0 16px;">As soon as it lands I&rsquo;ll lay it in, publish the corrected version, and add it to the portal.</p><p style="margin:0 0 16px;"><b>On the printing</b> &mdash; good catch, and it&rsquo;s fixable. Both pieces are built for regular <b>Letter paper (8.5&times;11)</b>, and they get to pocket size by folding. The tri-fold folds to about 3.7&times;8.5 inches, and the pocket guide folds once to 5.5&times;8.5. On a 5&times;7 sheet, the printer has to shrink the whole Letter page to fit, so the text comes out at less than half its real size.</p><p style="margin:0 0 16px;">I&rsquo;ve made print-ready PDFs so the printer can&rsquo;t rescale them. I&rsquo;ve also put the settings at the top of both pages:</p><table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 12px;"><tr><td bgcolor="#0362BC" style="background-color:#0362BC; border-radius:8px; padding:12px 22px;"><a href="https://res.cloudinary.com/dsbllwpbh/raw/upload/v1790610229/lhc-print/LHC-Know-Your-Numbers-TriFold.pdf" style="color:#ffffff; text-decoration:none; font-weight:600; font-size:15px;"><font color="#ffffff">Download the tri-fold (PDF) &rarr;</font></a></td></tr></table><table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 20px;"><tr><td bgcolor="#0362BC" style="background-color:#0362BC; border-radius:8px; padding:12px 22px;"><a href="https://res.cloudinary.com/dsbllwpbh/raw/upload/v1790610230/lhc-print/LHC-CHW-Pocket-Guide.pdf" style="color:#ffffff; text-decoration:none; font-weight:600; font-size:15px;"><font color="#ffffff">Download the pocket guide (PDF) &rarr;</font></a></td></tr></table><table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="margin:0 0 20px;"><tr><td bgcolor="#fdf3dc" style="background-color:#fdf3dc; padding:14px 18px;"><p style="margin:0 0 6px;"><b>Printer settings</b></p><p style="margin:0;">Regular <b>Letter paper (8.5&times;11)</b> &middot; <b>Actual size / 100%</b> (not &ldquo;Fit to page&rdquo;) &middot; <b>double-sided, flip on short edge</b>. Then fold &mdash; the tri-fold into thirds, the pocket guide once down the middle.</p></td></tr></table><table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 8px;"><tr><td bgcolor="#eef2f7" style="background-color:#eef2f7; padding:8px;"><a href="https://livehealthychi.com/insert"><img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto:good,w_1100/v1790610429/orbis/lhc-email-2026-09-28/insert-print-page.png" width="584" alt="The pocket guide page now opens with the printing instructions." style="display:block;width:584px;max-width:100%;height:auto;border:0;"></a></td></tr></table><p style="margin:0 0 20px; font-size:13px;"><font color="#4a5568">The pocket guide page now opens with the printing instructions.</font></p><p style="margin:0 0 16px;">Printed at full size, the text is more than twice as big as what you saw. If it still feels small for the people you&rsquo;re handing it to, let me know. I can make a larger-type version &mdash; it would just fold to a bigger size.</p><p style="margin:0 0 4px;">Thanks,</p><p style="margin:0;">Gary</p></div>
+        </div>
+      </article>
+      <article class="letter" id="c-lhc-alisha-chw-training-oct13-reply-email-2026-09-28-html">
+        <div class="letter-head">
+          <div class="meta">
+            <span class="date">Sep 28, 2026</span>
+            <h2>Oct 13 CHW Training Added — Reply to Alisha (September 28, 2026)</h2>
+            <span class="to">To: Alisha (cc Allie)</span>
+          </div>
+          <button class="copy" data-target="body-lhc-alisha-chw-training-oct13-reply-email-2026-09-28-html" title="Copy this email">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            Copy email
+          </button>
+        </div>
+        <span class="status"></span>
+        <div class="paper">
+          <div id="body-lhc-alisha-chw-training-oct13-reply-email-2026-09-28-html" class="email-body"><p style="margin:0 0 16px;">Hi Alisha,</p><p style="margin:0 0 16px;">Sorry for the delay &mdash; I was out last week. The Oct 13 CHW Hypertension Training is live on the site now:</p><p style="margin:0 0 16px;"><b>Tuesday, October 13 &middot; 9:30 A.M.&ndash;1:00 P.M.</b><br>Chicago Park District &middot; 4830 S. Western Ave., 60609</p><p style="margin:0 0 16px;">The register button goes to your Eventbrite page. I took the details from Eventbrite&rsquo;s FAQ, same as the September card: complete the AHA online course first, bring a BP cuff, snacks provided/bring lunch, and free parking.</p><table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 8px;"><tr><td bgcolor="#eef2f7" style="background-color:#eef2f7; padding:8px;"><a href="https://livehealthychi.com/#community-events"><img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto:good,w_700/v1790610430/orbis/lhc-email-2026-09-28/chw-training-oct13-card.png" width="300" alt="The new card on the events page." style="display:block;width:300px;max-width:100%;height:auto;border:0;"></a></td></tr></table><p style="margin:0 0 20px; font-size:13px;"><font color="#4a5568">The new card on the events page.</font></p><table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 20px;"><tr><td bgcolor="#0362BC" style="background-color:#0362BC; border-radius:8px; padding:12px 22px;"><a href="https://livehealthychi.com/#community-events" style="color:#ffffff; text-decoration:none; font-weight:600; font-size:15px;"><font color="#ffffff">See it on the events page &rarr;</font></a></td></tr></table><p style="margin:0 0 16px;">Also, if you need the tri-fold or pocket guide for the training, I sent the print-ready PDFs on Allie&rsquo;s &ldquo;CHW Pamphlet Link&rdquo; thread today.</p><p style="margin:0 0 4px;">Thanks,</p><p style="margin:0;">Gary</p></div>
+        </div>
+      </article>
       <article class="letter" id="c-chw-training-first-pass-email-2026-08-25-html">
         <div class="letter-head">
           <div class="meta">
@@ -1481,5 +1567,24 @@
       });
     });
   </script>
+<script>
+  const HASH = '279b8fbaf4bcc0cd38315426d9a523c6b12370c9d241d0b8fcff4eb276b9f37e';
+  async function sha256(msg){
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(msg));
+    return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+  }
+  async function checkPassword(){
+    const hash = await sha256(document.getElementById('pw-input').value);
+    if(hash === HASH){
+      sessionStorage.setItem('lhc_auth','1');
+      const gate = document.getElementById('gate');
+      gate.classList.add('fade-out');
+      setTimeout(()=>{ document.documentElement.classList.remove('locked'); }, 450);
+    } else {
+      document.getElementById('gate-error').textContent = 'Incorrect password.';
+    }
+  }
+  document.getElementById('pw-input').addEventListener('keydown', e=>{ if(e.key==='Enter') checkPassword(); });
+</script>
 </body>
 </html>
