@@ -1,0 +1,30 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Re: One line to re-record for Module 1</title></head>
+<body style="margin:0; padding:24px; background:#ffffff; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif; color:#1a2535; line-height:1.6;">
+  <div class="copy-control" style="max-width:600px; margin:0 0 18px; display:flex; align-items:center; gap:12px;">
+    <button id="copy-btn" onclick="copyEmail()" style="display:inline-flex; align-items:center; gap:8px; background:#0362BC; color:#fff; border:none; border-radius:8px; padding:10px 16px; font-family:inherit; font-size:14px; font-weight:600; cursor:pointer;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+      Copy email
+    </button>
+    <span id="copy-status" style="font-size:13px; color:#4a5568;">Click, then paste into your email (formatting included).</span>
+  </div>
+  <div id="email-body" style="max-width:600px; margin:0; background:#ffffff;">
+<p style="margin:0 0 16px;">Hi Ella,</p>
+<p style="margin:0 0 16px;">Got them this time &mdash; all three came through, thank you. I used the first take. It was word-for-word and the cleanest recording.</p>
+<p style="margin:0 0 16px;">The corrected Module 1 is live now. Your new line plays over a key-message card with the words on screen, so it reads as the &ldquo;one thing to remember&rdquo; moment rather than a patch. The module is still the same length, so nothing else in the training moved.</p>
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 8px;"><tr><td bgcolor="#eef2f7" style="background-color:#eef2f7; padding:8px;"><a href="https://res.cloudinary.com/dsbllwpbh/video/upload/lhc/chw-bp-training/module-1-understanding-high-blood-pressure-v2.mp4"><img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto:good,w_500/v1790631457/orbis/lhc-email-2026-09-28/module1-key-message-card.png" width="250" alt="The new key-message card at the end of Module 1." style="display:block;width:250px;max-width:100%;height:auto;border:0;"></a></td></tr></table>
+<p style="margin:0 0 20px; font-size:13px;"><font color="#4a5568">The end of Module 1, with your new line.</font></p>
+<p style="margin:0 0 16px;">The link below goes straight to the video, so you can watch it without the site password. The fix is at 9:14:</p>
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 24px;"><tr><td bgcolor="#0362BC" style="background-color:#0362BC; border-radius:8px; padding:12px 22px;"><a href="https://res.cloudinary.com/dsbllwpbh/video/upload/lhc/chw-bp-training/module-1-understanding-high-blood-pressure-v2.mp4" style="color:#ffffff; text-decoration:none; font-weight:600; font-size:15px;"><font color="#ffffff">Watch the corrected Module 1 &rarr;</font></a></td></tr></table>
+<p style="margin:0 0 16px;"><b>On FedEx</b> &mdash; that makes sense, and it&rsquo;s the printer&rsquo;s default flipping the back page the wrong way. I made print-shop versions with the back page pre-turned, so a standard two-sided print comes out right side up in one pass. Just ask for &ldquo;two-sided, Letter, actual size&rdquo;:</p>
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 12px;"><tr><td bgcolor="#0362BC" style="background-color:#0362BC; border-radius:8px; padding:12px 22px;"><a href="https://res.cloudinary.com/dsbllwpbh/raw/upload/v1790631431/lhc-print/LHC-Know-Your-Numbers-TriFold-PrintShop.pdf" style="color:#ffffff; text-decoration:none; font-weight:600; font-size:15px;"><font color="#ffffff">Tri-fold &mdash; print-shop version &rarr;</font></a></td></tr></table>
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 20px;"><tr><td bgcolor="#0362BC" style="background-color:#0362BC; border-radius:8px; padding:12px 22px;"><a href="https://res.cloudinary.com/dsbllwpbh/raw/upload/v1790631433/lhc-print/LHC-CHW-Pocket-Guide-PrintShop.pdf" style="color:#ffffff; text-decoration:none; font-weight:600; font-size:15px;"><font color="#ffffff">Pocket guide &mdash; print-shop version &rarr;</font></a></td></tr></table>
+<p style="margin:0 0 16px;">The versions I sent this morning are still right for printing at home, where you pick &ldquo;flip on short edge.&rdquo;</p>
+<p style="margin:0 0 4px;">Thanks,</p><p style="margin:0;">Gary</p>
+  </div>
+<script>
+  function setStatus(m,ok){var s=document.getElementById('copy-status');s.textContent=m;s.style.color=ok?'#1a7f37':'#b42318';}
+  function selectFallback(el){try{var r=document.createRange();r.selectNode(el);var s=window.getSelection();s.removeAllRanges();s.addRange(r);var ok=document.execCommand('copy');s.removeAllRanges();setStatus(ok?'✓ Copied — paste into your email':'Press ⌘C to copy the selected email',ok);}catch(e){setStatus('Select the email and press ⌘C',false);}}
+  function copyEmail(){var el=document.getElementById('email-body');if(navigator.clipboard&&window.ClipboardItem){var d=[new ClipboardItem({'text/html':new Blob([el.outerHTML],{type:'text/html'}),'text/plain':new Blob([el.innerText],{type:'text/plain'})})];navigator.clipboard.write(d).then(function(){setStatus('✓ Copied — paste into your email (formatting included)',true);},function(){selectFallback(el);});}else{selectFallback(el);}}
+</script>
+</body></html>
