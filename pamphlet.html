@@ -153,11 +153,12 @@ body.school .box-alert{margin-top:auto !important;}
   <span class="pill">Final</span>
   <h1>Know Your Numbers — Community Tri-Fold</h1>
   <button id="variant-btn" onclick="toggleVariant()" style="margin-left:auto;background:#fff;color:#1B365D;">Switch to school version</button>
-  <button onclick="window.print()" style="margin-left:0;">Save as PDF</button>
+  <a id="pdf-btn" href="https://res.cloudinary.com/dsbllwpbh/raw/upload/v1790610229/lhc-print/LHC-Know-Your-Numbers-TriFold.pdf" download style="margin-left:0;background:var(--yellow);color:#4a3400;text-decoration:none;border-radius:8px;padding:10px 18px;font-family:'Montserrat';font-weight:700;font-size:.82rem;">Download print-ready PDF</a>
 </div>
 
 <div class="note">
-  <b>Print setup:</b> Save as PDF → paper <b>Letter, Landscape</b>, margins <b>None</b>, and turn <b>Background graphics ON</b>. Two pages: page 1 is the inside, page 2 is the outside. Print double-sided, flip on <b>short edge</b>. Panel widths are unequal on purpose — the narrow panel (3.58") is the one that tucks inside the fold.
+  <b>Printing?</b> Use the <b>print-ready PDF</b> button above. Print on regular <b>Letter paper (8.5&times;11)</b> — not 5&times;7 or photo paper — at <b>Actual size / 100%</b> (not &ldquo;Fit to page&rdquo;), <b>double-sided, flip on short edge</b>. Then fold into thirds — it ends up pocket-size (about 3.7&times;8.5in).<br>
+  <b>Print setup (browser):</b> paper <b>Letter, Landscape</b>, margins <b>None</b>, and turn <b>Background graphics ON</b>. Two pages: page 1 is the inside, page 2 is the outside. Print double-sided, flip on <b>short edge</b>. Panel widths are unequal on purpose — the narrow panel (3.58") is the one that tucks inside the fold.
 </div>
 
 <!-- ============================ SHEET 1 — INSIDE ============================ -->
@@ -479,9 +480,11 @@ body.school .box-alert{margin-top:auto !important;}
     var on=document.body.classList.toggle('school');
     document.getElementById('variant-btn').textContent =
       on ? 'Switch to dissemination version' : 'Switch to school version';
+    document.getElementById('pdf-btn').href = on ? 'https://res.cloudinary.com/dsbllwpbh/raw/upload/v1790610229/lhc-print/LHC-Know-Your-Numbers-TriFold-School.pdf' : 'https://res.cloudinary.com/dsbllwpbh/raw/upload/v1790610229/lhc-print/LHC-Know-Your-Numbers-TriFold.pdf';
   }
   if(location.search.indexOf('school')>-1){document.body.classList.add('school');
-    document.getElementById('variant-btn').textContent='Switch to dissemination version';}
+    document.getElementById('variant-btn').textContent='Switch to dissemination version';
+    document.getElementById('pdf-btn').href='https://res.cloudinary.com/dsbllwpbh/raw/upload/v1790610229/lhc-print/LHC-Know-Your-Numbers-TriFold-School.pdf';}
 </script>
 </body>
 </html>
