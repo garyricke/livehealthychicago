@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>Neighborhood Photos &middot; Real vs. AI &middot; Live Healthy Chicago</title>
+<link rel="canonical" href="https://livehealthychi.com/neighborhood-photos">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" href="https://res.cloudinary.com/dsbllwpbh/image/upload/v1771612857/favicon-live-healthy-chicago_e7o6el.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Open+Sans:wght@400;600;700&display=swap">
+<style>
+:root{
+  --navy:#1B365D; --navy-d:#0E2040;
+  --red:#E5202F; --amber:#B37700; --teal:#1F8F79;
+  --ground:#FBF7F0; --surface:#FFFFFF; --surface-2:#F4EEE4;
+  --ink:#22303F; --ink-2:#5A6779; --ink-3:#8A8172;
+  --line:#E6DDCE; --line-2:#D8D0C1;
+  --chip-ship-bg:#E8F5F0; --chip-ship-fg:#136953;
+  --chip-dec-bg:#FDECEE; --chip-dec-fg:#B31220;
+  --chip-wait-bg:#FDF3DC; --chip-wait-fg:#8A6100;
+  --rail:#CDBFA8;
+  --f-d:'Montserrat',system-ui,-apple-system,sans-serif;
+  --f-b:'Open Sans',system-ui,-apple-system,sans-serif;
+}
+
+*{box-sizing:border-box}
+body{
+  background:var(--ground); color:var(--ink);
+  font-family:var(--f-b); font-size:16px; line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:820px;margin:0 auto;padding:40px 24px 72px}
+
+/* ---------- masthead ---------- */
+.mast{border-bottom:2px solid var(--navy);padding-bottom:20px;margin-bottom:8px}
+.eyebrow{
+  font-family:var(--f-d);font-size:11px;font-weight:800;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--ink-3);margin:0 0 10px
+}
+h1{
+  font-family:var(--f-d);font-weight:900;font-size:clamp(28px,4.6vw,40px);
+  line-height:1.05;letter-spacing:-.02em;color:var(--navy);
+  margin:0 0 14px;text-wrap:balance
+}
+.meta{display:flex;flex-wrap:wrap;gap:6px 22px;font-size:13.5px;color:var(--ink-2)}
+.meta b{font-family:var(--f-d);font-weight:700;color:var(--ink)}
+
+.roster{
+  display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 0;padding:0;list-style:none
+}
+.who{
+  display:inline-flex;align-items:baseline;gap:7px;
+  background:var(--surface);border:1px solid var(--line);
+  border-radius:999px;padding:5px 13px;font-size:13px
+}
+.who b{font-family:var(--f-d);font-weight:700;font-size:12.5px}
+.who span{color:var(--ink-3);font-size:12px}
+.who.new{border-color:var(--line-2);background:var(--surface-2)}
+.who.new span{color:var(--amber);font-weight:700}
+
+.standfirst{
+  margin:26px 0 0;padding:16px 18px;background:var(--surface);
+  border-left:3px solid var(--amber);border-radius:0 8px 8px 0;
+  font-size:14.5px;line-height:1.6;color:var(--ink-2)
+}
+.standfirst b{color:var(--ink)}
+
+/* ---------- agenda blocks ---------- */
+.block{
+  display:grid;grid-template-columns:76px 1fr;gap:0 22px;
+  padding-top:34px;margin-top:34px;border-top:1px solid var(--line)
+}
+.time{
+  font-family:var(--f-d);font-weight:800;font-size:13px;
+  color:var(--navy);letter-spacing:.01em;font-variant-numeric:tabular-nums;
+  padding-top:3px;border-right:2px solid var(--rail);padding-right:16px;text-align:right
+}
+.time small{display:block;font-weight:600;font-size:11px;color:var(--ink-3);margin-top:3px}
+h2{
+  font-family:var(--f-d);font-weight:800;font-size:20px;letter-spacing:-.01em;
+  color:var(--ink);margin:0 0 4px;text-wrap:balance
+}
+.sub{margin:0 0 16px;font-size:14px;color:var(--ink-2)}
+
+/* ---------- item lists ---------- */
+.items{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px}
+.items li{font-size:14.5px;line-height:1.55}
+.items li > b{font-family:var(--f-d);font-weight:700;color:var(--ink);font-size:14.5px}
+.items .say{
+  display:block;margin-top:4px;font-size:13.5px;color:var(--ink-2)
+}
+.items .ask{
+  display:block;margin-top:6px;font-size:13.5px;color:var(--red);font-weight:600
+}
+.num{font-variant-numeric:tabular-nums}
+
+/* shipped list — tighter, with a rule between */
+.ship{list-style:none;margin:0;padding:0}
+.ship li{
+  display:grid;grid-template-columns:auto 1fr;gap:4px 14px;
+  padding:11px 0;border-bottom:1px solid var(--line);font-size:14px
+}
+.ship li:last-child{border-bottom:0;padding-bottom:0}
+.ship .d{
+  font-family:var(--f-d);font-weight:700;font-size:11.5px;color:var(--ink-3);
+  letter-spacing:.05em;text-transform:uppercase;padding-top:3px;
+  font-variant-numeric:tabular-nums;white-space:nowrap
+}
+.ship .t b{font-family:var(--f-d);font-weight:700;color:var(--ink)}
+.ship .t{color:var(--ink-2);line-height:1.5}
+.ship code{
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;
+  background:var(--surface-2);padding:1px 5px;border-radius:4px;color:var(--ink)
+}
+
+/* ---------- chips ---------- */
+.chip{
+  display:inline-block;font-family:var(--f-d);font-weight:800;font-size:10.5px;
+  letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;border-radius:4px;
+  vertical-align:2px;margin-right:8px
+}
+.c-ship{background:var(--chip-ship-bg);color:var(--chip-ship-fg)}
+.c-dec{background:var(--chip-dec-bg);color:var(--chip-dec-fg)}
+.c-wait{background:var(--chip-wait-bg);color:var(--chip-wait-fg)}
+
+/* ---------- flag callout ---------- */
+.flag{
+  margin:16px 0 0;padding:15px 17px;background:var(--chip-dec-bg);
+  border-radius:8px;font-size:14px;line-height:1.55;color:var(--ink)
+}
+.flag .h{
+  font-family:var(--f-d);font-weight:800;font-size:12px;letter-spacing:.07em;
+  text-transform:uppercase;color:var(--chip-dec-fg);margin-bottom:6px
+}
+.flag code{
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;
+  background:var(--surface);padding:1px 5px;border-radius:4px
+}
+
+/* ---------- waiting table ---------- */
+.waitwrap{overflow-x:auto}
+table.wait{width:100%;border-collapse:collapse;font-size:14px;min-width:420px}
+table.wait th{
+  font-family:var(--f-d);font-weight:800;font-size:10.5px;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--ink-3);text-align:left;
+  padding:0 14px 8px 0;border-bottom:1px solid var(--line-2)
+}
+table.wait td{
+  padding:11px 14px 11px 0;border-bottom:1px solid var(--line);
+  vertical-align:top;color:var(--ink-2)
+}
+table.wait td:first-child{
+  font-family:var(--f-d);font-weight:700;color:var(--ink);white-space:nowrap
+}
+table.wait td.due{font-variant-numeric:tabular-nums;color:var(--red);font-weight:600;white-space:nowrap}
+table.wait tr:last-child td{border-bottom:0}
+
+/* ---------- quick links ---------- */
+.links{
+  margin-top:26px;background:var(--surface);border:1px solid var(--line);
+  border-radius:10px;padding:20px 22px
+}
+.links h3{
+  font-family:var(--f-d);font-weight:800;font-size:11px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-3);margin:0 0 14px
+}
+.lgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:22px}
+.lgroup h4{
+  display:flex;align-items:center;gap:6px;
+  font-family:var(--f-d);font-weight:800;font-size:11px;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--ink-2);margin:0 0 9px
+}
+.lgroup ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:7px}
+.lgroup li{font-size:13.5px;line-height:1.4}
+.lgroup a{font-family:var(--f-d);font-weight:700;font-size:13.5px}
+.lgroup .n{display:block;color:var(--ink-3);font-size:12px;font-family:var(--f-b);font-weight:400}
+.lock{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;
+  stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto}
+.pw{
+  margin-top:16px;padding-top:14px;border-top:1px solid var(--line);
+  font-size:13px;color:var(--ink-2)
+}
+.pw code{
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;font-weight:700;
+  background:var(--surface-2);padding:2px 7px;border-radius:4px;color:var(--ink)
+}
+
+/* ---------- footer ---------- */
+.foot{
+  margin-top:44px;padding-top:20px;border-top:2px solid var(--navy);
+  font-size:13px;color:var(--ink-3);display:flex;flex-wrap:wrap;gap:6px 20px
+}
+.foot b{font-family:var(--f-d);font-weight:700;color:var(--ink-2)}
+
+a{color:var(--red);text-decoration:none;border-bottom:1px solid currentColor}
+a:hover{opacity:.75}
+a:focus-visible{outline:2px solid var(--red);outline-offset:3px;border-radius:2px}
+
+@media (max-width:620px){
+  .block{grid-template-columns:1fr;gap:0}
+  .time{
+    border-right:0;border-left:2px solid var(--rail);text-align:left;
+    padding-right:0;padding-left:12px;margin-bottom:12px
+  }
+  .time small{display:inline;margin-left:8px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+/* ---- team gate (same password as the status, scope and training pages) ---- */
+#gate{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;
+  background:#0E2040;padding:24px}
+#gate.fade-out{opacity:0;transition:opacity .45s ease;pointer-events:none}
+.gate-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);border-radius:20px;
+  padding:34px 30px;width:100%;max-width:390px;text-align:center}
+.gate-card h2{font-family:var(--f-d);font-weight:800;font-size:1.5rem;color:#fff;letter-spacing:-.02em;margin:0}
+.gate-card p{font-family:var(--f-b);font-size:.92rem;color:rgba(255,255,255,.66);margin:10px 0 26px}
+.gate-card input{width:100%;padding:14px 16px;border-radius:11px;border:1px solid rgba(255,255,255,.22);
+  background:rgba(255,255,255,.08);color:#fff;font-family:var(--f-b);font-size:1rem}
+.gate-card input::placeholder{color:rgba(255,255,255,.45)}
+.gate-card input:focus{outline:2px solid #46B7E5;outline-offset:2px}
+.gate-card button{margin-top:14px;width:100%;padding:14px;border-radius:11px;background:#E5202F;
+  color:#fff;border:0;font-family:var(--f-d);font-weight:800;font-size:.95rem;cursor:pointer}
+.gate-card button:hover{filter:brightness(1.08)}
+#gate-error{min-height:20px;margin-top:12px;font-family:var(--f-b);font-size:.85rem;color:#ffb4b8}
+
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 6px}
+.legend span{font-family:var(--f-u,Montserrat);font-weight:700;font-size:.8rem;padding:6px 12px;border-radius:999px}
+.grp{margin:34px 0 0;padding-top:22px;border-top:1px solid var(--line,#e5e0d6)}
+.grp h2{font-size:1.35rem;display:flex;align-items:center;gap:10px;margin:0 0 6px}
+.grp h2 .n{font-size:.8rem;font-weight:800;padding:3px 10px;border-radius:999px;color:#fff}
+.grp p.d{color:var(--ink-3,#5a6779);max-width:70ch;margin:0 0 16px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px}
+.tile,.tile:hover{display:block;text-decoration:none;color:inherit;border:0 !important;background:none !important;box-shadow:none}
+.tile img{width:100%;aspect-ratio:3/2;object-fit:cover;border-radius:10px;display:block;box-shadow:0 4px 14px rgba(0,0,0,.08)}
+.tile b{display:block;margin-top:7px;font-size:.95rem}
+.tile i{display:block;font-style:normal;font-size:.8rem;color:#8a4b00;line-height:1.35;margin-top:2px}
+.keep .n,.lg-keep{background:#1a7f37;color:#fff}
+.touch .n,.lg-touch{background:#1A7FB8;color:#fff}
+.people .n,.lg-people{background:#B37700;color:#fff}
+.ai .n,.lg-ai{background:#E5202F;color:#fff}
+.method{margin-top:36px;padding:16px 18px;border-radius:12px;background:var(--surface,#f4f6f9);font-size:.9rem;color:var(--ink-3,#5a6779)}
+</style>
+</head>
+<body>
+<div id="gate">
+  <div class="gate-card">
+    <h2>Live Healthy Chicago</h2>
+    <p>Neighborhood photos &middot; real vs. AI</p>
+    <input id="pw-input" type="password" placeholder="Team password" aria-label="Team password" autocomplete="current-password">
+    <button type="button" onclick="checkPassword()">Open</button>
+    <div id="gate-error" role="status"></div>
+  </div>
+</div>
+<div id="app" style="display:none">
+<div class="wrap">
+
+  <header class="mast">
+    <p class="eyebrow">Reference &middot; September 29, 2026</p>
+    <h1>Neighborhood Photos: Real vs. AI</h1>
+    <p class="standfirst">Which of the 27 photos in the <a href="https://livehealthychi.com/#neighborhoods">priority-neighborhood carousel</a> are real and which used AI, so the steering committee can decide what to reshoot. <b>6 are fully AI-generated</b>, <b>4 are real places with AI-added people</b>, and the other 17 are real photos &mdash; 14 of them only touched up. Click any photo to see it full size.</p>
+    <div class="legend"><span class="lg-keep">Real &middot; 3</span><span class="lg-touch">AI touch-up &middot; 14</span><span class="lg-people">AI-added people &middot; 4</span><span class="lg-ai">Fully AI &middot; 6</span></div>
+  </header>
+  <section class="grp keep">
+    <h2>Real photos — no AI <span class="n">3</span></h2>
+    <p class="d">Keep as is.</p>
+    <div class="tiles">
+      <a class="tile" href="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1600/v1771356625/austin-il_oi6t2o.webp" target="_blank" rel="noopener"><img src="https://res.cloudinary.com/dsbllwpbh/image/upload/c_fill,g_auto,w_480,h_320,f_auto,q_auto/v1771356625/austin-il_oi6t2o.webp" alt="Austin carousel photo" loading="lazy"><b>Austin</b></a>
+      <a class="tile" href="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1600/v1771535139/grand-boulevard-chicago-il_olnodg.avif" target="_blank" rel="noopener"><img src="https://res.cloudinary.com/dsbllwpbh/image/upload/c_fill,g_auto,w_480,h_320,f_auto,q_auto/v1771535139/grand-boulevard-chicago-il_olnodg.avif" alt="Grand Boulevard carousel photo" loading="lazy"><b>Grand Boulevard</b><i>Carries another site’s watermark — confirm we can use it.</i></a>
+      <a class="tile" href="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1600/v1774632385/lhc-neighborhoods/west-englewood-63rd-wolcott.jpg" target="_blank" rel="noopener"><img src="https://res.cloudinary.com/dsbllwpbh/image/upload/c_fill,g_auto,w_480,h_320,f_auto,q_auto/v1774632385/lhc-neighborhoods/west-englewood-63rd-wolcott.jpg" alt="West Englewood carousel photo" loading="lazy"><b>West Englewood</b></a>
+    </div>
+  </section>
+  <section class="grp touch">
+    <h2>Real photos — AI touch-up <span class="n">14</span></h2>
+    <p class="d">Real places, real people. AI used the way you’d use Lightroom: light, color, sharpening, and in a few cases extending the edges to fit the frame. Typically acceptable; the committee can decide.</p>
+    <div class="tiles">
+      <a class="tile" href="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1600/v1771383150/calumet-heights-il-reframe_klvgz8.jpg" target="_blank" rel="noopener"><img src="https://res.cloudinary.com/dsbllwpbh/image/upload/c_fill,g_auto,w_480,h_320,f_auto,q_auto/v1771383150/calumet-heights-il-reframe_klvgz8.jpg" alt="Calumet Heights carousel photo" loading="lazy"><b>Calumet Heights</b></a>
+      <a class="tile" href="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1600/v1771383788/chatham-il-reframe_oobz0f.jpg" target="_blank" rel="noopener"><img src="https://res.cloudinary.com/dsbllwpbh/image/upload/c_fill,g_auto,w_480,h_320,f_auto,q_auto/v1771383788/chatham-il-reframe_oobz0f.jpg" alt="Chatham carousel photo" loading="lazy"><b>Chatham</b></a>
+      <a class="tile" href="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1600/v1771384176/douglas-chicago-illinois-reframe_bej8mt.jpg" target="_blank" rel="noopener"><img src="https://res.cloudinary.com/dsbllwpbh/image/upload/c_fill,g_auto,w_480,h_320,f_auto,q_auto/v1771384176/douglas-chicago-illinois-reframe_bej8mt.jpg" alt="Douglas carousel photo" loading="lazy"><b>Douglas</b></a>
+      <a class="tile" href="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1600/v1771384523/east-garfield-park-reframed_nokcyb.jpg" target="_blank" rel="noopener"><img src="https://res.cloudinary.com/dsbllwpbh/image/upload/c_fill,g_auto,w_480,h_320,f_auto,q_auto/v1771384523/east-garfield-park-reframed_nokcyb.jpg" alt="East Garfield Park carousel photo" loading="lazy"><b>East Garfield Park</b></a>
+      <a class="tile" href="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1600/v1771385231/englewood-chicago-reframe_prxott.jpg" target="_blank" rel="noopener"><img src="https://res.cloudinary.com/dsbllwpbh/image/upload/c_fill,g_auto,w_480,h_320,f_auto,q_auto/v1771385231/englewood-chicago-reframe_prxott.jpg" alt="Englewood carousel photo" loading="lazy"><b>Englewood</b></a>
+      <a class="tile" href="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1600/v1771535139/greater-grand-crossing-chicago-il-real-ai-enhanced-reframe_mz1zyz.jpg" target="_blank" rel="noopener"><img src="https://res.cloudinary.com/dsbllwpbh/image/upload/c_fill,g_auto,w_480,h_320,f_auto,q_auto/v1771535139/greater-grand-crossing-chicago-il-real-ai-enhanced-reframe_mz1zyz.jpg" alt="Greater Grand Crossing carousel photo" loading="lazy"><b>Greater Grand Crossing</b></a>
+      <a class="tile" href="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1600/v1771535139/montclare-chi_cago-il-real-ai-enhanced_xptfh2.jpg" target="_blank" rel="noopener"><img src="https://res.cloudinary.com/dsbllwpbh/image/upload/c_fill,g_auto,w_480,h_320,f_auto,q_auto/v1771535139/montclare-chi_cago-il-real-ai-enhanced_xptfh2.jpg" alt="Montclare carousel photo" loading="lazy"><b>Montclare</b></a>
+      <a class="tile" href="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1600/v1771535142/morgan-park-chicago-il-real-ai-enhanced_xqgmup.jpg" target="_blank" rel="noopener"><img src="https://res.cloudinary.com/dsbllwpbh/image/upload/c_fill,g_auto,w_480,h_320,f_auto,q_auto/v1771535142/morgan-park-chicago-il-real-ai-enhanced_xqgmup.jpg" alt="Morgan Park carousel photo" loading="lazy"><b>Morgan Park</b></a>
+      <a class="tile" href="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1600/v1771535140/roseland-chicago-real-ai-enhanced_ogxq2l.jpg" target="_blank" rel="noopener"><img src="https://res.cloudinary.com/dsbllwpbh/image/upload/c_fill,g_auto,w_480,h_320,f_auto,q_auto/v1771535140/roseland-chicago-real-ai-enhanced_ogxq2l.jpg" alt="Roseland carousel photo" loading="lazy"><b>Roseland</b></a>
+      <a class="tile" href="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1600/v1771535140/south-chicago-il-real-ai-enhanced_oyibla.jpg" target="_blank" rel="noopener"><img src="https://res.cloudinary.com/dsbllwpbh/image/upload/c_fill,g_auto,w_480,h_320,f_auto,q_auto/v1771535140/south-chicago-il-real-ai-enhanced_oyibla.jpg" alt="South Chicago carousel photo" loading="lazy"><b>South Chicago</b></a>
+      <a class="tile" href="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1600/v1771535140/south-lawndale-real-ai-enhanced-b_lb1pxv.jpg" target="_blank" rel="noopener"><img src="https://res.cloudinary.com/dsbllwpbh/image/upload/c_fill,g_auto,w_480,h_320,f_auto,q_auto/v1771535140/south-lawndale-real-ai-enhanced-b_lb1pxv.jpg" alt="South Lawndale carousel photo" loading="lazy"><b>South Lawndale</b></a>
+      <a class="tile" href="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1600/v1771535141/west-garfield-park-chicago-il-real-ai-enhanced-b_zyfmxz.jpg" target="_blank" rel="noopener"><img src="https://res.cloudinary.com/dsbllwpbh/image/upload/c_fill,g_auto,w_480,h_320,f_auto,q_auto/v1771535141/west-garfield-park-chicago-il-real-ai-enhanced-b_zyfmxz.jpg" alt="West Garfield Park carousel photo" loading="lazy"><b>West Garfield Park</b></a>
+      <a class="tile" href="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1600/v1771535141/west-pullman-chicago-il-real-ai-zoom-in-b_masjam.jpg" target="_blank" rel="noopener"><img src="https://res.cloudinary.com/dsbllwpbh/image/upload/c_fill,g_auto,w_480,h_320,f_auto,q_auto/v1771535141/west-pullman-chicago-il-real-ai-zoom-in-b_masjam.jpg" alt="West Pullman carousel photo" loading="lazy"><b>West Pullman</b></a>
+      <a class="tile" href="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1600/v1771535141/woodlawn-chicago-real-ai-enhanced-scaled-b_kcxhf8.jpg" target="_blank" rel="noopener"><img src="https://res.cloudinary.com/dsbllwpbh/image/upload/c_fill,g_auto,w_480,h_320,f_auto,q_auto/v1771535141/woodlawn-chicago-real-ai-enhanced-scaled-b_kcxhf8.jpg" alt="Woodlawn carousel photo" loading="lazy"><b>Woodlawn</b></a>
+    </div>
+  </section>
+  <section class="grp people">
+    <h2>Real places — AI-added people <span class="n">4</span></h2>
+    <p class="d">The street, building or mural is real, but some or all of the people were added by AI. A phone photo of the same spot fixes it.</p>
+    <div class="tiles">
+      <a class="tile" href="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1600/v1771535139/North-Lawndale-chicago-real-ai-enhance-add-people_oelmlm.jpg" target="_blank" rel="noopener"><img src="https://res.cloudinary.com/dsbllwpbh/image/upload/c_fill,g_auto,w_480,h_320,f_auto,q_auto/v1771535139/North-Lawndale-chicago-real-ai-enhance-add-people_oelmlm.jpg" alt="North Lawndale carousel photo" loading="lazy"><b>North Lawndale</b></a>
+      <a class="tile" href="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1600/v1771535141/south-shore-chicago-real-ai-enhanced-add-people-b_xpbq4a.jpg" target="_blank" rel="noopener"><img src="https://res.cloudinary.com/dsbllwpbh/image/upload/c_fill,g_auto,w_480,h_320,f_auto,q_auto/v1771535141/south-shore-chicago-real-ai-enhanced-add-people-b_xpbq4a.jpg" alt="South Shore carousel photo" loading="lazy"><b>South Shore</b></a>
+      <a class="tile" href="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1600/v1771535139/garfield-ridge-people-added-gemini_eztsbg.jpg" target="_blank" rel="noopener"><img src="https://res.cloudinary.com/dsbllwpbh/image/upload/c_fill,g_auto,w_480,h_320,f_auto,q_auto/v1771535139/garfield-ridge-people-added-gemini_eztsbg.jpg" alt="Garfield Ridge carousel photo" loading="lazy"><b>Garfield Ridge</b></a>
+      <a class="tile" href="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1600/v1771535140/washington-heights-chicago-il-real-ai-enhanced-add-people-b_nde8vb.jpg" target="_blank" rel="noopener"><img src="https://res.cloudinary.com/dsbllwpbh/image/upload/c_fill,g_auto,w_480,h_320,f_auto,q_auto/v1771535140/washington-heights-chicago-il-real-ai-enhanced-add-people-b_nde8vb.jpg" alt="Washington Heights carousel photo" loading="lazy"><b>Washington Heights</b><i>Also doesn’t read as Washington Heights — worth replacing either way.</i></a>
+    </div>
+  </section>
+  <section class="grp ai">
+    <h2>Fully AI-generated <span class="n">6</span></h2>
+    <p class="d">Invented scenes and, in places, invented signs. Replace these first.</p>
+    <div class="tiles">
+      <a class="tile" href="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1600/v1771535140/oakland-chicago-ai_pdrgbq.jpg" target="_blank" rel="noopener"><img src="https://res.cloudinary.com/dsbllwpbh/image/upload/c_fill,g_auto,w_480,h_320,f_auto,q_auto/v1771535140/oakland-chicago-ai_pdrgbq.jpg" alt="Oakland carousel photo" loading="lazy"><b>Oakland</b><i>Borders Hyde Park — a natural one for Allie.</i></a>
+      <a class="tile" href="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1600/v1771535140/riverdale-chicago-il-ai_wmaun4.jpg" target="_blank" rel="noopener"><img src="https://res.cloudinary.com/dsbllwpbh/image/upload/c_fill,g_auto,w_480,h_320,f_auto,q_auto/v1771535140/riverdale-chicago-il-ai_wmaun4.jpg" alt="Riverdale carousel photo" loading="lazy"><b>Riverdale</b></a>
+      <a class="tile" href="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1600/v1771535139/fuller-park-chicago-il-gemini_piyett.jpg" target="_blank" rel="noopener"><img src="https://res.cloudinary.com/dsbllwpbh/image/upload/c_fill,g_auto,w_480,h_320,f_auto,q_auto/v1771535139/fuller-park-chicago-il-gemini_piyett.jpg" alt="Fuller Park carousel photo" loading="lazy"><b>Fuller Park</b></a>
+      <a class="tile" href="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1600/v1771356625/burnside-il_tsolts.jpg" target="_blank" rel="noopener"><img src="https://res.cloudinary.com/dsbllwpbh/image/upload/c_fill,g_auto,w_480,h_320,f_auto,q_auto/v1771356625/burnside-il_tsolts.jpg" alt="Burnside carousel photo" loading="lazy"><b>Burnside</b></a>
+      <a class="tile" href="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1600/v1771357591/avalon-park-il-b_e5e1dh.jpg" target="_blank" rel="noopener"><img src="https://res.cloudinary.com/dsbllwpbh/image/upload/c_fill,g_auto,w_480,h_320,f_auto,q_auto/v1771357591/avalon-park-il-b_e5e1dh.jpg" alt="Avalon Park carousel photo" loading="lazy"><b>Avalon Park</b></a>
+      <a class="tile" href="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_1600/v1771357440/Auburn-Gresham-il-b_v9uolm.jpg" target="_blank" rel="noopener"><img src="https://res.cloudinary.com/dsbllwpbh/image/upload/c_fill,g_auto,w_480,h_320,f_auto,q_auto/v1771357440/Auburn-Gresham-il-b_v9uolm.jpg" alt="Auburn Gresham carousel photo" loading="lazy"><b>Auburn Gresham</b></a>
+    </div>
+  </section>
+  <div class="method"><b>How this was determined.</b> Google&rsquo;s Gemini stamps a small &#10022; in the corner of any image it generated or edited (24 of the 27 carry it); the file names recorded at upload (&ldquo;ai&rdquo;, &ldquo;real-ai-enhanced&rdquo;, &ldquo;reframe&rdquo;, &ldquo;add-people&rdquo;); and a visual read of each photo. <b>Hyde Park is not one of the 27</b> &mdash; Oakland and Woodlawn are its neighbors.</div>
+
+  <footer class="foot">
+    <span><b>Prepared by</b> Gary Ricke, Orbis Design</span>
+    <span><b>Live status</b> <a href="https://livehealthychi.com/status">livehealthychi.com/status</a></span>
+    <span><b>Hours</b> <a href="https://livehealthychi.com/scope">livehealthychi.com/scope</a></span>
+  </footer>
+
+</div>
+</div>
+<script>
+const HASH='279b8fbaf4bcc0cd38315426d9a523c6b12370c9d241d0b8fcff4eb276b9f37e';
+async function sha256(m){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(m));
+  return Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,'0')).join('');}
+async function checkPassword(){
+  const h=await sha256(document.getElementById('pw-input').value);
+  if(h===HASH){ sessionStorage.setItem('lhc_auth','1'); reveal(); }
+  else { document.getElementById('gate-error').textContent='Incorrect password.'; }
+}
+function reveal(){
+  const g=document.getElementById('gate');
+  g.classList.add('fade-out');
+  document.getElementById('app').style.display='';
+  setTimeout(function(){ g.style.display='none'; },450);
+}
+document.getElementById('pw-input').addEventListener('keydown',function(e){ if(e.key==='Enter') checkPassword(); });
+if(sessionStorage.getItem('lhc_auth')==='1'){
+  document.getElementById('gate').style.display='none';
+  document.getElementById('app').style.display='';
+}
+</script>
+</body>
+</html>

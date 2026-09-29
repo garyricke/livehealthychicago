@@ -3746,6 +3746,27 @@ let it drop on you`;
     const ADMIN_ICON_SVG = { viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: '1.75', strokeLinecap: 'round', strokeLinejoin: 'round', width: '16', height: '16' };
     const ADMIN_PAGES = [
       {
+        label: 'Check-In Agenda', desc: 'Check-in · 9/29', href: '/agenda',
+        icon: (
+          <svg {...ADMIN_ICON_SVG}>
+            <rect x="3" y="4" width="18" height="18" rx="2"/>
+            <line x1="16" y1="2" x2="16" y2="6"/>
+            <line x1="8" y1="2" x2="8" y2="6"/>
+            <line x1="3" y1="10" x2="21" y2="10"/>
+          </svg>
+        ),
+      },
+      {
+        label: 'Neighborhood Photos', desc: 'Real vs. AI · 9/29', href: '/neighborhood-photos',
+        icon: (
+          <svg {...ADMIN_ICON_SVG}>
+            <rect x="3" y="3" width="18" height="18" rx="2"/>
+            <circle cx="8.5" cy="8.5" r="1.5"/>
+            <path d="M21 15l-5-5L5 21"/>
+          </svg>
+        ),
+      },
+      {
         label: 'Staging Site', desc: 'index-stage.html', href: '/index-stage.html',
         icon: (
           <svg {...ADMIN_ICON_SVG}>
@@ -3860,17 +3881,6 @@ let it drop on you`;
           <svg {...ADMIN_ICON_SVG}>
             <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
             <polyline points="22,6 12,13 2,6"/>
-          </svg>
-        ),
-      },
-      {
-        label: 'Check-In Agenda', desc: 'Weekly meeting · 9/8', href: '/agenda',
-        icon: (
-          <svg {...ADMIN_ICON_SVG}>
-            <rect x="3" y="4" width="18" height="18" rx="2"/>
-            <line x1="16" y1="2" x2="16" y2="6"/>
-            <line x1="8" y1="2" x2="8" y2="6"/>
-            <line x1="3" y1="10" x2="21" y2="10"/>
           </svg>
         ),
       },
