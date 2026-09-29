@@ -396,8 +396,8 @@ h1 em{font-style:normal;color:var(--red)}
 <div id="gate">
   <div class="gate-card">
     <h2>Live Healthy Chicago</h2>
-    <p>CHW blood pressure training &mdash; team review</p>
-    <input id="pw-input" type="password" placeholder="Team password" aria-label="Team password" autocomplete="current-password">
+    <p>CHW blood pressure training &mdash; use your partner portal password</p>
+    <input id="pw-input" type="password" placeholder="Password" aria-label="Password" autocomplete="current-password">
     <button type="button" onclick="checkPassword()">View the training</button>
     <div id="gate-error" role="status"></div>
   </div>
@@ -780,11 +780,14 @@ h1 em{font-style:normal;color:var(--red)}
 </div>
 <script>
 const HASH='279b8fbaf4bcc0cd38315426d9a523c6b12370c9d241d0b8fcff4eb276b9f37e';
+// Partner portal viewer password (same as portal.html PORTAL_HASH) also opens the training.
+const PORTAL_HASH='1ad4cb672b94d63252e5ea26808d0953eee97c80a0f74763fddf0682a1f62891';
 async function sha256(m){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(m));
   return Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,'0')).join('');}
 async function checkPassword(){
   const h=await sha256(document.getElementById('pw-input').value);
   if(h===HASH){ sessionStorage.setItem('lhc_auth','1'); reveal(); }
+  else if(h===PORTAL_HASH){ sessionStorage.setItem('lhc_portal_auth','true'); reveal(); }
   else { document.getElementById('gate-error').textContent='Incorrect password.'; }
 }
 function reveal(){
@@ -794,7 +797,7 @@ function reveal(){
   setTimeout(function(){ g.style.display='none'; },450);
 }
 document.getElementById('pw-input').addEventListener('keydown',function(e){ if(e.key==='Enter') checkPassword(); });
-if(sessionStorage.getItem('lhc_auth')==='1'){
+if(sessionStorage.getItem('lhc_auth')==='1'||sessionStorage.getItem('lhc_portal_auth')==='true'){
   document.getElementById('gate').style.display='none';
   document.getElementById('app').style.display='';
 }
