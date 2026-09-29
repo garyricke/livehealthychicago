@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thanks for Taking a Step for Your Heart — Live Healthy Chicago</title>
+<meta name="description" content="Two things that protect your heart: check your blood pressure, and see a doctor if it's high. Then pick one small step for this week.">
+<link rel="canonical" href="https://livehealthychi.com/start">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" href="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1771612857/favicon-live-healthy-chicago_e7o6el.png">
+<meta property="og:title" content="A Healthier Chicago Starts Here">
+<meta property="og:description" content="Know your numbers. Take small steps. Feel better today — and tomorrow.">
+<meta property="og:image" content="https://res.cloudinary.com/dsbllwpbh/image/upload/c_fill,g_auto,w_1200,h_630,f_auto,q_auto/lhc-news/ama-community-bp-hero.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#1B365D; --blue:#1A7FB8; --red:#E5202F; --sky:#7FC4E8;
+  --char:#2D2D2D; --gray:#5A6779; --line:#D8E0EA; --tint:#F2F6FA; --cream:#FFF8F0;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Open Sans',system-ui,sans-serif;color:var(--char);background:#fff;-webkit-font-smoothing:antialiased;line-height:1.55;}
+h1,h2,h3,.mont{font-family:'Montserrat',system-ui,sans-serif;}
+a{color:inherit;}
+img{max-width:100%;display:block;}
+.wrap{width:100%;max-width:1080px;margin:0 auto;padding:0 20px;}
+.sr{position:absolute;left:-9999px;}
+[hidden]{display:none!important;}
+
+/* ---- top bar ---- */
+.bar{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);}
+.bar .wrap{display:flex;align-items:center;justify-content:space-between;height:60px;}
+.bar img{height:38px;width:auto;}
+.lang{display:inline-flex;border:1.5px solid var(--navy);border-radius:999px;overflow:hidden;font-family:'Montserrat';font-weight:800;font-size:.78rem;letter-spacing:.06em;}
+.lang button{background:none;border:0;padding:7px 13px;cursor:pointer;color:var(--navy);font:inherit;}
+.lang button[aria-pressed="true"]{background:var(--navy);color:#fff;}
+
+/* ---- hero: rotating "why" — photo + statement change together ---- */
+.preview-flag{background:#FFB81C;color:#3d2a00;font-family:'Montserrat';font-weight:800;font-size:.72rem;letter-spacing:.06em;text-align:center;padding:6px 12px;}
+.hero{position:relative;background:var(--navy);color:#fff;overflow:hidden;min-height:clamp(520px,78svh,640px);display:flex;align-items:flex-end;}
+.slides{position:absolute;inset:0;}
+.slides img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transform:scale(1.04);transition:opacity 1.1s ease,transform 7s ease;}
+.slides img.on{opacity:1;transform:scale(1);}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(14,32,64,.05) 0%,rgba(14,32,64,.25) 38%,rgba(14,32,64,.86) 72%,rgba(27,54,93,1) 100%);}
+.hero .wrap{position:relative;z-index:1;padding-top:40px;padding-bottom:28px;width:100%;}
+.eyebrow{display:inline-block;font-family:'Montserrat';font-weight:800;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:#fff;background:var(--red);padding:6px 12px;border-radius:6px;margin-bottom:14px;}
+.someday{font-family:'Montserrat';font-weight:800;font-size:.8rem;letter-spacing:.16em;text-transform:uppercase;color:var(--sky);margin-bottom:6px;}
+.hero h1{font-size:clamp(1.9rem,7.6vw,3.7rem);line-height:1.03;font-weight:900;letter-spacing:-.02em;max-width:17ch;min-height:2.06em;text-shadow:0 2px 18px rgba(0,0,0,.35);}
+.hero h1 .q{display:block;animation:qfade .7s ease both;}
+@keyframes qfade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.hero .lede{font-size:clamp(1rem,3.4vw,1.2rem);max-width:38ch;margin:14px 0 0;color:rgba(255,255,255,.93);}
+.hero .lede b{color:#fff;}
+.dots{display:flex;gap:8px;margin-top:18px;}
+.dots button{width:28px;height:5px;border-radius:3px;border:0;padding:0;background:rgba(255,255,255,.35);cursor:pointer;}
+.dots button[aria-current="true"]{background:#fff;}
+@media(prefers-reduced-motion:reduce){.slides img{transition:none;transform:none}.hero h1 .q{animation:none}}
+.btn{display:inline-flex;align-items:center;gap:10px;font-family:'Montserrat';font-weight:800;font-size:1rem;padding:14px 20px;border-radius:12px;text-decoration:none;transition:transform .12s,box-shadow .12s;border:0;cursor:pointer;}
+.btn:hover{transform:translateY(-1px);box-shadow:0 10px 24px rgba(0,0,0,.18);}
+.btn svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto;}
+.btn-red{background:var(--red);color:#fff;}
+.btn-navy{background:var(--navy);color:#fff;}
+.btn-white{background:#fff;color:var(--navy);}
+
+/* ---- the two big asks ---- */
+.asks{background:var(--navy);padding:0 0 40px;}
+.ask-grid{display:grid;gap:14px;}
+@media(min-width:760px){.ask-grid{grid-template-columns:1fr 1fr;gap:18px;}}
+.ask{background:#fff;border-radius:18px;padding:20px 20px 22px;display:flex;flex-direction:column;box-shadow:0 14px 40px rgba(0,0,0,.18);}
+.ask .num{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;background:var(--red);color:#fff;font-family:'Montserrat';font-weight:900;font-size:1rem;margin-bottom:12px;}
+.ask:nth-child(2) .num{background:var(--blue);}
+.ask h2{font-size:clamp(1.25rem,5vw,1.55rem);line-height:1.15;color:var(--navy);font-weight:900;}
+.ask p{color:var(--gray);font-size:.98rem;margin:8px 0 16px;}
+.ask .btn{align-self:flex-start;margin-top:auto;}
+.ask:nth-child(2) .btn{background:var(--blue);color:#fff;}
+.ask .note{font-size:.82rem;color:#8a1a22;background:#FDECEE;border-radius:10px;padding:9px 12px;margin:0 0 14px;line-height:1.45;}
+
+/* ---- why + one thing, side by side ---- */
+.commit{background:var(--cream);padding:40px 0 48px;}
+.commit .sec-h{margin-bottom:6px;}
+.commit-card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:0 12px 40px rgba(27,54,93,.08);display:grid;gap:18px;}
+@media(min-width:820px){.commit-card{grid-template-columns:.85fr 1.15fr;gap:28px;padding:26px;}
+  .why-col{display:flex;flex-direction:column;}.why-col .because{flex:1;}.why-col textarea{min-height:100%;font-size:1.1rem;}.why-col .because span{align-items:flex-start;padding-top:14px;}}
+.step-lbl{display:flex;align-items:center;gap:8px;font-family:'Montserrat';font-weight:800;font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;color:var(--navy);margin-bottom:8px;}
+.step-lbl b{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:var(--navy);color:#fff;font-size:.72rem;letter-spacing:0;}
+.because{display:flex;align-items:stretch;border:2px solid var(--navy);border-radius:12px;overflow:hidden;}
+.because span{display:flex;align-items:center;padding:0 11px;background:var(--navy);color:#fff;font-family:'Montserrat';font-weight:900;text-transform:uppercase;font-size:.82rem;letter-spacing:.06em;}
+.commit textarea,.commit input[type=text]{width:100%;border:0;font:inherit;font-size:1rem;padding:11px 12px;outline:none;color:var(--char);background:#fff;}
+.commit textarea{resize:none;min-height:64px;}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.row.opt{flex:1 1 100%;}
+.row input[type=text]{border:1.5px solid var(--line);border-radius:10px;font-size:.92rem;padding:9px 10px;}
+.row input:focus{border-color:var(--blue);}
+.picks{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+@media(min-width:560px){.picks{grid-template-columns:repeat(4,1fr);}}
+@media(min-width:820px){.picks{grid-template-columns:1fr 1fr;}}
+.pick{display:flex;align-items:center;gap:9px;text-align:left;background:var(--tint);border:2px solid transparent;border-radius:12px;padding:10px 10px;cursor:pointer;font:inherit;color:var(--navy);min-height:52px;transition:border-color .12s,background .12s;}
+.pick:hover{border-color:var(--line);}
+.pick[aria-pressed="true"]{background:#fff;border-color:var(--red);box-shadow:0 4px 14px rgba(229,32,47,.15);}
+.pick svg{width:24px;height:24px;flex:0 0 auto;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;color:var(--blue);}
+.pick.big svg{color:var(--red);}
+.pick span{font-family:'Montserrat';font-weight:800;font-size:.84rem;line-height:1.2;}
+.pick small{display:none;font-family:'Open Sans';font-weight:400;font-size:.78rem;color:var(--gray);margin-top:2px;line-height:1.35;}
+@media(min-width:820px){.pick small{display:block;}.pick{align-items:flex-start;min-height:0;padding:12px;}}
+.submit-row{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;border-top:1px solid var(--line);padding-top:14px;}
+.submit-row .btn{flex:0 0 auto;}
+.fine{font-size:.75rem;color:var(--gray);line-height:1.45;flex:1 1 240px;}
+.thanks{text-align:center;padding:20px 8px;grid-column:1/-1;}
+.thanks .heart{width:50px;height:50px;color:var(--red);margin:0 auto 10px;stroke:currentColor;fill:currentColor;}
+.thanks h3{color:var(--navy);font-size:1.3rem;font-weight:900;}
+.thanks p{color:var(--gray);margin:6px auto 0;max-width:44ch;}
+.thanks .mine{display:inline-block;margin-top:12px;font-family:'Montserrat';font-weight:800;color:var(--red);}
+.sec-h{font-size:clamp(1.5rem,5.5vw,2.1rem);color:var(--navy);font-weight:900;line-height:1.1;}
+.sec-sub{color:var(--gray);margin:6px 0 20px;max-width:52ch;}
+
+/* ---- Chicago's whys (rotating) ---- */
+.voices{padding:44px 0;text-align:center;}
+.quote{font-family:'Montserrat';font-weight:900;text-transform:uppercase;line-height:1.05;letter-spacing:-.01em;color:var(--red);font-size:clamp(1.4rem,6vw,2.3rem);min-height:3.2em;max-width:24ch;margin:0 auto;}
+.quote small{display:block;font-size:.4em;letter-spacing:.14em;color:var(--navy);margin-bottom:10px;}
+.quote .q{display:block;animation:qfade .6s ease both;}
+@keyframes qfade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* ---- doors ---- */
+.doors{background:var(--navy);color:#fff;padding:56px 0;}
+.doors .sec-h{color:#fff;}
+.doors .sec-sub{color:rgba(255,255,255,.75);}
+.door-grid{display:grid;gap:14px;}
+@media(min-width:820px){.door-grid{grid-template-columns:repeat(3,1fr);}}
+.door{display:flex;gap:16px;align-items:center;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:18px;text-decoration:none;color:#fff;transition:background .15s,transform .12s;}
+.door:hover{background:rgba(255,255,255,.13);transform:translateY(-2px);}
+.door .ico{width:44px;height:44px;flex:0 0 auto;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;padding:9px;border-radius:12px;}
+.door:nth-child(1) .ico{background:var(--red);}
+.door:nth-child(2) .ico{background:var(--blue);}
+.door:nth-child(3) .ico{background:#1F8F79;}
+.door h3{font-size:1.05rem;font-weight:800;line-height:1.2;}
+.door p{font-size:.88rem;color:rgba(255,255,255,.75);margin-top:3px;}
+.door .arr{margin-left:auto;width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto;opacity:.8;}
+
+/* ---- close ---- */
+.close{padding:56px 0 40px;text-align:center;}
+.close h2{font-size:clamp(1.5rem,5.5vw,2.2rem);color:var(--navy);font-weight:900;line-height:1.15;max-width:22ch;margin:0 auto 8px;}
+.close .rule{width:64px;height:4px;background:var(--red);border-radius:2px;margin:16px auto 22px;}
+.close p{color:var(--gray);max-width:46ch;margin:0 auto 22px;}
+footer{border-top:1px solid var(--line);padding:22px 0 30px;font-size:.82rem;color:var(--gray);text-align:center;line-height:1.6;}
+footer a{color:var(--navy);font-weight:700;text-decoration:none;}
+
+/* ---- reveal ---- */
+.rv{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease;}
+.rv.in{opacity:1;transform:none;}
+@media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}.quote .q{animation:none}}
+</style>
+</head>
+<body>
+
+<!-- Netlify Forms: static twin so the crawler registers the form -->
+<form name="why-chi" data-netlify="true" netlify-honeypot="bot-field" hidden>
+  <input type="text" name="why"><input type="text" name="pick"><input type="text" name="name"><input type="text" name="zip"><input type="text" name="lang"><input type="text" name="bot-field">
+</form>
+
+<div class="preview-flag">PREVIEW — photos are AI placeholders until we have real ones</div>
+<header class="bar">
+  <div class="wrap">
+    <a href="/"><img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_240/lhc-brand/logo-live-healthy-chicago" alt="Live Healthy Chicago"></a>
+    <div class="lang" role="group" aria-label="Language">
+      <button type="button" data-lang="en" aria-pressed="true">EN</button>
+      <button type="button" data-lang="es" aria-pressed="false">ES</button>
+    </div>
+  </div>
+</header>
+
+<section class="hero" aria-roledescription="carousel" aria-label="Why people choose to get healthy">
+  <div class="slides">
+    <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/c_fill,g_auto,w_1600,h_1000,f_auto,q_auto/lhc-start/why-wedding.jpg"
+         srcset="https://res.cloudinary.com/dsbllwpbh/image/upload/c_fill,g_auto,w_800,h_1000,f_auto,q_auto/lhc-start/why-wedding.jpg 800w, https://res.cloudinary.com/dsbllwpbh/image/upload/c_fill,g_auto,w_1600,h_1000,f_auto,q_auto/lhc-start/why-wedding.jpg 1600w"
+         sizes="100vw" alt="A father dancing with his daughter at her wedding" class="on" fetchpriority="high">
+    <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/c_fill,g_auto,w_1600,h_1000,f_auto,q_auto/lhc-start/why-graduation.jpg"
+         srcset="https://res.cloudinary.com/dsbllwpbh/image/upload/c_fill,g_auto,w_800,h_1000,f_auto,q_auto/lhc-start/why-graduation.jpg 800w, https://res.cloudinary.com/dsbllwpbh/image/upload/c_fill,g_auto,w_1600,h_1000,f_auto,q_auto/lhc-start/why-graduation.jpg 1600w"
+         sizes="100vw" alt="A grandmother hugging her grandson at his graduation" loading="lazy">
+    <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/c_fill,g_auto,w_1600,h_1000,f_auto,q_auto/lhc-start/why-lakefront.jpg"
+         srcset="https://res.cloudinary.com/dsbllwpbh/image/upload/c_fill,g_auto,w_800,h_1000,f_auto,q_auto/lhc-start/why-lakefront.jpg 800w, https://res.cloudinary.com/dsbllwpbh/image/upload/c_fill,g_auto,w_1600,h_1000,f_auto,q_auto/lhc-start/why-lakefront.jpg 1600w"
+         sizes="100vw" alt="A woman walking the Chicago lakefront at sunrise" loading="lazy">
+    <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/c_fill,g_auto,w_1600,h_1000,f_auto,q_auto/lhc-start/why-mom.jpg"
+         srcset="https://res.cloudinary.com/dsbllwpbh/image/upload/c_fill,g_auto,w_800,h_1000,f_auto,q_auto/lhc-start/why-mom.jpg 800w, https://res.cloudinary.com/dsbllwpbh/image/upload/c_fill,g_auto,w_1600,h_1000,f_auto,q_auto/lhc-start/why-mom.jpg 1600w"
+         sizes="100vw" alt="A woman laughing with her mother on the front steps of their home" loading="lazy">
+  </div>
+  <div class="wrap">
+    <span class="eyebrow" data-i18n="eyebrow">What’s your why, Chi?</span>
+    <div class="someday" data-i18n="because">Because someday…</div>
+    <h1 aria-live="polite"><span class="q" id="quote">I want to dance at my daughter’s wedding.</span></h1>
+    <p class="lede" data-i18n="lede" data-i18n-html><b>Thanks for taking a step for your heart.</b> A year from now, you’ll be glad you started today.</p>
+    <div class="dots" role="group" aria-label="Choose a story">
+      <button type="button" aria-label="Story 1" aria-current="true"></button><button type="button" aria-label="Story 2"></button><button type="button" aria-label="Story 3"></button><button type="button" aria-label="Story 4"></button>
+    </div>
+  </div>
+</section>
+
+<section class="asks" aria-label="The two most important things">
+  <div class="wrap ask-grid">
+    <div class="ask">
+      <span class="num">1</span>
+      <h2 data-i18n="a1h">Check your blood pressure</h2>
+      <p data-i18n="a1p">It’s free, it takes a few minutes, and it’s the only way to know. Most people with high blood pressure feel fine.</p>
+      <a class="btn btn-red" href="/events">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18"/><path d="M8 3v4"/><path d="M16 3v4"/></svg>
+        <span data-i18n="a1b">Find a free check near you</span></a>
+    </div>
+    <div class="ask">
+      <span class="num">2</span>
+      <h2 data-i18n="a2h">If it’s high, make a doctor’s appointment</h2>
+      <p data-i18n="a2p">130/80 or higher? Book a visit with your doctor or a clinic this month. High blood pressure is common — and it can be managed.</p>
+      <p class="note" data-i18n="a2n">180/120 or higher with chest pain, shortness of breath, or trouble speaking? Call 911.</p>
+      <a class="btn" href="/#partners">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z"/><path d="M12 7v6"/><path d="M9 10h6"/></svg>
+        <span data-i18n="a2b">Find care near you</span></a>
+    </div>
+  </div>
+</section>
+
+<section class="commit" id="why">
+  <div class="wrap">
+    <h2 class="sec-h" data-i18n="cH">Your why. Your one thing.</h2>
+    <p class="sec-sub" data-i18n="cSub">You don’t have to change everything. Tell us who you’re doing this for, and pick one small step for this week.</p>
+    <form id="whyForm" class="commit-card" name="why-chi" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/start">
+      <input type="hidden" name="form-name" value="why-chi">
+      <input type="hidden" name="lang" id="langField" value="en">
+      <input type="hidden" name="pick" id="pickField" value="">
+      <p class="sr"><label>Don’t fill this out: <input name="bot-field"></label></p>
+      <div class="why-col">
+        <label class="step-lbl" for="whyInput"><b>1</b><span data-i18n="s1">My why</span></label>
+        <div class="because"><span data-i18n="becauseTag">Because</span><textarea id="whyInput" name="why" maxlength="200" data-i18n-ph="formPh" placeholder="someday, I want to…"></textarea></div>
+      </div>
+      <div>
+        <div class="step-lbl" id="pickLbl"><b>2</b><span data-i18n="s2">This week, I’ll…</span></div>
+        <div class="picks" role="group" aria-labelledby="pickLbl">
+          <button type="button" class="pick big" data-pick="Check my blood pressure"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/><path d="M3 12h4l2-3 3 6 2-3h7"/></svg><div><span data-i18n="p1">Check my blood pressure</span><small data-i18n="p1s">Free at events and with our mobile team.</small></div></button>
+          <button type="button" class="pick big" data-pick="Make a doctor’s appointment"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18"/><path d="M8 3v4"/><path d="M16 3v4"/><path d="M12 13v5"/><path d="M9.5 15.5h5"/></svg><div><span data-i18n="p2">Make a doctor’s appointment</span><small data-i18n="p2s">Especially if your numbers were high.</small></div></button>
+          <button type="button" class="pick" data-pick="Eat more fruits and vegetables"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21c-4.4 0-8-3.6-8-8 0-3 1.7-5.6 4.2-7"/><path d="M12 21c4.4 0 8-3.6 8-8 0-3-1.7-5.6-4.2-7"/><path d="M12 3v9"/><path d="M8.5 5.5c1.5-1.5 5.5-1.5 7 0"/></svg><div><span data-i18n="p3">Eat more fruits &amp; veggies</span><small data-i18n="p3s">They help keep blood pressure healthy.</small></div></button>
+          <button type="button" class="pick" data-pick="Move 30 minutes"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="15" cy="4.5" r="1.8"/><path d="M13 8.5 9.5 12l3 2.5-1 6"/><path d="m13 8.5 3.5 2 2.5-1.5"/><path d="M9.5 12 6 13l-1 3"/><path d="M14 16l3 2 1.5 3"/></svg><div><span data-i18n="p4">Move 30 minutes a day</span><small data-i18n="p4s">A walk counts. It adds up.</small></div></button>
+          <button type="button" class="pick" data-pick="Use less salt"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3h8v3H8z"/><path d="M7 6h10l1 15H6z"/><path d="M11 10v5"/><path d="m9 13 2 2 2-2"/></svg><div><span data-i18n="p5">Use less salt</span><small data-i18n="p5s">Try herbs and spices instead.</small></div></button>
+          <button type="button" class="pick" data-pick="Sleep 7-9 hours"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/><path d="M16 4h3l-3 3h3"/></svg><div><span data-i18n="p6">Sleep 7–9 hours</span><small data-i18n="p6s">Your heart recovers while you sleep.</small></div></button>
+          <button type="button" class="pick" data-pick="Lower my stress"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/><path d="M12 8v4l2.5 1.5"/></svg><div><span data-i18n="p7">Lower my stress</span><small data-i18n="p7s">Make time for what helps you feel your best.</small></div></button>
+          <button type="button" class="pick" data-pick="Keep a healthy weight"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M8 12h.01"/><path d="M12 12h.01"/><path d="M16 12h.01"/><path d="M12 8v4"/></svg><div><span data-i18n="p8">Keep a healthy weight</span><small data-i18n="p8s">Even a little makes a big difference.</small></div></button>
+        </div>
+      </div>
+      <div class="submit-row">
+        <div class="row opt">
+          <input type="text" name="name" maxlength="40" autocomplete="given-name" data-i18n-ph="namePh" placeholder="First name" aria-label="First name (optional)">
+          <input type="text" name="zip" inputmode="numeric" maxlength="5" pattern="[0-9]{5}" autocomplete="postal-code" data-i18n-ph="zipPh" placeholder="ZIP code" aria-label="ZIP (optional)">
+        </div>
+        <button class="btn btn-navy" type="submit"><span data-i18n="send">Share my why</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></button>
+        <p class="fine" id="formErr" hidden style="color:#B42318;font-weight:700;"></p>
+        <p class="fine" data-i18n="fine">Name and ZIP are optional. We may share your words (first name only) to inspire other Chicagoans. No email needed, ever.</p>
+      </div>
+    </form>
+    <div class="commit-card" id="thanks" hidden>
+      <div class="thanks">
+        <svg class="heart" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
+        <h3 data-i18n="thanksH">That’s your why.</h3>
+        <p data-i18n="thanksP">Thank you. Start with your one thing this week — then come back and pick another.</p>
+        <span class="mine" id="mine" hidden></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="doors">
+  <div class="wrap">
+    <h2 class="sec-h rv" data-i18n="doorsH">More ways we can help</h2>
+    <p class="sec-sub rv" data-i18n="doorsSub">Free, close to home, and open to everyone.</p>
+    <div class="door-grid">
+      <a class="door rv" href="/events">
+        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18"/><path d="M8 3v4"/><path d="M16 3v4"/><path d="M8 15h.01M12 15h.01M16 15h.01"/></svg>
+        <div><h3 data-i18n="d1h">Find a blood pressure check</h3><p data-i18n="d1p">Free events and our mobile team, near you.</p></div>
+        <svg class="arr" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+      </a>
+      <a class="door rv" href="/#partners">
+        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z"/><path d="M12 7v6"/><path d="M9 10h6"/></svg>
+        <div><h3 data-i18n="d2h">Find care near you</h3><p data-i18n="d2p">Clinics and health centers in our coalition.</p></div>
+        <svg class="arr" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+      </a>
+      <a class="door rv" href="/#blood-pressure">
+        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3 20a6 6 0 0 1 12 0"/><path d="M15 20a4 4 0 0 1 6 0"/></svg>
+        <div><h3 data-i18n="d3h">Understand your numbers</h3><p data-i18n="d3p">What blood pressure means, and a free log to track it.</p></div>
+        <svg class="arr" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="close">
+  <div class="wrap">
+    <h2 class="rv" data-i18n="closeH">A healthier you helps build a stronger Chicago.</h2>
+    <div class="rule"></div>
+    <p class="rv" data-i18n="closeP">Live Healthy Chicago is a coalition of hospitals, health experts, and community partners working together for stronger hearts and healthier neighborhoods.</p>
+    <a class="btn btn-navy rv" href="/"><span data-i18n="learn">Learn more about Live Healthy Chicago</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
+  </div>
+</section>
+
+<footer><div class="wrap"><a href="/">livehealthychi.com</a> &nbsp;·&nbsp; <span data-i18n="foot">Stronger Hearts. Healthier Neighborhoods.</span></div></footer>
+
+<script>
+/* ---- translations (page-level only; site-wide is a later decision) ---- */
+const T = {
+  en: {
+    eyebrow:'What’s your why, Chi?', h1:'Thanks for taking a step <em>for your heart.</em>',
+    lede:'<b>Thanks for taking a step for your heart.</b> A year from now, you’ll be glad you started today.',
+    a1h:'Check your blood pressure', a1p:'It’s free, it takes a few minutes, and it’s the only way to know. Most people with high blood pressure feel fine.', a1b:'Find a free check near you',
+    a2h:'If it’s high, make a doctor’s appointment', a2p:'130/80 or higher? Book a visit with your doctor or a clinic this month. High blood pressure is common — and it can be managed.',
+    a2n:'180/120 or higher with chest pain, shortness of breath, or trouble speaking? Call 911.', a2b:'Find care near you',
+    cH:'Your why. Your one thing.', cSub:'You don’t have to change everything. Tell us who you’re doing this for, and pick one small step for this week.',
+    s1:'My why', becauseTag:'Because', formPh:'someday, I want to…', namePh:'First name', zipPh:'ZIP code',
+    s2:'This week, I’ll…',
+    p1:'Check my blood pressure', p1s:'Free at events and with our mobile team.',
+    p2:'Make a doctor’s appointment', p2s:'Especially if your numbers were high.',
+    p3:'Eat more fruits & veggies', p3s:'They help keep blood pressure healthy.',
+    p4:'Move 30 minutes a day', p4s:'A walk counts. It adds up.',
+    p5:'Use less salt', p5s:'Try herbs and spices instead.',
+    p6:'Sleep 7–9 hours', p6s:'Your heart recovers while you sleep.',
+    p7:'Lower my stress', p7s:'Make time for what helps you feel your best.',
+    p8:'Keep a healthy weight', p8s:'Even a little makes a big difference.',
+    send:'Share my why', fine:'Name and ZIP are optional. We may share your words (first name only) to inspire other Chicagoans. No email needed, ever.',
+    need:'Tell us your why, or pick one thing — or both.', err:'Something went wrong. Please try again.',
+    thanksH:'That’s your why.', thanksP:'Thank you. Start with your one thing this week — then come back and pick another.', mine:'Your one thing: ',
+    because:'Because someday…',
+    doorsH:'More ways we can help', doorsSub:'Free, close to home, and open to everyone.',
+    d1h:'Find a blood pressure check', d1p:'Free events and our mobile team, near you.',
+    d2h:'Find care near you', d2p:'Clinics and health centers in our coalition.',
+    d3h:'Understand your numbers', d3p:'What blood pressure means, and a free log to track it.',
+    closeH:'A healthier you helps build a stronger Chicago.',
+    closeP:'Live Healthy Chicago is a coalition of hospitals, health experts, and community partners working together for stronger hearts and healthier neighborhoods.',
+    learn:'Learn more about Live Healthy Chicago', foot:'Stronger Hearts. Healthier Neighborhoods.',
+    quotes:['I want to dance at my daughter’s wedding.','I want to see my grandson graduate.','I want to walk the lakefront without stopping.','I want to be there for my mom, like she was for me.']
+  },
+  es: {
+    eyebrow:'¿Cuál es tu porqué, Chi?', h1:'Gracias por dar un paso <em>por tu corazón.</em>',
+    lede:'<b>Gracias por dar un paso por tu corazón.</b> Dentro de un año, te alegrarás de haber empezado hoy.',
+    a1h:'Revisa tu presión arterial', a1p:'Es gratis, toma unos minutos y es la única forma de saberlo. La mayoría de las personas con presión alta se sienten bien.', a1b:'Encuentra un chequeo gratis',
+    a2h:'Si está alta, haz una cita con el médico', a2p:'¿130/80 o más? Haz una cita con tu médico o una clínica este mes. La presión alta es común — y se puede controlar.',
+    a2n:'¿180/120 o más con dolor de pecho, falta de aire o dificultad para hablar? Llama al 911.', a2b:'Encuentra atención cerca de ti',
+    cH:'Tu porqué. Tu paso.', cSub:'No tienes que cambiar todo. Cuéntanos por quién lo haces y elige un paso pequeño para esta semana.',
+    s1:'Mi porqué', becauseTag:'Porque', formPh:'algún día quiero…', namePh:'Nombre', zipPh:'Código postal',
+    s2:'Esta semana, voy a…',
+    p1:'Revisar mi presión', p1s:'Gratis en eventos y con nuestro equipo móvil.',
+    p2:'Hacer una cita médica', p2s:'Sobre todo si tus números salieron altos.',
+    p3:'Comer más frutas y verduras', p3s:'Ayudan a mantener la presión saludable.',
+    p4:'Moverme 30 minutos al día', p4s:'Caminar cuenta. Todo suma.',
+    p5:'Usar menos sal', p5s:'Prueba hierbas y especias.',
+    p6:'Dormir de 7 a 9 horas', p6s:'Tu corazón se recupera mientras duermes.',
+    p7:'Bajar mi estrés', p7s:'Dedica tiempo a lo que te hace sentir mejor.',
+    p8:'Mantener un peso saludable', p8s:'Un poco hace una gran diferencia.',
+    send:'Compartir mi porqué', fine:'Nombre y código postal son opcionales. Podemos compartir tus palabras (solo tu nombre) para inspirar a otros en Chicago. Nunca pedimos tu correo.',
+    need:'Cuéntanos tu porqué o elige un paso — o las dos cosas.', err:'Algo salió mal. Inténtalo de nuevo.',
+    thanksH:'Ese es tu porqué.', thanksP:'Gracias. Empieza con tu paso esta semana — y luego vuelve a elegir otro.', mine:'Tu paso: ',
+    because:'Porque algún día…',
+    doorsH:'Más formas de ayudarte', doorsSub:'Gratis, cerca de casa y abierto para todos.',
+    d1h:'Encuentra un chequeo de presión', d1p:'Eventos gratis y nuestro equipo móvil, cerca de ti.',
+    d2h:'Encuentra atención cerca de ti', d2p:'Clínicas y centros de salud de nuestra coalición.',
+    d3h:'Entiende tus números', d3p:'Qué significa la presión arterial, y un registro gratis para anotarla.',
+    closeH:'Tu salud ayuda a construir un Chicago más fuerte.',
+    closeP:'Live Healthy Chicago es una coalición de hospitales, expertos en salud y organizaciones comunitarias que trabajan juntos por corazones más fuertes y vecindarios más sanos.',
+    learn:'Conoce más sobre Live Healthy Chicago', foot:'Corazones más fuertes. Vecindarios más sanos.',
+    quotes:['Quiero bailar en la boda de mi hija.','Quiero ver a mi nieto graduarse.','Quiero caminar por el lago sin parar.','Quiero estar para mi mamá, como ella estuvo para mí.']
+  }
+};
+let lang = 'en', qi = 0, qTimer;
+function setLang(l){
+  lang = T[l] ? l : 'en';
+  const d = T[lang];
+  document.documentElement.lang = lang;
+  document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.dataset.i18n; if(!(k in d)) return; el.hasAttribute('data-i18n-html') ? el.innerHTML=d[k] : el.textContent=d[k];});
+  document.querySelectorAll('[data-i18n-ph]').forEach(el=>{el.placeholder=d[el.dataset.i18nPh]||'';});
+  document.querySelectorAll('.lang button').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.lang===lang)));
+  document.getElementById('langField').value = lang;
+  document.title = (lang==='es' ? 'Gracias por dar un paso por tu corazón' : 'Thanks for Taking a Step for Your Heart')+' — Preview';
+  try{localStorage.setItem('lhc_lang',lang);}catch(e){}
+  const u=new URL(location); if(lang==='es') u.searchParams.set('lang','es'); else u.searchParams.delete('lang'); history.replaceState(null,'',u);
+  showQuote(0);
+}
+const slideEls=[...document.querySelectorAll('.slides img')], dotEls=[...document.querySelectorAll('.dots button')];
+const still=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+function showQuote(i){
+  const q=T[lang].quotes; if(typeof i==='number') qi=i;
+  const n=qi % q.length, el=document.getElementById('quote');
+  el.textContent=q[n]; el.classList.remove('q'); void el.offsetWidth; el.classList.add('q');
+  slideEls.forEach((im,k)=>im.classList.toggle('on',k===n));
+  dotEls.forEach((d,k)=>d.setAttribute('aria-current',String(k===n)));
+  qi=n+1; clearTimeout(qTimer); if(!still) qTimer=setTimeout(showQuote,5500);
+}
+dotEls.forEach((d,k)=>d.addEventListener('click',()=>showQuote(k)));
+document.addEventListener('visibilitychange',()=>{ if(document.hidden) clearTimeout(qTimer); else if(!still) qTimer=setTimeout(showQuote,5500); });
+document.querySelectorAll('.lang button').forEach(b=>b.addEventListener('click',()=>setLang(b.dataset.lang)));
+(function(){
+  const p=new URL(location).searchParams.get('lang'); let saved=null; try{saved=localStorage.getItem('lhc_lang');}catch(e){}
+  const nav=(navigator.language||'').toLowerCase().startsWith('es')?'es':null;
+  setLang(p || saved || nav || 'en');
+})();
+
+/* ---- pick one (single select; stored in English so results compare across languages) ---- */
+const picks=[...document.querySelectorAll('.pick')];
+picks.forEach(b=>{b.setAttribute('aria-pressed','false');b.addEventListener('click',()=>{
+  const on=b.getAttribute('aria-pressed')!=='true';
+  picks.forEach(x=>x.setAttribute('aria-pressed','false'));
+  if(on) b.setAttribute('aria-pressed','true');
+  document.getElementById('pickField').value = on ? b.dataset.pick : '';
+  document.getElementById('formErr').hidden=true;
+});});
+
+/* ---- form → Netlify, stay on page ---- */
+document.getElementById('whyForm').addEventListener('submit', async e=>{
+  e.preventDefault();
+  const f=e.target, btn=f.querySelector('button[type=submit]'), m=document.getElementById('formErr');
+  const why=f.why.value.trim(), pick=f.pick.value;
+  if(!why && !pick){ m.textContent=T[lang].need; m.hidden=false; return; }
+  btn.disabled=true;
+  try{
+    const res=await fetch('/start.html',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(new FormData(f)).toString()});
+    if(!(res.ok||res.status===303)) throw new Error(res.status);
+    f.hidden=true; document.getElementById('thanks').hidden=false;
+    const sel=picks.find(x=>x.getAttribute('aria-pressed')==='true');
+    if(sel){ const mine=document.getElementById('mine'); mine.textContent=T[lang].mine+sel.querySelector('span').textContent; mine.hidden=false; }
+  }catch(err){ btn.disabled=false; m.textContent=T[lang].err; m.hidden=false; }
+});
+
+/* ---- reveal on scroll ---- */
+const io=new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target);}}),{threshold:.12});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
