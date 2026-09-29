@@ -2585,6 +2585,22 @@ let it drop on you`;
         heroImage: 'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1789491708/lhc-events/paint-the-church-pink/hero.jpg',
       },
       {
+        id: 'lhc-all-partners-meeting-oct-2026',
+        title: 'Live Healthy Chicago All-Partners Meeting',
+        subtitle: 'Our first annual gathering of the whole coalition — hospitals, clinics, CHWs, and community partners',
+        badge: 'Register by Oct 12',
+        date: 'October 26, 2026',
+        weekday: 'Monday',
+        time: '8:00 A.M. – 1:00 P.M.',
+        location: 'Kennedy-King College',
+        address: '740 W. 63rd St., Chicago, IL 60621',
+        description: 'A morning with the partners behind Live Healthy Chicago: a keynote, the year’s work, facilitated discussion, and lunch from the Washburne Culinary Institute. All are welcome — registration closes October 12.',
+        longDescription: 'Join us for the First Annual Live Healthy Chicago All-Partners Meeting — a morning of programming, conversation, and lunch with the hospitals, health centers, community health workers, and neighborhood partners working together for stronger hearts and healthier neighborhoods.\n\nSchedule:\n• 8:00 – 9:00 A.M. — Registration & networking\n• 9:00 – 9:30 A.M. — Keynote address\n• 9:30 – 11:00 A.M. — Main program\n• 11:00 A.M. – 12:00 P.M. — Facilitated activities & discussion\n• 12:00 – 1:00 P.M. — Lunch from the renowned Washburne Culinary Institute\n\nA formal agenda will be shared closer to the date. Please register by October 12.',
+        highlights: ['Free', 'Lunch Provided', 'Register by Oct 12', 'All Are Welcome'],
+        rsvpUrl: 'https://forms.gle/c7XFkxvzqJFaBbgn6',
+        heroImage: 'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1790697427/lhc-events/all-partners-meeting-2026/hero.jpg',
+      },
+      {
         id: 'black-womens-health-forum-nov-2026',
         title: 'Black Women’s Health Forum',
         subtitle: 'A community conversation on health and wellness at the Blue Door Neighborhood Center',
@@ -4018,6 +4034,20 @@ let it drop on you`;
 
     function LiveHealthyChicago() {
       const [scrolled, setScrolled] = React.useState(false);
+      // Announcement bar — one message at a time; hides itself after `until` and can be dismissed.
+      const ANNOUNCE = {
+        id: 'all-partners-2026',
+        until: '2026-10-13T00:00:00-05:00',
+        short: 'All-Partners Meeting · Oct 26',
+        long: 'Live Healthy Chicago All-Partners Meeting · Monday, Oct 26 · Kennedy-King College',
+        cta: 'Register by Oct 12',
+        href: 'https://forms.gle/c7XFkxvzqJFaBbgn6',
+      };
+      const [barOpen, setBarOpen] = React.useState(() => {
+        if (new Date() >= new Date(ANNOUNCE.until)) return false;
+        try { return localStorage.getItem('lhc_bar_' + ANNOUNCE.id) !== 'closed'; } catch (e) { return true; }
+      });
+      const closeBar = () => { setBarOpen(false); try { localStorage.setItem('lhc_bar_' + ANNOUNCE.id, 'closed'); } catch (e) {} };
       const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
       const [contactOpen, setContactOpen] = React.useState(false);
       const [contactForm, setContactForm] = React.useState({ name: '', email: '', organization: '', org_type: '', message: '' });
@@ -4702,6 +4732,19 @@ And that is how we overcome high blood pressure. They'll tell you about food and
           {/* ── Navigation ── */}
           <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? 'shadow-lg' : ''}`}
                style={{ backgroundColor: scrolled ? 'rgba(255,255,255,0.97)' : 'transparent', backdropFilter: scrolled ? 'blur(12px)' : 'none' }}>
+            {barOpen && (
+              <div className="w-full" style={{ backgroundColor: colors.starRed, color: '#fff', fontFamily: "'Poppins', sans-serif" }} role="region" aria-label="Announcement">
+                <div className="max-w-7xl mx-auto px-4 py-2 flex items-center justify-center gap-3 text-xs md:text-sm font-semibold">
+                  <CalendarIcon className="w-4 h-4 flex-shrink-0 hidden md:block" />
+                  <span className="md:hidden whitespace-nowrap">{ANNOUNCE.short}</span>
+                  <span className="hidden md:inline">{ANNOUNCE.long}</span>
+                  <a href={ANNOUNCE.href} target="_blank" rel="noopener" className="underline underline-offset-2 whitespace-nowrap hover:opacity-90"><span className="md:hidden">Register</span><span className="hidden md:inline">{ANNOUNCE.cta}</span> &rarr;</a>
+                  <button onClick={closeBar} aria-label="Dismiss announcement" className="ml-1 p-1 rounded hover:bg-white/20 flex-shrink-0">
+                    <XIcon className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+            )}
             <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <img
