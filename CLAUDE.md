@@ -62,7 +62,7 @@
 - Avoid: "silent killer", "ASCVD", "wicked problem"
 
 ## Key Assets
-- Logo: `https://assets.codepen.io/3457845/logo-Live-Healthy-Chicago.png`
+- Logo: `https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_600/lhc-brand/logo-live-healthy-chicago` (the old CodePen URL returns 403 — do not use it)
 - Model diagram: `https://assets.codepen.io/3457845/LHC%2BModel.webp`
 - Favicon: Cloudinary PNG (in `<link rel="icon">` in `<head>`)
 - Neighborhood images: all 27 neighborhoods have Cloudinary image URLs
