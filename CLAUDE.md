@@ -63,7 +63,7 @@
 
 ## Key Assets
 - Logo: `https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_600/lhc-brand/logo-live-healthy-chicago` (the old CodePen URL returns 403 — do not use it)
-- Model diagram: `https://assets.codepen.io/3457845/LHC%2BModel.webp`
+- Model diagram: see index.html (not CodePen — every assets.codepen.io URL now returns 403; local original at `assets/LHC+Model.webp`)
 - Favicon: Cloudinary PNG (in `<link rel="icon">` in `<head>`)
 - Neighborhood images: all 27 neighborhoods have Cloudinary image URLs
 - Event images: Cloudinary URLs in column N of the sheet
