@@ -23,7 +23,9 @@
     .fade-up { animation: fadeUp 0.5s ease forwards; }
     input, select { outline: none; }
     input:focus, select:focus { outline: 2px solid #46B7E5; outline-offset: 0; }
-  </style>
+  .train-thumb{flex:0 0 240px;width:240px;object-fit:cover;aspect-ratio:4/3;}
+@media (max-width:560px){.train-thumb{flex:1 1 100%;width:100%;}}
+</style>
 </head>
 <body>
 
@@ -285,10 +287,6 @@
       {
         title: 'Community Engagement Toolkit',
         description: 'Event checklists, tabling guides, and community scripts',
-      },
-      {
-        title: 'Trainings & Events',
-        description: 'Upcoming CHW trainings, provider sessions, and recorded archives',
       },
       {
         title: 'Partner Links & Data',
@@ -1038,6 +1036,45 @@
                 ))}
               </div>
             )}
+
+            {/* Trainings — live (replaces the old "Trainings & Events" placeholder) */}
+            <div style={{ marginTop: '16px', marginBottom: '28px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
+                <h3 style={{ fontSize: '16px', fontWeight: 700, color: C.trustNavy, fontFamily: "'Montserrat', sans-serif" }}>
+                  Trainings
+                </h3>
+                <div style={{ height: '1px', flex: 1, background: 'rgba(0,0,0,0.1)' }} />
+              </div>
+              <a href="/chw-training" style={{
+                display: 'flex', flexWrap: 'wrap', alignItems: 'stretch', textDecoration: 'none',
+                background: '#fff', borderRadius: '16px', overflow: 'hidden',
+                border: '1px solid rgba(0,0,0,0.08)', boxShadow: '0 8px 24px rgba(27,54,93,0.08)',
+              }}>
+                <img src="https://res.cloudinary.com/dsbllwpbh/video/upload/so_8,f_auto,q_auto,w_600/lhc/chw-bp-training/module-1-understanding-high-blood-pressure-v2.jpg"
+                     alt="Ella, a nurse educator, in the CHW blood pressure training video"
+                     className="train-thumb" />
+                <div style={{ flex: '3 1 260px', padding: '20px 22px' }}>
+                  <div style={{
+                    display: 'inline-flex', background: C.starRed, color: '#fff', fontSize: '10px', fontWeight: 700,
+                    padding: '3px 9px', borderRadius: '20px', letterSpacing: '0.05em', textTransform: 'uppercase', marginBottom: '10px',
+                  }}>
+                    Video course &middot; 37 min
+                  </div>
+                  <div style={{ fontSize: '17px', fontWeight: 700, color: C.trustNavy, fontFamily: "'Montserrat', sans-serif", marginBottom: '6px' }}>
+                    CHW Blood Pressure Training
+                  </div>
+                  <div style={{ fontSize: '13px', color: C.charcoal, opacity: 0.75, lineHeight: 1.55, marginBottom: '14px' }}>
+                    Five short modules and a conclusion with nurse educator Ella: what high blood pressure is, prevention and lifestyle, knowing your numbers, recognizing an emergency, and turning knowledge into action. Includes an audio-only version.
+                  </div>
+                  <span style={{
+                    display: 'inline-flex', alignItems: 'center', gap: '6px', background: C.trustNavy, color: '#fff',
+                    fontSize: '13px', fontWeight: 700, padding: '9px 16px', borderRadius: '10px', fontFamily: "'Montserrat', sans-serif",
+                  }}>
+                    Start the training &rarr;
+                  </span>
+                </div>
+              </a>
+            </div>
 
             {/* Coming Soon */}
             <div style={{ marginTop: '16px' }}>
