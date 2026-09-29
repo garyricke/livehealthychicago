@@ -1,0 +1,40 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Re: website landing page for digital ad pilot</title></head>
+<body style="margin:0; padding:24px; background:#ffffff; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif; color:#1a2535; line-height:1.6;">
+  <div class="copy-control" style="max-width:600px; margin:0 0 18px; display:flex; align-items:center; gap:12px;">
+    <button id="copy-btn" onclick="copyEmail()" style="display:inline-flex; align-items:center; gap:8px; background:#0362BC; color:#fff; border:none; border-radius:8px; padding:10px 16px; font-family:inherit; font-size:14px; font-weight:600; cursor:pointer;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+      Copy email
+    </button>
+    <span id="copy-status" style="font-size:13px; color:#4a5568;">Click, then paste into your email (formatting included).</span>
+  </div>
+  <div id="email-body" style="max-width:600px; margin:0; background:#ffffff;">
+<p style="margin:0 0 16px;">Hi Jonah,</p>
+<p style="margin:0 0 16px;">Yes &mdash; the education-first version we landed on at the 9/15 check-in is live now, at the same address.</p>
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 8px;"><tr><td bgcolor="#eef2f7" style="background-color:#eef2f7; padding:8px;"><a href="https://livehealthychi.com/start"><img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto:good,w_1100/v1790694646/orbis/lhc-email-2026-09-29/start-recut-phone.png" width="480" alt="The new landing page on a phone: the thank-you and the two big asks, then the why and pick-one card." style="display:block;width:480px;max-width:100%;height:auto;border:0;"></a></td></tr></table>
+<p style="margin:0 0 20px; font-size:13px;"><font color="#4a5568">On a phone: the top of the page, and the why + one-thing card just below it.</font></p>
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 12px;"><tr><td bgcolor="#0362BC" style="background-color:#0362BC; border-radius:8px; padding:12px 22px;"><a href="https://livehealthychi.com/start" style="color:#ffffff; text-decoration:none; font-weight:600; font-size:15px;"><font color="#ffffff">Review the landing page &rarr;</font></a></td></tr></table>
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 22px;"><tr><td bgcolor="#1B365D" style="background-color:#1B365D; border-radius:8px; padding:12px 22px;"><a href="https://livehealthychi.com/empieza" style="color:#ffffff; text-decoration:none; font-weight:600; font-size:15px;"><font color="#ffffff">See it in Spanish &rarr;</font></a></td></tr></table>
+<p style="margin:0 0 8px;"><b>What changed</b></p>
+<ul style="margin:0 0 18px; padding-left:20px;">
+<li style="margin:0 0 8px;"><b>It opens with a thank-you.</b> They&rsquo;ve already clicked the ad, so there&rsquo;s no re-selling &mdash; plus your action-first line: &ldquo;A year from now, you&rsquo;ll be glad you started today.&rdquo;</li>
+<li style="margin:0 0 8px;"><b>The two big asks come first:</b> check your blood pressure, and if it&rsquo;s 130/80 or higher, make a doctor&rsquo;s appointment. The 911 warning uses the same wording as the approved CHW pamphlet.</li>
+<li style="margin:0 0 8px;"><b>The why and the one thing sit side by side,</b> in a single card: &ldquo;Because&hellip;&rdquo; and &ldquo;This week, I&rsquo;ll&hellip;&rdquo; with eight tap-to-pick steps (the six small things plus the two asks). Both fit on one phone screen.</li>
+<li style="margin:0 0 8px;"><b>The pick is saved with each submission,</b> in English no matter which language they used &mdash; so we&rsquo;ll be able to see which steps people choose, and by ZIP where they give one.</li>
+<li style="margin:0 0 8px;">The rotating whys, the next-step links and the About section moved below.</li>
+</ul>
+<p style="margin:0 0 8px;"><b>Three open items</b></p>
+<ol style="margin:0 0 18px; padding-left:20px;">
+<li style="margin:0 0 8px;"><b>Spanish</b> &mdash; Viviana, it&rsquo;s ready for your pass whenever the English settles. The ES toggle is top right.</li>
+<li style="margin:0 0 8px;"><b>&ldquo;Find care near you&rdquo;</b> still goes to the coalition partner list on the home page. If CDPH or a partner has a clinic finder we&rsquo;d rather send people to, I&rsquo;ll swap it in.</li>
+<li style="margin:0 0 8px;"><b>Ad creative</b> &mdash; I still need the text-free images to replace the hero photo, and once ads are set, a tag for each ad (UTM) so we can see which message drives the visits.</li>
+</ol>
+<p style="margin:0 0 16px;">Happy to walk through it at today&rsquo;s 1:00.</p>
+<p style="margin:0 0 4px;">Thanks,</p><p style="margin:0;">Gary</p>
+  </div>
+<script>
+  function setStatus(m,ok){var s=document.getElementById('copy-status');s.textContent=m;s.style.color=ok?'#1a7f37':'#b42318';}
+  function selectFallback(el){try{var r=document.createRange();r.selectNode(el);var s=window.getSelection();s.removeAllRanges();s.addRange(r);var ok=document.execCommand('copy');s.removeAllRanges();setStatus(ok?'✓ Copied — paste into your email':'Press ⌘C to copy the selected email',ok);}catch(e){setStatus('Select the email and press ⌘C',false);}}
+  function copyEmail(){var el=document.getElementById('email-body');if(navigator.clipboard&&window.ClipboardItem){var d=[new ClipboardItem({'text/html':new Blob([el.outerHTML],{type:'text/html'}),'text/plain':new Blob([el.innerText],{type:'text/plain'})})];navigator.clipboard.write(d).then(function(){setStatus('✓ Copied — paste into your email (formatting included)',true);},function(){selectFallback(el);});}else{selectFallback(el);}}
+</script>
+</body></html>
