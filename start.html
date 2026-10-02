@@ -207,7 +207,7 @@ footer a{color:var(--navy);font-weight:700;text-decoration:none;}
       <h2 data-i18n="a2h">If it’s high, make a doctor’s appointment</h2>
       <p data-i18n="a2p">130/80 or higher? Book a visit with your doctor or a clinic this month. High blood pressure is common — and it can be managed.</p>
       <p class="note" data-i18n="a2n">180/120 or higher with chest pain, shortness of breath, or trouble speaking? Call 911.</p>
-      <a class="btn" href="/#partners">
+      <a class="btn" href="https://findahealthcenter.hrsa.gov/" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z"/><path d="M12 7v6"/><path d="M9 10h6"/></svg>
         <span data-i18n="a2b">Find care near you</span></a>
     </div>
@@ -272,7 +272,7 @@ footer a{color:var(--navy);font-weight:700;text-decoration:none;}
         <div><h3 data-i18n="d1h">Find a blood pressure check</h3><p data-i18n="d1p">Free events and our mobile team, near you.</p></div>
         <svg class="arr" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
       </a>
-      <a class="door rv" href="/#partners">
+      <a class="door rv" href="https://findahealthcenter.hrsa.gov/" target="_blank" rel="noopener">
         <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z"/><path d="M12 7v6"/><path d="M9 10h6"/></svg>
         <div><h3 data-i18n="d2h">Find care near you</h3><p data-i18n="d2p">Clinics and health centers in our coalition.</p></div>
         <svg class="arr" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
@@ -324,7 +324,7 @@ const T = {
     because:'Because someday…',
     doorsH:'More ways we can help', doorsSub:'Free, close to home, and open to everyone.',
     d1h:'Find a blood pressure check', d1p:'Free events and our mobile team, near you.',
-    d2h:'Find care near you', d2p:'Clinics and health centers in our coalition.',
+    d2h:'Find care near you', d2p:'Community health centers near you — care for everyone, with or without insurance.',
     d3h:'Understand your numbers', d3p:'What blood pressure means, and a free log to track it.',
     closeH:'A healthier you helps build a stronger Chicago.',
     closeP:'Live Healthy Chicago is a coalition of hospitals, health experts, and community partners working together for stronger hearts and healthier neighborhoods.',
@@ -332,15 +332,15 @@ const T = {
     quotes:['I want to dance at my daughter’s wedding.','I want to see my grandson graduate.','I want to walk the lakefront without stopping.','I want to be there for my mom, like she was for me.']
   },
   es: {
-    eyebrow:'¿Cuál es tu porqué, Chi?', h1:'Gracias por dar un paso <em>por tu corazón.</em>',
+    eyebrow:'¿Cuál es tu motivo, Chicago?', h1:'Gracias por dar un paso <em>por tu corazón.</em>',
     lede:'<b>Gracias por dar un paso por tu corazón.</b> Dentro de un año, te alegrarás de haber empezado hoy.',
-    a1h:'Revisa tu presión arterial', a1p:'Es gratis, toma unos minutos y es la única forma de saberlo. La mayoría de las personas con presión alta se sienten bien.', a1b:'Encuentra un chequeo gratis',
-    a2h:'Si está alta, haz una cita con el médico', a2p:'¿130/80 o más? Haz una cita con tu médico o una clínica este mes. La presión alta es común — y se puede controlar.',
-    a2n:'¿180/120 o más con dolor de pecho, falta de aire o dificultad para hablar? Llama al 911.', a2b:'Encuentra atención cerca de ti',
-    cH:'Tu porqué. Tu paso.', cSub:'No tienes que cambiar todo. Cuéntanos por quién lo haces y elige un paso pequeño para esta semana.',
-    s1:'Mi porqué', becauseTag:'Porque', formPh:'algún día quiero…', namePh:'Nombre', zipPh:'Código postal',
+    a1h:'Revisa tu presión arterial', a1p:'Es gratis, toma unos minutos y es la única forma de saberlo. La mayoría de las personas con la presión alta se sienten bien.', a1b:'Encuentra un chequeo gratis',
+    a2h:'Si tu presión arterial está alta, haz una cita con el médico', a2p:'¿Tu presión arterial fue de 130/80 o más? Haz una cita con tu médico o una clínica este mes. La presión alta es común — y se puede controlar.',
+    a2n:'¿Tu presión arterial fue de 180/120 o más, y tienes dolor de pecho, falta de aire o dificultad para hablar? Llama al 911.', a2b:'Encuentra atención médica cerca de ti',
+    cH:'Tu motivo. Tu próximo paso.', cSub:'No tienes que cambiarlo todo de una vez. Cuéntanos qué te motiva y elige un paso pequeño para esta semana.',
+    s1:'Mi motivo', becauseTag:'Porque', formPh:'algún día quiero…', namePh:'Nombre', zipPh:'Código postal',
     s2:'Esta semana, voy a…',
-    p1:'Revisar mi presión', p1s:'Gratis en eventos y con nuestro equipo móvil.',
+    p1:'Revisar mi presión arterial', p1s:'Gratis en eventos y con nuestro equipo móvil.',
     p2:'Hacer una cita médica', p2s:'Sobre todo si tus números salieron altos.',
     p3:'Comer más frutas y verduras', p3s:'Ayudan a mantener la presión saludable.',
     p4:'Moverme 30 minutos al día', p4s:'Caminar cuenta. Todo suma.',
@@ -348,18 +348,18 @@ const T = {
     p6:'Dormir de 7 a 9 horas', p6s:'Tu corazón se recupera mientras duermes.',
     p7:'Bajar mi estrés', p7s:'Dedica tiempo a lo que te hace sentir mejor.',
     p8:'Mantener un peso saludable', p8s:'Un poco hace una gran diferencia.',
-    send:'Compartir mi porqué', fine:'Nombre y código postal son opcionales. Podemos compartir tus palabras (solo tu nombre) para inspirar a otros en Chicago. Nunca pedimos tu correo.',
+    send:'Compartir lo que me motiva', fine:'Compartir su nombre y código postal es opcional. Con su permiso, podríamos compartir sus palabras, junto con su nombre, para inspirar a otras personas en Chicago. Nunca le pediremos su correo electrónico.',
     need:'Cuéntanos tu porqué o elige un paso — o las dos cosas.', err:'Algo salió mal. Inténtalo de nuevo.',
-    thanksH:'Ese es tu porqué.', thanksP:'Gracias. Empieza con tu paso esta semana — y luego vuelve a elegir otro.', mine:'Tu paso: ',
+    thanksH:'Ese es tu motivo.', thanksP:'Gracias. Empieza con tu paso esta semana — y luego vuelve a elegir otro.', mine:'Tu paso: ',
     because:'Porque algún día…',
-    doorsH:'Más formas de ayudarte', doorsSub:'Gratis, cerca de casa y abierto para todos.',
-    d1h:'Encuentra un chequeo de presión', d1p:'Eventos gratis y nuestro equipo móvil, cerca de ti.',
-    d2h:'Encuentra atención cerca de ti', d2p:'Clínicas y centros de salud de nuestra coalición.',
-    d3h:'Entiende tus números', d3p:'Qué significa la presión arterial, y un registro gratis para anotarla.',
+    doorsH:'Más formas de cuidar tu salud', doorsSub:'Gratis, cerca de casa y abiertas para toda la comunidad.',
+    d1h:'Encuentra dónde tomarte la presión arterial', d1p:'Eventos gratis y nuestro equipo móvil, cerca de ti.',
+    d2h:'Encuentra atención médica cerca de ti', d2p:'Clínicas y centros de salud comunitarios cerca de ti.',
+    d3h:'Entiende tus números', d3p:'Aprende qué significa la presión arterial, y descarga un registro gratuito para anotarla.',
     closeH:'Tu salud ayuda a construir un Chicago más fuerte.',
     closeP:'Live Healthy Chicago es una coalición de hospitales, expertos en salud y organizaciones comunitarias que trabajan juntos por corazones más fuertes y vecindarios más sanos.',
     learn:'Conoce más sobre Live Healthy Chicago', foot:'Corazones más fuertes. Vecindarios más sanos.',
-    quotes:['Quiero bailar en la boda de mi hija.','Quiero ver a mi nieto graduarse.','Quiero caminar por el lago sin parar.','Quiero estar para mi mamá, como ella estuvo para mí.']
+    quotes:['Quiero bailar en la boda de mi hija.','Quiero ver a mi nieto graduarse.','Quiero caminar por el lago sin parar.','Quiero estar ahí para mi mamá, como ella estuvo ahí para mí.']
   }
 };
 let lang = 'en', qi = 0, qTimer;
