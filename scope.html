@@ -499,7 +499,7 @@
     document.getElementById('app').style.display = '';
   }
 
-  /* ── Clockify feed ─────────────────────────────────── */
+  /* ── Hours feed ────────────────────────────────────── */
 
   const $ = id => document.getElementById(id);
   const fmtH = h => (Math.round(h * 100) / 100).toLocaleString('en-US', { maximumFractionDigits: 2 });
@@ -511,17 +511,17 @@
 
   async function loadMaint() {
     try {
-      const res = await fetch('/.netlify/functions/clockify-maint');
+      const res = await fetch('/.netlify/functions/maint');
       const data = await res.json();
-      if (!res.ok || data.error) throw new Error(data.error || 'Clockify request failed.');
+      if (!res.ok || data.error) throw new Error(data.error || 'Hours request failed.');
       render(data);
     } catch (err) {
-      $('badge-live').textContent = 'Clockify unavailable';
+      $('badge-live').textContent = 'Hours unavailable';
       $('badge-used').textContent = 'Hours not loaded';
       $('log-body').innerHTML =
-        '<div class="log-error"><strong>Could not load hours from Clockify.</strong><br>' +
-        'The page is fine — the live feed is not. Check that <code>CLOCKIFY_API_KEY</code> is set on the Netlify site ' +
-        'and that the <code>clockify-maint</code> function deployed.</div>';
+        '<div class="log-error"><strong>Could not load the hours just now.</strong><br>' +
+        'Everything else on this page is current — only the live figures are missing. ' +
+        'Please refresh in a minute, or let Gary know if it persists.</div>';
     }
   }
 
