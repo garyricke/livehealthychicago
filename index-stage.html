@@ -4184,6 +4184,7 @@ let it drop on you`;
 
       const healthAccelerator = [
         { name: 'AllianceChicago',                     src: 'assets/logo-alliance-chicago-redrawn.png' },
+        { name: 'American Medical Association',        src: 'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_600/v1791469134/lhc-partners/american-medical-association', bare: true },
         { name: 'Cook County Health',                   src: 'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770748053/cook-county-health_o4hlzw.png' },
         { name: 'Chicago Department of Public Health',  src: 'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/lhc-partners/chicago-dept-public-health' },
         { name: 'Northwestern University',              src: 'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,e_trim/lhc-partners/northwestern-university' },
@@ -4240,6 +4241,7 @@ let it drop on you`;
           title: 'Public Health Institutions',
           logos: [
             { src: 'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770748049/american-heart-association_oqjyl8.png', alt: 'American Heart Association' },
+            { src: 'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_600/v1791469134/lhc-partners/american-medical-association', alt: 'American Medical Association', bare: true },
             { src: 'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/v1770748050/illlinois-department-of-public-health_amnhpb.png', alt: 'Illinois Department of Public Health' },
             { src: 'https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto/lhc-partners/chicago-dept-public-health', alt: 'Chicago Department of Public Health' },
           ],
@@ -5458,11 +5460,12 @@ And that is how we overcome high blood pressure. They'll tell you about food and
                          style={{ animation: 'fadeIn 0.3s ease-out' }}>
                       {tab.logos.map((logo, i) => (
                         <div key={i}
-                             className="rounded-2xl p-5 flex items-center justify-center shadow-sm hover:shadow-md transition-all hover:-translate-y-1"
+                             className={`rounded-2xl ${logo.bare ? 'p-0' : 'p-5'} flex items-center justify-center shadow-sm hover:shadow-md transition-all hover:-translate-y-1`}
                              style={{ aspectRatio: '3/2', backgroundColor: tab.dark ? 'rgba(27,54,93,0.06)' : 'white' }}>
+                          {/* bare: the image carries its own clear space and must not be blended (partner brand rules, e.g. AMA) */}
                           <img src={logo.src} alt={logo.alt || logo.name} title={logo.alt || logo.name}
                                className="max-w-full max-h-full object-contain"
-                               style={{ maxHeight: '96px', mixBlendMode: 'multiply' }}
+                               style={logo.bare ? {} : { maxHeight: '96px', mixBlendMode: 'multiply' }}
                                loading="lazy" />
                         </div>
                       ))}
