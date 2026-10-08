@@ -88,7 +88,8 @@ img{max-width:100%;display:block;}
 .commit textarea{resize:none;min-height:64px;}
 .row{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
 .row.opt{flex:1 1 100%;}
-.row input[type=text]{border:1.5px solid var(--line);border-radius:10px;font-size:.92rem;padding:9px 10px;}
+.row input[type=text],.row input[type=email]{border:1.5px solid var(--line);border-radius:10px;font-size:.92rem;padding:9px 10px;}
+.row .full{grid-column:1/-1;}
 .row input:focus{border-color:var(--blue);}
 .picks{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
 @media(min-width:560px){.picks{grid-template-columns:repeat(4,1fr);}}
@@ -124,13 +125,14 @@ img{max-width:100%;display:block;}
 .doors .sec-h{color:#fff;}
 .doors .sec-sub{color:rgba(255,255,255,.75);}
 .door-grid{display:grid;gap:14px;}
-@media(min-width:820px){.door-grid{grid-template-columns:repeat(3,1fr);}}
+@media(min-width:820px){.door-grid{grid-template-columns:repeat(2,1fr);}}
 .door{display:flex;gap:16px;align-items:center;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:18px;text-decoration:none;color:#fff;transition:background .15s,transform .12s;}
 .door:hover{background:rgba(255,255,255,.13);transform:translateY(-2px);}
 .door .ico{width:44px;height:44px;flex:0 0 auto;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;padding:9px;border-radius:12px;}
 .door:nth-child(1) .ico{background:var(--red);}
 .door:nth-child(2) .ico{background:var(--blue);}
 .door:nth-child(3) .ico{background:#1F8F79;}
+.door:nth-child(4) .ico{background:#B7791F;}
 .door h3{font-size:1.05rem;font-weight:800;line-height:1.2;}
 .door p{font-size:.88rem;color:rgba(255,255,255,.75);margin-top:3px;}
 .door .arr{margin-left:auto;width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto;opacity:.8;}
@@ -153,7 +155,7 @@ footer a{color:var(--navy);font-weight:700;text-decoration:none;}
 
 <!-- Netlify Forms: static twin so the crawler registers the form -->
 <form name="why-chi" data-netlify="true" netlify-honeypot="bot-field" hidden>
-  <input type="text" name="why"><input type="text" name="pick"><input type="text" name="name"><input type="text" name="zip"><input type="text" name="lang"><input type="text" name="bot-field">
+  <input type="text" name="why"><input type="text" name="pick"><input type="text" name="name"><input type="text" name="zip"><input type="email" name="email"><input type="text" name="lang"><input type="text" name="bot-field">
 </form>
 
 <header class="bar">
@@ -230,25 +232,26 @@ footer a{color:var(--navy);font-weight:700;text-decoration:none;}
       <div>
         <div class="step-lbl" id="pickLbl"><b>2</b><span data-i18n="s2">This week, I’ll…</span></div>
         <div class="picks" role="group" aria-labelledby="pickLbl">
-          <button type="button" class="pick big" data-pick="Check my blood pressure"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/><path d="M3 12h4l2-3 3 6 2-3h7"/></svg><div><span data-i18n="p1">Check my blood pressure</span><small data-i18n="p1s">Free at events and with our mobile team.</small></div></button>
+          <button type="button" class="pick big" data-pick="Check my blood pressure"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/><path d="M3 12h4l2-3 3 6 2-3h7"/></svg><div><span data-i18n="p1">Check my blood pressure</span><small data-i18n="p1s">Check it at home, at the doctor’s office, or join us at a free event with our mobile team.</small></div></button>
           <button type="button" class="pick big" data-pick="Make a doctor’s appointment"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18"/><path d="M8 3v4"/><path d="M16 3v4"/><path d="M12 13v5"/><path d="M9.5 15.5h5"/></svg><div><span data-i18n="p2">Make a doctor’s appointment</span><small data-i18n="p2s">Especially if your numbers were high.</small></div></button>
           <button type="button" class="pick" data-pick="Eat more fruits and vegetables"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21c-4.4 0-8-3.6-8-8 0-3 1.7-5.6 4.2-7"/><path d="M12 21c4.4 0 8-3.6 8-8 0-3-1.7-5.6-4.2-7"/><path d="M12 3v9"/><path d="M8.5 5.5c1.5-1.5 5.5-1.5 7 0"/></svg><div><span data-i18n="p3">Eat more fruits &amp; veggies</span><small data-i18n="p3s">They help keep blood pressure healthy.</small></div></button>
           <button type="button" class="pick" data-pick="Move 30 minutes"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="15" cy="4.5" r="1.8"/><path d="M13 8.5 9.5 12l3 2.5-1 6"/><path d="m13 8.5 3.5 2 2.5-1.5"/><path d="M9.5 12 6 13l-1 3"/><path d="M14 16l3 2 1.5 3"/></svg><div><span data-i18n="p4">Move 30 minutes a day</span><small data-i18n="p4s">A walk counts. It adds up.</small></div></button>
           <button type="button" class="pick" data-pick="Use less salt"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3h8v3H8z"/><path d="M7 6h10l1 15H6z"/><path d="M11 10v5"/><path d="m9 13 2 2 2-2"/></svg><div><span data-i18n="p5">Use less salt</span><small data-i18n="p5s">Try herbs and spices instead.</small></div></button>
           <button type="button" class="pick" data-pick="Sleep 7-9 hours"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/><path d="M16 4h3l-3 3h3"/></svg><div><span data-i18n="p6">Sleep 7–9 hours</span><small data-i18n="p6s">Your heart recovers while you sleep.</small></div></button>
-          <button type="button" class="pick" data-pick="Lower my stress"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/><path d="M12 8v4l2.5 1.5"/></svg><div><span data-i18n="p7">Lower my stress</span><small data-i18n="p7s">Make time for what helps you feel your best.</small></div></button>
-          <button type="button" class="pick" data-pick="Keep a healthy weight"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M8 12h.01"/><path d="M12 12h.01"/><path d="M16 12h.01"/><path d="M12 8v4"/></svg><div><span data-i18n="p8">Keep a healthy weight</span><small data-i18n="p8s">Even a little makes a big difference.</small></div></button>
+          <button type="button" class="pick" data-pick="Make a healthy food swap"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4 3 8l4 4"/><path d="M3 8h13"/><path d="m17 20 4-4-4-4"/><path d="M21 16H8"/></svg><div><span data-i18n="p8">Make a healthy food swap</span><small data-i18n="p8s">Pick a whole grain like brown rice or quinoa over a processed carb like white rice or white bread.</small></div></button>
+          <button type="button" class="pick" data-pick="Lower my stress"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/><path d="M12 8v4l2.5 1.5"/></svg><div><span data-i18n="p7">Lower my stress</span><small data-i18n="p7s">Make time for what makes you feel your best, like meditating, reading, and breathing exercises.</small></div></button>
         </div>
       </div>
       <div class="submit-row">
         <div class="row opt">
           <input type="text" name="name" maxlength="40" autocomplete="given-name" data-i18n-ph="namePh" placeholder="First name" aria-label="First name (optional)">
           <input type="text" name="zip" inputmode="numeric" maxlength="5" pattern="[0-9]{5}" autocomplete="postal-code" data-i18n-ph="zipPh" placeholder="ZIP code" aria-label="ZIP (optional)">
+          <input type="email" name="email" maxlength="80" autocomplete="email" data-i18n-ph="emailPh" placeholder="Email" aria-label="Email (optional)" class="full">
         </div>
         <button class="btn btn-navy" type="submit"><span data-i18n="send">Share my why</span>
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></button>
         <p class="fine" id="formErr" hidden style="color:#B42318;font-weight:700;"></p>
-        <p class="fine" data-i18n="fine">Name and ZIP are optional. We may share your words (first name only) to inspire other Chicagoans. No email needed, ever.</p>
+        <p class="fine" data-i18n="fine">Name, ZIP, and email are optional. We may share your words (first name only) to inspire other Chicagoans — never your email.</p>
       </div>
     </form>
     <div class="commit-card" id="thanks" hidden>
@@ -274,7 +277,12 @@ footer a{color:var(--navy);font-weight:700;text-decoration:none;}
       </a>
       <a class="door rv" href="https://findahealthcenter.hrsa.gov/" target="_blank" rel="noopener">
         <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z"/><path d="M12 7v6"/><path d="M9 10h6"/></svg>
-        <div><h3 data-i18n="d2h">Find care near you</h3><p data-i18n="d2p">Clinics and health centers in our coalition.</p></div>
+        <div><h3 data-i18n="d2h">Find care near you</h3><p data-i18n="d2p">Community health centers near you — care for everyone, with or without insurance.</p></div>
+        <svg class="arr" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+      </a>
+      <a class="door rv" id="helpLink" href="https://onechifam.resources.uniteus.io/?locale=en" target="_blank" rel="noopener">
+        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-5h4v5"/></svg>
+        <div><h3 data-i18n="d4h">Help with food, housing, and bills</h3><p data-i18n="d4p">Free and low-cost community services across Chicago.</p></div>
         <svg class="arr" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
       </a>
       <a class="door rv" href="/#blood-pressure">
@@ -308,17 +316,17 @@ const T = {
     a2h:'If it’s high, make a doctor’s appointment', a2p:'130/80 or higher? Book a visit with your doctor or a clinic this month. High blood pressure is common — and it can be managed.',
     a2n:'180/120 or higher with chest pain, shortness of breath, or trouble speaking? Call 911.', a2b:'Find care near you',
     cH:'Your why. Your one thing.', cSub:'You don’t have to change everything. Tell us who you’re doing this for, and pick one small step for this week.',
-    s1:'My why', becauseTag:'Because', formPh:'someday, I want to…', namePh:'First name', zipPh:'ZIP code',
+    s1:'My why', becauseTag:'Because', formPh:'someday, I want to…', namePh:'First name', zipPh:'ZIP code', emailPh:'Email',
     s2:'This week, I’ll…',
-    p1:'Check my blood pressure', p1s:'Free at events and with our mobile team.',
+    p1:'Check my blood pressure', p1s:'Check it at home, at the doctor’s office, or join us at a free event with our mobile team.',
     p2:'Make a doctor’s appointment', p2s:'Especially if your numbers were high.',
     p3:'Eat more fruits & veggies', p3s:'They help keep blood pressure healthy.',
     p4:'Move 30 minutes a day', p4s:'A walk counts. It adds up.',
     p5:'Use less salt', p5s:'Try herbs and spices instead.',
     p6:'Sleep 7–9 hours', p6s:'Your heart recovers while you sleep.',
-    p7:'Lower my stress', p7s:'Make time for what helps you feel your best.',
-    p8:'Keep a healthy weight', p8s:'Even a little makes a big difference.',
-    send:'Share my why', fine:'Name and ZIP are optional. We may share your words (first name only) to inspire other Chicagoans. No email needed, ever.',
+    p7:'Lower my stress', p7s:'Make time for what makes you feel your best, like meditating, reading, and breathing exercises.',
+    p8:'Make a healthy food swap', p8s:'Pick a whole grain like brown rice or quinoa over a processed carb like white rice or white bread.',
+    send:'Share my why', fine:'Name, ZIP, and email are optional. We may share your words (first name only) to inspire other Chicagoans — never your email.',
     need:'Tell us your why, or pick one thing — or both.', err:'Something went wrong. Please try again.',
     thanksH:'That’s your why.', thanksP:'Thank you. Start with your one thing this week — then come back and pick another.', mine:'Your one thing: ',
     because:'Because someday…',
@@ -326,6 +334,7 @@ const T = {
     d1h:'Find a blood pressure check', d1p:'Free events and our mobile team, near you.',
     d2h:'Find care near you', d2p:'Community health centers near you — care for everyone, with or without insurance.',
     d3h:'Understand your numbers', d3p:'What blood pressure means, and a free log to track it.',
+    d4h:'Help with food, housing, and bills', d4p:'Free and low-cost community services across Chicago.',
     closeH:'A healthier you helps build a stronger Chicago.',
     closeP:'Live Healthy Chicago is a coalition of hospitals, health experts, and community partners working together for stronger hearts and healthier neighborhoods.',
     learn:'Learn more about Live Healthy Chicago', foot:'Stronger Hearts. Healthier Neighborhoods.',
@@ -338,23 +347,24 @@ const T = {
     a2h:'Si tu presión arterial está alta, haz una cita con el médico', a2p:'¿Tu presión arterial fue de 130/80 o más? Haz una cita con tu médico o una clínica este mes. La presión alta es común — y se puede controlar.',
     a2n:'¿Tu presión arterial fue de 180/120 o más, y tienes dolor de pecho, falta de aire o dificultad para hablar? Llama al 911.', a2b:'Encuentra atención médica cerca de ti',
     cH:'Tu motivo. Tu próximo paso.', cSub:'No tienes que cambiarlo todo de una vez. Cuéntanos qué te motiva y elige un paso pequeño para esta semana.',
-    s1:'Mi motivo', becauseTag:'Porque', formPh:'algún día quiero…', namePh:'Nombre', zipPh:'Código postal',
+    s1:'Mi motivo', becauseTag:'Porque', formPh:'algún día quiero…', namePh:'Nombre', zipPh:'Código postal', emailPh:'Correo electrónico',
     s2:'Esta semana, voy a…',
-    p1:'Revisar mi presión arterial', p1s:'Gratis en eventos y con nuestro equipo móvil.',
+    p1:'Revisar mi presión arterial', p1s:'Revísala en casa, en el consultorio médico o ven a un evento gratis con nuestro equipo móvil.',
     p2:'Hacer una cita médica', p2s:'Sobre todo si tus números salieron altos.',
     p3:'Comer más frutas y verduras', p3s:'Ayudan a mantener la presión saludable.',
     p4:'Moverme 30 minutos al día', p4s:'Caminar cuenta. Todo suma.',
     p5:'Usar menos sal', p5s:'Prueba hierbas y especias.',
     p6:'Dormir de 7 a 9 horas', p6s:'Tu corazón se recupera mientras duermes.',
-    p7:'Bajar mi estrés', p7s:'Dedica tiempo a lo que te hace sentir mejor.',
-    p8:'Mantener un peso saludable', p8s:'Un poco hace una gran diferencia.',
-    send:'Compartir lo que me motiva', fine:'Compartir su nombre y código postal es opcional. Con su permiso, podríamos compartir sus palabras, junto con su nombre, para inspirar a otras personas en Chicago. Nunca le pediremos su correo electrónico.',
+    p7:'Bajar mi estrés', p7s:'Dedica tiempo a lo que te hace sentir mejor, como meditar, leer o hacer ejercicios de respiración.',
+    p8:'Hacer un cambio saludable en mis comidas', p8s:'Elige un grano integral, como arroz integral o quinoa, en vez de un carbohidrato procesado, como arroz blanco o pan blanco.',
+    send:'Compartir lo que me motiva', fine:'Compartir su nombre, código postal y correo electrónico es opcional. Con su permiso, podríamos compartir sus palabras, junto con su nombre, para inspirar a otras personas en Chicago. Nunca compartiremos su correo electrónico.',
     need:'Cuéntanos tu porqué o elige un paso — o las dos cosas.', err:'Algo salió mal. Inténtalo de nuevo.',
     thanksH:'Ese es tu motivo.', thanksP:'Gracias. Empieza con tu paso esta semana — y luego vuelve a elegir otro.', mine:'Tu paso: ',
     because:'Porque algún día…',
     doorsH:'Más formas de cuidar tu salud', doorsSub:'Gratis, cerca de casa y abiertas para toda la comunidad.',
     d1h:'Encuentra dónde tomarte la presión arterial', d1p:'Eventos gratis y nuestro equipo móvil, cerca de ti.',
     d2h:'Encuentra atención médica cerca de ti', d2p:'Clínicas y centros de salud comunitarios cerca de ti.',
+    d4h:'Ayuda con comida, vivienda y facturas', d4p:'Servicios comunitarios gratis o de bajo costo en todo Chicago.',
     d3h:'Entiende tus números', d3p:'Aprende qué significa la presión arterial, y descarga un registro gratuito para anotarla.',
     closeH:'Tu salud ayuda a construir un Chicago más fuerte.',
     closeP:'Live Healthy Chicago es una coalición de hospitales, expertos en salud y organizaciones comunitarias que trabajan juntos por corazones más fuertes y vecindarios más sanos.',
@@ -371,6 +381,7 @@ function setLang(l){
   document.querySelectorAll('[data-i18n-ph]').forEach(el=>{el.placeholder=d[el.dataset.i18nPh]||'';});
   document.querySelectorAll('.lang button').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.lang===lang)));
   document.getElementById('langField').value = lang;
+  document.getElementById('helpLink').href = 'https://onechifam.resources.uniteus.io/?locale='+lang;
   document.title = (lang==='es' ? 'Gracias por dar un paso por tu corazón' : 'Thanks for Taking a Step for Your Heart')+' — Live Healthy Chicago';
   try{localStorage.setItem('lhc_lang',lang);}catch(e){}
   const u=new URL(location); if(lang==='es') u.searchParams.set('lang','es'); else u.searchParams.delete('lang'); history.replaceState(null,'',u);
