@@ -553,6 +553,7 @@
       const [mode, setMode] = useState(initial?.source === 'upload' ? 'upload' : 'url'); // 'url' | 'upload'
       const [url, setUrl] = useState(initial && initial.source !== 'upload' ? (initial.url || '') : '');
       const [file, setFile] = useState(null);
+      const [coverFile, setCoverFile] = useState(null); // optional custom thumbnail for a link
       const [title, setTitle] = useState(initial?.title || '');
       const [description, setDescription] = useState(initial?.description || '');
       const [type, setType] = useState(initial?.type || 'Link');
@@ -575,9 +576,16 @@
             row.url = u; row.source = 'url';
             if (!row.title) { try { row.title = new URL(u).hostname.replace(/^www\./, ''); } catch { row.title = u; } }
             if (!row.type) row.type = 'Link';
-            const keepThumb = editing && initial.source === 'url' && initial.url === u && initial.thumb_url;
-            row.thumb_url = keepThumb ? initial.thumb_url : thumbForUrl(u); // live now; upgraded to stored copy in background
-            bgCaptureUrl = keepThumb ? null : u;
+            // Some sites (e.g. heart.org) block the screenshot service and the capture
+            // shows "You have been blocked" — a cover image overrides the screenshot.
+            const coverBlob = coverFile ? await makeThumb(coverFile) : null;
+            if (coverBlob) {
+              row.thumb_url = (await uploadToBucket('resource-thumbs', coverBlob, 'jpg')).url;
+            } else {
+              const keepThumb = editing && initial.source === 'url' && initial.url === u && initial.thumb_url;
+              row.thumb_url = keepThumb ? initial.thumb_url : thumbForUrl(u); // live now; upgraded to stored copy in background
+              bgCaptureUrl = keepThumb ? null : u;
+            }
           } else if (file) {
             const ext = (file.name.split('.').pop() || '').toLowerCase();
             const up = await uploadToBucket('resource-files', file, ext);
@@ -632,6 +640,12 @@
                 <div>
                   <label style={lbl}>URL</label>
                   <input type="url" value={url} onChange={e => setUrl(e.target.value)} placeholder="https://…" style={field} />
+                  <label style={{ ...lbl, marginTop: '12px' }}>Cover image <span style={{ fontWeight: 400, opacity: 0.6 }}>(optional)</span></label>
+                  {editing && initial.thumb_url && !coverFile && (
+                    <img src={initial.thumb_url} alt="Current thumbnail" style={{ display: 'block', width: '120px', aspectRatio: '4/3', objectFit: 'cover', borderRadius: '8px', border: '1px solid rgba(0,0,0,0.1)', marginBottom: '8px' }} />
+                  )}
+                  <input type="file" accept="image/*" onChange={e => setCoverFile(e.target.files[0] || null)} style={{ ...field, padding: '9px' }} />
+                  <div style={{ fontSize: '11px', color: C.charcoal, opacity: 0.55, marginTop: '5px' }}>Leave empty to use a screenshot of the page. Some sites block screenshots — upload an image here instead.</div>
                 </div>
               ) : (
                 <div>
@@ -717,6 +731,7 @@
               <li style={li}>Click <strong>“Add resource.”</strong></li>
               <li style={li}><strong>Category</strong> — which tab the resource lands under. This is the only field that controls where it appears.</li>
               <li style={li}><strong>Link / URL</strong> or <strong>Upload file</strong> (PDF or image). A thumbnail image is generated automatically.</li>
+              <li style={li}><strong>Cover image</strong> (links only, optional) — some sites, like heart.org, block the automatic screenshot and the card shows “You have been blocked.” Keep the live link and upload an image (a screenshot from your own browser works) as the cover instead.</li>
               <li style={li}><strong>Title</strong> &amp; <strong>Description</strong> are optional — auto-filled from the link or file if you leave them blank.</li>
             </ul>
 
