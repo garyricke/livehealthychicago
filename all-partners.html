@@ -163,6 +163,27 @@
     .tx-lg{margin-top:24px;font-size:.86rem;padding:8px 16px}
     .tx-dark{color:#fff;border-color:rgba(255,255,255,.3)}
     .tx-dark:hover{color:#fff;border-color:var(--blue);background:rgba(255,255,255,.06)}
+    .gallery{background:var(--bg)}
+    .g-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+    .g-item{display:block;padding:0;border:none;background:#dfe6ee;border-radius:14px;overflow:hidden;cursor:zoom-in;aspect-ratio:3/2}
+    .g-item img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s ease}
+    .g-item:hover img{transform:scale(1.03)}
+    .g-item:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+    .g-wide{grid-column:1/-1;aspect-ratio:16/7}
+    .g-zip{margin-top:22px}
+    @media(max-width:820px){.g-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:520px){.g-grid{grid-template-columns:1fr}.g-wide{aspect-ratio:16/10}}
+    .ph-modal{margin:auto;border:none;padding:0;background:transparent;max-width:min(1400px,calc(100vw - 24px));max-height:calc(100vh - 24px);overflow:visible}
+    .ph-modal::backdrop{background:rgba(8,14,26,.92)}
+    .ph-modal[open]{display:flex;flex-direction:column;align-items:center;gap:12px;animation:txin .2s ease}
+    .ph-modal img{max-width:100%;max-height:calc(100vh - 120px);border-radius:10px;display:block}
+    .ph-bar{display:flex;align-items:center;gap:12px;color:#fff;width:100%;justify-content:space-between;flex-wrap:wrap}
+    .ph-bar p{font-family:'Montserrat',sans-serif;font-weight:600;font-size:.98rem;margin:0}
+    .ph-bar .btn-dl{margin:0;color:#fff;border-color:rgba(255,255,255,.35)}
+    .ph-nav{position:fixed;top:50%;transform:translateY(-50%);width:48px;height:48px;border-radius:50%;border:none;background:rgba(255,255,255,.14);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer}
+    .ph-nav:hover{background:rgba(255,255,255,.26)}
+    .ph-prev{left:12px} .ph-next{right:12px}
+    .ph-x{position:fixed;top:12px;right:12px;width:44px;height:44px;border-radius:50%;border:none;background:rgba(255,255,255,.14);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer}
     .tx-modal{margin:auto;border:none;padding:0;border-radius:20px;width:min(640px,calc(100vw - 32px));max-height:min(80vh,760px);box-shadow:0 30px 80px -20px rgba(11,22,38,.6);color:var(--charcoal)}
     .tx-modal::backdrop{background:rgba(11,22,38,.62);backdrop-filter:blur(3px)}
     .tx-modal[open]{display:flex;flex-direction:column;animation:txin .22s ease}
@@ -244,6 +265,7 @@
       <a href="/"><img class="nav-logo" src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_600/lhc-brand/logo-live-healthy-chicago" alt="Live Healthy Chicago home"></a>
       <div class="nav-links">
         <a href="#the-day">The Day</a>
+        <a href="#photos">Photos</a>
         <a href="#works-because">Why It Works</a>
         <a href="#voices">Voices</a>
         <a href="#what-we-heard">Takeaways</a>
@@ -292,6 +314,50 @@
         <button type="button" class="tx-btn tx-lg" data-tx="the-day" data-title="The Day" data-sub="Allie Sontag, DNP &middot; Meeting MC"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg> Read the transcript</button><a class="btn-dl tx-lg" href="https://res.cloudinary.com/dsbllwpbh/video/upload/fl_attachment:lhc-ap26-the-day/v1793728052/lhc-events/all-partners-2026/the-day.mp4" download="lhc-ap26-the-day.mp4" aria-label="Download this video, MP4, 104 megabytes"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg> Download <span class="dl-mb">104 MB</span></a>
         <div class="tx-src" id="tx-the-day" hidden><p>So today was our first all-partners event. We&#x27;ve done a lot of work in groups on Zoom, in person, and this was an opportunity for us to bring everyone together, put everyone in a room, because we&#x27;ve got such great expertise, such great community experts, clinical experts. And the goal of today&#x27;s event is really to put everyone in a room and learn. Not only learn about Live Healthy Chicago and the work that we&#x27;re doing, but really learn from each other. We&#x27;re hoping to be a coalition for Chicago by Chicago, that we can put Chicagoans who are doing this great work in a room, de-silo this from our own institutions, even within our institution, from our own clinical practice, and look across and see what someone else is doing, seeing how else is innovating. So today we heard from our commissioner of public health, Dr. Garth Walker, who shared with us not only his personal experience as a Chicagoan and how he got where he was going, but his vision for what Chicago could go next. We heard from Dr. David Ansell, who spoke about how Live Healthy Chicago kind of came together and could have fallen apart when funding ended, but didn&#x27;t, right? That everyone at the table made the active decision to stay, to make the shift, to think creatively, to put their own opportunities and funding on the line, to de-silo what is historically competitors work, right? One hospital does well, another hospital needs to do better. And so when we sit at a table together, we are looking to innovate, regardless of the institution that we&#x27;re from, which is such a blessing and is truly how public health is done. So we also then did a round table, TED Talk style, a brief five minutes from a variety of speakers on the themes of trust, access, and capacity. Our community advisory board has really bubbled up those three themes as challenges, but also opportunities. And we saw it, we have a lot of opportunities with Live Healthy Chicago to build out each of those themes in a way that is meaningful and thoughtful and moves the needle towards a healthier Chicago.</p></div>
       </div>
+    </div>
+  </section>
+
+
+  <section class="gallery" id="photos" aria-labelledby="photos-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Photos &middot; 10</p>
+        <h2 id="photos-h">The room.</h2>
+        <p>Partners from across Chicago, together for one morning. Tap any photo to see it full size.</p>
+      </div>
+      <div class="g-grid">
+        <button type="button" class="g-item g-wide" data-i="0" data-full="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_2000/v1793738651/lhc-events/all-partners-2026/photos/lhc-ap26-photo-room360.jpg" data-dl="https://res.cloudinary.com/dsbllwpbh/image/upload/fl_attachment:lhc-ap26-photo-room360/v1793738651/lhc-events/all-partners-2026/photos/lhc-ap26-photo-room360.jpg" data-cap="Every table full at Kennedy-King College." aria-label="Open photo: Every table full at Kennedy-King College.">
+          <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,g_auto,w_1400/v1793738651/lhc-events/all-partners-2026/photos/lhc-ap26-photo-room360.jpg" alt="Overhead view of the ballroom: round tables with orange and blue cloths, partners seated, the Welcome &amp; Grounding slide on the screen." loading="lazy">
+        </button>
+        <button type="button" class="g-item" data-i="1" data-full="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_2000/v1793738642/lhc-events/all-partners-2026/photos/lhc-ap26-photo-0055.jpg" data-dl="https://res.cloudinary.com/dsbllwpbh/image/upload/fl_attachment:lhc-ap26-photo-0055/v1793738642/lhc-events/all-partners-2026/photos/lhc-ap26-photo-0055.jpg" data-cap="Kickoff: What&rsquo;s Your Why, Chi?" aria-label="Open photo: Kickoff: What&rsquo;s Your Why, Chi?">
+          <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,g_auto,w_720,ar_3:2/v1793738642/lhc-events/all-partners-2026/photos/lhc-ap26-photo-0055.jpg" alt="A speaker at the podium beneath the kickoff slide, next to a What&rsquo;s Your Why, Chi? banner." loading="lazy">
+        </button>
+        <button type="button" class="g-item" data-i="2" data-full="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_2000/v1793738640/lhc-events/all-partners-2026/photos/lhc-ap26-photo-0051.jpg" data-dl="https://res.cloudinary.com/dsbllwpbh/image/upload/fl_attachment:lhc-ap26-photo-0051/v1793738640/lhc-events/all-partners-2026/photos/lhc-ap26-photo-0051.jpg" data-cap="Partners from across the city in one room." aria-label="Open photo: Partners from across the city in one room.">
+          <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,g_auto,w_720,ar_3:2/v1793738640/lhc-events/all-partners-2026/photos/lhc-ap26-photo-0051.jpg" alt="Wide view of the room from the back, tables filled, the stage and screen ahead." loading="lazy">
+        </button>
+        <button type="button" class="g-item" data-i="3" data-full="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_2000/v1793738645/lhc-events/all-partners-2026/photos/lhc-ap26-photo-0058.jpg" data-dl="https://res.cloudinary.com/dsbllwpbh/image/upload/fl_attachment:lhc-ap26-photo-0058/v1793738645/lhc-events/all-partners-2026/photos/lhc-ap26-photo-0058.jpg" data-cap="A few train stops can cost years of life." aria-label="Open photo: A few train stops can cost years of life.">
+          <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,g_auto,w_720,ar_3:2/v1793738645/lhc-events/all-partners-2026/photos/lhc-ap26-photo-0058.jpg" alt="A speaker at the podium in front of a slide on life expectancy in Chicago." loading="lazy">
+        </button>
+        <button type="button" class="g-item" data-i="4" data-full="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_2000/v1793738644/lhc-events/all-partners-2026/photos/lhc-ap26-photo-0057.jpg" data-dl="https://res.cloudinary.com/dsbllwpbh/image/upload/fl_attachment:lhc-ap26-photo-0057/v1793738644/lhc-events/all-partners-2026/photos/lhc-ap26-photo-0057.jpg" data-cap="Listening to the morning program." aria-label="Open photo: Listening to the morning program.">
+          <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,g_auto,w_720,ar_3:2/v1793738644/lhc-events/all-partners-2026/photos/lhc-ap26-photo-0057.jpg" alt="Audience at their tables facing the stage, a speaker at the podium." loading="lazy">
+        </button>
+        <button type="button" class="g-item" data-i="5" data-full="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_2000/v1793738646/lhc-events/all-partners-2026/photos/lhc-ap26-photo-0059.jpg" data-dl="https://res.cloudinary.com/dsbllwpbh/image/upload/fl_attachment:lhc-ap26-photo-0059/v1793738646/lhc-events/all-partners-2026/photos/lhc-ap26-photo-0059.jpg" data-cap="One city. One goal." aria-label="Open photo: One city. One goal.">
+          <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,g_auto,w_720,ar_3:2/v1793738646/lhc-events/all-partners-2026/photos/lhc-ap26-photo-0059.jpg" alt="A speaker presents a slide titled One City. One Goal. Unified pathways to prevention." loading="lazy">
+        </button>
+        <button type="button" class="g-item" data-i="6" data-full="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_2000/v1793738641/lhc-events/all-partners-2026/photos/lhc-ap26-photo-0054.jpg" data-dl="https://res.cloudinary.com/dsbllwpbh/image/upload/fl_attachment:lhc-ap26-photo-0054/v1793738641/lhc-events/all-partners-2026/photos/lhc-ap26-photo-0054.jpg" data-cap="Table by table." aria-label="Open photo: Table by table.">
+          <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,g_auto,w_720,ar_3:2/v1793738641/lhc-events/all-partners-2026/photos/lhc-ap26-photo-0054.jpg" alt="Partners seated at red and blue tables, seen from the back of the room." loading="lazy">
+        </button>
+        <button type="button" class="g-item" data-i="7" data-full="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_2000/v1793738647/lhc-events/all-partners-2026/photos/lhc-ap26-photo-0062.jpg" data-dl="https://res.cloudinary.com/dsbllwpbh/image/upload/fl_attachment:lhc-ap26-photo-0062/v1793738647/lhc-events/all-partners-2026/photos/lhc-ap26-photo-0062.jpg" data-cap="Behind every number, a life." aria-label="Open photo: Behind every number, a life.">
+          <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,g_auto,w_720,ar_3:2/v1793738647/lhc-events/all-partners-2026/photos/lhc-ap26-photo-0062.jpg" alt="A slide showing 4,077 Chicagoans screened and 30+ clinics engaged, with a speaker at the podium." loading="lazy">
+        </button>
+        <button type="button" class="g-item g-tall" data-i="8" data-full="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_2000/v1793738648/lhc-events/all-partners-2026/photos/lhc-ap26-photo-0063.jpg" data-dl="https://res.cloudinary.com/dsbllwpbh/image/upload/fl_attachment:lhc-ap26-photo-0063/v1793738648/lhc-events/all-partners-2026/photos/lhc-ap26-photo-0063.jpg" data-cap="A paradigm shift that could change healthcare." aria-label="Open photo: A paradigm shift that could change healthcare.">
+          <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,g_auto,w_720,ar_3:2/v1793738648/lhc-events/all-partners-2026/photos/lhc-ap26-photo-0063.jpg" alt="A slide reading Chicago is leading a paradigm shift that could change healthcare, above the podium." loading="lazy">
+        </button>
+        <button type="button" class="g-item g-tall" data-i="9" data-full="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,w_2000/v1793738649/lhc-events/all-partners-2026/photos/lhc-ap26-photo-0064.jpg" data-dl="https://res.cloudinary.com/dsbllwpbh/image/upload/fl_attachment:lhc-ap26-photo-0064/v1793738649/lhc-events/all-partners-2026/photos/lhc-ap26-photo-0064.jpg" data-cap="Conversations at the tables." aria-label="Open photo: Conversations at the tables.">
+          <img src="https://res.cloudinary.com/dsbllwpbh/image/upload/f_auto,q_auto,c_fill,g_auto,w_720,ar_3:2/v1793738649/lhc-events/all-partners-2026/photos/lhc-ap26-photo-0064.jpg" alt="Partners standing at their tables, with water bottles and red folders on the tablecloth." loading="lazy">
+        </button>
+      </div>
+      <a class="btn-dl g-zip" href="https://res.cloudinary.com/dsbllwpbh/raw/upload/v1793738679/lhc-events/all-partners-2026/lhc-all-partners-2026-photos.zip" download><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg> Download all 12 photos <span class="dl-mb">ZIP, 9 MB</span></a>
     </div>
   </section>
 
@@ -644,6 +710,14 @@
     <p style="margin-top:12px;opacity:.7">&copy; 2026 Live Healthy Chicago. All rights reserved.</p>
   </footer>
 
+  <dialog class="ph-modal" id="ph-modal" aria-label="Photo viewer">
+    <button type="button" class="ph-x" id="ph-close" aria-label="Close photo"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+    <button type="button" class="ph-nav ph-prev" id="ph-prev" aria-label="Previous photo"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
+    <button type="button" class="ph-nav ph-next" id="ph-next" aria-label="Next photo"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+    <img id="ph-img" src="" alt="">
+    <div class="ph-bar"><p id="ph-cap"></p><a class="btn-dl" id="ph-dl" href="#" download><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg> Download photo</a></div>
+  </dialog>
+
   <dialog class="tx-modal" id="tx-modal" aria-labelledby="tx-title">
     <div class="tx-head">
       <div><p class="eyebrow">Transcript</p><h3 id="tx-title"></h3><p id="tx-sub"></p></div>
@@ -668,6 +742,22 @@
     });
     document.getElementById('tx-close').addEventListener('click', function () { dlg.close(); });
     dlg.addEventListener('click', function (e) { if (e.target === dlg) dlg.close(); });
+
+    // photo viewer
+    var ph = document.getElementById('ph-modal'), items = Array.prototype.slice.call(document.querySelectorAll('.g-item')), cur = 0;
+    function showPh(i) {
+      cur = (i + items.length) % items.length; var b = items[cur], im = document.getElementById('ph-img');
+      im.src = b.dataset.full; im.alt = b.querySelector('img').alt;
+      document.getElementById('ph-cap').innerHTML = b.dataset.cap; document.getElementById('ph-dl').href = b.dataset.dl;
+    }
+    items.forEach(function (b, i) { b.addEventListener('click', function () { showPh(i); ph.showModal(); }); });
+    document.getElementById('ph-prev').addEventListener('click', function () { showPh(cur - 1); });
+    document.getElementById('ph-next').addEventListener('click', function () { showPh(cur + 1); });
+    document.getElementById('ph-close').addEventListener('click', function () { ph.close(); });
+    ph.addEventListener('click', function (e) { if (e.target === ph) ph.close(); });
+    ph.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowRight') showPh(cur + 1); else if (e.key === 'ArrowLeft') showPh(cur - 1);
+    });
 
     // only one video plays at a time
     document.addEventListener('play', function (e) {
