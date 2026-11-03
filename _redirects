@@ -21,6 +21,7 @@
 /bp-log    /bp-log.html                     302
 /newsletter/september-2026  /newsletter/september-2026.html  200
 /start     /start.html                      200
+/all-partners  /all-partners.html          200
 /empieza   /start?lang=es                   302
 
 # Archived 2026-09-15 at Allie's request (CDPH politics) — keep the URL resolving
