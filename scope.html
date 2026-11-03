@@ -267,9 +267,9 @@
   <div class="page-header">
     <div class="page-header-inner">
       <h1>Maintenance Scope</h1>
-      <p>The prepaid maintenance package under SOW Amendment No. 1 — what it covers, what it has been spent on, and how much of the block is left. Hours are read live from Clockify.</p>
+      <p>The prepaid maintenance package under SOW Amendment No. 1 — what it covers, what it has been spent on, and how much of the block is left.</p>
       <div class="header-meta">
-        <div class="header-badge"><span class="badge-dot pulse" style="background:var(--green)"></span> <span id="badge-live">Live from Clockify</span></div>
+        <div class="header-badge"><span class="badge-dot pulse" style="background:var(--green)"></span> <span id="badge-live">Up to date</span></div>
         <div class="header-badge"><span class="badge-dot" style="background:var(--blue)"></span> <span id="badge-used">Loading hours…</span></div>
         <div class="header-badge"><span class="badge-dot" style="background:var(--yellow)"></span> Unused hours expire Dec 31, 2026</div>
       </div>
@@ -287,10 +287,6 @@
       <div class="burn-top">
         <div>
           <div class="burn-name">Prepaid block — paid in advance, drawn down as work is performed</div>
-          <div class="burn-src">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15.5 14"/></svg>
-            Tracked in Clockify · <code id="src-project">LiveHealthyChi Maint 1</code>
-          </div>
         </div>
       </div>
 
@@ -311,7 +307,7 @@
           <div class="stat-sub" id="s-left-sub">—</div>
         </div>
         <div class="stat">
-          <div class="stat-k">Entries logged</div>
+          <div class="stat-k">Work sessions</div>
           <div class="stat-v" id="s-entries">—</div>
           <div class="stat-sub" id="s-range">—</div>
         </div>
@@ -335,7 +331,7 @@
     <div class="block-gap"></div>
     <span class="section-label">Allocation</span>
     <h2 class="section-title">How the Block Is Divided</h2>
-    <p class="section-intro">Amendment No. 1 splits the package into a fixed-fee CHW training set and an ongoing maintenance pool. Clockify entries tagged to each task draw down that bucket; anything untagged shows as unfiled until it's assigned.</p>
+    <p class="section-intro">Amendment No. 1 splits the package into a fixed-fee CHW training set and an ongoing maintenance pool.</p>
 
     <div class="alloc-grid" id="alloc-grid">
       <div class="alloc-card">
@@ -353,11 +349,11 @@
         <div class="alloc-note">Events, news, copy and image updates, brand-guide changes, messaging alignment, and general upkeep of the live site. Section 3.</div>
       </div>
       <div class="alloc-card unfiled" id="unfiled-card" style="display:none">
-        <div class="alloc-name">Unfiled</div>
-        <div class="alloc-terms">Logged, not yet assigned to a task</div>
+        <div class="alloc-name">Not yet assigned</div>
+        <div class="alloc-terms">Counts toward the 67-hour block</div>
         <div class="alloc-nums"><span class="alloc-used" id="a-unf">—</span><span class="alloc-of">of 67 hrs</span></div>
         <div class="mini-track"><div class="mini-fill unfiled" id="a-unf-fill"></div></div>
-        <div class="alloc-note">Time logged to the project before the CHW / Ongoing tasks existed in Clockify. It counts against the block total; assigning each entry to a task in Clockify moves it into the right bucket here automatically.</div>
+        <div class="alloc-note">Work not yet split between the CHW training set and ongoing maintenance. It counts against the block either way.</div>
       </div>
     </div>
 
@@ -365,7 +361,7 @@
     <div class="block-gap"></div>
     <span class="section-label">Work Log</span>
     <h2 class="section-title">Hours Against the Package</h2>
-    <p class="section-intro">Every day with time logged to <code>LiveHealthyChi Maint 1</code>, newest first, with the running balance left in the block. Same-day entries are rolled up into one line.</p>
+    <p class="section-intro">Every day of work, newest first, with the hours left in the block after each one.</p>
 
     <div class="log-wrap">
       <div class="log-row log-head">
@@ -375,7 +371,7 @@
         <div class="log-bal">Block left</div>
       </div>
       <div id="log-body">
-        <div class="log-loading">Loading hours from Clockify…</div>
+        <div class="log-loading">Loading hours…</div>
       </div>
     </div>
 
@@ -434,10 +430,6 @@
       <div class="terms-row">
         <div class="terms-k">Expiration</div>
         <div class="terms-v">Unused hours carry forward and <strong>expire Dec&nbsp;31, 2026</strong>.</div>
-      </div>
-      <div class="terms-row">
-        <div class="terms-k">Tracking</div>
-        <div class="terms-v">All hours are logged to the Clockify project <strong>LiveHealthyChi Maint&nbsp;1</strong> and reported on this page in real time.</div>
       </div>
     </div>
 
@@ -543,7 +535,7 @@
     if (pct >= 85) fill.classList.add('hot');
     else if (pct >= 65) fill.classList.add('warn');
     $('burn-pct').textContent   = pct + '% used';
-    $('burn-start').textContent = d.firstEntry ? fmtDate(d.firstEntry) + ' — first entry' : 'Package start';
+    $('burn-start').textContent = d.firstEntry ? fmtDate(d.firstEntry) + ' — work began' : 'Package start';
 
     $('badge-used').textContent = fmtH(d.usedHours) + ' of 67 hrs used · ' + fmtH(d.remainingHours) + ' left';
 
@@ -579,7 +571,7 @@
         <div class="log-task">${
           e.task
             ? escapeHtml(e.task) + (e.note ? ' <span class="meta">— ' + escapeHtml(e.note) + '</span>' : '')
-            : (e.note ? escapeHtml(e.note) : '<span class="unfiled-tag">Unfiled — no task assigned</span>')
+            : (e.note ? escapeHtml(e.note) : '<span class="unfiled-tag">Site work</span>')
         }</div>
         <div class="log-hrs">${fmtH(e.hours)}</div>
         <div class="log-bal">${fmtH(balances[i])}</div>
