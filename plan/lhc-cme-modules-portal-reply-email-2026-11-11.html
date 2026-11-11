@@ -1,0 +1,43 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Re: Module Development Question</title></head>
+<body style="margin:0; padding:24px; background:#ffffff; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif; color:#1a2535; line-height:1.6;">
+  <div class="copy-control" style="max-width:600px; margin:0 0 18px; display:flex; align-items:center; gap:12px;">
+    <button id="copy-btn" onclick="copyEmail()" style="display:inline-flex; align-items:center; gap:8px; background:#1B365D; color:#fff; border:none; border-radius:8px; padding:10px 16px; font-family:inherit; font-size:14px; font-weight:600; cursor:pointer;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+      Copy email
+    </button>
+    <span id="copy-status" style="font-size:13px; color:#4a5568;">Click, then paste into your email (formatting included).</span>
+  </div>
+  <div id="email-body" style="max-width:600px; margin:0; background:#ffffff;">
+    <p style="margin:0 0 16px;">Hi Viviana and Katherine,</p>
+    <p style="margin:0 0 16px;">Great to hear about the AMA modules. Here&rsquo;s where the portal stands today and what each piece would take.</p>
+    <p style="margin:0 0 6px;"><b>1. Housing the modules in the portal</b></p>
+    <p style="margin:0 0 16px;">Yes. The portal already hosts training this way: the CHW training lives there as a video page with its materials. CME modules (video, slides or PDFs) could be added the same way, each with its own description and &ldquo;Start module&rdquo; button.</p>
+    <p style="margin:0 0 6px;"><b>2. Secure login, testing and claiming credit</b></p>
+    <ul style="margin:0 0 16px; padding-left:20px;">
+      <li style="margin-bottom:6px;"><b>Login:</b> not yet. Partners currently share one password. That keeps casual visitors out, but it can&rsquo;t tell who a learner is, and CME needs to. Individual accounts are possible because the portal already runs on a database that supports them, but that would be new work.</li>
+      <li style="margin-bottom:6px;"><b>Tests and assessments:</b> not yet. They can be built (questions, a passing score and saved results), but they&rsquo;d also be new work.</li>
+      <li><b>Claiming credit:</b> adding a &ldquo;Claim your CME credit&rdquo; link after each module is easy. The credit itself has to come from the accredited provider, though, and providers usually need the post-test, evaluation and completion records to come from their own system.</li>
+    </ul>
+    <p style="margin:0 0 16px;">My recommendation is to let the accredited provider&rsquo;s learning platform handle the login, tests and credit, since that&rsquo;s what accreditation is built around. The portal would then be the front door: it lists the modules for our partners and sends each learner to the right place. That&rsquo;s quick to set up and avoids building records we&rsquo;d have to keep audit-ready. If the provider doesn&rsquo;t have a platform, building it into the portal is possible, and I&rsquo;d scope it once we know the requirements.</p>
+    <p style="margin:0 0 10px;">Katherine, a few questions would help me give you a firm answer:</p>
+    <ol style="margin:0 0 16px; padding-left:20px;">
+      <li style="margin-bottom:6px;">Who is the accredited CME provider: the AMA, Rush&rsquo;s CME office, or someone else?</li>
+      <li style="margin-bottom:6px;">Does that provider already have a learning platform where the modules, post-test and credit claim could live?</li>
+      <li style="margin-bottom:6px;">What format are the modules in (video, slides, or a packaged e-learning course)?</li>
+      <li>Roughly how many learners do you expect, and when would you like this live?</li>
+    </ol>
+    <p style="margin:0 0 16px;">Our next check-in is Tuesday, November 17 at 1 PM. Katherine, you&rsquo;d be welcome to join, or we can find a separate time:</p>
+    <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 24px;"><tr>
+      <td bgcolor="#1B365D" style="background-color:#1B365D; border-radius:8px; padding:12px 22px;">
+        <a href="https://calendar.app.google/P3CxGM6CAMSq3LS1A" style="color:#ffffff; text-decoration:none; font-weight:600; font-size:15px;"><font color="#ffffff">Book a time with me &rarr;</font></a>
+      </td></tr></table>
+    <p style="margin:0 0 4px;">Thanks,</p>
+    <p style="margin:0;">Gary</p>
+  </div>
+  <script>
+  function setStatus(m,ok){var s=document.getElementById('copy-status');s.textContent=m;s.style.color=ok?'#1a7f37':'#b42318';}
+  function selectFallback(el){try{var r=document.createRange();r.selectNode(el);var s=window.getSelection();s.removeAllRanges();s.addRange(r);var ok=document.execCommand('copy');s.removeAllRanges();setStatus(ok?'✓ Copied — paste into your email':'Press ⌘C to copy the selected email',ok);}catch(e){setStatus('Select the email and press ⌘C',false);}}
+  function copyEmail(){var el=document.getElementById('email-body');if(navigator.clipboard&&window.ClipboardItem){var d=[new ClipboardItem({'text/html':new Blob([el.outerHTML],{type:'text/html'}),'text/plain':new Blob([el.innerText],{type:'text/plain'})})];navigator.clipboard.write(d).then(function(){setStatus('✓ Copied — paste into your email (formatting included)',true);},function(){selectFallback(el);});}else{selectFallback(el);}}
+  </script>
+</body></html>
