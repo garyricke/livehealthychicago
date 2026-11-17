@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex" />
+  <title>Newsletter Sender — Live Healthy Chicago</title>
+  <link rel="canonical" href="https://livehealthychi.com/send" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon-portal.svg" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0;}
+    :root{--navy:#1B365D;--blue:#46B7E5;--teal:#48C9B0;--red:#E5202F;--yellow:#FFB81C;--gray:#6b7e89;--bg:#F7FAFC;--edge:#dbe7f0;--charcoal:#2D2D2D;--green:#1f8a3b;}
+    body{font-family:'Poppins',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:var(--navy);background:var(--bg);line-height:1.55;}
+    h1,h2,h3{font-family:'Montserrat',sans-serif;text-wrap:balance;}
+    p,li,.hint{text-wrap:pretty;}
+
+    #login{position:fixed;inset:0;z-index:1000;background:var(--navy);display:flex;align-items:center;justify-content:center;padding:24px;}
+    #login .box{background:#fff;border-radius:16px;padding:30px 28px;width:100%;max-width:360px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.35);}
+    #login h2{font-size:18px;font-weight:800;margin-bottom:4px;}
+    #login p{font-size:12.5px;color:var(--gray);margin-bottom:16px;}
+    #login input{width:100%;border:1.5px solid var(--edge);border-radius:10px;padding:12px 13px;font-size:14px;font-family:'Poppins',sans-serif;color:var(--charcoal);margin-bottom:10px;}
+    #login button{width:100%;border:none;border-radius:10px;background:var(--navy);color:#fff;padding:12px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Poppins',sans-serif;}
+    #login .err{color:var(--red);font-size:12px;font-weight:600;min-height:16px;margin-bottom:4px;}
+    .shake{animation:shake .4s;}
+    @keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-7px)}40%,80%{transform:translateX(7px)}}
+
+    .wrap{max-width:980px;margin:0 auto;padding:28px 18px 70px;}
+    .head{background:var(--navy);border-radius:16px;padding:24px 28px;color:#fff;position:relative;overflow:hidden;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+    .head::after{content:'';position:absolute;top:-70px;right:-70px;width:200px;height:200px;border-radius:50%;background:var(--teal);opacity:.12;}
+    .head .eyebrow{color:var(--blue);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:6px;}
+    .head h1{color:#fff;font-size:23px;font-weight:800;letter-spacing:-.4px;}
+    .head .meta{color:#cfe1ef;font-size:12.5px;margin-top:5px;}
+    .signout{position:relative;z-index:1;background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.25);border-radius:9px;padding:8px 14px;font-size:12.5px;font-weight:600;cursor:pointer;font-family:'Poppins',sans-serif;}
+
+    .card{background:#fff;border:1px solid var(--edge);border-radius:14px;padding:20px 22px;margin-bottom:16px;box-shadow:0 1px 5px rgba(15,61,87,.05);}
+    .card h2{font-size:16px;font-weight:800;display:flex;align-items:center;gap:10px;margin-bottom:4px;}
+    .step{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:var(--navy);color:#fff;font-size:12px;font-weight:800;flex-shrink:0;}
+    .hint{font-size:12.5px;color:var(--gray);margin-bottom:14px;}
+    label{display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--gray);margin:12px 0 5px;}
+    input[type=text],textarea,select{width:100%;border:1.5px solid var(--edge);border-radius:10px;padding:10px 12px;font-size:13.5px;font-family:'Poppins',sans-serif;color:var(--charcoal);background:#fff;}
+    textarea{min-height:90px;resize:vertical;}
+    input:focus,textarea:focus,select:focus{outline:2px solid var(--blue);outline-offset:0;border-color:var(--blue);}
+    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:12px;}
+    .btn{border:none;border-radius:10px;padding:10px 16px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Poppins',sans-serif;display:inline-flex;align-items:center;gap:7px;}
+    .btn svg{width:16px;height:16px;}
+    .btn-primary{background:var(--navy);color:#fff;}
+    .btn-red{background:var(--red);color:#fff;}
+    .btn-ghost{background:#fff;color:var(--navy);border:1.5px solid var(--edge);}
+    .btn:disabled{opacity:.5;cursor:default;}
+    .msg{font-size:12.5px;font-weight:600;}
+    .msg.ok{color:var(--green);} .msg.bad{color:var(--red);}
+
+    .ready{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px;}
+    .ready div{font-size:12.5px;display:flex;gap:8px;align-items:flex-start;}
+    .ready svg{width:18px;height:18px;flex-shrink:0;margin-top:1px;}
+    .yes{color:var(--green);} .no{color:#b26b00;}
+
+    .stats{display:flex;gap:18px;flex-wrap:wrap;font-size:12.5px;color:var(--gray);margin:4px 0 10px;}
+    .stats b{color:var(--navy);font-size:15px;}
+    .list{max-height:260px;overflow:auto;border:1px solid var(--edge);border-radius:10px;}
+    .list table{width:100%;border-collapse:collapse;font-size:12.5px;}
+    .list td{padding:7px 12px;border-bottom:1px solid #eef3f7;color:var(--charcoal);}
+    .list tr:last-child td{border-bottom:0;}
+    .tag{font-size:10.5px;font-weight:700;border-radius:20px;padding:2px 9px;background:rgba(70,183,229,.14);color:#0d6a8f;white-space:nowrap;}
+    .tag.off{background:#f1f1f1;color:#888;}
+    .link{background:none;border:none;color:var(--red);font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;}
+
+    iframe{width:100%;height:560px;border:1px solid var(--edge);border-radius:10px;background:#EEF2F7;margin-top:12px;}
+    .confirm{display:none;margin-top:14px;background:#FFF6E5;border:1px solid rgba(255,184,28,.55);border-radius:12px;padding:14px 16px;font-size:13.5px;}
+    .confirm.show{display:block;}
+    .issues td{padding:8px 12px;}
+    .err-banner{background:#FFF0F0;border:1px solid rgba(229,32,47,.3);color:var(--red);border-radius:10px;padding:12px 15px;font-size:13px;font-weight:600;margin-bottom:16px;}
+  </style>
+</head>
+<body>
+
+  <div id="login">
+    <div class="box" id="loginbox">
+      <h2>Newsletter Sender</h2>
+      <p>Admin access only. Sign&nbsp;in to&nbsp;continue.</p>
+      <div class="err" id="loginerr"></div>
+      <input type="password" id="pw" placeholder="Admin password" autocomplete="current-password" />
+      <button id="loginbtn">Sign in</button>
+    </div>
+  </div>
+
+  <main class="wrap" id="app" hidden>
+    <div class="head">
+      <div>
+        <div class="eyebrow">Admin</div>
+        <h1>Newsletter Sender</h1>
+        <div class="meta">Add people, pick an issue, test it, then send. Every email has its own unsubscribe&nbsp;link.</div>
+      </div>
+      <button class="signout" id="signout">Sign out</button>
+    </div>
+
+    <div id="errbox"></div>
+
+    <section class="card">
+      <h2>Setup</h2>
+      <div class="ready" id="ready"></div>
+    </section>
+
+    <section class="card">
+      <h2><span class="step">1</span>Who gets it</h2>
+      <p class="hint">Paste addresses in any format: one per line, separated by commas, or copied from an email. Anyone who unsubscribed stays unsubscribed, even if you add them&nbsp;again.</p>
+      <div class="stats" id="stats"></div>
+      <textarea id="paste" placeholder="name@example.org, another@example.org"></textarea>
+      <div class="row">
+        <button class="btn btn-primary" id="addbtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Add these addresses
+        </button>
+        <button class="btn btn-ghost" id="portalbtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          Add everyone from portal sign-ups
+        </button>
+        <span class="msg" id="addmsg"></span>
+      </div>
+      <label>On the list</label>
+      <div class="list"><table id="contacts"></table></div>
+    </section>
+
+    <section class="card">
+      <h2><span class="step">2</span>The issue</h2>
+      <p class="hint">Pick a newsletter that&rsquo;s already on the site, or paste email HTML. The preview is exactly what people will&nbsp;get.</p>
+      <label for="issue">Issue</label>
+      <select id="issue"></select>
+      <div id="pastewrap" hidden>
+        <label for="html">Email HTML</label>
+        <textarea id="html" style="min-height:140px;font-family:ui-monospace,Menlo,monospace;font-size:12px" placeholder="<table>…</table>"></textarea>
+      </div>
+      <label for="subject">Subject line</label>
+      <input type="text" id="subject" maxlength="200" />
+      <div class="row">
+        <button class="btn btn-ghost" id="previewbtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          Preview
+        </button>
+        <span class="msg" id="prevmsg"></span>
+      </div>
+      <iframe id="frame" title="Email preview" hidden></iframe>
+    </section>
+
+    <section class="card">
+      <h2><span class="step">3</span>Send a test</h2>
+      <p class="hint">Required before sending to the list. Any change to the subject or the issue needs a new&nbsp;test.</p>
+      <label for="testto">Test addresses (up to&nbsp;5)</label>
+      <input type="text" id="testto" placeholder="you@example.org" />
+      <div class="row">
+        <button class="btn btn-primary" id="testbtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          Send test
+        </button>
+        <span class="msg" id="testmsg"></span>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2><span class="step">4</span>Send to the list</h2>
+      <p class="hint">Each person gets it once. If a send stops partway, run it again and it picks up where it left&nbsp;off.</p>
+      <div class="row" style="margin-top:0">
+        <button class="btn btn-red" id="sendbtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z" opacity="0"/><path d="M22 6l-10 7L2 6"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg>
+          Send to everyone…
+        </button>
+        <span class="msg" id="sendmsg"></span>
+      </div>
+      <div class="confirm" id="confirm">
+        <p id="confirmtext" style="margin-bottom:10px"></p>
+        <div class="row" style="margin-top:0">
+          <button class="btn btn-red" id="confirmyes">Yes, send it now</button>
+          <button class="btn btn-ghost" id="confirmno">Cancel</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Recent issues</h2>
+      <div class="list"><table class="issues" id="issues"></table></div>
+    </section>
+  </main>
+
+  <script>
+    const SUPABASE_URL = 'https://vwsvqtohkxmnzjzohtql.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_zi_6ms67MjfNXKLMrBvCNg_wgiWKYnj'; // publishable (browser-safe)
+    const ADMIN_EMAIL  = 'admin@livehealthychi.com';
+    const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    // Newsletter issues on the site. Add each new issue here (path + default subject).
+    const ISSUES = [
+      { path:'/newsletter/september-2026', label:'September 2026 · All-Partners Newsletter', subject:'Live Healthy Chicago All-Partners Newsletter · September 2026' },
+    ];
+
+    const $ = id => document.getElementById(id);
+    const esc = s => String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+    const fmt = s => s ? new Date(s).toLocaleString('en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}) : '';
+    const ICON_OK = '<svg class="yes" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="8 12.5 11 15.5 16 9.5"/></svg>';
+    const ICON_NO = '<svg class="no" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="7" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>';
+
+    function setMsg(id, text, ok){ const el=$(id); el.textContent=text||''; el.className='msg'+(text?(ok?' ok':' bad'):''); }
+
+    async function api(action, extra){
+      const { data } = await sb.auth.getSession();
+      if(!data.session){ location.reload(); return {}; }
+      const res = await fetch('/api/newsletter', {
+        method:'POST',
+        headers:{'Content-Type':'application/json', Authorization:'Bearer '+data.session.access_token},
+        body: JSON.stringify(Object.assign({action}, extra||{})),
+      });
+      const out = await res.json().catch(()=>({error:'Unexpected response ('+res.status+').'}));
+      if(!res.ok) throw new Error(out.error || ('Error '+res.status));
+      return out;
+    }
+
+    function issuePayload(){
+      const v = $('issue').value;
+      const base = { subject: $('subject').value.trim() };
+      return v === 'paste' ? Object.assign(base, { html: $('html').value }) : Object.assign(base, { path: v });
+    }
+
+    // ── Auth ──
+    function showApp(){ $('login').style.display='none'; $('app').hidden=false; init(); }
+    sb.auth.getSession().then(({data})=>{ if(data.session) showApp(); });
+    async function signIn(){
+      const btn=$('loginbtn'); btn.disabled=true; $('loginerr').textContent='';
+      const { error } = await sb.auth.signInWithPassword({ email: ADMIN_EMAIL, password: $('pw').value });
+      btn.disabled=false;
+      if(error){ $('loginerr').textContent='Incorrect password.'; const b=$('loginbox'); b.classList.remove('shake'); void b.offsetWidth; b.classList.add('shake'); $('pw').select(); }
+      else showApp();
+    }
+    $('loginbtn').addEventListener('click', signIn);
+    $('pw').addEventListener('keydown', e=>{ if(e.key==='Enter') signIn(); });
+    $('signout').addEventListener('click', async ()=>{ await sb.auth.signOut(); location.reload(); });
+
+    // ── Load ──
+    function init(){
+      $('issue').innerHTML = ISSUES.map(i=>`<option value="${esc(i.path)}">${esc(i.label)}</option>`).join('') + '<option value="paste">Paste HTML instead…</option>';
+      $('subject').value = ISSUES[0] ? ISSUES[0].subject : '';
+      refresh();
+    }
+    $('issue').addEventListener('change', ()=>{
+      const v=$('issue').value; $('pastewrap').hidden = v!=='paste';
+      const i=ISSUES.find(x=>x.path===v); if(i) $('subject').value=i.subject;
+      $('frame').hidden=true; setMsg('prevmsg','');
+    });
+
+    async function refresh(){
+      $('errbox').innerHTML='';
+      try{
+        const o = await api('overview');
+        const r = o.ready;
+        $('ready').innerHTML = [
+          [r.resend, r.resend ? 'Email service connected' : 'Email service key missing (RESEND_API_KEY in Netlify)'],
+          [r.postal, r.postal ? 'Mailing address set for the footer' : 'Mailing address missing (NEWSLETTER_POSTAL_ADDRESS). Tests work; sending to the list waits for it.'],
+          [true, 'From: ' + r.from],
+          [true, 'Replies go to: ' + r.reply_to],
+        ].map(([ok,t])=>`<div>${ok?ICON_OK:ICON_NO}<span>${esc(t)}</span></div>`).join('');
+
+        const c = o.contacts;
+        const active = c.filter(x=>!x.unsubscribed_at && !x.bounced_at).length;
+        $('stats').innerHTML = `<span><b>${active}</b> will get it</span><span><b>${c.length-active}</b> unsubscribed</span>`;
+        $('contacts').innerHTML = c.length ? c.map(x=>`<tr>
+            <td>${esc(x.email)}</td>
+            <td><span class="tag">${esc(x.source||'')}</span></td>
+            <td style="text-align:right">${x.unsubscribed_at ? '<span class="tag off">unsubscribed</span>' : `<button class="link" data-unsub="${esc(x.email)}">Remove</button>`}</td>
+          </tr>`).join('') : '<tr><td style="color:#6b7e89">Nobody yet. Paste addresses above.</td></tr>';
+
+        $('issues').innerHTML = o.campaigns.length ? o.campaigns.map(x=>`<tr>
+            <td><b>${esc(x.subject)}</b><br><span style="color:#6b7e89">${esc(x.source_path||'pasted HTML')}</span></td>
+            <td>${x.test_sent_at ? 'Tested '+fmt(x.test_sent_at) : '<span style="color:#6b7e89">Not tested</span>'}</td>
+            <td>${x.sent ? `Sent to ${x.sent}${x.failed?` · ${x.failed} failed`:''}` : '<span style="color:#6b7e89">Not sent</span>'}</td>
+          </tr>`).join('') : '<tr><td style="color:#6b7e89">No issues yet.</td></tr>';
+      }catch(e){ $('errbox').innerHTML = `<div class="err-banner">${esc(e.message)}</div>`; }
+    }
+
+    $('contacts').addEventListener('click', async e=>{
+      const em = e.target.getAttribute && e.target.getAttribute('data-unsub'); if(!em) return;
+      e.target.disabled=true;
+      try{ await api('unsubscribe',{email:em}); refresh(); }catch(err){ setMsg('addmsg', err.message, false); }
+    });
+
+    $('addbtn').addEventListener('click', async ()=>{
+      const b=$('addbtn'); b.disabled=true; setMsg('addmsg','');
+      try{ const r=await api('add',{emails:$('paste').value}); setMsg('addmsg', `Found ${r.found}, added ${r.added} new.`, true); $('paste').value=''; refresh(); }
+      catch(e){ setMsg('addmsg', e.message, false); }
+      b.disabled=false;
+    });
+    $('portalbtn').addEventListener('click', async ()=>{
+      const b=$('portalbtn'); b.disabled=true; setMsg('addmsg','');
+      try{ const r=await api('import_portal'); setMsg('addmsg', `Portal sign-ups: found ${r.found}, added ${r.added} new.`, true); refresh(); }
+      catch(e){ setMsg('addmsg', e.message, false); }
+      b.disabled=false;
+    });
+
+    $('previewbtn').addEventListener('click', async ()=>{
+      const b=$('previewbtn'); b.disabled=true; setMsg('prevmsg','Loading…', true);
+      try{ const r=await api('preview', issuePayload()); $('frame').srcdoc=r.html; $('frame').hidden=false; setMsg('prevmsg',''); }
+      catch(e){ setMsg('prevmsg', e.message, false); }
+      b.disabled=false;
+    });
+
+    $('testbtn').addEventListener('click', async ()=>{
+      const b=$('testbtn'); b.disabled=true; setMsg('testmsg','Sending…', true);
+      try{ const r=await api('test', Object.assign(issuePayload(), {to:$('testto').value})); setMsg('testmsg', 'Test sent to '+r.to.join(', ')+'. Check the inbox (and the Promotions tab).', true); refresh(); }
+      catch(e){ setMsg('testmsg', e.message, false); }
+      b.disabled=false;
+    });
+
+    let pendingCount = null;
+    $('sendbtn').addEventListener('click', async ()=>{
+      setMsg('sendmsg','Checking…', true); $('confirm').classList.remove('show');
+      try{
+        const r = await api('count', issuePayload());
+        if(!r.tested){ setMsg('sendmsg','Send a test of this exact version first (step 3).', false); return; }
+        if(!r.eligible){ setMsg('sendmsg','Everyone on the list already has this issue, or the list is empty.', false); return; }
+        pendingCount = r.eligible;
+        $('confirmtext').innerHTML = `Send <b>&ldquo;${esc($('subject').value.trim())}&rdquo;</b> to <b>${r.eligible}&nbsp;${r.eligible===1?'person':'people'}</b>? Last tested with ${esc(r.test_sent_to||'')}. This can&rsquo;t be&nbsp;undone.`;
+        $('confirm').classList.add('show'); setMsg('sendmsg','');
+      }catch(e){ setMsg('sendmsg', e.message, false); }
+    });
+    $('confirmno').addEventListener('click', ()=>{ $('confirm').classList.remove('show'); pendingCount=null; });
+    $('confirmyes').addEventListener('click', async ()=>{
+      $('confirm').classList.remove('show'); $('sendbtn').disabled=true;
+      let total=0, failed=0, first=true;
+      try{
+        for(;;){
+          const r = await api('send', Object.assign(issuePayload(), first ? {confirm:pendingCount} : {continuing:true}));
+          first=false; total+=r.sent; failed+=r.failed;
+          setMsg('sendmsg', `Sent ${total}${failed?`, ${failed} failed`:''}${r.remaining?` · ${r.remaining} to go…`:''}`, !failed);
+          if(!r.remaining) break;
+        }
+        setMsg('sendmsg', `Done. Sent to ${total}${failed?`, ${failed} failed (run again to retry later)`:''}.`, !failed);
+      }catch(e){ setMsg('sendmsg', e.message + (total?` (sent ${total} before stopping; run again to finish)`:''), false); }
+      $('sendbtn').disabled=false; refresh();
+    });
+  </script>
+</body>
+</html>
