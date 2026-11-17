@@ -33,6 +33,25 @@ const ALLOCATION = [
   { key: 'ongoing', task: 'Ongoing maintenance',  label: 'Ongoing maintenance', hours: 47, amount: 3500 },
 ];
 
+// Filing entries into the two buckets (added 17 Nov 2026). Time doesn't tag these
+// entries with a part yet, so they're filed here. CHW = Ella's training set
+// (amendment section 4): the video shoot and edit, the pocket guide and tri-fold.
+// Each rule matches one logged day; `share` files only part of a mixed day.
+// Everything else is ongoing maintenance (section 3), including logged hours that
+// have no client-facing line yet. A part set in Time always wins over these rules.
+const CHW_RULES = [
+  { date: '2026-08-06', match: /training video shoot/i },
+  { date: '2026-08-18', match: /tri-fold|pocket guide/i },
+  { date: '2026-08-19', match: /pocket guide/i },
+  { date: '2026-08-20', match: /pocket guide/i },
+  { date: '2026-08-24', match: /pocket guide/i, share: 0.75 },   // same day as the scope-page rebuild
+  { date: '2026-08-25', match: /training video/i },
+];
+function chwHours(e) {
+  const r = CHW_RULES.find((x) => x.date === e.date && x.match.test(e.note || ''));
+  return r ? Math.min(e.hours, r.share ?? e.hours) : 0;
+}
+
 const r2 = (n) => Math.round(n * 100) / 100;
 
 exports.handler = async () => {
@@ -78,9 +97,18 @@ exports.handler = async () => {
         note: w.summary,
       }));
 
+    // Untagged entries: file them with the rules above and label them for the log.
+    let chwFiled = 0;
+    for (const e of entries) {
+      if (e.task) continue;
+      const c = chwHours(e);
+      chwFiled += c;
+      e.task = c >= e.hours ? 'CHW training set' : c > 0 ? 'CHW training set + Ongoing maintenance' : 'Ongoing maintenance';
+    }
+    const fromTime = (name) => r2((p.allocation || []).find((x) => x.name === name)?.used ?? 0);
+    const chwUsed = r2(fromTime('CHW training set') + chwFiled);
     const buckets = ALLOCATION.map((a) => {
-      const from = (p.allocation || []).find((x) => x.name === a.task);
-      const used = r2(from?.used ?? 0);
+      const used = a.key === 'chw' ? chwUsed : r2(Math.max(0, usedHours - chwUsed));
       return { ...a, usedHours: used, usedAmount: r2(used * RATE) };
     });
 
