@@ -1,0 +1,8 @@
+{
+  "name": "livehealthychicago",
+  "private": true,
+  "description": "Static site; these dependencies are only for the Netlify functions.",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^1.10.0"
+  }
+}

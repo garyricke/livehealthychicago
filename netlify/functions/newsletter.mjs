@@ -9,6 +9,12 @@
 //   add           → {emails: "pasted text", source}  add addresses (opt-outs stay opted out)
 //   import_portal → add everyone from the portal sign-up form
 //   unsubscribe   → {email}  manual opt-out
+//   issues        → designed issues (nl_issues) for the issue picker
+//   design        → {id?, instructions, doc_text, doc_name, gdoc_url}  start Claude designing a new issue
+//                   (no id) or revising one (id); runs in newsletter-design-background.mjs, page polls
+//   issue_get     → {id}  one designed issue (status, html, notes, history)
+//   issue_undo    → {id}  go back to the version before the last revision
+//   issue_archive → {id}  hide it from the picker
 //   preview       → {path | html, subject}  the exact email, footer included
 //   test          → {path | html, subject, to: "a@b.org, c@d.org"}  up to 5 addresses
 //   send          → {path | html, subject, confirm: <eligible count>}  sends up to CHUNK per call;
@@ -21,6 +27,11 @@
 //   NEWSLETTER_FROM        default "Live Healthy Chicago <news@websiteformrequests.com>"
 //   NEWSLETTER_REPLY_TO    default LiveHealthyChi@uchicagomedicine.org
 //   NEWSLETTER_POSTAL_ADDRESS  required for "send to everyone" (CAN-SPAM); tests work without it
+//   ANTHROPIC_API_KEY      for "Design an issue" (Claude); everything else works without it
+//
+// Sender: every test/send can carry {from_name, reply_to}; the page defaults them to the values
+// below and lets the admin change them. They're part of the tested fingerprint, so changing the
+// sender after a test means testing again.
 
 import crypto from "node:crypto";
 
@@ -28,6 +39,8 @@ const SITE = "https://livehealthychi.com";
 const ADMIN_EMAIL = "admin@livehealthychi.com";
 const CHUNK = 200;                       // recipients per call (2 Resend batches)
 const FROM = process.env.NEWSLETTER_FROM || "Live Healthy Chicago <news@websiteformrequests.com>";
+const FROM_NAME = (FROM.match(/^\s*"?([^"<]*?)"?\s*</) || [, "Live Healthy Chicago"])[1].trim();
+const FROM_ADDR = (FROM.match(/<([^>]+)>/) || [, FROM])[1].trim();
 const REPLY_TO = process.env.NEWSLETTER_REPLY_TO || "LiveHealthyChi@uchicagomedicine.org";
 const POSTAL = (process.env.NEWSLETTER_POSTAL_ADDRESS || "").trim();
 const SB = process.env.SUPABASE_URL;
@@ -59,7 +72,13 @@ async function isAdmin(req) {
 }
 
 // ── Building the email ───────────────────────────────────────────────────────
-async function issueBody({ path, html }) {
+async function issueBody({ path, html, issue_id }) {
+  if (issue_id) {
+    const [it] = await db(`nl_issues?id=eq.${encodeURIComponent(issue_id)}&select=html,status`);
+    if (!it || !it.html) throw new Error("That designed issue isn't ready yet.");
+    if (it.status === "designing") throw new Error("Claude is still working on that issue. Wait for it to finish, then preview.");
+    return { body: it.html.trim(), source_path: `issue:${issue_id}` };
+  }
   if (html && html.trim()) {
     const m = html.match(/<body[^>]*>([\s\S]*)<\/body>/i);
     return { body: (m ? m[1] : html).trim(), source_path: null };
@@ -73,7 +92,14 @@ async function issueBody({ path, html }) {
   return { body: m[1].trim(), source_path: path };
 }
 
-const shaOf = (subject, body) => crypto.createHash("sha256").update(subject + "\n" + body).digest("hex");
+// The sender is part of the fingerprint: a test only unlocks the send for the same subject, body AND sender.
+function senderOf(p) {
+  const name = String(p.from_name ?? FROM_NAME).replace(/[<>"\r\n]/g, "").trim().slice(0, 80) || FROM_NAME;
+  const rt = String(p.reply_to ?? REPLY_TO).trim().toLowerCase();
+  if (!/^[^@\s<>"]+@[^@\s<>"]+\.[a-z]{2,}$/.test(rt)) throw new Error("The reply-to address doesn't look like an email address.");
+  return { from: `${name} <${FROM_ADDR}>`, reply_to: rt, key: name === FROM_NAME && rt === REPLY_TO.toLowerCase() ? "" : `\n${name}\n${rt}` };
+}
+const shaOf = (subject, body, sender) => crypto.createHash("sha256").update(subject + "\n" + body + (sender ? sender.key : "")).digest("hex");
 
 function footer(unsubUrl) {
   return `
@@ -108,11 +134,11 @@ function textVersion(html) {
 
 const unsubUrl = (token) => `${SITE}/api/unsubscribe?t=${token}`;
 
-function message(subject, body, to, token) {
+function message(subject, body, to, token, sender) {
   const u = unsubUrl(token);
   const html = wrap(subject, body, u);
   return {
-    from: FROM, to: [to], reply_to: REPLY_TO, subject, html, text: textVersion(html),
+    from: sender.from, to: [to], reply_to: sender.reply_to, subject, html, text: textVersion(html),
     headers: { "List-Unsubscribe": `<${u}>`, "List-Unsubscribe-Post": "List-Unsubscribe=One-Click" },
   };
 }
@@ -128,8 +154,8 @@ async function resend(path, payload) {
   return out;
 }
 
-async function campaignFor(subject, body, source_path) {
-  const sha = shaOf(subject, body);
+async function campaignFor(subject, body, source_path, sender) {
+  const sha = shaOf(subject, body, sender);
   const [c] = await db(`nl_campaigns?html_sha=eq.${sha}&select=*`);
   if (c) return c;
   const [made] = await db("nl_campaigns?on_conflict=html_sha", {
@@ -185,7 +211,8 @@ export default async (req) => {
         }
         return json({
           contacts, campaigns,
-          ready: { resend: !!process.env.RESEND_API_KEY, postal: !!POSTAL, from: FROM, reply_to: REPLY_TO },
+          ready: { resend: !!process.env.RESEND_API_KEY, postal: !!POSTAL, claude: !!process.env.ANTHROPIC_API_KEY,
+                   from: FROM, from_name: FROM_NAME, from_addr: FROM_ADDR, reply_to: REPLY_TO },
         });
       }
 
@@ -210,7 +237,8 @@ export default async (req) => {
       case "preview": {
         const subject = String(p.subject || "").trim() || "(no subject)";
         const { body } = await issueBody(p);
-        return json({ html: wrap(subject, body, `${SITE}/api/unsubscribe?t=preview`), sha: shaOf(subject, body) });
+        const sender = senderOf(p);
+        return json({ html: wrap(subject, body, `${SITE}/api/unsubscribe?t=preview`), sha: shaOf(subject, body, sender) });
       }
 
       case "test": {
@@ -219,13 +247,14 @@ export default async (req) => {
         if (!subject) return fail("Add a subject line first.");
         const to = [...new Set((String(p.to || "").match(EMAIL_RE) || []).map((e) => e.toLowerCase()))].slice(0, 5);
         if (!to.length) return fail("Add at least one test address.");
+        const sender = senderOf(p);
         const { body, source_path } = await issueBody(p);
-        const camp = await campaignFor(subject, body, source_path);
+        const camp = await campaignFor(subject, body, source_path, sender);
         const ids = [];
         for (const addr of to) {
           // A tester who is also on the list gets their real unsubscribe link; anyone else gets a dummy.
           const [c] = await db(`nl_contacts?email=eq.${encodeURIComponent(addr)}&select=token`);
-          const msg = message("[TEST] " + subject, body, addr, c ? c.token : "test");
+          const msg = message("[TEST] " + subject, body, addr, c ? c.token : "test", sender);
           ids.push((await resend("/emails", msg)).id);
           await sleep(550);
         }
@@ -239,8 +268,9 @@ export default async (req) => {
         if (!process.env.RESEND_API_KEY) return fail("RESEND_API_KEY isn't set on this site yet.", 500);
         if (!POSTAL) return fail("Add NEWSLETTER_POSTAL_ADDRESS in Netlify before sending to the list (it's required in every marketing email).", 500);
         const subject = String(p.subject || "").trim();
+        const sender = senderOf(p);
         const { body } = await issueBody(p);
-        const [camp] = await db(`nl_campaigns?html_sha=eq.${shaOf(subject, body)}&select=*`);
+        const [camp] = await db(`nl_campaigns?html_sha=eq.${shaOf(subject, body, sender)}&select=*`);
         if (!camp || !camp.test_sent_at) return fail("Send yourself a test of this exact version first. Any edit to the subject or the issue needs a new test.");
         const todo = await eligible(camp.id);
         if (p.confirm !== undefined && Number(p.confirm) !== todo.length && !p.continuing) {
@@ -251,7 +281,7 @@ export default async (req) => {
         for (let i = 0; i < chunk.length; i += 100) {
           const part = chunk.slice(i, i + 100);
           let ids = [], err = null;
-          try { ids = (await resend("/emails/batch", part.map((c) => message(subject, body, c.email, c.token)))).data || []; }
+          try { ids = (await resend("/emails/batch", part.map((c) => message(subject, body, c.email, c.token, sender)))).data || []; }
           catch (e) { err = String(e.message || e).slice(0, 300); }
           await db("nl_sends?on_conflict=campaign_id,contact_id", {
             method: "POST", headers: { Prefer: "resolution=merge-duplicates,return=minimal" },
@@ -267,9 +297,76 @@ export default async (req) => {
 
       case "count": {
         const subject = String(p.subject || "").trim();
+        const sender = senderOf(p);
         const { body, source_path } = await issueBody(p);
-        const camp = await campaignFor(subject, body, source_path);
+        const camp = await campaignFor(subject, body, source_path, sender);
         return json({ eligible: (await eligible(camp.id)).length, tested: !!camp.test_sent_at, test_sent_to: camp.test_sent_to });
+      }
+
+      case "issues": {
+        return json({ issues: await db("nl_issues?archived_at=is.null&select=id,title,subject,status,updated_at,created_at&order=updated_at.desc&limit=30") });
+      }
+
+      case "issue_get": {
+        const [it] = await db(`nl_issues?id=eq.${encodeURIComponent(p.id)}&select=id,title,subject,preheader,html,status,error,history,updated_at,prev_html`);
+        if (!it) return fail("Issue not found", 404);
+        it.can_undo = !!it.prev_html; delete it.prev_html;
+        return json({ issue: it });
+      }
+
+      case "issue_undo": {
+        const [it] = await db(`nl_issues?id=eq.${encodeURIComponent(p.id)}&select=html,subject,prev_html,prev_subject,history`);
+        if (!it || !it.prev_html) return fail("There's no earlier version to go back to.");
+        const history = [...(it.history || []), { at: new Date().toISOString(), instructions: "(Undid the last change)" }];
+        await db(`nl_issues?id=eq.${encodeURIComponent(p.id)}`, { method: "PATCH", body: JSON.stringify({
+          html: it.prev_html, subject: it.prev_subject || it.subject, prev_html: it.html, prev_subject: it.subject,
+          history, status: "ready", error: null, updated_at: new Date().toISOString() }) });
+        return json({ ok: true });
+      }
+
+      case "issue_archive": {
+        await db(`nl_issues?id=eq.${encodeURIComponent(p.id)}`, { method: "PATCH", body: JSON.stringify({ archived_at: new Date().toISOString() }) });
+        return json({ ok: true });
+      }
+
+      case "design": {
+        if (!process.env.ANTHROPIC_API_KEY) return fail("ANTHROPIC_API_KEY isn't set on this site yet, so Claude can't design issues.", 500);
+        const instructions = String(p.instructions || "").trim().slice(0, 8000);
+        let doc = String(p.doc_text || "").slice(0, 200000), docName = String(p.doc_name || "").slice(0, 200);
+        if (p.gdoc_url) {
+          const m = String(p.gdoc_url).match(/docs\.google\.com\/document\/d\/([a-zA-Z0-9_-]{20,})/);
+          if (!m) return fail("That doesn't look like a Google Doc link.");
+          const r = await fetch(`https://docs.google.com/document/d/${m[1]}/export?format=html`, { redirect: "follow" });
+          const t = await r.text();
+          if (!r.ok || /accounts\.google\.com|ServiceLogin/.test(r.url) || !/<body/i.test(t)) {
+            return fail("Couldn't open that Google Doc. In the doc, click Share and set General access to \u201cAnyone with the link\u201d (Viewer), then try again.");
+          }
+          doc = t.replace(/<style[\s\S]*?<\/style>/gi, "").replace(/<head[\s\S]*?<\/head>/i, "").replace(/\s(style|class|id)="[^"]*"/gi, "").slice(0, 200000);
+          docName = docName || "Google Doc";
+        }
+        if (!instructions && !doc) return fail("Tell Claude what the issue should cover, or attach a document.");
+        const pending = { instructions, doc, doc_name: docName };
+        let id = p.id;
+        if (id) {
+          const [it] = await db(`nl_issues?id=eq.${encodeURIComponent(id)}&select=status,updated_at`);
+          if (!it) return fail("Issue not found", 404);
+          if (it.status === "designing" && Date.now() - new Date(it.updated_at) < 10 * 60e3) return fail("Claude is still working on this issue.");
+          await db(`nl_issues?id=eq.${encodeURIComponent(id)}`, { method: "PATCH", body: JSON.stringify({ status: "designing", error: null, pending, updated_at: new Date().toISOString() }) });
+        } else {
+          const [made] = await db("nl_issues", { method: "POST", headers: { Prefer: "return=representation" },
+            body: JSON.stringify({ title: "New issue (designing…)", status: "designing", pending }) });
+          id = made.id;
+        }
+        // Hand off to the background function (up to 15 minutes); it re-checks the admin session.
+        const bg = await fetch(new URL("/.netlify/functions/newsletter-design-background", req.url), {
+          method: "POST", headers: { "Content-Type": "application/json", Authorization: req.headers.get("authorization") },
+          body: JSON.stringify({ id }),
+        });
+        if (bg.status !== 202 && !bg.ok) {
+          await db(`nl_issues?id=eq.${encodeURIComponent(id)}`, { method: "PATCH", body: JSON.stringify({ status: "error", error: `Couldn't start the designer (${bg.status}).` }) });
+          return fail(`Couldn't start the designer (${bg.status}).`, 500);
+        }
+        return json({ ok: true, id });
       }
 
       default:

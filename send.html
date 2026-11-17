@@ -9,6 +9,7 @@
   <link rel="icon" type="image/svg+xml" href="assets/favicon-portal.svg" />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mammoth@1.8.0/mammoth.browser.min.js" defer></script>
   <style>
     *{box-sizing:border-box;margin:0;padding:0;}
     :root{--navy:#1B365D;--blue:#46B7E5;--teal:#48C9B0;--red:#E5202F;--yellow:#FFB81C;--gray:#6b7e89;--bg:#F7FAFC;--edge:#dbe7f0;--charcoal:#2D2D2D;--green:#1f8a3b;}
@@ -71,6 +72,18 @@
     .confirm{display:none;margin-top:14px;background:#FFF6E5;border:1px solid rgba(255,184,28,.55);border-radius:12px;padding:14px 16px;font-size:13.5px;}
     .confirm.show{display:block;}
     .issues td{padding:8px 12px;}
+    .design{margin-top:14px;background:#F4F8FC;border:1px solid var(--edge);border-radius:12px;padding:16px 18px;}
+    .design h3{font-size:14px;font-weight:800;display:flex;align-items:center;gap:8px;margin-bottom:2px;}
+    .design h3 svg{width:18px;height:18px;color:var(--red);}
+    .design input[type=file]{font-size:12.5px;font-family:'Poppins',sans-serif;}
+    .two{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+    @media(max-width:640px){.two{grid-template-columns:1fr;}}
+    .notes{margin-top:12px;background:#FFF9E6;border:1px solid rgba(255,184,28,.45);border-radius:10px;padding:10px 13px;font-size:12.5px;color:var(--charcoal);}
+    .notes b{color:var(--navy);}
+    .hist{margin-top:10px;font-size:12px;color:var(--gray);}
+    .hist li{margin:3px 0 0 18px;}
+    .spin{display:inline-block;width:14px;height:14px;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:sp .8s linear infinite;vertical-align:-2px;}
+    @keyframes sp{to{transform:rotate(360deg)}}
     .err-banner{background:#FFF0F0;border:1px solid rgba(229,32,47,.3);color:var(--red);border-radius:10px;padding:12px 15px;font-size:13px;font-weight:600;margin-bottom:16px;}
   </style>
 </head>
@@ -125,15 +138,64 @@
 
     <section class="card">
       <h2><span class="step">2</span>The issue</h2>
-      <p class="hint">Pick a newsletter that&rsquo;s already on the site, or paste email HTML. The preview is exactly what people will&nbsp;get.</p>
+      <p class="hint">Pick an issue, have Claude design a new one from your notes or a document, or paste email HTML. The preview is exactly what people will&nbsp;get.</p>
       <label for="issue">Issue</label>
       <select id="issue"></select>
+
+      <div class="design" id="designnew" hidden>
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></svg>Design a new issue with&nbsp;Claude</h3>
+        <p class="hint" style="margin-bottom:0">Describe what it should cover, attach a Word document, or link a Google Doc (or all three). Claude designs it in the newsletter&rsquo;s style. You can ask for changes afterward, and nothing goes out until you test and&nbsp;send.</p>
+        <label for="dinstr">Instructions</label>
+        <textarea id="dinstr" placeholder="e.g. November issue. Lead with the Thanksgiving blood pressure tips, then the new mobile screening stops, then the CHW training reminder. Keep it short."></textarea>
+        <div class="two">
+          <div><label for="dfile">Word document (.docx) or text&nbsp;file</label><input type="file" id="dfile" accept=".docx,.txt,.md,.html,.htm" /></div>
+          <div><label for="dgdoc">Google Doc link</label><input type="text" id="dgdoc" placeholder="https://docs.google.com/document/d/…" /></div>
+        </div>
+        <p class="hint" style="margin:6px 0 0">Google Docs need sharing set to &ldquo;Anyone with the link&rdquo;. Images in a Word file aren&rsquo;t carried over; paste image links into the instructions&nbsp;instead.</p>
+        <div class="row">
+          <button class="btn btn-primary" id="designbtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/></svg>
+            Design it
+          </button>
+          <span class="msg" id="designmsg"></span>
+        </div>
+      </div>
+
+      <div class="design" id="designrev" hidden>
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>Ask for&nbsp;changes</h3>
+        <div id="revstatus" class="msg"></div>
+        <div id="revnotes"></div>
+        <label for="rinstr">What should change?</label>
+        <textarea id="rinstr" placeholder="e.g. Make the CHW training the first takeaway, shorten the intro, and change the button to say Sign up."></textarea>
+        <div class="two">
+          <div><label for="rfile">Add a document (optional)</label><input type="file" id="rfile" accept=".docx,.txt,.md,.html,.htm" /></div>
+          <div><label for="rgdoc">or a Google Doc link</label><input type="text" id="rgdoc" placeholder="https://docs.google.com/document/d/…" /></div>
+        </div>
+        <div class="row">
+          <button class="btn btn-primary" id="revbtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.5 15a9 9 0 1 1-2.1-9.4L23 10"/></svg>
+            Revise
+          </button>
+          <button class="btn btn-ghost" id="undobtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.5 15a9 9 0 1 0 2.1-9.4L1 10"/></svg>
+            Undo last change
+          </button>
+          <button class="link" id="archivebtn" style="margin-left:auto">Remove from list</button>
+          <span class="msg" id="revmsg"></span>
+        </div>
+        <ol class="hist" id="revhist"></ol>
+      </div>
       <div id="pastewrap" hidden>
         <label for="html">Email HTML</label>
         <textarea id="html" style="min-height:140px;font-family:ui-monospace,Menlo,monospace;font-size:12px" placeholder="<table>…</table>"></textarea>
       </div>
       <label for="subject">Subject line</label>
       <input type="text" id="subject" maxlength="200" />
+      <div class="two">
+        <div><label for="fromname">From name</label><input type="text" id="fromname" maxlength="80" /></div>
+        <div><label for="replyto">Replies go to</label><input type="text" id="replyto" maxlength="200" /></div>
+      </div>
+      <p class="hint" id="fromhint" style="margin:6px 0 0"></p>
       <div class="row">
         <button class="btn btn-ghost" id="previewbtn">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
@@ -217,8 +279,10 @@
 
     function issuePayload(){
       const v = $('issue').value;
-      const base = { subject: $('subject').value.trim() };
-      return v === 'paste' ? Object.assign(base, { html: $('html').value }) : Object.assign(base, { path: v });
+      const base = { subject: $('subject').value.trim(), from_name: $('fromname').value.trim(), reply_to: $('replyto').value.trim() };
+      if (v === 'paste') return Object.assign(base, { html: $('html').value });
+      if (v.startsWith('issue:')) return Object.assign(base, { issue_id: v.slice(6) });
+      return Object.assign(base, { path: v });
     }
 
     // ── Auth ──
@@ -236,16 +300,94 @@
     $('signout').addEventListener('click', async ()=>{ await sb.auth.signOut(); location.reload(); });
 
     // ── Load ──
-    function init(){
-      $('issue').innerHTML = ISSUES.map(i=>`<option value="${esc(i.path)}">${esc(i.label)}</option>`).join('') + '<option value="paste">Paste HTML instead…</option>';
-      $('subject').value = ISSUES[0] ? ISSUES[0].subject : '';
+    let designed = [], current = null, pollTimer = null, senderSet = false;
+    async function init(){
+      await loadIssues(ISSUES[0] ? ISSUES[0].path : 'design');
       refresh();
     }
-    $('issue').addEventListener('change', ()=>{
-      const v=$('issue').value; $('pastewrap').hidden = v!=='paste';
+    async function loadIssues(select){
+      try{ designed = (await api('issues')).issues || []; }catch(e){ designed = []; }
+      const opt = (v,t)=>`<option value="${esc(v)}">${esc(t)}</option>`;
+      const label = d => (d.title||'Untitled issue') + (d.status==='designing' ? ' · designing…' : d.status==='error' && !d.subject ? ' · failed' : '');
+      $('issue').innerHTML =
+        opt('design','＋ Design a new issue with Claude…') +
+        (designed.length ? '<optgroup label="Designed with Claude">' + designed.map(d=>opt('issue:'+d.id, label(d))).join('') + '</optgroup>' : '') +
+        '<optgroup label="On the website">' + ISSUES.map(i=>opt(i.path,i.label)).join('') + '</optgroup>' +
+        opt('paste','Paste HTML instead…');
+      if (select) $('issue').value = select;
+      onIssueChange();
+    }
+    function onIssueChange(){
+      const v=$('issue').value;
+      $('pastewrap').hidden = v!=='paste';
+      $('designnew').hidden = v!=='design';
+      $('designrev').hidden = !v.startsWith('issue:');
       const i=ISSUES.find(x=>x.path===v); if(i) $('subject').value=i.subject;
+      if (v==='design' || v==='paste') { if (v==='design') $('subject').value=''; }
       $('frame').hidden=true; setMsg('prevmsg','');
+      clearTimeout(pollTimer); current=null;
+      if (v.startsWith('issue:')) openIssue(v.slice(6));
+    }
+    $('issue').addEventListener('change', onIssueChange);
+
+    // ── Designed issues ──
+    async function readFile(input){
+      const f = input.files && input.files[0]; if(!f) return { text:'', name:'' };
+      if (f.size > 15e6) throw new Error('That file is over 15 MB.');
+      if (/\.docx$/i.test(f.name)) {
+        if (!window.mammoth) throw new Error('The Word reader is still loading. Try again in a moment.');
+        const r = await window.mammoth.convertToHtml({ arrayBuffer: await f.arrayBuffer() });
+        return { text: r.value.replace(/<img[^>]*>/gi,''), name: f.name };
+      }
+      return { text: await f.text(), name: f.name };
+    }
+    async function startDesign(id, instrEl, fileEl, gdocEl, msgId, btn){
+      btn.disabled = true; setMsg(msgId, 'Sending to Claude…', true);
+      try{
+        const doc = await readFile(fileEl);
+        const r = await api('design', { id, instructions: instrEl.value, doc_text: doc.text, doc_name: doc.name, gdoc_url: gdocEl.value.trim() });
+        instrEl.value=''; fileEl.value=''; gdocEl.value=''; setMsg(msgId,'');
+        await loadIssues('issue:'+r.id);
+      }catch(e){ setMsg(msgId, e.message, false); }
+      btn.disabled = false;
+    }
+    $('designbtn').addEventListener('click', ()=>startDesign(null, $('dinstr'), $('dfile'), $('dgdoc'), 'designmsg', $('designbtn')));
+    $('revbtn').addEventListener('click', ()=>startDesign(current && current.id, $('rinstr'), $('rfile'), $('rgdoc'), 'revmsg', $('revbtn')));
+    $('undobtn').addEventListener('click', async ()=>{
+      if(!current) return; $('undobtn').disabled=true;
+      try{ await api('issue_undo',{id:current.id}); await loadIssues('issue:'+current.id); }catch(e){ setMsg('revmsg', e.message, false); }
+      $('undobtn').disabled=false;
     });
+    $('archivebtn').addEventListener('click', async ()=>{
+      if(!current) return;
+      try{ await api('issue_archive',{id:current.id}); await loadIssues('design'); }catch(e){ setMsg('revmsg', e.message, false); }
+    });
+
+    async function openIssue(id){
+      let it;
+      try{ it = (await api('issue_get',{id})).issue; }catch(e){ setMsg('revmsg', e.message, false); return; }
+      if ($('issue').value !== 'issue:'+id) return;
+      current = it;
+      const busy = it.status==='designing';
+      $('revbtn').disabled = busy; $('undobtn').disabled = busy || !it.can_undo;
+      if (busy) {
+        const secs = Math.round((Date.now() - new Date(it.updated_at))/1000);
+        $('revstatus').innerHTML = `<span class="spin"></span> Claude is designing this issue&hellip; usually 1&ndash;3 minutes (${secs}s so&nbsp;far).`;
+        $('revstatus').className = 'msg ok';
+        pollTimer = setTimeout(()=>openIssue(id), 5000);
+      } else if (it.status==='error') {
+        $('revstatus').textContent = 'That didn\u2019t work: ' + (it.error||'unknown error') + (it.html ? ' The previous version is still here.' : ' Try again below.');
+        $('revstatus').className = 'msg bad';
+      } else { $('revstatus').textContent=''; $('revstatus').className='msg'; }
+      const last = (it.history||[]).slice(-1)[0];
+      $('revnotes').innerHTML = (!busy && last && last.notes) ? `<div class="notes"><b>Claude&rsquo;s notes:</b> ${esc(last.notes)}</div>` : '';
+      $('revhist').innerHTML = (it.history||[]).map(h=>`<li>${esc(fmt(h.at))}: ${esc((h.instructions||'').slice(0,140) || (h.doc_name ? 'From '+h.doc_name : 'Designed'))}${h.doc_name && h.instructions ? ' (+ '+esc(h.doc_name)+')' : ''}</li>`).join('');
+      if (!busy && it.html) {
+        $('subject').value = it.subject || '';
+        const opt = $('issue').selectedOptions[0]; if (opt && it.title) opt.textContent = it.title;
+        $('previewbtn').click();
+      }
+    }
 
     async function refresh(){
       $('errbox').innerHTML='';
@@ -255,10 +397,13 @@
         $('ready').innerHTML = [
           [r.resend, r.resend ? 'Email service connected' : 'Email service key missing (RESEND_API_KEY in Netlify)'],
           [r.postal, r.postal ? 'Mailing address set for the footer' : 'Mailing address missing (NEWSLETTER_POSTAL_ADDRESS). Tests work; sending to the list waits for it.'],
-          [true, 'From: ' + r.from],
-          [true, 'Replies go to: ' + r.reply_to],
+          [r.claude, r.claude ? 'Claude connected for designing issues' : 'Claude key missing (ANTHROPIC_API_KEY in Netlify). Designing issues waits for it.'],
         ].map(([ok,t])=>`<div>${ok?ICON_OK:ICON_NO}<span>${esc(t)}</span></div>`).join('');
 
+        if (!senderSet) {
+          $('fromname').value = r.from_name; $('replyto').value = r.reply_to; senderSet = true;
+          $('fromhint').innerHTML = `Sent from ${esc(r.from_addr)}. Defaults: &ldquo;${esc(r.from_name)}&rdquo;, replies to ${esc(r.reply_to)}. Changing either means sending a new&nbsp;test.`;
+        }
         const c = o.contacts;
         const active = c.filter(x=>!x.unsubscribed_at && !x.bounced_at).length;
         $('stats').innerHTML = `<span><b>${active}</b> will get it</span><span><b>${c.length-active}</b> unsubscribed</span>`;

@@ -50,3 +50,25 @@ alter table nl_contacts  enable row level security;
 alter table nl_campaigns enable row level security;
 alter table nl_sends     enable row level security;
 -- (no policies: anon/authenticated get nothing; the service role bypasses RLS)
+
+-- Designed issues (added 2026-11-17): the /send "Design an issue" tool writes here.
+-- An admin gives instructions and/or a Word or Google Doc; Claude designs the email
+-- (netlify/functions/newsletter-design-background.mjs) and saves it as a draft issue
+-- that can be revised with more instructions, then tested and sent like any issue.
+create table if not exists nl_issues (
+  id          uuid primary key default gen_random_uuid(),
+  title       text check (char_length(title) <= 200),
+  subject     text check (char_length(subject) <= 200),
+  preheader   text check (char_length(preheader) <= 300),
+  html        text,                          -- the email body (no footer; the sender adds it)
+  prev_html   text,                          -- the version before the latest revision (undo)
+  prev_subject text,
+  status      text not null default 'draft', -- draft | designing | ready | error
+  error       text,
+  pending     jsonb,                         -- the request being worked on: {instructions, doc}
+  history     jsonb not null default '[]',   -- [{at, instructions, doc_name, notes}]
+  archived_at timestamptz,
+  created_at  timestamptz not null default now(),
+  updated_at  timestamptz not null default now()
+);
+alter table nl_issues enable row level security;
