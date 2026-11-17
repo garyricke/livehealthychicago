@@ -3,6 +3,6 @@
   "private": true,
   "description": "Static site; these dependencies are only for the Netlify functions.",
   "dependencies": {
-    "@anthropic-ai/sdk": "^1.9.0"
+    "@anthropic-ai/sdk": "1.6.0"
   }
 }
